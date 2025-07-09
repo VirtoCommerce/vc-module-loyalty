@@ -17,6 +17,9 @@ using VirtoCommerce.Loyalty.Data.PostgreSql;
 using VirtoCommerce.Loyalty.Data.Repositories;
 using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
+using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.Services;
+using System;
 
 namespace VirtoCommerce.Loyalty.Web;
 
@@ -46,13 +49,6 @@ public class Module : IModule, IHasConfiguration
             }
         });
 
-        // Override models
-        //AbstractTypeFactory<OriginalModel>.OverrideType<OriginalModel, ExtendedModel>().MapToType<ExtendedEntity>();
-        //AbstractTypeFactory<OriginalEntity>.OverrideType<OriginalEntity, ExtendedEntity>();
-
-        // Register services
-        //serviceCollection.AddTransient<IMyService, MyService>();
-
         // Register GraphQL schema
         _ = new GraphQLBuilder(serviceCollection, builder =>
         {
@@ -60,6 +56,10 @@ public class Module : IModule, IHasConfiguration
         });
 
         serviceCollection.AddSingleton<ScopedSchemaFactory<XapiAssemblyMarker>>();
+
+        serviceCollection.AddTransient<ILoyaltyProgramRepository, LoyaltyProgramRepository>();
+        serviceCollection.AddTransient<Func<ILoyaltyProgramRepository>>(provider => () => provider.CreateScope().ServiceProvider.GetRequiredService<ILoyaltyProgramRepository>());
+        serviceCollection.AddTransient<ILoyaltyProgramService, LoyaltyProgramService>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)

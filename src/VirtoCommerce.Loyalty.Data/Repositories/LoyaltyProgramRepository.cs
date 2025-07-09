@@ -13,11 +13,7 @@ public class LoyaltyProgramRepository(LoyaltyDbContext dbContext, IUnitOfWork un
 {
     public IQueryable<LoyaltyProgramEntity> LoyaltyPrograms => DbContext.Set<LoyaltyProgramEntity>();
 
-    public IQueryable<ConditionEntity> Conditions => DbContext.Set<ConditionEntity>();
-
-    public IQueryable<RewardTypeEntity> RewardTypes => DbContext.Set<RewardTypeEntity>();
-
-    public IQueryable<LoyaltyProgramUserGroupEntity> LoyaltyProgramUserGroups => DbContext.Set<LoyaltyProgramUserGroupEntity>();
+    public IQueryable<TransactionLogEntity> Transactions => DbContext.Set<TransactionLogEntity>();
 
     public virtual async Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids)
     {
@@ -29,17 +25,8 @@ public class LoyaltyProgramRepository(LoyaltyDbContext dbContext, IUnitOfWork un
         {
             var programIds = result.Select(x => x.Id).ToList();
 
-            await Conditions
+            await Transactions
                 .Where(x => programIds.Contains(x.LoyaltyProgramId))
-                .LoadAsync();
-
-            await RewardTypes
-                .Where(x => programIds.Contains(x.LoyaltyProgramId))
-                .LoadAsync();
-
-            var conditionIds = Conditions.Select(x => x.Id).ToList();
-            await LoyaltyProgramUserGroups
-                .Where(x => conditionIds.Contains(x.ConditionId))
                 .LoadAsync();
         }
 

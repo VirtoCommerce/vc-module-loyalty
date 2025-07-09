@@ -24,17 +24,7 @@ public class LoyaltyDbContext : DbContextBase
 
         modelBuilder.Entity<LoyaltyProgramEntity>().ToAuditableEntityTable("LoyaltyProgram");
 
-        modelBuilder.Entity<ConditionEntity>().ToAuditableEntityTable("Condition");
-        modelBuilder.Entity<ConditionEntity>().HasOne(x => x.LoyaltyProgram).WithMany(x => x.Conditions)
-             .HasForeignKey(x => x.LoyaltyProgramId).IsRequired().OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<RewardTypeEntity>().ToAuditableEntityTable("RewardType");
-        modelBuilder.Entity<RewardTypeEntity>().HasOne(x => x.LoyaltyProgram).WithMany(x => x.RewardTypes)
-             .HasForeignKey(x => x.LoyaltyProgramId).IsRequired().OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<LoyaltyProgramUserGroupEntity>().ToEntityTable("LoyaltyProgramUserGroup");
-        modelBuilder.Entity<LoyaltyProgramUserGroupEntity>().HasOne(x => x.Condition).WithMany(x => x.UserGroups)
-            .HasForeignKey(x => x.ConditionId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<TransactionLogEntity>().ToAuditableEntityTable("Transactions");
 
         switch (Database.ProviderName)
         {

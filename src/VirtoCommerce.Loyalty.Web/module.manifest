@@ -4,13 +4,13 @@
   <version>3.800.0</version>
   <version-tag></version-tag>
 
-  <platformVersion>3.876.0</platformVersion>
+  <platformVersion>3.893.0</platformVersion>
   <dependencies>
     <dependency id="VirtoCommerce.Xapi" version="3.904.0" />
   </dependencies>
 
-  <title>VirtoCommerce Loyalty</title>
-  <description>VirtoCommerce Loyalty</description>
+  <title>Loyalty Program</title>
+  <description>Managing customer loyalty programs and ensuring loyalty rules are applied consistently across commerce workflows.</description>
 
   <authors>
     <author>Nick Samygin</author>

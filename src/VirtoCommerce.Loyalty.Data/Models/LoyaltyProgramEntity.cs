@@ -1,31 +1,39 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Domain;
+using static VirtoCommerce.Platform.Data.Infrastructure.DbContextBase;
 
 namespace VirtoCommerce.Loyalty.Data.Models;
 
 public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramEntity, LoyaltyProgram>
 {
+    [Required]
+    [StringLength(Length128)]
     public string Name { get; set; }
 
-    public string LocalizedName { get; set; }
+    public ObservableCollection<LoyaltyProgramLocalizedNameEntity> LocalizedNames { get; set; }
+        = new NullCollection<LoyaltyProgramLocalizedNameEntity>();
 
+    [Required]
     public bool IsActive { get; set; }
 
+    [Required]
+    [StringLength(IdLength)]
     public string StoreId { get; set; }
 
     public DateTime? StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
 
+    [Required]
     public int Priority { get; set; }
 
-    public virtual ObservableCollection<ConditionEntity> Conditions { get; set; } = new NullCollection<ConditionEntity>();
-
-    public ObservableCollection<RewardTypeEntity> RewardTypes { get; set; } = new NullCollection<RewardTypeEntity>();
+    [Required]
+    public string Conditions { get; set; }
 
     public LoyaltyProgramEntity FromModel(LoyaltyProgram model, PrimaryKeyResolvingMap pkMap)
     {
@@ -41,18 +49,21 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
 
         StoreId = model.StoreId;
         Name = model.Name;
-        LocalizedName = model.LocalizedName;
         IsActive = model.IsActive;
         StartDate = model.StartDate;
         EndDate = model.EndDate;
         Priority = model.Priority;
-        if (model.Conditions != null)
+        Conditions = model.Conditions;
+        if (model.LocalizedName != null)
         {
-            Conditions = [.. model.Conditions.Select(x => AbstractTypeFactory<ConditionEntity>.TryCreateInstance().FromModel(x, pkMap))];
-        }
-        if (model.RewardTypes != null)
-        {
-            RewardTypes = [.. model.RewardTypes.Select(x => AbstractTypeFactory<RewardTypeEntity>.TryCreateInstance().FromModel(x, pkMap))];
+            LocalizedNames = [.. model.LocalizedName.Values
+                .Select(x =>
+                {
+                    var entity = AbstractTypeFactory<LoyaltyProgramLocalizedNameEntity>.TryCreateInstance();
+                    entity.LanguageCode = x.Key;
+                    entity.Value = x.Value;
+                    return entity;
+                })];
         }
 
         return this;
@@ -63,18 +74,16 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         ArgumentNullException.ThrowIfNull(target);
         target.StoreId = StoreId;
         target.Name = Name;
-        target.LocalizedName = LocalizedName;
         target.IsActive = IsActive;
         target.StartDate = StartDate;
         target.EndDate = EndDate;
         target.Priority = Priority;
-        if (!Conditions.IsNullCollection())
+        target.Conditions = Conditions;
+
+        if (!LocalizedNames.IsNullCollection())
         {
-            Conditions.Patch(target.Conditions, (sourceContent, targetContent) => sourceContent.Patch(targetContent));
-        }
-        if (!RewardTypes.IsNullCollection())
-        {
-            RewardTypes.Patch(target.RewardTypes, (sourceContent, targetContent) => sourceContent.Patch(targetContent));
+            var localizedNameComparer = AnonymousComparer.Create((LoyaltyProgramLocalizedNameEntity x) => $"{x.Value}-{x.LanguageCode}");
+            LocalizedNames.Patch(target.LocalizedNames, localizedNameComparer, (_, _) => { });
         }
     }
 
@@ -90,13 +99,19 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
 
         model.StoreId = StoreId;
         model.Name = Name;
-        model.LocalizedName = LocalizedName;
         model.IsActive = IsActive;
         model.StartDate = StartDate;
         model.EndDate = EndDate;
         model.Priority = Priority;
-        model.Conditions = Conditions?.Select(x => x.ToModel(AbstractTypeFactory<Condition>.TryCreateInstance())).ToList();
-        model.RewardTypes = RewardTypes?.Select(x => x.ToModel(AbstractTypeFactory<RewardType>.TryCreateInstance())).ToList();
+        model.Conditions = Conditions;
+        if (LocalizedNames != null)
+        {
+            model.LocalizedName = new LocalizedString();
+            foreach (var localizedName in LocalizedNames)
+            {
+                model.LocalizedName.SetValue(localizedName.LanguageCode, localizedName.Value);
+            }
+        }
 
         return model;
     }

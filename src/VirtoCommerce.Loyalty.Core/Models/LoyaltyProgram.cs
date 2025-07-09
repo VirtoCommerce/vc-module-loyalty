@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
@@ -9,7 +7,7 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 {
     public string Name { get; set; }
 
-    public string LocalizedName { get; set; }
+    public LocalizedString LocalizedName { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -21,15 +19,12 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public int Priority { get; set; }
 
-    public IList<Condition> Conditions { get; set; }
-
-    public IList<RewardType> RewardTypes { get; set; }
+    public string Conditions { get; set; }
 
     public object Clone()
     {
         var result = (LoyaltyProgram)MemberwiseClone();
-        result.Conditions = Conditions?.Select(x => x.CloneTyped()).ToList();
-        result.RewardTypes = RewardTypes?.Select(x => x.CloneTyped()).ToList();
+        result.LocalizedName = LocalizedName?.CloneTyped();
         return result;
     }
 }

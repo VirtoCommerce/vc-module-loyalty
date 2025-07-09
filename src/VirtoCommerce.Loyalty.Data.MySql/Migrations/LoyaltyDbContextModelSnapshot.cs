@@ -22,48 +22,16 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.ConditionEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsFirstOrder")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("LoyaltyProgramId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LoyaltyProgramId");
-
-                    b.ToTable("Condition", (string)null);
-                });
-
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
+                    b.Property<string>("Conditions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
@@ -78,9 +46,6 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("LocalizedName")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
@@ -89,7 +54,9 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -98,46 +65,54 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("StoreId")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
                     b.ToTable("LoyaltyProgram", (string)null);
                 });
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUserGroupEntity", b =>
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128)
+                        .HasColumnType("varchar(95)");
+
+                    b.Property<string>("LanguageCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("ParentEntityId")
                         .HasColumnType("varchar(128)");
 
-                    b.Property<string>("ConditionId")
+                    b.Property<string>("Value")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Group")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConditionId");
+                    b.HasIndex("ParentEntityId");
 
-                    b.ToTable("LoyaltyProgramUserGroup", (string)null);
+                    b.ToTable("LoyaltyProgramLocalizedNameEntity");
                 });
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.RewardTypeEntity", b =>
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.TransactionLogEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<int>("AmountType")
-                        .HasColumnType("int");
+                    b.Property<decimal>("AccruedPoints")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
@@ -146,8 +121,13 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<decimal>("FixedPoints")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("LoyaltyProgramId")
                         .IsRequired()
@@ -161,59 +141,31 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<decimal>("RelativePoints")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<string>("ObjectId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("OperationType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LoyaltyProgramId");
-
-                    b.ToTable("RewardType", (string)null);
+                    b.ToTable("Transactions", (string)null);
                 });
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.ConditionEntity", b =>
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
                 {
-                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
-                        .WithMany("Conditions")
-                        .HasForeignKey("LoyaltyProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "ParentEntity")
+                        .WithMany("LocalizedNames")
+                        .HasForeignKey("ParentEntityId");
 
-                    b.Navigation("LoyaltyProgram");
-                });
-
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUserGroupEntity", b =>
-                {
-                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.ConditionEntity", "Condition")
-                        .WithMany("UserGroups")
-                        .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Condition");
-                });
-
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.RewardTypeEntity", b =>
-                {
-                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
-                        .WithMany("RewardTypes")
-                        .HasForeignKey("LoyaltyProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LoyaltyProgram");
-                });
-
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.ConditionEntity", b =>
-                {
-                    b.Navigation("UserGroups");
+                    b.Navigation("ParentEntity");
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
                 {
-                    b.Navigation("Conditions");
-
-                    b.Navigation("RewardTypes");
+                    b.Navigation("LocalizedNames");
                 });
 #pragma warning restore 612, 618
         }
