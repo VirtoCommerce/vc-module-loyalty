@@ -16,8 +16,8 @@ angular.module(moduleName, [])
                         'platformWebApp.bladeNavigationService',
                         function (bladeNavigationService) {
                             var newBlade = {
-                                id: 'blade1',
-                                controller: 'VirtoCommerce.Loyalty.helloWorldController',
+                                id: 'loyaltyProgramList',
+                                controller: 'VirtoCommerce.Loyalty.loyaltyController',
                                 template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-programs-list.html',
                                 isClosingDisabled: true,
                             };
@@ -27,17 +27,16 @@ angular.module(moduleName, [])
                 });
         }
     ])
-    .run(['platformWebApp.mainMenuService', '$state',
-        function (mainMenuService, $state) {
-            //Register module in main menu
-            var menuItem = {
-                path: 'browse/loyalty',
-                icon: 'fa fa-cube',
-                title: 'Loyalty.main-menu-title',
-                priority: 100,
-                action: function () { $state.go('workspace.LoyaltyState'); },
-                permission: 'loyalty:access',
-            };
-            mainMenuService.addMenuItem(menuItem);
+    .run(['platformWebApp.mainMenuService', '$state', 'virtoCommerce.marketingModule.marketingMenuItemService',
+        function (mainMenuService, $state, marketingMenuItemService) {
+            marketingMenuItemService.register({
+                id: 'loayltyProgramItemService',
+                name: 'loyalty.main-menu-title',
+                entityName: 'loayaltyProgram',
+                icon: 'fa fa-a',
+                controller: 'VirtoCommerce.Loyalty.loyaltyController',
+                template: 'Modules/$(virtoCommerce.Loyalty)/Scripts/blades/loyalty-programs-list.html',
+                permission: 'loyalty:access:access'
+            });
         }
     ]);

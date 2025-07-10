@@ -146,10 +146,18 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("ObjectType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<int>("OperationType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ObjectType", "ObjectId", "OperationType")
+                        .IsUnique();
 
                     b.ToTable("Transactions", (string)null);
                 });

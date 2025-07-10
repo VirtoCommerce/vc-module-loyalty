@@ -20,6 +20,7 @@ using VirtoCommerce.Loyalty.ExperienceApi;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Services;
 using System;
+using VirtoCommerce.LoyaltyProgramSearchService.Core.Services;
 
 namespace VirtoCommerce.Loyalty.Web;
 
@@ -59,7 +60,9 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyProgramRepository, LoyaltyProgramRepository>();
         serviceCollection.AddTransient<Func<ILoyaltyProgramRepository>>(provider => () => provider.CreateScope().ServiceProvider.GetRequiredService<ILoyaltyProgramRepository>());
+
         serviceCollection.AddTransient<ILoyaltyProgramService, LoyaltyProgramService>();
+        serviceCollection.AddTransient<ILoyaltyProgramSearchService, Data.Services.LoyaltyProgramSearchService>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)

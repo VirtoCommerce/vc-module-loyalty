@@ -23,8 +23,11 @@ public class LoyaltyDbContext : DbContextBase
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<LoyaltyProgramEntity>().ToAuditableEntityTable("LoyaltyProgram");
-
-        modelBuilder.Entity<TransactionLogEntity>().ToAuditableEntityTable("Transactions");
+        modelBuilder.Entity<TransactionLogEntity>(builder =>
+        {
+            builder.ToAuditableEntityTable("Transactions");
+            builder.HasIndex(t => new { t.ObjectType, t.ObjectId, t.OperationType }).IsUnique();
+        });
 
         switch (Database.ProviderName)
         {

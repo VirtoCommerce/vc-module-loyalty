@@ -30,7 +30,9 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
     [StringLength(IdLength)]
     public string ObjectId { get; set; }
 
-    //public ObjectType ObjectType { get; set; }
+    [Required]
+    [StringLength(Length128)]
+    public string ObjectType { get; set; }
 
     public string Comment { get; set; }
 
@@ -55,7 +57,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         AccruedPoints = model.AccruedPoints;
         Date = model.Date;
         ObjectId = model.ObjectId;
-        //ObjectType = model.ObjectType;
+        ObjectType = model.ObjectType;
         Comment = model.Comment;
         Balance = model.Balance;
         return this;
@@ -71,7 +73,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         target.AccruedPoints = AccruedPoints;
         target.Date = Date;
         target.ObjectId = ObjectId;
-        //target.ObjectType = ObjectType;
+        target.ObjectType = ObjectType;
         target.Comment = Comment;
         target.Balance = Balance;
     }
@@ -92,7 +94,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         model.AccruedPoints = AccruedPoints;
         model.Date = Date;
         model.ObjectId = ObjectId;
-        //model.ObjectType = ObjectType;
+        model.ObjectType = ObjectType;
         model.Comment = Comment;
         model.Balance = Balance;
 

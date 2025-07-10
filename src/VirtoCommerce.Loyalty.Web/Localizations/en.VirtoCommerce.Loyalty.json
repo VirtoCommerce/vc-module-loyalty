@@ -1,9 +1,20 @@
 {
-  "Loyalty": {
+  "loyalty": {
     "main-menu-title": "Loyalty Programs",
     "blades": {
-      "loyalti-programs-list": {
-        "title": "Loyalty Programs"
+      "loyalty-program-list": {
+        "title": "Loyalty Programs",
+        "labels": {
+          "store": "Store",
+          "name": "Name"
+        }
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Confirm delete",
+        "message-single": "Are you sure you want to delete the '{{name}}' loyalty program?",
+        "message-many": "Are you sure you want to delete {{count}} loyalty programs?"
       }
     }
   },

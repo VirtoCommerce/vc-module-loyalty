@@ -1,19 +1,46 @@
-<div class="blade-content">
-  <div class="blade-inner">
-    <div class="inner-block">
-      <div class="table-wrapper">
-        <table class="table __normal">
-          <tbody ng-model="blade.data">
-            <tr class="table-item" ng-repeat="data in blade.data track by data.name">
-              <td class="table-col">
-                <div class="table-t">
-                  {{ data.name }}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="blade-static">
+  <div class="form-group">
+    <div class="form-input __search">
+      <input placeholder="{{ 'platform.placeholders.search-keyword' | translate }}" ng-model="filter.keyword" ng-keyup="$event.which === 13 && filter.criteriaChanged()" />
+      <button class="btn __other" style="position: relative;right: 45px;">
+        <span class="btn-ico fa fa-times-circle" title="Clear" ng-click="filter.keyword=null;filter.criteriaChanged()"></span>
+      </button>
     </div>
   </div>
 </div>
+<div class="blade-static __bottom" ng-if="pageSettings.itemsPerPageCount < pageSettings.totalItems" ng-include="'pagerTemplate.html'"></div>
+<div class="blade-content __medium-wide">
+  <div class="blade-inner">
+    <div class="inner-block">
+      <div class="table-wrapper" ng-init="setGridOptions({
+              data: 'blade.data',
+              rowTemplate: 'loyalty-program-list.row.html',
+              rowHeight: 60,
+              columnDefs: [
+                          { name: 'name', displayName: 'loyalty.blades.loyalty-program-list.labels.name' },
+                          { name: 'storeId', displayName: 'loyalty.blades.loyalty-program-list.labels.store' },
+              ]})">
+        <div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-save-state ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-height> </div>
+        <ul class="menu __context" role="menu" id="loyalty_program_list_menu">
+          <li class="menu-item" ng-click='edit(contextMenuEntity)' va-permission="loyalty:update">
+            <span class="menu-ico fa fa-edit"></span> {{ 'platform.commands.manage' | translate }}
+          </li>
+          <li class="menu-item" ng-click='delete([contextMenuEntity])' va-permission="loyalty:delete">
+            <span class="menu-ico fas fa-trash-alt"></span> {{ 'platform.commands.delete' | translate }}
+          </li>
+        </ul>
+      </div>
+      <div class="note" ng-if="!blade.data.length">{{ 'platform.list.no-data' | translate }}</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="loyalty-program-list.row.html">
+  <div ng-click='grid.appScope.edit(row.entity)' ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'" class="ui-grid-cell" ng-class="{'ui-grid-row-header-cell': col.isRowHeader, '__hovered': grid.appScope.contextMenuEntity === row.entity, '__selected': row.entity.id===grid.appScope.selectedNodeId }" role="{{col.isRowHeader ? 'rowheader' : 'gridcell' }}" ui-grid-cell context-menu="grid.appScope.contextMenuEntity = row.entity" data-target="cl_menu"></div>
+</script>
+
+<script type="text/ng-template" id="loyalty-program-list-actions.cell.html">
+  <div class="ui-grid-actions" left-click-menu="grid.appScope.contextMenuEntity = row.entity" data-target="loyalty_program_list_menu">
+    <span class="fa fa-ellipsis-v"></span>
+  </div>
+</script>

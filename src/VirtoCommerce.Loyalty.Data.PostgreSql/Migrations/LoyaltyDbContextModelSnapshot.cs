@@ -146,10 +146,18 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
+                    b.Property<string>("ObjectType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.Property<int>("OperationType")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ObjectType", "ObjectId", "OperationType")
+                        .IsUnique();
 
                     b.ToTable("Transactions", (string)null);
                 });

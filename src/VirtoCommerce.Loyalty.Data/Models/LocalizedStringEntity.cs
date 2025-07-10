@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using VirtoCommerce.Platform.Core.Common;
+using static VirtoCommerce.Platform.Data.Infrastructure.DbContextBase;
 
 namespace VirtoCommerce.Loyalty.Data.Models;
 
@@ -7,7 +8,7 @@ public abstract class LocalizedStringEntity<T> : Entity
     where T : Entity
 {
     [Required]
-    [StringLength(16)]
+    [StringLength(Length16)]
     public string LanguageCode { get; set; } = string.Empty; // e.g., "en-US"
 
     [Required]

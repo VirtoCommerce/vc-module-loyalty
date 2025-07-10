@@ -17,7 +17,7 @@ public class TransactionLog : AuditableEntity, ICloneable
 
     public string ObjectId { get; set; }
 
-    //public ObjectType ObjectType { get; set; }
+    public string ObjectType { get; set; }
 
     public string Comment { get; set; }
 

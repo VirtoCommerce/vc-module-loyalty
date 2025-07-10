@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.LoyaltyProgramSearchService.Core.Models;
+using VirtoCommerce.LoyaltyProgramSearchService.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Data.GenericCrud;
 using Permissions = VirtoCommerce.Loyalty.Core.ModuleConstants.Security.Permissions;
 
 namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
@@ -15,10 +18,20 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 public class LoyaltyController : Controller
 {
     private readonly ILoyaltyProgramService _loyaltyService;
+    private readonly ILoyaltyProgramSearchService _searchService;
 
-    public LoyaltyController(ILoyaltyProgramService loyaltyService)
+    public LoyaltyController(ILoyaltyProgramService loyaltyService, ILoyaltyProgramSearchService searchService)
     {
         _loyaltyService = loyaltyService;
+        _searchService = searchService;
+    }
+
+    [HttpPost("search")]
+    [Authorize(Permissions.Read)]
+    public async Task<ActionResult<LoyaltyProgramSearchResult>> Search([FromBody] LoyaltyProgramSearchCriteria criteria)
+    {
+        var result = await _searchService.SearchNoCloneAsync(criteria);
+        return Ok(result);
     }
 
     [HttpPost]

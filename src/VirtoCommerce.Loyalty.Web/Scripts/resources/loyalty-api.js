@@ -1,4 +1,10 @@
 angular.module('VirtoCommerce.Loyalty')
     .factory('VirtoCommerce.Loyalty.webApi', ['$resource', function ($resource) {
-        return $resource('api/loyalty');
+        return $resource('api/loyalty', {}, {
+            create: { method: 'POST', url: 'api/loyalty' },
+            update: { method: 'PUT', url: 'api/loyalty' },
+            delete: { method: 'DELETE', url: 'api/loyalty' },
+            get: { method: 'GET', url: 'api/loyalty/:id' },
+            search: { method: 'POST', url: 'api/loyalty/search' }
+        });
     }]);
