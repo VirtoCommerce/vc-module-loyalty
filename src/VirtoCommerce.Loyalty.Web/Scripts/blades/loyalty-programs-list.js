@@ -133,7 +133,8 @@ angular.module('VirtoCommerce.Loyalty')
                 function showDetailsBlade(isNew, itemId) {
                     const detailsBlade = {
                         id: 'loyaltyProgramDetails',
-                        controller: 'VirtoCommerce.Loyalty.loyaltyController',
+                        title: 'New loyalty program',
+                        controller: 'VirtoCommerce.Loyalty.loyaltyDetailsController',
                         template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-details.html',
                         isNew: isNew,
                         itemId: itemId,

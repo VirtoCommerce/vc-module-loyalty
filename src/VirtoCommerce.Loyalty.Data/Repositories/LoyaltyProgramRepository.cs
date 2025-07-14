@@ -15,6 +15,8 @@ public class LoyaltyProgramRepository(LoyaltyDbContext dbContext, IUnitOfWork un
 
     public IQueryable<TransactionLogEntity> Transactions => DbContext.Set<TransactionLogEntity>();
 
+    public IQueryable<LoyaltyProgramStoreEntity> LoyaltyProgramStores => DbContext.Set<LoyaltyProgramStoreEntity>();
+
     public virtual async Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids)
     {
         var result = await LoyaltyPrograms
@@ -28,6 +30,8 @@ public class LoyaltyProgramRepository(LoyaltyDbContext dbContext, IUnitOfWork un
             await Transactions
                 .Where(x => programIds.Contains(x.LoyaltyProgramId))
                 .LoadAsync();
+
+            await LoyaltyProgramStores.Where(x => ids.Contains(x.LoyaltyProgramId)).LoadAsync();
         }
 
         return result;

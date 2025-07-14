@@ -5,6 +5,7 @@ angular.module('VirtoCommerce.Loyalty')
             update: { method: 'PUT', url: 'api/loyalty' },
             delete: { method: 'DELETE', url: 'api/loyalty' },
             get: { method: 'GET', url: 'api/loyalty/:id' },
-            search: { method: 'POST', url: 'api/loyalty/search' }
+            search: { method: 'POST', url: 'api/loyalty/search' },
+            getNew: { url: 'api/loyalty/new' },
         });
     }]);

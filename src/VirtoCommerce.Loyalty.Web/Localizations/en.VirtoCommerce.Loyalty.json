@@ -8,9 +8,42 @@
           "store": "Store",
           "name": "Name"
         }
+      },
+      "loyalty-program-details": {
+        "title-add": "New loyalty program",
+        "title": "Loyalty Program Details",
+        "title-edit": "Loyalty program",
+        "labels": {
+          "name": "Loyalty program name",
+          "description": "Description",
+          "store": "Stores",
+          "start-date": "Start Date",
+          "expiration-date": "Expiration date",
+          "is-active": "Is Active",
+          "user-groups": "User groups"
+        },
+        "descr": {
+          "store": "Stores where this loyalty program applies",
+          "name": "Give your loyalty program a unique name that will be displayed in the list",
+          "is-active": "Use this button to enable or disable your loyalty program",
+          "start-date": "If you do not specify a start date, the loyalty program will become active immediately after you save it",
+          "expiration-date": "If you do not specify an end date, the loyalty program will be active until you deactivate it"
+        },
+        "placeholders": {
+          "store": "Select...",
+          "name": "Type your loyalty program name here...",
+          "user-groups": "User groups",
+          "start-date": "Provide a date...",
+          "expiration-date": "Provide a date..."
+        },
+        "cannot-be-saved": "Can not be saved"
       }
     },
     "dialogs": {
+      "loyalty-program-save": {
+        "title": "Save changes",
+        "message": "The loyalty program has been modified. Do you want to save changes?"
+      },
       "loyalty-program-delete": {
         "title": "Confirm delete",
         "message-single": "Are you sure you want to delete the '{{name}}' loyalty program?",

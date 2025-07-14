@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
@@ -9,9 +10,9 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public LocalizedString LocalizedName { get; set; }
 
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
-    public string StoreId { get; set; }
+    public IList<string> StoreIds { get; set; }
 
     public DateTime? StartDate { get; set; }
 

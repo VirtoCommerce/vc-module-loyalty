@@ -27,8 +27,8 @@ angular.module(moduleName, [])
                 });
         }
     ])
-    .run(['platformWebApp.mainMenuService', '$state', 'virtoCommerce.marketingModule.marketingMenuItemService',
-        function (mainMenuService, $state, marketingMenuItemService) {
+    .run(['virtoCommerce.marketingModule.marketingMenuItemService',
+        function (marketingMenuItemService) {
             marketingMenuItemService.register({
                 id: 'loayltyProgramItemService',
                 name: 'loyalty.main-menu-title',

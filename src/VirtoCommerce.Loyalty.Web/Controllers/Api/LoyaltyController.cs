@@ -40,12 +40,13 @@ public class LoyaltyController : Controller
     public async Task<ActionResult<LoyaltyProgram>> Create([FromBody] LoyaltyProgram loyaltyProgram)
     {
         loyaltyProgram.Id = null;
+        loyaltyProgram.Conditions = "";
         await _loyaltyService.SaveChangesAsync([loyaltyProgram]);
         return Ok(loyaltyProgram);
     }
 
     [HttpGet]
-    [Route("")]
+    [Route("{id}")]
     [Authorize(Permissions.Read)]
     public async Task<ActionResult<LoyaltyProgram>> Get([FromRoute] string id)
     {
@@ -70,5 +71,14 @@ public class LoyaltyController : Controller
     {
         await _loyaltyService.DeleteAsync(ids);
         return NoContent();
+    }
+
+    [HttpGet]
+    [Route("new")]
+    [Authorize(Permissions.Create)]
+    public ActionResult<LoyaltyProgram> GetNewDynamicPromotion()
+    {
+        var retVal = AbstractTypeFactory<LoyaltyProgram>.TryCreateInstance();
+        return Ok(retVal);
     }
 }

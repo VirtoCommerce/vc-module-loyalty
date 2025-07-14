@@ -9,7 +9,10 @@ namespace VirtoCommerce.Loyalty.Data.Repositories;
 public interface ILoyaltyProgramRepository : IRepository
 {
     IQueryable<LoyaltyProgramEntity> LoyaltyPrograms { get; }
+
     IQueryable<TransactionLogEntity> Transactions { get; }
+
+    IQueryable<LoyaltyProgramStoreEntity> LoyaltyProgramStores { get; }
 
     Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids);
 }

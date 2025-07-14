@@ -64,11 +64,6 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("StoreId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
                     b.HasKey("Id");
 
                     b.ToTable("LoyaltyProgram", (string)null);
@@ -96,6 +91,31 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.HasIndex("ParentEntityId");
 
                     b.ToTable("LoyaltyProgramLocalizedNameEntity");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramStoreEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("LoyaltyProgramId")
+                        .IsRequired()
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("StoreId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoyaltyProgramId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("LoyaltyProgramStore", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.TransactionLogEntity", b =>
@@ -171,9 +191,22 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Navigation("ParentEntity");
                 });
 
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramStoreEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
+                        .WithMany("Stores")
+                        .HasForeignKey("LoyaltyProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LoyaltyProgram");
+                });
+
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
                 {
                     b.Navigation("LocalizedNames");
+
+                    b.Navigation("Stores");
                 });
 #pragma warning restore 612, 618
         }

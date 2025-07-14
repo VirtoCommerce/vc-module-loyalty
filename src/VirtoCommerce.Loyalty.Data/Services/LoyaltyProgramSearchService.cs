@@ -36,9 +36,15 @@ public class LoyaltyProgramSearchService : SearchService<LoyaltyProgramSearchCri
             query = query.Where(x => x.Name.Contains(criteria.SearchPhrase));
         }
 
-        if (!criteria.StoreId.IsNullOrEmpty())
+        if (!criteria.StoreIds.IsNullOrEmpty())
         {
-            query = query.Where(x => x.StoreId == criteria.StoreId);
+            query = query.Where(x => !x.Stores.Any() || x.Stores.Any(s => criteria.StoreIds.Contains(s.StoreId)));
+        }
+
+        if (criteria.IsActive != null)
+        {
+            var utcNow = DateTime.UtcNow;
+            query = query.Where(x => x.IsActive == criteria.IsActive && (x.StartDate == null || utcNow >= x.StartDate) && (x.EndDate == null || x.EndDate >= utcNow));
         }
 
         return query;

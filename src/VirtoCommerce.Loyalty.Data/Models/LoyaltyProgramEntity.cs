@@ -21,9 +21,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
     [Required]
     public bool IsActive { get; set; }
 
-    [Required]
-    [StringLength(IdLength)]
-    public string StoreId { get; set; }
+    public virtual ObservableCollection<LoyaltyProgramStoreEntity> Stores { get; set; } = new NullCollection<LoyaltyProgramStoreEntity>();
 
     public DateTime? StartDate { get; set; }
 
@@ -47,7 +45,10 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         CreatedBy = model.CreatedBy;
         ModifiedBy = model.ModifiedBy;
 
-        StoreId = model.StoreId;
+        if (model.StoreIds != null)
+        {
+            Stores = [.. model.StoreIds.Select(x => new LoyaltyProgramStoreEntity { StoreId = x, LoyaltyProgramId = model.Id })];
+        }
         Name = model.Name;
         IsActive = model.IsActive;
         StartDate = model.StartDate;
@@ -72,7 +73,11 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
     public void Patch(LoyaltyProgramEntity target)
     {
         ArgumentNullException.ThrowIfNull(target);
-        target.StoreId = StoreId;
+        if (!Stores.IsNullCollection())
+        {
+            var comparer = AnonymousComparer.Create((LoyaltyProgramStoreEntity entity) => entity.StoreId);
+            Stores.Patch(target.Stores, comparer, (sourceEntity, targetEntity) => targetEntity.StoreId = sourceEntity.StoreId);
+        }
         target.Name = Name;
         target.IsActive = IsActive;
         target.StartDate = StartDate;
@@ -97,7 +102,10 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         model.CreatedBy = CreatedBy;
         model.ModifiedBy = ModifiedBy;
 
-        model.StoreId = StoreId;
+        if (Stores != null)
+        {
+            model.StoreIds = [.. Stores.Select(x => x.StoreId)];
+        }
         model.Name = Name;
         model.IsActive = IsActive;
         model.StartDate = StartDate;
