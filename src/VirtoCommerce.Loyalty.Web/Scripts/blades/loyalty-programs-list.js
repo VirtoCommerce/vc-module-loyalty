@@ -11,7 +11,7 @@ angular.module('VirtoCommerce.Loyalty')
                 loyaltyApi,
                 authService, bladeNavigationService, uiGridHelper,
                 bladeUtils, dialogService) {
-                var blade = $scope.blade;
+                const blade = $scope.blade;
                 //blade properties
                 blade.title = 'loyalty.blades.loyalty-program-list.title';
 

@@ -21,8 +21,6 @@ public class LoyaltyDbContext : DbContextBase
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
         modelBuilder.Entity<LoyaltyProgramEntity>().ToAuditableEntityTable("LoyaltyProgram");
 
         modelBuilder.Entity<TransactionLogEntity>(builder =>
@@ -38,6 +36,22 @@ public class LoyaltyDbContext : DbContextBase
             .WithMany(x => x.Stores).HasForeignKey(x => x.LoyaltyProgramId)
             .OnDelete(DeleteBehavior.Cascade).IsRequired();
         modelBuilder.Entity<LoyaltyProgramStoreEntity>().HasIndex(i => i.StoreId);
+
+        modelBuilder.Entity<LoyaltyProgramLocalizedNameEntity>(builder =>
+        {
+            builder.ToEntityTable("LoyaltyProgramLocalizedName");
+
+            builder.HasOne(x => x.ParentEntity)
+                .WithMany(x => x.LocalizedNames)
+                .HasForeignKey(x => x.ParentEntityId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => new { x.LanguageCode, x.ParentEntityId }).IsUnique()
+                .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
+        });
+
+        base.OnModelCreating(modelBuilder);
 
         switch (Database.ProviderName)
         {

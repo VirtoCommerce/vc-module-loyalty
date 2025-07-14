@@ -8,23 +8,36 @@ angular.module('VirtoCommerce.Loyalty')
             'virtoCommerce.storeModule.stores',
             '$q',
             'platformWebApp.authService',
+            'platformWebApp.settings',
+            'platformWebApp.bladeNavigationService',
             function (
                 $scope,
                 loyaltyApi,
                 bladeNavigationService,
                 stores,
                 $q,
-                authService) {
+                authService,
+                settings,
+                bladeNavigationService) {
                 const blade = $scope.blade;
                 blade.updatePermission = 'loyalty:update';
+                var promise = settings.getValues({ id: 'VirtoCommerce.Core.General.Languages' }).$promise;
+                $scope.languages = [];
 
                 blade.showErrorStoreStateMessage = null;
+
+                function initializeLanguages() {
+                    promise.then(function (promiseData) {
+                        $scope.languages = promiseData;
+                    });
+                }
 
                 blade.refresh = function () {
                     if (!blade.isNew) {
                         loyaltyApi.get({ id: [blade.itemId] }, function (getResult) {
                             blade.originalEntity = angular.copy(getResult);
                             blade.currentEntity = angular.copy(getResult);
+                            initializeLanguages();
                         });
                     }
                     else {
@@ -32,6 +45,7 @@ angular.module('VirtoCommerce.Loyalty')
                             blade.currentEntity = getResult;
                             initializeToolbar();
                             initializeTitle();
+                            initializeLanguages();
                         });
                     }
                     blade.isLoading = false;

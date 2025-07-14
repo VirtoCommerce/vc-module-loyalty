@@ -20,6 +20,7 @@ public class LoyaltyProgramRepository(LoyaltyDbContext dbContext, IUnitOfWork un
     public virtual async Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids)
     {
         var result = await LoyaltyPrograms
+            .Include(x => x.LocalizedNames)
             .Where(x => ids.Contains(x.Id))
             .ToListAsync();
 

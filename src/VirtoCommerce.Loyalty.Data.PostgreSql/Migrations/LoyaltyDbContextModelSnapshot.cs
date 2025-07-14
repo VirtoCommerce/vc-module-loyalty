@@ -72,7 +72,9 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("LanguageCode")
                         .IsRequired()
@@ -80,6 +82,7 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                         .HasColumnType("character varying(16)");
 
                     b.Property<string>("ParentEntityId")
+                        .IsRequired()
                         .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
@@ -90,7 +93,11 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
 
                     b.HasIndex("ParentEntityId");
 
-                    b.ToTable("LoyaltyProgramLocalizedNameEntity");
+                    b.HasIndex("LanguageCode", "ParentEntityId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
+
+                    b.ToTable("LoyaltyProgramLocalizedName", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramStoreEntity", b =>
@@ -186,7 +193,9 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                 {
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "ParentEntity")
                         .WithMany("LocalizedNames")
-                        .HasForeignKey("ParentEntityId");
+                        .HasForeignKey("ParentEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ParentEntity");
                 });

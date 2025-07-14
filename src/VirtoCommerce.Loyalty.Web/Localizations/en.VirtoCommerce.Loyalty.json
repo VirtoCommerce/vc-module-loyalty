@@ -20,7 +20,10 @@
           "start-date": "Start Date",
           "expiration-date": "Expiration date",
           "is-active": "Is Active",
-          "user-groups": "User groups"
+          "user-groups": "User groups",
+          "show-more-languages": "Show more languages",
+          "show-less-languages": "Show less languages",
+          "localized-name": "Localized loyalty program name"
         },
         "descr": {
           "store": "Stores where this loyalty program applies",
