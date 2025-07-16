@@ -54,8 +54,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         LoyaltyProgramId = model.LoyaltyProgramId;
         CustomerId = model.CustomerId;
         OperationType = model.OperationType;
-        AccruedPoints = model.AccruedPoints;
-        Date = model.Date;
+        AccruedPoints = model.Points;
         ObjectId = model.ObjectId;
         ObjectType = model.ObjectType;
         Comment = model.Comment;
@@ -91,8 +90,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         model.LoyaltyProgramId = LoyaltyProgramId;
         model.CustomerId = CustomerId;
         model.OperationType = OperationType;
-        model.AccruedPoints = AccruedPoints;
-        model.Date = Date;
+        model.Points = AccruedPoints;
         model.ObjectId = ObjectId;
         model.ObjectType = ObjectType;
         model.Comment = Comment;

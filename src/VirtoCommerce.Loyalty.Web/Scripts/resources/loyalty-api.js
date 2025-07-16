@@ -7,5 +7,7 @@ angular.module('VirtoCommerce.Loyalty')
             get: { method: 'GET', url: 'api/loyalty/:id' },
             search: { method: 'POST', url: 'api/loyalty/search' },
             getNew: { url: 'api/loyalty/new' },
+            getPointsByCustomerId: { method: 'GET', url: 'api/loyalty/points/:id' },
+            trasactionsSearch: { method: 'POST', url: 'api/loyalty/transactions/search' },
         });
     }]);

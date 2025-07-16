@@ -21,6 +21,9 @@ using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Services;
 using System;
 using VirtoCommerce.LoyaltyProgramSearchService.Core.Services;
+using VirtoCommerce.Loyalty.Data.Handlers;
+using VirtoCommerce.OrdersModule.Core.Events;
+using VirtoCommerce.Platform.Core.Events;
 
 namespace VirtoCommerce.Loyalty.Web;
 
@@ -63,6 +66,11 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyProgramService, LoyaltyProgramService>();
         serviceCollection.AddTransient<ILoyaltyProgramSearchService, Data.Services.LoyaltyProgramSearchService>();
+
+        serviceCollection.AddTransient<ITransactionLogService, TransactionLogService>();
+        serviceCollection.AddTransient<ITransactionLogSearchService, TransactionLogSearchService>();
+
+        serviceCollection.AddTransient<OrderCreatedEventHandler>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
@@ -79,6 +87,8 @@ public class Module : IModule, IHasConfiguration
 
         // Register partial GraphQL schema
         appBuilder.UseScopedSchema<XapiAssemblyMarker>("loyalty");
+
+        appBuilder.RegisterEventHandler<OrderChangedEvent, OrderCreatedEventHandler>();
 
         // Apply migrations
         using var serviceScope = serviceProvider.CreateScope();

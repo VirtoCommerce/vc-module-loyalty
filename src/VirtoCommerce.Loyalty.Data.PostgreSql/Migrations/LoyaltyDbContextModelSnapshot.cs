@@ -186,7 +186,7 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                     b.HasIndex("ObjectType", "ObjectId", "OperationType")
                         .IsUnique();
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("LoyaltyTransactions", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>

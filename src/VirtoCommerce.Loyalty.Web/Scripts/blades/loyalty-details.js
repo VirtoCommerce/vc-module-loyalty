@@ -7,7 +7,6 @@ angular.module('VirtoCommerce.Loyalty')
             'platformWebApp.bladeNavigationService',
             'virtoCommerce.storeModule.stores',
             '$q',
-            'platformWebApp.authService',
             'platformWebApp.settings',
             'platformWebApp.bladeNavigationService',
             function (
@@ -16,7 +15,6 @@ angular.module('VirtoCommerce.Loyalty')
                 bladeNavigationService,
                 stores,
                 $q,
-                authService,
                 settings,
                 bladeNavigationService) {
                 const blade = $scope.blade;
@@ -176,10 +174,6 @@ angular.module('VirtoCommerce.Loyalty')
                 };
 
                 $scope.saveChanges = function () {
-                    if (!authService.checkPermission(getSavePermission())) {
-                        return;
-                    }
-
                     bladeNavigationService.setError(null, blade);
                     blade.isLoading = true;
 

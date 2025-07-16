@@ -15,4 +15,6 @@ public interface ILoyaltyProgramRepository : IRepository
     IQueryable<LoyaltyProgramStoreEntity> LoyaltyProgramStores { get; }
 
     Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids);
+
+    Task<IList<TransactionLogEntity>> GetTransactionLogsByIdsAsync(IList<string> ids);
 }

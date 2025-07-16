@@ -40,6 +40,23 @@
           "expiration-date": "Provide a date..."
         },
         "cannot-be-saved": "Can not be saved"
+      },
+      "loyalty-transaction-list": {
+        "title": "Loyalty Transactions",
+        "labels": {
+          "loyalty-program": "Loyalty Program",
+          "customer": "Customer",
+          "comment": "Comment",
+          "object-type": "Object Type",
+          "object": "Object",
+          "operation-type": "Operation Type",
+          "points": "Points",
+          "created-date": "Date of creation"
+        },
+        "placeholders": {
+          "loyalty-program": "Select loyalty program...",
+          "user": "Select user..."
+        }
       }
     },
     "dialogs": {
@@ -51,6 +68,12 @@
         "title": "Confirm delete",
         "message-single": "Are you sure you want to delete the '{{name}}' loyalty program?",
         "message-many": "Are you sure you want to delete {{count}} loyalty programs?"
+      }
+    },
+    "widgets": {
+      "loyalty-programs": {
+        "title": "Loyalty Points",
+        "blade-title": "Manage loyalty programs"
       }
     }
   },

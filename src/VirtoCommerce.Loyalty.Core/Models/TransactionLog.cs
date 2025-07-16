@@ -11,9 +11,7 @@ public class TransactionLog : AuditableEntity, ICloneable
 
     public LoyaltyOperationType OperationType { get; set; }
 
-    public decimal AccruedPoints { get; set; }
-
-    public DateTime Date { get; set; }
+    public decimal Points { get; set; }
 
     public string ObjectId { get; set; }
 

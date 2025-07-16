@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using VirtoCommerce.Loyalty.Data.Models;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.Platform.Data.Extensions;
-using static VirtoCommerce.Platform.Data.Infrastructure.DbContextBase;
 
 namespace VirtoCommerce.Loyalty.Data.Repositories;
 
@@ -25,7 +24,7 @@ public class LoyaltyDbContext : DbContextBase
 
         modelBuilder.Entity<TransactionLogEntity>(builder =>
         {
-            builder.ToAuditableEntityTable("Transactions");
+            builder.ToAuditableEntityTable("LoyaltyTransactions");
             builder.HasIndex(t => new { t.ObjectType, t.ObjectId, t.OperationType }).IsUnique();
         });
 

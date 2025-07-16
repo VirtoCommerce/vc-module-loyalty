@@ -27,8 +27,8 @@ angular.module(moduleName, [])
                 });
         }
     ])
-    .run(['virtoCommerce.marketingModule.marketingMenuItemService',
-        function (marketingMenuItemService) {
+    .run(['virtoCommerce.marketingModule.marketingMenuItemService', 'platformWebApp.widgetService',
+        function (marketingMenuItemService, widgetService) {
             marketingMenuItemService.register({
                 id: 'loayltyProgramItemService',
                 name: 'loyalty.main-menu-title',
@@ -38,5 +38,11 @@ angular.module(moduleName, [])
                 template: 'Modules/$(virtoCommerce.Loyalty)/Scripts/blades/loyalty-programs-list.html',
                 permission: 'loyalty:access:access'
             });
+
+            var customerLoyaltyProgramWidget = {
+                controller: 'virtoCommerce.Loyalty.customerLoyaltyProgramWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/customer-loyalty-program-widget.tpl.html'
+            };
+            widgetService.registerWidget(customerLoyaltyProgramWidget, 'customerDetail1');
         }
     ]);

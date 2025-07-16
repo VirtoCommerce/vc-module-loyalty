@@ -37,4 +37,11 @@ public class LoyaltyProgramRepository(LoyaltyDbContext dbContext, IUnitOfWork un
 
         return result;
     }
+
+    public virtual async Task<IList<TransactionLogEntity>> GetTransactionLogsByIdsAsync(IList<string> ids)
+    {
+        return await Transactions
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync();
+    }
 }
