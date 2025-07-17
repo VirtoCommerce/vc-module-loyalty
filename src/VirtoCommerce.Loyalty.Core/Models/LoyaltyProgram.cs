@@ -20,7 +20,7 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public int Priority { get; set; }
 
-    public string Conditions { get; set; }
+    public string Conditions { get; set; } = "{}";
 
     public string Code { get; set; }
 

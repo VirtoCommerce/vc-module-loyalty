@@ -4,10 +4,5 @@ using VirtoCommerce.Platform.Core.Events;
 
 namespace VirtoCommerce.Loyalty.Core.Events;
 
-public class LoyaltyProgramChangingEvent : GenericChangedEntryEvent<LoyaltyProgram>
-{
-    public LoyaltyProgramChangingEvent(IEnumerable<GenericChangedEntry<LoyaltyProgram>> changedEntries)
-        : base(changedEntries)
-    {
-    }
-}
+public class LoyaltyProgramChangingEvent(IEnumerable<GenericChangedEntry<LoyaltyProgram>> changedEntries)
+    : GenericChangedEntryEvent<LoyaltyProgram>(changedEntries);

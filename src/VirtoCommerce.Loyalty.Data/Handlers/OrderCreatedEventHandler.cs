@@ -73,17 +73,16 @@ public class OrderCreatedEventHandler(
         foreach (var usageContext in usageContexts)
         {
             customerBalances[usageContext.Order.CustomerId] += DefaultPointsPerOrder;
-            transactionLogs.Add(new TransactionLog
-            {
-                LoyaltyProgramId = usageContext.LoyaltyProgram.Id,
-                CustomerId = usageContext.Order.CustomerId,
-                ObjectId = usageContext.Order.Id,
-                ObjectType = nameof(CustomerOrder),
-                Points = DefaultPointsPerOrder, // Assuming a fixed point value for simplicity
-                OperationType = LoyaltyOperationType.Debit,
-                Balance = customerBalances[usageContext.Order.CustomerId],
-                Comment = $"Order #{usageContext.Order.Number} processed for loyalty program {usageContext.LoyaltyProgram.Name}",
-            });
+            var transaction = AbstractTypeFactory<TransactionLog>.TryCreateInstance();
+            transaction.LoyaltyProgramId = usageContext.LoyaltyProgram.Id;
+            transaction.CustomerId = usageContext.Order.CustomerId;
+            transaction.OperationType = LoyaltyOperationType.Debit;
+            transaction.Points = DefaultPointsPerOrder;
+            transaction.ObjectId = usageContext.Order.Id;
+            transaction.ObjectType = nameof(CustomerOrder);
+            transaction.Comment = $"Order #{usageContext.Order.Number} processed for loyalty program {usageContext.LoyaltyProgram.Name}";
+            transaction.Balance = customerBalances[usageContext.Order.CustomerId];
+            transactionLogs.Add(transaction);
         }
         if (transactionLogs.Any())
         {

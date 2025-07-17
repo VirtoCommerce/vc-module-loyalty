@@ -7,7 +7,7 @@ angular.module('VirtoCommerce.Loyalty')
             if (account) {
                 $scope.customerId = account.id;
                 loyaltyApi.getPointsByCustomerId({ id: $scope.customerId }, function (data) {
-                    $scope.loyaltyPoints = data.points;
+                    $scope.loyaltyPoints = data.points; 
                 });
             }
         }

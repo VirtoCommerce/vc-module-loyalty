@@ -3,14 +3,12 @@ angular.module('VirtoCommerce.Loyalty')
         'VirtoCommerce.Loyalty.transactionListController',
         [
             '$scope',
+            'platformWebApp.uiGridHelper', 'platformWebApp.bladeUtils',
             'VirtoCommerce.Loyalty.webApi',
-            'platformWebApp.authService', 'platformWebApp.bladeNavigationService', 'platformWebApp.uiGridHelper',
-            'platformWebApp.bladeUtils', 'platformWebApp.dialogService',
             function (
                 $scope,
-                loyaltyApi,
-                authService, bladeNavigationService, uiGridHelper,
-                bladeUtils, dialogService) {
+                uiGridHelper, bladeUtils,
+                loyaltyApi) {
                 const blade = $scope.blade;
 
                 //blade functions

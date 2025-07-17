@@ -20,35 +20,53 @@ public class LoyaltyDbContext : DbContextBase
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<LoyaltyProgramEntity>().ToAuditableEntityTable("LoyaltyProgram");
+        modelBuilder.Entity<LoyaltyProgramEntity>(builder =>
+        {
+            builder.ToAuditableEntityTable("LoyaltyProgram");
+        });
 
         modelBuilder.Entity<TransactionLogEntity>(builder =>
         {
             builder.ToAuditableEntityTable("LoyaltyTransactions");
-            builder.HasIndex(t => new { t.ObjectType, t.ObjectId, t.OperationType }).IsUnique();
+
+            builder.HasIndex(t => new { t.ObjectType, t.ObjectId, t.OperationType })
+                   .IsUnique();
         });
 
-        modelBuilder.Entity<LoyaltyProgramStoreEntity>().ToTable("LoyaltyProgramStore");
-        modelBuilder.Entity<LoyaltyProgramStoreEntity>().HasKey(x => x.Id);
-        modelBuilder.Entity<LoyaltyProgramStoreEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
-        modelBuilder.Entity<LoyaltyProgramStoreEntity>().HasOne(x => x.LoyaltyProgram)
-            .WithMany(x => x.Stores).HasForeignKey(x => x.LoyaltyProgramId)
-            .OnDelete(DeleteBehavior.Cascade).IsRequired();
-        modelBuilder.Entity<LoyaltyProgramStoreEntity>().HasIndex(i => i.StoreId);
+        modelBuilder.Entity<LoyaltyProgramStoreEntity>(builder =>
+        {
+            builder.ToTable("LoyaltyProgramStore");
+
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Id)
+                   .HasMaxLength(IdLength)
+                   .ValueGeneratedOnAdd();
+
+            builder.HasOne(x => x.LoyaltyProgram)
+                   .WithMany(x => x.Stores)
+                   .HasForeignKey(x => x.LoyaltyProgramId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.StoreId);
+        });
 
         modelBuilder.Entity<LoyaltyProgramLocalizedNameEntity>(builder =>
         {
             builder.ToEntityTable("LoyaltyProgramLocalizedName");
 
             builder.HasOne(x => x.ParentEntity)
-                .WithMany(x => x.LocalizedNames)
-                .HasForeignKey(x => x.ParentEntityId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(x => x.LocalizedNames)
+                   .HasForeignKey(x => x.ParentEntityId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(x => new { x.LanguageCode, x.ParentEntityId }).IsUnique()
-                .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
+            builder.HasIndex(x => new { x.LanguageCode, x.ParentEntityId })
+                   .IsUnique()
+                   .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
         });
+
 
         base.OnModelCreating(modelBuilder);
 

@@ -15,17 +15,18 @@ using VirtoCommerce.Platform.Data.GenericCrud;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
-public class LoyaltyProgramSearchService : SearchService<LoyaltyProgramSearchCriteria, LoyaltyProgramSearchResult, LoyaltyProgram, LoyaltyProgramEntity>,
-    ILoyaltyProgramSearchService
-{
-    public LoyaltyProgramSearchService(
+public class LoyaltyProgramSearchService(
         Func<ILoyaltyProgramRepository> repositoryFactory,
         IPlatformMemoryCache platformMemoryCache,
         ILoyaltyProgramService crudService,
         IOptions<CrudOptions> crudOptions)
-        : base(repositoryFactory, platformMemoryCache, crudService, crudOptions)
-    {
-    }
+    : SearchService<LoyaltyProgramSearchCriteria, LoyaltyProgramSearchResult, LoyaltyProgram, LoyaltyProgramEntity>(
+        repositoryFactory,
+        platformMemoryCache,
+        crudService,
+        crudOptions),
+    ILoyaltyProgramSearchService
+{
 
     protected override IQueryable<LoyaltyProgramEntity> BuildQuery(IRepository repository, LoyaltyProgramSearchCriteria criteria)
     {
@@ -46,6 +47,10 @@ public class LoyaltyProgramSearchService : SearchService<LoyaltyProgramSearchCri
             var utcNow = DateTime.UtcNow;
             query = query.Where(x => x.IsActive == criteria.IsActive && (x.StartDate == null || utcNow >= x.StartDate) && (x.EndDate == null || x.EndDate >= utcNow));
         }
+
+        var certainDate = criteria.CertainDate ?? DateTime.UtcNow;
+        query = query.Where(x => (x.StartDate == null || certainDate >= x.StartDate) && (x.EndDate == null || x.EndDate >= certainDate));
+        
         return query;
     }
 

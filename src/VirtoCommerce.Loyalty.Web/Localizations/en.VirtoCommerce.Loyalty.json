@@ -14,7 +14,7 @@
         "title": "Loyalty Program Details",
         "title-edit": "Loyalty program",
         "labels": {
-          "name": "Loyalty program name",
+          "name": "Name",
           "description": "Description",
           "store": "Stores",
           "start-date": "Start Date",
@@ -23,7 +23,7 @@
           "user-groups": "User groups",
           "show-more-languages": "Show more languages",
           "show-less-languages": "Show less languages",
-          "localized-name": "Localized loyalty program name"
+          "localized-name": "Localized name"
         },
         "descr": {
           "store": "Stores where this loyalty program applies",

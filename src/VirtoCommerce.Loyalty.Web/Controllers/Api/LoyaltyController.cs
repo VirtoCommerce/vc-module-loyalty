@@ -33,7 +33,6 @@ public class LoyaltyController(
     public async Task<ActionResult<LoyaltyProgram>> Create([FromBody] LoyaltyProgram loyaltyProgram)
     {
         loyaltyProgram.Id = null;
-        loyaltyProgram.Conditions = "";
         await loyaltyService.SaveChangesAsync([loyaltyProgram]);
         return Ok(loyaltyProgram);
     }

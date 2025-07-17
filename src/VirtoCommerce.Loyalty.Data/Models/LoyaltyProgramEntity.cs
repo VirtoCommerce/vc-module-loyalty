@@ -18,7 +18,6 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
     public ObservableCollection<LoyaltyProgramLocalizedNameEntity> LocalizedNames { get; set; }
         = new NullCollection<LoyaltyProgramLocalizedNameEntity>();
 
-    [Required]
     public bool IsActive { get; set; }
 
     public virtual ObservableCollection<LoyaltyProgramStoreEntity> Stores { get; set; } = new NullCollection<LoyaltyProgramStoreEntity>();

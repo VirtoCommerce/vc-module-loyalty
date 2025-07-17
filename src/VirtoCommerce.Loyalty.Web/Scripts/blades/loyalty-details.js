@@ -2,23 +2,15 @@ angular.module('VirtoCommerce.Loyalty')
     .controller(
         'VirtoCommerce.Loyalty.loyaltyDetailsController',
         [
-            '$scope',
-            'VirtoCommerce.Loyalty.webApi',
-            'platformWebApp.bladeNavigationService',
-            'virtoCommerce.storeModule.stores',
-            '$q',
-            'platformWebApp.settings',
-            'platformWebApp.bladeNavigationService',
+            '$scope', '$q',
+            'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'platformWebApp.bladeNavigationService',
+            'VirtoCommerce.Loyalty.webApi', 'virtoCommerce.storeModule.stores',
             function (
-                $scope,
-                loyaltyApi,
-                bladeNavigationService,
-                stores,
-                $q,
-                settings,
-                bladeNavigationService) {
+                $scope, $q,
+                bladeNavigationService, settings, bladeNavigationService,
+                loyaltyApi, stores) {
                 const blade = $scope.blade;
-                blade.updatePermission = 'loyalty:update';
+
                 var promise = settings.getValues({ id: 'VirtoCommerce.Core.General.Languages' }).$promise;
                 $scope.languages = [];
 

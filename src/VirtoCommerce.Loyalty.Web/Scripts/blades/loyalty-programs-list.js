@@ -3,14 +3,12 @@ angular.module('VirtoCommerce.Loyalty')
         'VirtoCommerce.Loyalty.loyaltyController',
         [
             '$scope',
+            'platformWebApp.bladeNavigationService', 'platformWebApp.uiGridHelper', 'platformWebApp.bladeUtils', 'platformWebApp.dialogService',
             'VirtoCommerce.Loyalty.webApi',
-            'platformWebApp.authService', 'platformWebApp.bladeNavigationService', 'platformWebApp.uiGridHelper',
-            'platformWebApp.bladeUtils', 'platformWebApp.dialogService',
             function (
                 $scope,
-                loyaltyApi,
-                authService, bladeNavigationService, uiGridHelper,
-                bladeUtils, dialogService) {
+                bladeNavigationService, uiGridHelper, bladeUtils, dialogService,
+                loyaltyApi) {
                 const blade = $scope.blade;
                 //blade properties
                 blade.title = 'loyalty.blades.loyalty-program-list.title';
@@ -26,28 +24,16 @@ angular.module('VirtoCommerce.Loyalty')
 
                 //scope functions
                 $scope.add = function () {
-                    if (!authService.checkPermission('loyalty:create')) {
-                        return;
-                    }
-
                     $scope.selectedNodeId = undefined;
 
                     showDetailsBlade(true);
                 };
 
                 $scope.edit = function (item) {
-                    if (!authService.checkPermission('loyalty:update')) {
-                        return;
-                    }
-
                     showDetailsBlade(false, item.id);
                 };
 
                 $scope.delete = function (items) {
-                    if (!authService.checkPermission('loyalty:delete')) {
-                        return;
-                    }
-
                     const dialog = {
                         id: 'loyaltyProgramDeleteDialog',
                         title: 'loyalty.dialogs.loyalty-program-delete.title',
