@@ -22,6 +22,8 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public string Conditions { get; set; }
 
+    public string Code { get; set; }
+
     public object Clone()
     {
         var result = (LoyaltyProgram)MemberwiseClone();

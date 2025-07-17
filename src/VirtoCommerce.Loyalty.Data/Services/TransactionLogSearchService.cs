@@ -45,13 +45,13 @@ public class TransactionLogSearchService(
         {
             query = query.Where(x => criteria.OperationType == x.OperationType);
         }
-        if (!string.IsNullOrEmpty(criteria.ObjectId))
+        if (!criteria.ObjectIds.IsNullOrEmpty())
         {
-            query = query.Where(x => criteria.ObjectId == x.ObjectId);
+            query = query.Where(x => criteria.ObjectIds.Contains(x.ObjectId));
         }
-        if (!string.IsNullOrEmpty(criteria.ObjectTypeCriteria))
+        if (!string.IsNullOrEmpty(criteria.ObjectType))
         {
-            query = query.Where(x => criteria.ObjectTypeCriteria == x.ObjectType);
+            query = query.Where(x => criteria.ObjectType == x.ObjectType);
         }
         return query;
     }
@@ -62,7 +62,7 @@ public class TransactionLogSearchService(
 
         if (sortInfos.IsNullOrEmpty())
         {
-            sortInfos = [new SortInfo { SortColumn = nameof(TransactionLog.CreatedDate), SortDirection = SortDirection.Descending }];
+            sortInfos = [new SortInfo { SortColumn = nameof(TransactionLogEntity.CreatedDate), SortDirection = SortDirection.Descending }];
         }
 
         return sortInfos;

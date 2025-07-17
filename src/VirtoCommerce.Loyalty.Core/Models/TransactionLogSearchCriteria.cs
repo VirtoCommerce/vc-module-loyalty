@@ -9,8 +9,4 @@ public class TransactionLogSearchCriteria : SearchCriteriaBase
     public string CustomerId { get; set; }
 
     public LoyaltyOperationType? OperationType { get; set; }
-
-    public string ObjectId { get; set; }
-
-    public string ObjectTypeCriteria { get; set; }
 }

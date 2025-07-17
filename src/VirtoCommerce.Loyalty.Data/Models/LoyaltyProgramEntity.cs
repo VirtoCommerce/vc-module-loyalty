@@ -33,6 +33,8 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
     [Required]
     public string Conditions { get; set; }
 
+    public string Code { get; set; }
+
     public LoyaltyProgramEntity FromModel(LoyaltyProgram model, PrimaryKeyResolvingMap pkMap)
     {
         ArgumentNullException.ThrowIfNull(model);
@@ -55,6 +57,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         EndDate = model.EndDate;
         Priority = model.Priority;
         Conditions = model.Conditions;
+        Code = model.Code;
         if (model.LocalizedName != null)
         {
             LocalizedNames = [.. model.LocalizedName.Values
@@ -84,6 +87,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         target.EndDate = EndDate;
         target.Priority = Priority;
         target.Conditions = Conditions;
+        target.Code = Code;
 
         if (!LocalizedNames.IsNullCollection())
         {
@@ -112,6 +116,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         model.EndDate = EndDate;
         model.Priority = Priority;
         model.Conditions = Conditions;
+        model.Code = Code;
         if (LocalizedNames != null)
         {
             model.LocalizedName = new LocalizedString();

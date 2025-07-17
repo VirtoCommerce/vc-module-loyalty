@@ -46,7 +46,6 @@ public class LoyaltyProgramSearchService : SearchService<LoyaltyProgramSearchCri
             var utcNow = DateTime.UtcNow;
             query = query.Where(x => x.IsActive == criteria.IsActive && (x.StartDate == null || utcNow >= x.StartDate) && (x.EndDate == null || x.EndDate >= utcNow));
         }
-
         return query;
     }
 
@@ -56,7 +55,7 @@ public class LoyaltyProgramSearchService : SearchService<LoyaltyProgramSearchCri
 
         if (sortInfos.IsNullOrEmpty())
         {
-            sortInfos = [new SortInfo { SortColumn = nameof(LoyaltyProgram.Priority), SortDirection = SortDirection.Descending }];
+            sortInfos = [new SortInfo { SortColumn = nameof(LoyaltyProgramEntity.CreatedDate), SortDirection = SortDirection.Descending }];
         }
 
         return sortInfos;

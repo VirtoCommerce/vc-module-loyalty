@@ -21,10 +21,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
     public LoyaltyOperationType OperationType { get; set; }
 
     [Required]
-    public decimal AccruedPoints { get; set; }
-
-    [Required]
-    public DateTime Date { get; set; }
+    public decimal Points { get; set; }
 
     [Required]
     [StringLength(IdLength)]
@@ -54,7 +51,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         LoyaltyProgramId = model.LoyaltyProgramId;
         CustomerId = model.CustomerId;
         OperationType = model.OperationType;
-        AccruedPoints = model.Points;
+        Points = model.Points;
         ObjectId = model.ObjectId;
         ObjectType = model.ObjectType;
         Comment = model.Comment;
@@ -69,8 +66,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         target.LoyaltyProgramId = LoyaltyProgramId;
         target.CustomerId = CustomerId;
         target.OperationType = OperationType;
-        target.AccruedPoints = AccruedPoints;
-        target.Date = Date;
+        target.Points = Points;
         target.ObjectId = ObjectId;
         target.ObjectType = ObjectType;
         target.Comment = Comment;
@@ -90,7 +86,7 @@ public class TransactionLogEntity : AuditableEntity, IDataEntity<TransactionLogE
         model.LoyaltyProgramId = LoyaltyProgramId;
         model.CustomerId = CustomerId;
         model.OperationType = OperationType;
-        model.Points = AccruedPoints;
+        model.Points = Points;
         model.ObjectId = ObjectId;
         model.ObjectType = ObjectType;
         model.Comment = Comment;
