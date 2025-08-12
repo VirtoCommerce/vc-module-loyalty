@@ -1,0 +1,42 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Loyalty programs",
+        "labels": {
+          "name": "Name",
+          "is-active": "Is active",
+          "last-modified": "Last modified"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Loyalty program details",
+        "new-program": "New loyalty program",
+        "labels": {
+          "name": "Name",
+          "description": "Description",
+          "is-active": "Is active",
+          "priority": "Priority",
+          "start-date": "Start date",
+          "end-date": "End date",
+          "loyalty-program": "Loyalty program"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Open Loyalty menu",
+    "loyalty:create": "Create Loyalty related data",
+    "loyalty:read": "View Loyalty related data",
+    "loyalty:update": "Update Loyalty related data",
+    "loyalty:delete": "Delete Loyalty related data"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enabled": {
+        "title": "Loyalty Enabled",
+        "description": "Loyalty Enabled setting"
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using VirtoCommerce.CoreModule.Core.Conditions;
+using VirtoCommerce.Loyalty.Core;
+using VirtoCommerce.Loyalty.Core.Models;
+using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.MySql;
+using VirtoCommerce.Loyalty.Data.PostgreSql;
+using VirtoCommerce.Loyalty.Data.Repositories;
+using VirtoCommerce.Loyalty.Data.Services;
+using VirtoCommerce.Loyalty.Data.SqlServer;
+using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Core.Modularity;
+using VirtoCommerce.Platform.Core.Security;
+using VirtoCommerce.Platform.Core.Settings;
+using VirtoCommerce.Platform.Data.MySql.Extensions;
+using VirtoCommerce.Platform.Data.PostgreSql.Extensions;
+using VirtoCommerce.Platform.Data.SqlServer.Extensions;
+
+namespace VirtoCommerce.Loyalty.Web;
+
+public class Module : IModule, IHasConfiguration
+{
+    public ManifestModuleInfo ModuleInfo { get; set; }
+    public IConfiguration Configuration { get; set; }
+
+    public void Initialize(IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddDbContext<LoyaltyDbContext>(options =>
+        {
+            var databaseProvider = Configuration.GetValue("DatabaseProvider", "SqlServer");
+            var connectionString = Configuration.GetConnectionString(ModuleInfo.Id) ?? Configuration.GetConnectionString("VirtoCommerce");
+
+            switch (databaseProvider)
+            {
+                case "MySql":
+                    options.UseMySqlDatabase(connectionString, typeof(MySqlDataAssemblyMarker), Configuration);
+                    break;
+                case "PostgreSql":
+                    options.UsePostgreSqlDatabase(connectionString, typeof(PostgreSqlDataAssemblyMarker), Configuration);
+                    break;
+                default:
+                    options.UseSqlServerDatabase(connectionString, typeof(SqlServerDataAssemblyMarker), Configuration);
+                    break;
+            }
+        });
+
+        // Register services
+        serviceCollection.AddTransient<ILoyaltyRepository, LoyaltyRepository>();
+        serviceCollection.AddSingleton<Func<ILoyaltyRepository>>(provider => () => provider.CreateScope().ServiceProvider.GetRequiredService<ILoyaltyRepository>());
+
+        serviceCollection.AddTransient<ILoyaltyProgramService, LoyaltyProgramService>();
+        serviceCollection.AddTransient<ILoyaltyProgramSearchService, LoyaltyProgramSearchService>();
+    }
+
+    public void PostInitialize(IApplicationBuilder appBuilder)
+    {
+        var serviceProvider = appBuilder.ApplicationServices;
+
+        // Register settings
+        var settingsRegistrar = serviceProvider.GetRequiredService<ISettingsRegistrar>();
+        settingsRegistrar.RegisterSettings(ModuleConstants.Settings.AllSettings, ModuleInfo.Id);
+
+        // Register permissions
+        var permissionsRegistrar = serviceProvider.GetRequiredService<IPermissionsRegistrar>();
+        permissionsRegistrar.RegisterPermissions(ModuleInfo.Id, "Loyalty", ModuleConstants.Security.Permissions.AllPermissions);
+
+        // Apply migrations
+        using var serviceScope = serviceProvider.CreateScope();
+        using var dbContext = serviceScope.ServiceProvider.GetRequiredService<LoyaltyDbContext>();
+        dbContext.Database.Migrate();
+
+        foreach (var conditionTree in AbstractTypeFactory<LoyaltyProgramConditionAndRewardTreePrototype>.TryCreateInstance().Traverse<IConditionTree>(x => x.AvailableChildren))
+        {
+            AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
+        }
+    }
+
+    public void Uninstall()
+    {
+        // Nothing to do here
+    }
+}
