@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Options;
-using VirtoCommerce.Platform.Core.Caching;
-using VirtoCommerce.Platform.Core.Common;
-using VirtoCommerce.Platform.Core.GenericCrud;
-using VirtoCommerce.Platform.Data.GenericCrud;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Models;
 using VirtoCommerce.Loyalty.Data.Repositories;
+using VirtoCommerce.Platform.Core.Caching;
+using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Core.GenericCrud;
+using VirtoCommerce.Platform.Data.GenericCrud;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
@@ -25,6 +25,23 @@ public class LoyaltyProgramSearchService(
     protected override IQueryable<LoyaltyProgramEntity> BuildQuery(IRepository repository, LoyaltyProgramSearchCriteria criteria)
     {
         var query = ((ILoyaltyRepository)repository).LoyaltyPrograms;
+
+        if (criteria.OnlyActive)
+        {
+            var now = DateTime.UtcNow;
+            query = query.Where(x => x.IsActive && (x.StartDate == null || x.StartDate <= now) && (x.EndDate == null || x.EndDate >= now));
+        }
+
+        if (!criteria.Keyword.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.Name.Contains(criteria.Keyword));
+        }
+
+        if (!criteria.StoreIds.IsNullOrEmpty())
+        {
+            query = query.Where(x => criteria.StoreIds.Contains(x.StoreId));
+        }
+
         return query;
     }
 

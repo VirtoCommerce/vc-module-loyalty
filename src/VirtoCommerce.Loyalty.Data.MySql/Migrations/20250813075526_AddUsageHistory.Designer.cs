@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtoCommerce.Loyalty.Data.Repositories;
 
@@ -11,9 +12,11 @@ using VirtoCommerce.Loyalty.Data.Repositories;
 namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 {
     [DbContext(typeof(LoyaltyDbContext))]
-    partial class LoyaltyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250813075526_AddUsageHistory")]
+    partial class AddUsageHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,8 +82,7 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<decimal>("Balance")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
@@ -101,31 +103,23 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("OrderId")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.Property<decimal>("Points")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("UsageType")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LoyaltyProgramId");
-
-                    b.HasIndex("OrderId", "UsageType")
-                        .IsUnique()
-                        .HasDatabaseName("IX_LoyaltyProgramUsageOrder_Unique");
 
                     b.ToTable("LoyaltyProgramUsage", (string)null);
                 });

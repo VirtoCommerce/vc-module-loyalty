@@ -43,7 +43,6 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
 
         if (PredicateVisualTreeSerialized != null)
         {
-            //model.DynamicExpression = JsonConvert.DeserializeObject<LoyaltyProgramConditionAndRewardTree>(PredicateVisualTreeSerialized, new ConditionJsonConverter(), new PolymorphJsonConverter());
             model.DynamicExpression = JsonConvert.DeserializeObject<LoyaltyProgramConditionAndRewardTree>(PredicateVisualTreeSerialized, new ConditionJsonConverter());
         }
 

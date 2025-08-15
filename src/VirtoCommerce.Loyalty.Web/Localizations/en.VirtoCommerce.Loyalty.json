@@ -17,9 +17,13 @@
           "description": "Description",
           "is-active": "Is active",
           "priority": "Priority",
+          "store": "Store",
           "start-date": "Start date",
           "end-date": "End date",
           "loyalty-program": "Loyalty program"
+        },
+        "placeholders": {
+          "store": "Select store"
         }
       }
     }

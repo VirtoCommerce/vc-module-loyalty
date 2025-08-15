@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using VirtoCommerce.Loyalty.Data.Models;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Domain;
 using VirtoCommerce.Platform.Data.Infrastructure;
-using VirtoCommerce.Loyalty.Data.Models;
 
 namespace VirtoCommerce.Loyalty.Data.Repositories;
 
@@ -14,6 +14,7 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
         ILoyaltyRepository
 {
     public IQueryable<LoyaltyProgramEntity> LoyaltyPrograms => DbContext.Set<LoyaltyProgramEntity>();
+    public IQueryable<LoyaltyProgramUsageEntity> LoyaltyProgramUsages => DbContext.Set<LoyaltyProgramUsageEntity>();
 
     public virtual async Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids, string responseGroup)
     {
@@ -25,5 +26,17 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
         return ids.Count == 1
             ? await LoyaltyPrograms.Where(x => x.Id == ids.First()).ToListAsync()
             : await LoyaltyPrograms.Where(x => ids.Contains(x.Id)).ToListAsync();
+    }
+
+    public virtual async Task<IList<LoyaltyProgramUsageEntity>> GetLoyaltyProgramUsageByIdsAsync(IList<string> ids, string responseGroup)
+    {
+        if (ids.IsNullOrEmpty())
+        {
+            return [];
+        }
+
+        return ids.Count == 1
+            ? await LoyaltyProgramUsages.Where(x => x.Id == ids.First()).ToListAsync()
+            : await LoyaltyProgramUsages.Where(x => ids.Contains(x.Id)).ToListAsync();
     }
 }

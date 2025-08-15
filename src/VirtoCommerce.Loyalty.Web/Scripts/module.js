@@ -62,6 +62,12 @@ angular.module(moduleName, [])
                     valueType: "ShortText"
                 },
                 {
+                    name: 'storeId',
+                    colSpan: 6,
+                    title: "Loyalty.blades.loyalty-program-details.labels.store",
+                    templateUrl: 'loyaltyStoreSelector.html'
+                },
+                {
                     name: 'startDate',
                     title: "Loyalty.blades.loyalty-program-details.labels.start-date",
                     colSpan: 3,

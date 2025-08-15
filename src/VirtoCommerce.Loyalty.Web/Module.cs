@@ -7,12 +7,15 @@ using VirtoCommerce.CoreModule.Core.Conditions;
 using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.Handlers;
 using VirtoCommerce.Loyalty.Data.MySql;
 using VirtoCommerce.Loyalty.Data.PostgreSql;
 using VirtoCommerce.Loyalty.Data.Repositories;
 using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
+using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
@@ -54,6 +57,12 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyProgramService, LoyaltyProgramService>();
         serviceCollection.AddTransient<ILoyaltyProgramSearchService, LoyaltyProgramSearchService>();
+
+        serviceCollection.AddTransient<ILoyaltyProgramUsageService, LoyaltyProgramUsageService>();
+        serviceCollection.AddTransient<ILoyaltyProgramUsageSearchService, LoyaltyProgramUsageSearchService>();
+
+        serviceCollection.AddTransient<ILoyaltyLogicService, LoyaltyLogicService>();
+        serviceCollection.AddTransient<LoyaltyProgramOrderHandler>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
@@ -77,6 +86,8 @@ public class Module : IModule, IHasConfiguration
         {
             AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
         }
+
+        appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramOrderHandler>();
     }
 
     public void Uninstall()

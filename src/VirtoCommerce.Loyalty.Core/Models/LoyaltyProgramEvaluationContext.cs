@@ -8,12 +8,12 @@ namespace VirtoCommerce.Loyalty.Core.Models;
 public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
 {
     public string StoreId { get; set; }
-    public string Currency { get; set; }
+    public string CurrencyCode { get; set; }
     public string UserId { get; set; }
-
     public bool IsFirstOrder { get; set; }
     public bool IsRegistration { get; set; }
     public bool IsRecurringOrder { get; set; }
+    public string OrderId { get; set; }
     public string OrderStatus { get; set; }
     public decimal OrderTotal { get; set; }
 
@@ -29,10 +29,14 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
     public virtual IEnumerable<object> GetCacheKeyComponents()
     {
         yield return StoreId;
-        yield return Currency;
+        yield return CurrencyCode;
         yield return UserId;
         yield return IsFirstOrder;
-        // todo: other properties
+        yield return IsRegistration;
+        yield return IsRecurringOrder;
+        yield return OrderId;
+        yield return OrderStatus;
+        yield return OrderTotal;
 
         yield return Language;
 
