@@ -30,7 +30,7 @@ public class LoyaltyProgramOrderHandler : IEventHandler<OrderChangedEvent>
         var loyaltyContexts = message.ChangedEntries
             .Where(x => (x.EntryState == EntryState.Added || x.EntryState == EntryState.Modified) && x.NewEntry.IsPrototype == false)
             .OrderBy(x => x.NewEntry.ModifiedDate)
-            .Select(x => CreateLoyaltyContext(x.NewEntry))
+            .Select(x => CreateLoyaltyContextByOrder(x.NewEntry))
             .ToList();
 
         if (loyaltyContexts.Count > 0)
@@ -84,10 +84,17 @@ public class LoyaltyProgramOrderHandler : IEventHandler<OrderChangedEvent>
         }
     }
 
-    private static LoyaltyProgramEvaluationContext CreateLoyaltyContext(CustomerOrder order)
+    private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByOrder(CustomerOrder order)
     {
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
         context.OrderId = order.Id;
+        return context;
+    }
+
+    private static LoyaltyProgramEvaluationContext CreateLoyaltyContextForRegistration(CustomerOrder order)
+    {
+        var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        context.IsRegistration = true;
         return context;
     }
 }

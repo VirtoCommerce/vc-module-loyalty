@@ -5,8 +5,6 @@ namespace VirtoCommerce.Loyalty.Core.Models.Rewards;
 
 public class LoyaltyReward : ValueObject
 {
-    public string LoyaltyProgramId { get; set; }
-
     public LoyaltyProgram LoyaltyProgram { get; set; }
 
     public RewardAmountType AmountType { get; set; }

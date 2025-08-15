@@ -7,6 +7,7 @@ using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Models.Rewards;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.OrdersModule.Core.Model;
+using VirtoCommerce.OrdersModule.Core.Model.Search;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 
@@ -45,6 +46,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         var criteria = AbstractTypeFactory<LoyaltyProgramSearchCriteria>.TryCreateInstance();
         criteria.StoreIds = storeIds;
         criteria.OnlyActive = true;
+        criteria.Sort = "priority:desc";
 
         await foreach (var searchResult in _loyaltyProgramSearchService.SearchBatchesNoCloneAsync(criteria))
         {
@@ -53,6 +55,18 @@ public class LoyaltyLogicService : ILoyaltyLogicService
                 yield return loyaltyProgram;
             }
         }
+    }
+
+    public async Task<LoyaltyProgram> GetActiveLoyaltyProgramAsync(string storeId)
+    {
+        var criteria = AbstractTypeFactory<LoyaltyProgramSearchCriteria>.TryCreateInstance();
+        criteria.StoreId = storeId;
+        criteria.OnlyActive = true;
+        criteria.Sort = "priority:desc";
+        criteria.Take = 1;
+
+        var searchResult = await _loyaltyProgramSearchService.SearchNoCloneAsync(criteria);
+        return searchResult.Results?.FirstOrDefault();
     }
 
     public async Task<decimal> GetUserBalanceAsync(string userId)
@@ -89,9 +103,19 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         return result;
     }
 
-    public async Task PopulateLoyaltyProgramEvaluationContext(LoyaltyProgramEvaluationContext context)
+    public async Task PopulateLoyaltyProgramEvaluationContextAsync(LoyaltyProgramEvaluationContext context)
     {
-        var order = await _customerOrderService.GetNoCloneAsync(context.OrderId, CustomerOrderResponseGroup.Default.ToString());
+        if (!context.OrderId.IsNullOrEmpty())
+        {
+            await PopulateLoyaltyProgramEvaluationContextByOrderAsync(context.OrderId, context);
+        }
+
+        context.UserGroups = await GetUserGroups(context.UserId);
+    }
+
+    private async Task PopulateLoyaltyProgramEvaluationContextByOrderAsync(string orderId, LoyaltyProgramEvaluationContext context)
+    {
+        var order = await _customerOrderService.GetNoCloneAsync(orderId, CustomerOrderResponseGroup.WithPrices.ToString());
 
         if (order == null)
         {
@@ -102,44 +126,85 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         context.CurrencyCode = order.Currency;
         context.StoreId = order.StoreId;
         context.UserId = order.CustomerId;
-        context.UserGroups = await GetUserGroups(context.UserId);
 
         context.OrderStatus = order.Status;
         context.OrderTotal = order.Total;
 
-        context.IsRecurringOrder = order.SubscriptionId != null; // ???
-        //context.IsFirstOrder = 
-        //context.IsRegistration =
+        context.IsRecurringOrder = order.SubscriptionId != null;
+        context.IsFirstOrder = await EvaluateIsFirstOrder(context);
+    }
+
+    private async Task<bool> EvaluateIsFirstOrder(LoyaltyProgramEvaluationContext context)
+    {
+        var ordersCount = await _customerOrderSearchService.SearchNoCloneAsync(new CustomerOrderSearchCriteria
+        {
+            CustomerId = context.UserId,
+            StoreIds = [context.StoreId],
+            WithPrototypes = false,
+            Take = 0,
+            Skip = 0,
+        });
+
+        return ordersCount.TotalCount == 1;
     }
 
     public async Task<LoyaltyProgramsEvaluationResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext)
     {
         var allRewards = new List<LoyaltyReward>();
 
-        await PopulateLoyaltyProgramEvaluationContext(loyaltyContext);
+        await PopulateLoyaltyProgramEvaluationContextAsync(loyaltyContext);
+
+        var maxPriority = 0;
 
         await foreach (var loyaltyProgram in GetActiveLoyaltyProgramsAsync([loyaltyContext.StoreId]))
         {
             var isSatisfied = loyaltyProgram.DynamicExpression.IsSatisfiedBy(loyaltyContext);
-            if (isSatisfied)
+            if (!isSatisfied)
             {
-                var programRewards = loyaltyProgram.DynamicExpression.GetLoyaltyRewards();
+                continue;
+            }
 
-                foreach (var reward in programRewards)
-                {
-                    reward.LoyaltyProgramId = loyaltyProgram.Id;
-                }
+            var programRewards = loyaltyProgram.DynamicExpression.GetLoyaltyRewards();
 
-                allRewards.AddRange(programRewards);
+            foreach (var reward in programRewards)
+            {
+                reward.LoyaltyProgram = loyaltyProgram;
+            }
+
+            allRewards.AddRange(programRewards);
+
+            if (loyaltyProgram.Priority > maxPriority)
+            {
+                maxPriority = loyaltyProgram.Priority;
             }
         }
 
-        var bestLoyaltyReward = allRewards
-            .Select(x => new LoyaltyProgramsEvaluationResult { Reward = x, ActualRewardAmount = x.GetActualRewardAmount(loyaltyContext.OrderTotal) })
+        if (allRewards.Count == 0)
+        {
+            return null;
+        }
+
+        var maxPriotiryLoyaltyProgramIds = allRewards
+            .Where(x => x.LoyaltyProgram.Priority == maxPriority)
+            .Select(x => x.LoyaltyProgram.Id)
+            .Distinct()
+            .ToArray();
+
+        var summedRewardsByProgramId = allRewards
+            .GroupBy(x => x.LoyaltyProgram.Id)
+            .Select(x => new LoyaltyProgramsEvaluationResult
+            {
+                LoyaltyProgramId = x.Key,
+                ActualRewardAmount = x.Sum(x => x.GetActualRewardAmount(loyaltyContext.OrderTotal))
+            })
+            .ToArray();
+
+        var maxReward = summedRewardsByProgramId
+            .Where(x => maxPriotiryLoyaltyProgramIds.Contains(x.LoyaltyProgramId))
             .OrderByDescending(x => x.ActualRewardAmount)
             .FirstOrDefault();
 
-        return bestLoyaltyReward;
+        return maxReward;
     }
 
     public async Task LogLoyaltyUsageAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult)
@@ -154,7 +219,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         var usage = AbstractTypeFactory<LoyaltyProgramUsage>.TryCreateInstance();
         usage.UserId = loyaltyContext.UserId;
         usage.OrderId = loyaltyContext.OrderId;
-        usage.LoyaltyProgramId = loyaltyResult.Reward.LoyaltyProgramId;
+        usage.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
         usage.UsageType = ModuleConstants.LoyaltyPrograms.AwardedUsageType; // Assuming "Awarded" is the usage type for rewards
         usage.Points = loyaltyResult.ActualRewardAmount;
         usage.Balance = balance += loyaltyResult.ActualRewardAmount;
