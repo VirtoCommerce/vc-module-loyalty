@@ -25,6 +25,28 @@
         "placeholders": {
           "store": "Select store"
         }
+      },
+      "loyalty-program-customer-usage-list": {
+        "title": "Loyalty program customers",
+        "commands": {
+          "open-order": "Open order",
+          "open-loyalty-program": "Open program"
+        },
+        "labels": {
+          "loyalty-points": "Loyalty points",
+          "usage-type": "Type",
+          "usage-type-awarded": "Awarded",
+          "usage-type-redeemed": "Redeemed",
+          "order-number": "Order number",
+          "points": "Points",
+          "balance": "Balance",
+          "created-date": "Created"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Loyalty"
       }
     }
   },

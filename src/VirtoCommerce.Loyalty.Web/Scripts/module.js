@@ -28,8 +28,13 @@ angular.module(moduleName, [])
                 });
         }
     ])
-    .run(['$state', 'platformWebApp.mainMenuService', 'platformWebApp.dynamicTemplateService', 'virtoCommerce.coreModule.common.dynamicExpressionService', 'platformWebApp.metaFormsService',
-        function ($state, mainMenuService, dynamicTemplateService, dynamicExpressionService, metaFormsService) {
+    .run(['$state',
+        'platformWebApp.mainMenuService',
+        'platformWebApp.dynamicTemplateService',
+        'virtoCommerce.coreModule.common.dynamicExpressionService',
+        'platformWebApp.metaFormsService',
+        'platformWebApp.widgetService',
+        function ($state, mainMenuService, dynamicTemplateService, dynamicExpressionService, metaFormsService, widgetService) {
             // Register module in main menu
             var menuItem = {
                 path: 'browse/loyalty',
@@ -40,6 +45,18 @@ angular.module(moduleName, [])
                 permission: 'loyalty:access',
             };
             mainMenuService.addMenuItem(menuItem);
+
+            // widgets
+            var customerLoyaltyWidget = {
+                controller: 'VirtoCommerce.Loyalty.customerLoyaltyWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/customer-loyalty-widget.html',
+                size: [2, 1],
+                isVisible: function (blade) {
+                    return !blade.isNew;
+                }
+            };
+
+            widgetService.registerWidget(customerLoyaltyWidget, 'customerDetail1');
 
             // Register meta fields
             metaFormsService.registerMetaFields("loyaltyProgramDetail", [

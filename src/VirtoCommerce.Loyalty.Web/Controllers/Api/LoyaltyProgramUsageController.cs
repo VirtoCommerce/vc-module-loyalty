@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
@@ -12,8 +11,8 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 [Authorize]
 [Route("api/loyalty-program-usages")]
 public class LoyaltyProgramUsageController(
-    ILoyaltyProgramUsageService crudService,
-    ILoyaltyProgramUsageSearchService searchService)
+    ILoyaltyProgramUsageSearchService searchService,
+    ILoyaltyLogicService loyaltyLogicService)
     : Controller
 {
     [HttpPost("search")]
@@ -24,36 +23,15 @@ public class LoyaltyProgramUsageController(
         return Ok(result);
     }
 
-    [HttpPost]
-    [Authorize(Permissions.Create)]
-    public Task<ActionResult<LoyaltyProgramUsage>> Create([FromBody] LoyaltyProgramUsage model)
-    {
-        model.Id = null;
-        return Update(model);
-    }
-
-    [HttpPut]
-    [Authorize(Permissions.Update)]
-    public async Task<ActionResult<LoyaltyProgramUsage>> Update([FromBody] LoyaltyProgramUsage model)
-    {
-        await crudService.SaveChangesAsync([model]);
-        return Ok(model);
-    }
-
-    [HttpGet("{id}")]
+    [HttpGet("balance/{userId}")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyProgramUsage>> Get([FromRoute] string id, [FromQuery] string responseGroup = null)
+    public async Task<ActionResult<LoyaltyProgramUsage>> GetBalance([FromRoute] string userId)
     {
-        var model = await crudService.GetNoCloneAsync(id, responseGroup);
-        return Ok(model);
-    }
+        var balance = await loyaltyLogicService.GetUserBalanceAsync(userId);
 
-    [HttpDelete]
-    [Authorize(Permissions.Delete)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> Delete([FromQuery] string[] ids)
-    {
-        await crudService.DeleteAsync(ids);
-        return NoContent();
+        return Ok(new
+        {
+            Balance = balance
+        });
     }
 }

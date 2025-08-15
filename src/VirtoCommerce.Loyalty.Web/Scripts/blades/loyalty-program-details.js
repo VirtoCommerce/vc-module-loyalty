@@ -1,9 +1,8 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramDetailsController',
-        ['$scope', '$q', 'platformWebApp.bladeNavigationService', 'VirtoCommerce.Loyalty.webApi', 'virtoCommerce.storeModule.stores',
-            'virtoCommerce.coreModule.common.dynamicExpressionService', 'virtoCommerce.catalogModule.categories', 'virtoCommerce.catalogModule.items',
-            'platformWebApp.settings', 'platformWebApp.metaFormsService', 'virtoCommerce.shippingModule.shippingMethods', 'virtoCommerce.paymentModule.paymentMethods',
-            function ($scope, $q, bladeNavigationService, webApi, stores, dynamicExpressionService, categories, items, settings, metaFormsService, shippingMethods, paymentMethods) {
+        ['$scope', '$q', 'platformWebApp.bladeNavigationService', 'VirtoCommerce.Loyalty.loyaltyPrograms', 'virtoCommerce.storeModule.stores',
+            'virtoCommerce.coreModule.common.dynamicExpressionService', 'platformWebApp.metaFormsService',
+            function ($scope, $q, bladeNavigationService, loyaltyPrograms, stores, dynamicExpressionService, metaFormsService) {
                 var blade = $scope.blade;
                 blade.headIcon = 'fa fa-area-chart'; // find better icon  
                 blade.updatePermission = 'loyalty:update';
@@ -12,10 +11,10 @@ angular.module('VirtoCommerce.Loyalty')
 
                 blade.refresh = function (parentRefresh) {
                     if (blade.isNew) {
-                        webApi.getNew(initializeBlade);
+                        loyaltyPrograms.getNew(initializeBlade);
                     }
                     else {
-                        webApi.get({ id: blade.currentEntityId }, initializeBlade);
+                        loyaltyPrograms.get({ id: blade.currentEntityId }, initializeBlade);
 
                         if (parentRefresh && angular.isFunction(blade.parentBlade.refresh)) {
                             blade.parentBlade.refresh(true);
@@ -30,8 +29,14 @@ angular.module('VirtoCommerce.Loyalty')
 
                     blade.currentEntity = angular.copy(data);
                     blade.originalEntity = data;
+
+                    if (blade.currentEntity.name) {
+                        blade.title = blade.currentEntity.name;
+                    }
+
                     blade.isLoading = false;
                 }
+
                 $scope.saveChanges = function () {
                     bladeNavigationService.setError(null, blade);
                     blade.isLoading = true;
@@ -41,7 +46,7 @@ angular.module('VirtoCommerce.Loyalty')
                     }
 
                     if (blade.isNew) {
-                        webApi.save({}, blade.currentEntity, function (data) {
+                        loyaltyPrograms.save({}, blade.currentEntity, function (data) {
                             blade.isNew = false;
                             blade.currentEntity = data;
                             blade.currentEntityId = data.id;
@@ -49,7 +54,7 @@ angular.module('VirtoCommerce.Loyalty')
                             blade.refresh(true);
                         });
                     } else {
-                        webApi.update({}, blade.currentEntity, function (data) {
+                        loyaltyPrograms.update({}, blade.currentEntity, function (data) {
                             blade.refresh(true);
                         });
                     }

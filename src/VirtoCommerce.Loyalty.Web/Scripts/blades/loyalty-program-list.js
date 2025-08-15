@@ -1,7 +1,8 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramListController', [
-        '$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension', 'VirtoCommerce.Loyalty.webApi',
-        function ($scope, dialogService, bladeUtils, uiGridHelper, gridOptionExtension, webApi) {
+        '$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
+        'VirtoCommerce.Loyalty.loyaltyPrograms',
+        function ($scope, dialogService, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyPrograms) {
             var blade = $scope.blade;
             var bladeNavigationService = bladeUtils.bladeNavigationService;
 
@@ -22,7 +23,7 @@ angular.module('VirtoCommerce.Loyalty')
                     angular.extend(criteria, filter.current);
                 }
 
-                webApi.search(criteria, function (data) {
+                loyaltyPrograms.search(criteria, function (data) {
                     blade.isLoading = false;
 
                     $scope.pageSettings.totalItems = data.totalCount;
@@ -56,7 +57,7 @@ angular.module('VirtoCommerce.Loyalty')
                                 blade.isLoading = true;
 
                                 var itemIds = _.pluck(list, 'id');
-                                webApi.remove({ ids: itemIds }, function () {
+                                loyaltyPrograms.remove({ ids: itemIds }, function () {
                                     blade.refresh();
                                 });
                             });
