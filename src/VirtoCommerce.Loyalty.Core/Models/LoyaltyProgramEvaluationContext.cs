@@ -1,15 +1,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using VirtoCommerce.CoreModule.Core.Common;
+using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.Platform.Core.Caching;
+using VirtoCommerce.Platform.Core.Security;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
 
 public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
 {
+    public string ContextObjectType { get; set; }
+
+    public string ContextObjectId
+    {
+        get
+        {
+            return ContextObjectType switch
+            {
+                nameof(CustomerOrder) => OrderId,
+                nameof(ApplicationUser) => UserId,
+                _ => null,
+            };
+        }
+    }
+
+    public string UserId { get; set; }
     public string StoreId { get; set; }
     public string CurrencyCode { get; set; }
-    public string UserId { get; set; }
     public bool IsFirstOrder { get; set; }
     public bool IsRegistration { get; set; }
     public bool IsRecurringOrder { get; set; }

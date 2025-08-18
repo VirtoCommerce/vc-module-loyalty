@@ -24,8 +24,8 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
         }
 
         return ids.Count == 1
-            ? await LoyaltyPrograms.Where(x => x.Id == ids.First()).ToListAsync()
-            : await LoyaltyPrograms.Where(x => ids.Contains(x.Id)).ToListAsync();
+            ? await LoyaltyPrograms.Include(x => x.LocalizedNames).Where(x => x.Id == ids.First()).AsSplitQuery().ToListAsync()
+            : await LoyaltyPrograms.Include(x => x.LocalizedNames).Where(x => ids.Contains(x.Id)).AsSplitQuery().ToListAsync();
     }
 
     public virtual async Task<IList<LoyaltyProgramUsageEntity>> GetLoyaltyProgramUsageByIdsAsync(IList<string> ids, string responseGroup)

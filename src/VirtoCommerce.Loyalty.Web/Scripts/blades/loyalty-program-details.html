@@ -23,3 +23,15 @@
     <va-store-selector required ng-model="blade.currentEntity.storeId" placeholder="'Loyalty.blades.loyalty-program-details.placeholders.store'"></va-store-selector>
   </div>
 </script>
+
+<script type="text/ng-template" id="loyaltyLocalizedName.html">
+  <div class="vc-catalog form-input __langs" ng-repeat="language in blade.languages | limitTo: blade.showAllLanguages ? blade.languages.length : 2">
+    <label class="lang-code">{{language}}</label>
+    <input ng-model="blade.currentEntity.localizedName.values[language]" type="text" ng-maxlength="1024" placeholder="{{ 'Loyalty.blades.loyalty-program-details.placeholders.name' | translate }}" />
+  </div>
+  <div ng-if="blade.languages.length > 2">
+    <a href="" ng-click="blade.showAllLanguages = !blade.showAllLanguages">
+      {{ (blade.showAllLanguages ? 'Loyalty.blades.loyalty-program-details.labels.show-less-languages' : 'Loyalty.blades.loyalty-program-details.labels.show-more-languages') | translate }}
+    </a>
+  </div>
+</script>

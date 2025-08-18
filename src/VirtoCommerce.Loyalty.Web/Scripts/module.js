@@ -59,47 +59,58 @@ angular.module(moduleName, [])
             widgetService.registerWidget(customerLoyaltyWidget, 'customerDetail1');
 
             // Register meta fields
-            metaFormsService.registerMetaFields("loyaltyProgramDetail", [
+            metaFormsService.registerMetaFields('loyaltyProgramDetail', [
                 {
                     name: 'isActive',
-                    title: "Loyalty.blades.loyalty-program-details.labels.is-active",
+                    title: 'Loyalty.blades.loyalty-program-details.labels.is-active',
                     colSpan: 3,
-                    valueType: "Boolean"
+                    valueType: 'Boolean'
                 },
                 {
                     name: 'priority',
-                    title: "Loyalty.blades.loyalty-program-details.labels.priority",
+                    title: 'Loyalty.blades.loyalty-program-details.labels.priority',
                     colSpan: 3,
-                    valueType: "Integer"
+                    valueType: 'Integer'
                 },
                 {
                     name: 'name',
-                    title: "Loyalty.blades.loyalty-program-details.labels.name",
+                    title: 'Loyalty.blades.loyalty-program-details.labels.name',
+                    placeholder: 'Loyalty.blades.loyalty-program-details.placeholders.name',
                     colSpan: 6,
-                    valueType: "ShortText"
+                    valueType: 'ShortText',
+                    isRequired: true
+                },
+                {
+                    title: 'Loyalty.blades.loyalty-program-details.labels.localized-names',
+                    placeholder: 'Loyalty.blades.loyalty-program-details.placeholders.name',
+                    colSpan: 6,
+                    templateUrl: 'loyaltyLocalizedName.html'
                 },
                 {
                     name: 'storeId',
                     colSpan: 6,
-                    title: "Loyalty.blades.loyalty-program-details.labels.store",
+                    title: 'Loyalty.blades.loyalty-program-details.labels.store',
                     templateUrl: 'loyaltyStoreSelector.html'
                 },
                 {
                     name: 'startDate',
-                    title: "Loyalty.blades.loyalty-program-details.labels.start-date",
+                    title: 'Loyalty.blades.loyalty-program-details.labels.start-date',
                     colSpan: 3,
-                    valueType: "DateTime"
+                    valueType: 'DateTime'
                 },
                 {
                     name: 'endDate',
-                    title: "Loyalty.blades.loyalty-program-details.labels.end-date",
+                    title: 'Loyalty.blades.loyalty-program-details.labels.end-date',
                     colSpan: 3,
-                    valueType: "DateTime"
+                    valueType: 'DateTime'
                 },
             ]);
 
             // Register dynamic expression tree templates
             // Conditions
+            const order = 'Order conditions';
+            const special = 'Special conditions';
+
             dynamicExpressionService.registerExpression({
                 id: 'BlockLoyaltyCondition',
                 newChildLabel: 'Add condition',
@@ -109,26 +120,31 @@ angular.module(moduleName, [])
             });
 
             dynamicExpressionService.registerExpression({
+                groupName: order,
                 id: 'OrderStatusCondition',
                 displayName: 'Order status is...',
             });
 
             dynamicExpressionService.registerExpression({
+                groupName: order,
                 id: 'OrderTotalCondition',
                 displayName: 'Order total is...',
             });
 
             dynamicExpressionService.registerExpression({
+                groupName: order,
                 id: 'IsFirstOrderCondition',
                 displayName: 'Is first order',
             });
 
             dynamicExpressionService.registerExpression({
+                groupName: order,
                 id: 'IsRecurringOrderCondition',
                 displayName: 'Is recurring order',
             });
 
             dynamicExpressionService.registerExpression({
+                groupName: special,
                 id: 'IsRegistrationCondition',
                 displayName: 'Registration',
             });
@@ -144,12 +160,12 @@ angular.module(moduleName, [])
 
             dynamicExpressionService.registerExpression({
                 id: 'FixedPointsReward',
-                displayName: 'earn fixed amount of points per order',
+                displayName: 'Earn fixed amount of points per order',
             });
 
             dynamicExpressionService.registerExpression({
                 id: 'RelativeOrderValueReward',
-                displayName: 'earn % of order value as points',
+                displayName: 'Earn % of order value as points',
             });
 
             dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/dynamicConditions/templates.html');

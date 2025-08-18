@@ -1,13 +1,15 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramDetailsController',
-        ['$scope', '$q', 'platformWebApp.bladeNavigationService', 'VirtoCommerce.Loyalty.loyaltyPrograms', 'virtoCommerce.storeModule.stores',
-            'virtoCommerce.coreModule.common.dynamicExpressionService', 'platformWebApp.metaFormsService',
-            function ($scope, $q, bladeNavigationService, loyaltyPrograms, stores, dynamicExpressionService, metaFormsService) {
+        ['$scope', 'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'platformWebApp.metaFormsService',
+            'VirtoCommerce.Loyalty.loyaltyPrograms', 'virtoCommerce.storeModule.stores', 'virtoCommerce.coreModule.common.dynamicExpressionService',
+            function ($scope, bladeNavigationService, settings, metaFormsService, loyaltyPrograms, stores, dynamicExpressionService) {
                 var blade = $scope.blade;
                 blade.headIcon = 'fa fa-area-chart'; // find better icon  
                 blade.updatePermission = 'loyalty:update';
                 blade.metaFields = metaFormsService.getMetaFields("loyaltyProgramDetail");
                 blade.expressionTreeTemplateUrl = dynamicExpressionService.expressionTreeTemplateUrl;
+                var languagesPromise = settings.getValues({ id: 'VirtoCommerce.Core.General.Languages' }).$promise;
+                blade.languages = [];
 
                 blade.refresh = function (parentRefresh) {
                     if (blade.isNew) {
@@ -25,6 +27,7 @@ angular.module('VirtoCommerce.Loyalty')
                 function initializeBlade(data) {
                     if (data.dynamicExpression) {
                         _.each(data.dynamicExpression.children, extendElementBlock);
+                        groupAvailableChildren(data.dynamicExpression.children[0]);
                     }
 
                     blade.currentEntity = angular.copy(data);
@@ -33,6 +36,10 @@ angular.module('VirtoCommerce.Loyalty')
                     if (blade.currentEntity.name) {
                         blade.title = blade.currentEntity.name;
                     }
+
+                    languagesPromise.then(function (languagesData) {
+                        blade.languages = languagesData;
+                    });
 
                     blade.isLoading = false;
                 }
@@ -84,6 +91,16 @@ angular.module('VirtoCommerce.Loyalty')
                         closeCallback,
                         "Loyalty.dialogs.loyalty-program-save.title", "Loyalty.dialogs.loyalty-program-save.message");
                 };
+
+                function groupAvailableChildren(expressionBlock) {
+                    results = _.groupBy(expressionBlock.availableChildren, 'groupName');
+                    expressionBlock.availableChildren = _.map(results, function (items, key) {
+                        return {
+                            displayName: key,
+                            subitems: items
+                        };
+                    });
+                }
 
                 function initializeToolbar() {
                     blade.toolbarCommands = [{

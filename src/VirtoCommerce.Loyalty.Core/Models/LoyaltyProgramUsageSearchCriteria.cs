@@ -6,7 +6,7 @@ public class LoyaltyProgramUsageSearchCriteria : SearchCriteriaBase
 {
     public string UserId { get; set; }
 
-    public string OrderId { get; set; }
+    public string ObjectId { get; set; }
 
     public string LoyaltyProgramId { get; set; }
 

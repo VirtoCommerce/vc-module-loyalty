@@ -75,10 +75,11 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         return usage?.Balance ?? 0;
     }
 
-    public async Task<bool> IsOrderProcessedAsync(string orderId)
+    public async Task<bool> IsObjectProcessedAsync(string objectType, string objectId)
     {
         var criteria = AbstractTypeFactory<LoyaltyProgramUsageSearchCriteria>.TryCreateInstance();
-        criteria.OrderId = orderId;
+        criteria.ObjectType = objectType;
+        criteria.ObjectId = objectId;
         criteria.UsageType = ModuleConstants.LoyaltyPrograms.AwardedUsageType; // Assuming "Awarded" is the usage type for processed orders
         criteria.Take = 0;
 
@@ -87,16 +88,16 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         return searchResult.TotalCount > 0;
     }
 
-    public async Task<List<string>> FindProcessedOrderIdsAsync(string[] orderIds)
+    public async Task<List<string>> FindProcessedObjectIdsAsync(string objectType, string[] objectIds)
     {
         var result = new List<string>();
 
         // todo: rewrite to batch processing
-        foreach (var orderId in orderIds)
+        foreach (var objectId in objectIds)
         {
-            if (await IsOrderProcessedAsync(orderId))
+            if (await IsObjectProcessedAsync(objectType, objectId))
             {
-                result.Add(orderId);
+                result.Add(objectId);
             }
         }
 
@@ -105,12 +106,15 @@ public class LoyaltyLogicService : ILoyaltyLogicService
 
     public async Task PopulateLoyaltyProgramEvaluationContextAsync(LoyaltyProgramEvaluationContext context)
     {
-        if (!context.OrderId.IsNullOrEmpty())
+        if (context.ContextObjectType == nameof(CustomerOrder) && !context.OrderId.IsNullOrEmpty())
         {
             await PopulateLoyaltyProgramEvaluationContextByOrderAsync(context.OrderId, context);
         }
 
-        context.UserGroups = await GetUserGroups(context.UserId);
+        if (!context.UserId.IsNullOrEmpty())
+        {
+            context.UserGroups = await GetUserGroups(context.UserId);
+        }
     }
 
     private async Task PopulateLoyaltyProgramEvaluationContextByOrderAsync(string orderId, LoyaltyProgramEvaluationContext context)
@@ -209,7 +213,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
 
     public async Task LogLoyaltyUsageAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult)
     {
-        if (await IsOrderProcessedAsync(loyaltyContext.OrderId))
+        if (await IsObjectProcessedAsync(loyaltyContext.ContextObjectType, loyaltyContext.ContextObjectId))
         {
             return;
         }
@@ -217,8 +221,9 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         var balance = await GetUserBalanceAsync(loyaltyContext.UserId);
 
         var usage = AbstractTypeFactory<LoyaltyProgramUsage>.TryCreateInstance();
+        usage.ObjectType = loyaltyContext.ContextObjectType;
+        usage.ObjectId = loyaltyContext.ContextObjectId;
         usage.UserId = loyaltyContext.UserId;
-        usage.OrderId = loyaltyContext.OrderId;
         usage.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
         usage.UsageType = ModuleConstants.LoyaltyPrograms.AwardedUsageType; // Assuming "Awarded" is the usage type for rewards
         usage.Points = loyaltyResult.ActualRewardAmount;

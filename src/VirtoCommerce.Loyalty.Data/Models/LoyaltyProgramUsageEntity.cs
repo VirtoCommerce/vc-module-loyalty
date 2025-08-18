@@ -13,7 +13,11 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
 
     [Required]
     [StringLength(128)]
-    public string OrderId { get; set; }
+    public string ObjectId { get; set; }
+
+    [Required]
+    [StringLength(128)]
+    public string ObjectType { get; set; }
 
     /// <summary>
     /// Awarded or redeemed
@@ -40,7 +44,8 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
 
         model.UserId = UserId;
         model.LoyaltyProgramId = LoyaltyProgramId;
-        model.OrderId = OrderId;
+        model.ObjectId = ObjectId;
+        model.ObjectType = ObjectType;
         model.UsageType = UsageType;
         model.Points = Points;
         model.Balance = Balance;
@@ -60,7 +65,8 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
 
         UserId = model.UserId;
         LoyaltyProgramId = model.LoyaltyProgramId;
-        OrderId = model.OrderId;
+        ObjectId = model.ObjectId;
+        ObjectType = model.ObjectType;
         UsageType = model.UsageType;
         Points = model.Points;
         Balance = model.Balance;
@@ -70,11 +76,6 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
 
     public virtual void Patch(LoyaltyProgramUsageEntity target)
     {
-        target.UserId = UserId;
-        target.OrderId = OrderId;
-        target.UsageType = UsageType;
-        target.Points = Points;
-        target.Balance = Balance;
-        target.LoyaltyProgramId = LoyaltyProgramId;
+
     }
 }

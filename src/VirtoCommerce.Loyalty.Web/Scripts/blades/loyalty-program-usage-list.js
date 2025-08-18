@@ -14,14 +14,13 @@ angular.module('VirtoCommerce.Loyalty')
                 blade.isLoading = true;
 
                 var criteria = {
-                    //keyword: filter.keyword,
                     sort: uiGridHelper.getSortExpression($scope),
                     skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
                     take: $scope.pageSettings.itemsPerPageCount
                 };
 
-                if (filter.current) {
-                    angular.extend(criteria, filter.current);
+                if (blade.searchCriteria) {
+                    angular.extend(criteria, blade.searchCriteria);
                 }
 
                 loyaltyProgramUsages.search(criteria, function (data) {
@@ -61,23 +60,6 @@ angular.module('VirtoCommerce.Loyalty')
 
             $scope.openLoyaltyProgram = function (node) {
                 $scope.selectNode(node);
-            };
-
-            $scope.getUsageType = function (usageType) {
-                if (usageType === 'Awarded') {
-                    return '1';
-                }
-                else if (usageType === 'Redeemed') {
-                    return '2';
-                }
-            }
-
-            filter.criteriaChanged = function () {
-                if ($scope.pageSettings.currentPage > 1) {
-                    $scope.pageSettings.currentPage = 1;
-                } else {
-                    blade.refresh();
-                }
             };
 
             $scope.setGridOptions = function (gridId, gridOptions) {

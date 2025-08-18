@@ -14,16 +14,20 @@
         "new-program": "New loyalty program",
         "labels": {
           "name": "Name",
+          "localized-names": "Localized names",
           "description": "Description",
           "is-active": "Is active",
           "priority": "Priority",
           "store": "Store",
           "start-date": "Start date",
           "end-date": "End date",
-          "loyalty-program": "Loyalty program"
+          "loyalty-program": "Loyalty program",
+          "show-more-languages": "Show more languages",
+          "show-less-languages": "Show less languages"
         },
         "placeholders": {
-          "store": "Select store"
+          "store": "Select store",
+          "name": "Enter program name"
         }
       },
       "loyalty-program-customer-usage-list": {
@@ -47,6 +51,12 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Loyalty"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Delete loyalty program",
+        "message": "Are you sure you want to delete selected loyalty program?"
       }
     }
   },

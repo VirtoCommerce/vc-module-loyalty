@@ -1,5 +1,7 @@
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Newtonsoft.Json;
 using VirtoCommerce.CoreModule.Core.Conditions;
 using VirtoCommerce.Loyalty.Core.Models;
@@ -12,8 +14,12 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
 {
     public bool IsActive { get; set; }
 
+    [Required]
     [StringLength(256)]
     public string Name { get; set; }
+
+    public ObservableCollection<LoyaltyProgramLocalizedNameEntity> LocalizedNames { get; set; }
+        = new NullCollection<LoyaltyProgramLocalizedNameEntity>();
 
     [StringLength(128)]
     public string StoreId { get; set; }
@@ -46,6 +52,15 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
             model.DynamicExpression = JsonConvert.DeserializeObject<LoyaltyProgramConditionAndRewardTree>(PredicateVisualTreeSerialized, new ConditionJsonConverter());
         }
 
+        if (LocalizedNames != null)
+        {
+            model.LocalizedName = new LocalizedString();
+            foreach (var localizedName in LocalizedNames)
+            {
+                model.LocalizedName.SetValue(localizedName.LanguageCode, localizedName.Value);
+            }
+        }
+
         return model;
     }
 
@@ -71,6 +86,18 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
             PredicateVisualTreeSerialized = JsonConvert.SerializeObject(model.DynamicExpression, new ConditionJsonConverter(doNotSerializeAvailCondition: true));
         }
 
+        if (model.LocalizedName != null)
+        {
+            LocalizedNames = new ObservableCollection<LoyaltyProgramLocalizedNameEntity>(model.LocalizedName.Values
+                .Select(x =>
+                {
+                    var entity = AbstractTypeFactory<LoyaltyProgramLocalizedNameEntity>.TryCreateInstance();
+                    entity.LanguageCode = x.Key;
+                    entity.Value = x.Value;
+                    return entity;
+                }));
+        }
+
         return this;
     }
 
@@ -83,5 +110,11 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         target.EndDate = EndDate;
         target.Priority = Priority;
         target.PredicateVisualTreeSerialized = PredicateVisualTreeSerialized;
+
+        if (!LocalizedNames.IsNullCollection())
+        {
+            var localizedNameComparer = AnonymousComparer.Create((LoyaltyProgramLocalizedNameEntity x) => $"{x.Value}-{x.LanguageCode}");
+            LocalizedNames.Patch(target.LocalizedNames, localizedNameComparer, (sourceValue, targetValue) => { });
+        }
     }
 }

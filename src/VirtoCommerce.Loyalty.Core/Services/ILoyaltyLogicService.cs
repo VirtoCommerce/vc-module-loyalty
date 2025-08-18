@@ -6,13 +6,9 @@ namespace VirtoCommerce.Loyalty.Core.Services;
 
 public interface ILoyaltyLogicService
 {
-    IAsyncEnumerable<LoyaltyProgram> GetActiveLoyaltyProgramsAsync(string[] storeIds);
-
     Task<decimal> GetUserBalanceAsync(string userId);
 
-    Task<bool> IsOrderProcessedAsync(string orderId);
-
-    Task<List<string>> FindProcessedOrderIdsAsync(string[] orderIds);
+    Task<List<string>> FindProcessedObjectIdsAsync(string objectType, string[] objectIds);
 
     Task<LoyaltyProgramsEvaluationResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext context);
 

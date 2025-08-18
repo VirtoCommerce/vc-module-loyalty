@@ -12,8 +12,8 @@ using VirtoCommerce.Loyalty.Data.Repositories;
 namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 {
     [DbContext(typeof(LoyaltyDbContext))]
-    [Migration("20250814171052_AddIndex")]
-    partial class AddIndex
+    [Migration("20250818181136_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,7 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
@@ -74,6 +75,37 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.ToTable("LoyaltyProgram", (string)null);
                 });
 
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("LanguageCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("ParentEntityId")
+                        .IsRequired()
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentEntityId");
+
+                    b.HasIndex("LanguageCode", "ParentEntityId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
+
+                    b.ToTable("LoyaltyProgramLocalizedName", (string)null);
+                });
+
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUsageEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -82,7 +114,8 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
@@ -102,13 +135,19 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("OrderId")
+                    b.Property<string>("ObjectId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ObjectType")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.Property<decimal>("Points")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
 
                     b.Property<string>("UsageType")
                         .IsRequired()
@@ -124,11 +163,22 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 
                     b.HasIndex("LoyaltyProgramId");
 
-                    b.HasIndex("OrderId", "UsageType")
+                    b.HasIndex("ObjectId", "ObjectType", "UsageType")
                         .IsUnique()
-                        .HasDatabaseName("IX_LoyaltyProgramUsageOrder_Unique");
+                        .HasDatabaseName("IX_LoyaltyProgramUsage_ObjectId_ObjectType_UsageType");
 
                     b.ToTable("LoyaltyProgramUsage", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "ParentEntity")
+                        .WithMany("LocalizedNames")
+                        .HasForeignKey("ParentEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParentEntity");
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUsageEntity", b =>
@@ -139,6 +189,11 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("LoyaltyProgram");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
+                {
+                    b.Navigation("LocalizedNames");
                 });
 #pragma warning restore 612, 618
         }

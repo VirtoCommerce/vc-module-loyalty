@@ -8,9 +8,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.889.0" />
-    <PackageReference Include="VirtoCommerce.Platform.DistributedLock" Version="3.889.0" />
-    <PackageReference Include="VirtoCommerce.Platform.Hangfire" Version="3.889.0" />
+    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.895.0" />
+    <PackageReference Include="VirtoCommerce.Platform.DistributedLock" Version="3.895.0" />
+    <PackageReference Include="VirtoCommerce.Platform.Hangfire" Version="3.895.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VirtoCommerce.Loyalty.Core\VirtoCommerce.Loyalty.Core.csproj" />

@@ -9,7 +9,9 @@ public class LoyaltyProgramUsage : AuditableEntity, ICloneable
 
     public string LoyaltyProgramId { get; set; }
 
-    public string OrderId { get; set; }
+    public string ObjectId { get; set; }
+
+    public string ObjectType { get; set; }
 
     /// <summary>
     /// Awarded or redeemed

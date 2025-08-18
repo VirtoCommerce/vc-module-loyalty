@@ -9,6 +9,8 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public string Name { get; set; }
 
+    public LocalizedString LocalizedName { get; set; }
+
     public string StoreId { get; set; }
 
     public DateTime? StartDate { get; set; }
@@ -21,6 +23,11 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public object Clone()
     {
-        return MemberwiseClone();
+        var result = (LoyaltyProgram)MemberwiseClone();
+
+        result.LocalizedName = LocalizedName?.CloneTyped();
+        result.DynamicExpression = DynamicExpression?.CloneTyped();
+
+        return result;
     }
 }

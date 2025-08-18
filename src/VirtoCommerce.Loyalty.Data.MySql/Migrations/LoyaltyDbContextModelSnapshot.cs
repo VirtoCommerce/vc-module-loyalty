@@ -50,6 +50,7 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
@@ -69,6 +70,37 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LoyaltyProgram", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("LanguageCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("ParentEntityId")
+                        .IsRequired()
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentEntityId");
+
+                    b.HasIndex("LanguageCode", "ParentEntityId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
+
+                    b.ToTable("LoyaltyProgramLocalizedName", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUsageEntity", b =>
@@ -100,7 +132,12 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("OrderId")
+                    b.Property<string>("ObjectId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ObjectType")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
@@ -123,11 +160,22 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 
                     b.HasIndex("LoyaltyProgramId");
 
-                    b.HasIndex("OrderId", "UsageType")
+                    b.HasIndex("ObjectId", "ObjectType", "UsageType")
                         .IsUnique()
-                        .HasDatabaseName("IX_LoyaltyProgramUsageOrder_Unique");
+                        .HasDatabaseName("IX_LoyaltyProgramUsage_ObjectId_ObjectType_UsageType");
 
                     b.ToTable("LoyaltyProgramUsage", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "ParentEntity")
+                        .WithMany("LocalizedNames")
+                        .HasForeignKey("ParentEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParentEntity");
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUsageEntity", b =>
@@ -138,6 +186,11 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("LoyaltyProgram");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
+                {
+                    b.Navigation("LocalizedNames");
                 });
 #pragma warning restore 612, 618
         }

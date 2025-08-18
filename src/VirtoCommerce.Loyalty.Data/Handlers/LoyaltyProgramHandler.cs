@@ -8,16 +8,18 @@ using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Security;
+using VirtoCommerce.Platform.Core.Security.Events;
 using VirtoCommerce.Platform.DistributedLock;
 
 namespace VirtoCommerce.Loyalty.Data.Handlers;
 
-public class LoyaltyProgramOrderHandler : IEventHandler<OrderChangedEvent>
+public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHandler<UserChangedEvent>
 {
     private readonly ILoyaltyLogicService _loyaltyLogicService;
     private readonly IInternalDistributedLockService _distributedLockProvider;
 
-    public LoyaltyProgramOrderHandler(
+    public LoyaltyProgramHandler(
         ILoyaltyLogicService loyaltyLogicService,
         IInternalDistributedLockService distributedLockProvider)
     {
@@ -35,25 +37,40 @@ public class LoyaltyProgramOrderHandler : IEventHandler<OrderChangedEvent>
 
         if (loyaltyContexts.Count > 0)
         {
-            BackgroundJob.Enqueue(() => ProcessOrderAwardsAsync(loyaltyContexts));
+            BackgroundJob.Enqueue(() => ProcessAwardsAsync(loyaltyContexts, nameof(CustomerOrder)));
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public virtual Task Handle(UserChangedEvent message)
+    {
+        var loyaltyContexts = message.ChangedEntries
+            .Where(x => (x.EntryState == EntryState.Added))
+            .Select(x => CreateLoyaltyContextByUser(x.NewEntry))
+            .ToList();
+
+        if (loyaltyContexts.Count > 0)
+        {
+            BackgroundJob.Enqueue(() => ProcessAwardsAsync(loyaltyContexts, nameof(ApplicationUser)));
         }
 
         return Task.CompletedTask;
     }
 
     [DisableConcurrentExecution(10)]
-    public async Task ProcessOrderAwardsAsync(IList<LoyaltyProgramEvaluationContext> loyaltyContexts)
+    public async Task ProcessAwardsAsync(IList<LoyaltyProgramEvaluationContext> loyaltyContexts, string objectType)
     {
-        // disable context if order already processed by loyalty logic
-        var orderIds = loyaltyContexts
-            .Select(x => x.OrderId)
+        // disable context if object already processed by loyalty logic
+        var objectIds = loyaltyContexts
+            .Select(x => x.ContextObjectId)
             .Distinct()
             .ToArray();
 
-        var processedOrderIds = await _loyaltyLogicService.FindProcessedOrderIdsAsync(orderIds);
+        var processedObjectIds = await _loyaltyLogicService.FindProcessedObjectIdsAsync(objectType, objectIds);
 
         loyaltyContexts = loyaltyContexts
-            .Where(x => !processedOrderIds.Contains(x.OrderId))
+            .Where(x => !processedObjectIds.Contains(x.ContextObjectId))
             .ToList();
 
         if (loyaltyContexts.Count == 0)
@@ -71,11 +88,11 @@ public class LoyaltyProgramOrderHandler : IEventHandler<OrderChangedEvent>
                 continue;
             }
 
-            _distributedLockProvider.ExecuteSynchronized($"loyalty-usage:{context.OrderId}", async (x) =>
+            _distributedLockProvider.ExecuteSynchronized($"loyalty-usage:{context.ContextObjectType}:{context.ContextObjectId}", async (x) =>
             {
                 if (x == DistributedLockCondition.Delayed)
                 {
-                    // If the lock is delayed, we can skip processing this order
+                    // If the lock is delayed, we can skip processing this object
                     return;
                 }
 
@@ -87,13 +104,17 @@ public class LoyaltyProgramOrderHandler : IEventHandler<OrderChangedEvent>
     private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByOrder(CustomerOrder order)
     {
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        context.ContextObjectType = nameof(CustomerOrder);
         context.OrderId = order.Id;
         return context;
     }
 
-    private static LoyaltyProgramEvaluationContext CreateLoyaltyContextForRegistration(CustomerOrder order)
+    private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByUser(ApplicationUser user)
     {
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        context.ContextObjectType = nameof(ApplicationUser);
+        context.UserId = user.Id;
+        context.StoreId = user.StoreId;
         context.IsRegistration = true;
         return context;
     }

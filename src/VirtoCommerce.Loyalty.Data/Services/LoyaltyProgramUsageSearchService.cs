@@ -31,9 +31,14 @@ public class LoyaltyProgramUsageSearchService(
             query = query.Where(x => x.UserId == criteria.UserId);
         }
 
-        if (!criteria.OrderId.IsNullOrEmpty())
+        if (!criteria.ObjectId.IsNullOrEmpty())
         {
-            query = query.Where(x => x.OrderId == criteria.OrderId);
+            query = query.Where(x => x.ObjectId == criteria.ObjectId);
+        }
+
+        if (!criteria.ObjectType.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.ObjectType == criteria.ObjectType);
         }
 
         if (!criteria.LoyaltyProgramId.IsNullOrEmpty())
