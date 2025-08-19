@@ -7,6 +7,7 @@ using VirtoCommerce.CoreModule.Core.Conditions;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Domain;
+using VirtoCommerce.Platform.Data.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.Data.Models;
 
@@ -15,13 +16,13 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
     public bool IsActive { get; set; }
 
     [Required]
-    [StringLength(256)]
+    [StringLength(DbContextBase.Length256)]
     public string Name { get; set; }
 
     public ObservableCollection<LoyaltyProgramLocalizedNameEntity> LocalizedNames { get; set; }
         = new NullCollection<LoyaltyProgramLocalizedNameEntity>();
 
-    [StringLength(128)]
+    [StringLength(DbContextBase.IdLength)]
     public string StoreId { get; set; }
 
     public DateTime? StartDate { get; set; }

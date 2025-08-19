@@ -2,35 +2,36 @@ using System.ComponentModel.DataAnnotations;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Domain;
+using VirtoCommerce.Platform.Data.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.Data.Models;
 
 public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyProgramUsageEntity, LoyaltyProgramUsage>
 {
     [Required]
-    [StringLength(128)]
+    [StringLength(DbContextBase.IdLength)]
     public string UserId { get; set; }
 
     [Required]
-    [StringLength(128)]
+    [StringLength(DbContextBase.IdLength)]
     public string ObjectId { get; set; }
 
     [Required]
-    [StringLength(128)]
+    [StringLength(DbContextBase.Length128)]
     public string ObjectType { get; set; }
 
     /// <summary>
     /// Awarded or redeemed
     /// </summary>
     [Required]
-    [StringLength(128)]
+    [StringLength(DbContextBase.Length128)]
     public string UsageType { get; set; }
 
     public decimal Points { get; set; }
 
     public decimal Balance { get; set; }
 
-    [StringLength(128)]
+    [StringLength(DbContextBase.IdLength)]
     public string LoyaltyProgramId { get; set; }
     public virtual LoyaltyProgramEntity LoyaltyProgram { get; set; }
 
