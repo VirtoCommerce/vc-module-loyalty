@@ -106,6 +106,18 @@ angular.module(moduleName, [])
                 },
             ]);
 
+            metaFormsService.registerMetaFields("loyaltyProgramFilterDetail", [
+                {
+                    name: 'onlyActive',
+                    title: "Loyalty.blades.filter-detail.labels.is-active",
+                    valueType: "Boolean"
+                },
+                {
+                    title: 'Loyalty.blades.filter-detail.labels.store',
+                    templateUrl: "loyalty-filter-store-selector.html"
+                }
+            ]);
+
             // Register dynamic expression tree templates
             // Conditions
             const order = 'Order conditions';

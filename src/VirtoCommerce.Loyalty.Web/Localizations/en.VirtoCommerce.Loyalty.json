@@ -6,7 +6,11 @@
         "labels": {
           "name": "Name",
           "is-active": "Is active",
-          "last-modified": "Last modified"
+          "last-modified": "Last modified",
+          "new-filter": "New filter"
+        },
+        "placeholders": {
+          "select-filter": "Select filter"
         }
       },
       "loyalty-program-details": {
@@ -46,7 +50,23 @@
           "balance": "Balance",
           "created-date": "Created"
         }
-      }
+      },
+      "filter-detail": {
+        "title": "Filter loyalty programs",
+        "labels": {
+          "name": "Name",
+          "is-active": "Is active",
+          "store": "Stores",
+          "start-date": "Start date",
+          "end-date": "End date",
+          "unnamed-filter": "Unnamed filter",
+          "criteria": "Filter criteria"
+        },
+        "placeholders": {
+          "name": "Enter program name",
+          "store": "Select store"
+        }
+      } 
     },
     "widgets": {
       "customer-loyalty": {

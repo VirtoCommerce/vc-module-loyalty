@@ -1,23 +1,62 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramListController', [
-        '$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
+        '$scope', '$localStorage', 'platformWebApp.dialogService', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
         'VirtoCommerce.Loyalty.loyaltyPrograms',
-        function ($scope, dialogService, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyPrograms) {
+        function ($scope, $localStorage, dialogService, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyPrograms) {
+            $scope.$localStorage = $localStorage;
             var blade = $scope.blade;
             var bladeNavigationService = bladeUtils.bladeNavigationService;
 
             // simple and advanced filtering
             var filter = blade.filter = $scope.filter = {};
 
-            blade.refresh = function () {
-                blade.isLoading = true;
+            if (!$localStorage.loyaltyProgramSearchFilters) {
+                $localStorage.loyaltyProgramSearchFilters = [{ name: 'Loyalty.blades.loyalty-program-list.labels.new-filter' }];
+            }
+            if ($localStorage.loyaltyProgramFilterId) {
+                filter.current = _.findWhere($localStorage.loyaltyProgramSearchFilters, { id: $localStorage.loyaltyProgramFilterId });
+            }
 
-                var criteria = {
-                    //keyword: filter.keyword,
+            filter.change = function () {
+                $localStorage.loyaltyProgramFilterId = filter.current ? filter.current.id : null;
+                if (filter.current && !filter.current.id) {
+                    filter.current = null;
+                    showFilterDetailBlade({ isNew: true });
+                } else {
+                    bladeNavigationService.closeBlade({ id: 'filterDetail' });
+                    filter.criteriaChanged();
+                }
+            };
+
+            filter.edit = function () {
+                if (filter.current) {
+                    showFilterDetailBlade({ data: filter.current });
+                }
+            };
+
+            function showFilterDetailBlade(bladeData) {
+                var newBlade = {
+                    id: 'filterDetail',
+                    controller: 'VirtoCommerce.Loyalty.filterDetailController',
+                    template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-filter-detail.html'
+                };
+                angular.extend(newBlade, bladeData);
+                bladeNavigationService.showBlade(newBlade, blade);
+            }
+
+            function getSearchCriteria() {
+                return {
+                    keyword: filter.keyword ? filter.keyword : undefined,
                     sort: uiGridHelper.getSortExpression($scope),
                     skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
                     take: $scope.pageSettings.itemsPerPageCount
                 };
+            }
+
+            blade.refresh = function () {
+                blade.isLoading = true;
+
+                var criteria = getSearchCriteria();
 
                 if (filter.current) {
                     angular.extend(criteria, filter.current);
