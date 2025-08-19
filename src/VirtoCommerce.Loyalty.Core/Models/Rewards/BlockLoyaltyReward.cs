@@ -9,7 +9,7 @@ public class BlockLoyaltyReward : ConditionTree, IHasLoyaltyRewards
     {
         if (Children == null)
         {
-            return null;
+            return [];
         }
 
         return Children.OfType<IHasLoyaltyRewards>().SelectMany(x => x.GetLoyaltyRewards()).ToArray();

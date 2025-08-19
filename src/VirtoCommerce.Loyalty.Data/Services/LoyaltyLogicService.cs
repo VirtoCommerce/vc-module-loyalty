@@ -15,7 +15,6 @@ namespace VirtoCommerce.Loyalty.Data.Services;
 
 public class LoyaltyLogicService : ILoyaltyLogicService
 {
-    private readonly ILoyaltyProgramService _loyaltyProgramService;
     private readonly ILoyaltyProgramSearchService _loyaltyProgramSearchService;
     private readonly ILoyaltyProgramUsageService _loyaltyProgramUsageService;
     private readonly ILoyaltyProgramUsageSearchService _loyaltyProgramUsageSearchService;
@@ -24,7 +23,6 @@ public class LoyaltyLogicService : ILoyaltyLogicService
     private readonly ICustomerOrderSearchService _customerOrderSearchService;
 
     public LoyaltyLogicService(
-        ILoyaltyProgramService loyaltyProgramService,
         ILoyaltyProgramSearchService loyaltyProgramSearchService,
         ILoyaltyProgramUsageService loyaltyProgramUsageService,
         ILoyaltyProgramUsageSearchService loyaltyProgramUsageSearchService,
@@ -32,7 +30,6 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         ICustomerOrderService customerOrderService,
         ICustomerOrderSearchService customerOrderSearchService)
     {
-        _loyaltyProgramService = loyaltyProgramService;
         _loyaltyProgramSearchService = loyaltyProgramSearchService;
         _loyaltyProgramUsageService = loyaltyProgramUsageService;
         _loyaltyProgramUsageSearchService = loyaltyProgramUsageSearchService;
@@ -218,8 +215,6 @@ public class LoyaltyLogicService : ILoyaltyLogicService
             return;
         }
 
-        var balance = await GetUserBalanceAsync(loyaltyContext.UserId);
-
         var usage = AbstractTypeFactory<LoyaltyProgramUsage>.TryCreateInstance();
         usage.ObjectType = loyaltyContext.ContextObjectType;
         usage.ObjectId = loyaltyContext.ContextObjectId;
@@ -227,7 +222,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         usage.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
         usage.UsageType = ModuleConstants.LoyaltyPrograms.AwardedUsageType; // Assuming "Awarded" is the usage type for rewards
         usage.Points = loyaltyResult.ActualRewardAmount;
-        usage.Balance = balance += loyaltyResult.ActualRewardAmount;
+        usage.Balance = await GetUserBalanceAsync(loyaltyContext.UserId) + loyaltyResult.ActualRewardAmount;
 
         await _loyaltyProgramUsageService.SaveChangesAsync([usage]);
     }

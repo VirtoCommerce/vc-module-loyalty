@@ -30,7 +30,7 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
     public virtual Task Handle(OrderChangedEvent message)
     {
         var loyaltyContexts = message.ChangedEntries
-            .Where(x => (x.EntryState == EntryState.Added || x.EntryState == EntryState.Modified) && x.NewEntry.IsPrototype == false)
+            .Where(x => (x.EntryState == EntryState.Added || x.EntryState == EntryState.Modified) && !x.NewEntry.IsPrototype)
             .OrderBy(x => x.NewEntry.ModifiedDate)
             .Select(x => CreateLoyaltyContextByOrder(x.NewEntry))
             .ToList();

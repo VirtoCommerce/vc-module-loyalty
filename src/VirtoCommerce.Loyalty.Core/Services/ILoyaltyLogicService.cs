@@ -10,7 +10,7 @@ public interface ILoyaltyLogicService
 
     Task<List<string>> FindProcessedObjectIdsAsync(string objectType, string[] objectIds);
 
-    Task<LoyaltyProgramsEvaluationResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext context);
+    Task<LoyaltyProgramsEvaluationResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext);
 
     Task LogLoyaltyUsageAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult);
 }
