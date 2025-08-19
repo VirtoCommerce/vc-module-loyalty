@@ -1,7 +1,7 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.customerLoyaltyWidgetController',
-        ['$scope', '$filter', 'platformWebApp.bladeNavigationService', 'VirtoCommerce.Loyalty.loyaltyProgramUsages',
-            function ($scope, $filter, bladeNavigationService, loyaltyProgramUsages) {
+        ['$scope', 'platformWebApp.bladeNavigationService', 'VirtoCommerce.Loyalty.loyaltyProgramOperationLogs',
+            function ($scope, bladeNavigationService, loyaltyProgramOperationLogs) {
                 var blade = $scope.widget.blade;
 
                 var searchCriteria = {};
@@ -18,8 +18,7 @@ angular.module('VirtoCommerce.Loyalty')
                     if (!searchCriteria.userId) {
                         return;
                     }
-
-                    loyaltyProgramUsages.getBalance({ userId: searchCriteria.userId }, function (data) {
+                    loyaltyProgramOperationLogs.getBalance({ userId: searchCriteria.userId }, function (data) {
                         $scope.balance = data.balance;
                     });
                 }
@@ -31,10 +30,10 @@ angular.module('VirtoCommerce.Loyalty')
 
                     var newBlade = {
                         id: 'customerLoyaltyBlade',
-                        title: 'Loyalty.blades.loyalty-program-customer-usage-list.title',
+                        title: 'Loyalty.blades.loyalty-program-operation-log-list.title',
                         searchCriteria: searchCriteria,
-                        controller: 'VirtoCommerce.Loyalty.loyaltyProgramUsageListController',
-                        template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-usage-list.html'
+                        controller: 'VirtoCommerce.Loyalty.loyaltyProgramOperationLogListController',
+                        template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-operation-log-list.html'
                     };
                     bladeNavigationService.showBlade(newBlade, blade);
                 };

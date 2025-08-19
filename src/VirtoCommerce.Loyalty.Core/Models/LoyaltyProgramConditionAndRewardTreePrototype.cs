@@ -1,4 +1,4 @@
-﻿using VirtoCommerce.CoreModule.Core.Conditions;
+using VirtoCommerce.CoreModule.Core.Conditions;
 using VirtoCommerce.Loyalty.Core.Models.Conditions;
 using VirtoCommerce.Loyalty.Core.Models.Rewards;
 
@@ -22,8 +22,8 @@ public class LoyaltyProgramConditionAndRewardTreePrototype : ConditionTree
                 ),
             new BlockLoyaltyReward()
                 .WithAvailableChildren(
-                    new FixedPointsReward(),
-                    new RelativeOrderValueReward()
+                    new FixedAmountReward(),
+                    new RelativeAmountReward()
                 ),
         ];
 

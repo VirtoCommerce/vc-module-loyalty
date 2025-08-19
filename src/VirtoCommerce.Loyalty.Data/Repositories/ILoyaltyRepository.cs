@@ -12,7 +12,7 @@ public interface ILoyaltyRepository : IRepository
 
     Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids, string responseGroup);
 
-    IQueryable<LoyaltyProgramUsageEntity> LoyaltyProgramUsages { get; }
+    IQueryable<LoyaltyProgramOperationLogEntity> LoyaltyProgramOperationLogs { get; }
 
-    Task<IList<LoyaltyProgramUsageEntity>> GetLoyaltyProgramUsageByIdsAsync(IList<string> ids, string responseGroup);
+    Task<IList<LoyaltyProgramOperationLogEntity>> GetLoyaltyProgramOperationLogsByIdsAsync(IList<string> ids, string responseGroup);
 }

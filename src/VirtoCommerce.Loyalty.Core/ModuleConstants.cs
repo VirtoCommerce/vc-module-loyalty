@@ -28,8 +28,8 @@ public static class ModuleConstants
 
     public static class LoyaltyPrograms
     {
-        public const string AwardedUsageType = "Awarded";
-        public const string RedeemedUsageType = "Redeemed";
+        public const string EarnedOperationType = "Earned";
+        public const string RedeemedOperationType = "Redeemed";
     }
 
     public static class Settings

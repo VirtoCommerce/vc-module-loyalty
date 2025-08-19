@@ -6,7 +6,7 @@ using VirtoCommerce.Platform.Data.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.Data.Models;
 
-public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyProgramUsageEntity, LoyaltyProgramUsage>
+public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<LoyaltyProgramOperationLogEntity, LoyaltyProgramOperationLog>
 {
     [Required]
     [StringLength(DbContextBase.IdLength)]
@@ -21,13 +21,13 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
     public string ObjectType { get; set; }
 
     /// <summary>
-    /// Awarded or redeemed
+    /// Earned or redeemed
     /// </summary>
     [Required]
     [StringLength(DbContextBase.Length128)]
-    public string UsageType { get; set; }
+    public string OperationType { get; set; }
 
-    public decimal Points { get; set; }
+    public decimal Amount { get; set; }
 
     public decimal Balance { get; set; }
 
@@ -35,7 +35,7 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
     public string LoyaltyProgramId { get; set; }
     public virtual LoyaltyProgramEntity LoyaltyProgram { get; set; }
 
-    public virtual LoyaltyProgramUsage ToModel(LoyaltyProgramUsage model)
+    public virtual LoyaltyProgramOperationLog ToModel(LoyaltyProgramOperationLog model)
     {
         model.Id = Id;
         model.CreatedBy = CreatedBy;
@@ -47,14 +47,14 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
         model.LoyaltyProgramId = LoyaltyProgramId;
         model.ObjectId = ObjectId;
         model.ObjectType = ObjectType;
-        model.UsageType = UsageType;
-        model.Points = Points;
+        model.OperationType = OperationType;
+        model.Amount = Amount;
         model.Balance = Balance;
 
         return model;
     }
 
-    public virtual LoyaltyProgramUsageEntity FromModel(LoyaltyProgramUsage model, PrimaryKeyResolvingMap pkMap)
+    public virtual LoyaltyProgramOperationLogEntity FromModel(LoyaltyProgramOperationLog model, PrimaryKeyResolvingMap pkMap)
     {
         pkMap.AddPair(model, this);
 
@@ -68,15 +68,15 @@ public class LoyaltyProgramUsageEntity : AuditableEntity, IDataEntity<LoyaltyPro
         LoyaltyProgramId = model.LoyaltyProgramId;
         ObjectId = model.ObjectId;
         ObjectType = model.ObjectType;
-        UsageType = model.UsageType;
-        Points = model.Points;
+        OperationType = model.OperationType;
+        Amount = model.Amount;
         Balance = model.Balance;
 
         return this;
     }
 
-    public virtual void Patch(LoyaltyProgramUsageEntity target)
+    public virtual void Patch(LoyaltyProgramOperationLogEntity target)
     {
-
+        // intentionally left empty, as this entity is immutable
     }
 }

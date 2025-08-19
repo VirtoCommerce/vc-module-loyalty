@@ -14,7 +14,7 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
         ILoyaltyRepository
 {
     public IQueryable<LoyaltyProgramEntity> LoyaltyPrograms => DbContext.Set<LoyaltyProgramEntity>();
-    public IQueryable<LoyaltyProgramUsageEntity> LoyaltyProgramUsages => DbContext.Set<LoyaltyProgramUsageEntity>();
+    public IQueryable<LoyaltyProgramOperationLogEntity> LoyaltyProgramOperationLogs => DbContext.Set<LoyaltyProgramOperationLogEntity>();
 
     public virtual async Task<IList<LoyaltyProgramEntity>> GetLoyaltyProgramsByIdsAsync(IList<string> ids, string responseGroup)
     {
@@ -28,7 +28,7 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
             : await LoyaltyPrograms.Include(x => x.LocalizedNames).Where(x => ids.Contains(x.Id)).AsSplitQuery().ToListAsync();
     }
 
-    public virtual async Task<IList<LoyaltyProgramUsageEntity>> GetLoyaltyProgramUsageByIdsAsync(IList<string> ids, string responseGroup)
+    public virtual async Task<IList<LoyaltyProgramOperationLogEntity>> GetLoyaltyProgramOperationLogsByIdsAsync(IList<string> ids, string responseGroup)
     {
         if (ids.IsNullOrEmpty())
         {
@@ -36,7 +36,7 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
         }
 
         return ids.Count == 1
-            ? await LoyaltyProgramUsages.Where(x => x.Id == ids.First()).ToListAsync()
-            : await LoyaltyProgramUsages.Where(x => ids.Contains(x.Id)).ToListAsync();
+            ? await LoyaltyProgramOperationLogs.Where(x => x.Id == ids.First()).ToListAsync()
+            : await LoyaltyProgramOperationLogs.Where(x => ids.Contains(x.Id)).ToListAsync();
     }
 }

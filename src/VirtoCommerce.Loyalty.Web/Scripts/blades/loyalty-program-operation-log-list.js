@@ -1,8 +1,8 @@
 angular.module('VirtoCommerce.Loyalty')
-    .controller('VirtoCommerce.Loyalty.loyaltyProgramUsageListController', [
+    .controller('VirtoCommerce.Loyalty.loyaltyProgramOperationLogListController', [
         '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
-        'VirtoCommerce.Loyalty.loyaltyProgramUsages',
-        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyProgramUsages) {
+        'VirtoCommerce.Loyalty.loyaltyProgramOperationLogs',
+        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyProgramOperationLogs) {
             var blade = $scope.blade;
             var bladeNavigationService = bladeUtils.bladeNavigationService;
             blade.headIcon = 'fa fa-area-chart';
@@ -20,7 +20,7 @@ angular.module('VirtoCommerce.Loyalty')
                     angular.extend(criteria, blade.searchCriteria);
                 }
 
-                loyaltyProgramUsages.search(criteria, function (data) {
+                loyaltyProgramOperationLogs.search(criteria, function (data) {
                     blade.isLoading = false;
 
                     $scope.pageSettings.totalItems = data.totalCount;

@@ -3,7 +3,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
 
-public class LoyaltyProgramUsage : AuditableEntity, ICloneable
+public class LoyaltyProgramOperationLog : AuditableEntity, ICloneable
 {
     public string UserId { get; set; }
 
@@ -14,11 +14,11 @@ public class LoyaltyProgramUsage : AuditableEntity, ICloneable
     public string ObjectType { get; set; }
 
     /// <summary>
-    /// Awarded or redeemed
+    /// Earned or redeemed
     /// </summary>
-    public string UsageType { get; set; }
+    public string OperationType { get; set; }
 
-    public decimal Points { get; set; }
+    public decimal Amount { get; set; }
 
     public decimal Balance { get; set; }
 

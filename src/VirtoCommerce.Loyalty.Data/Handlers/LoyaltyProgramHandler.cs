@@ -88,7 +88,7 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
                 continue;
             }
 
-            _distributedLockProvider.ExecuteSynchronized($"loyalty-usage:{context.ContextObjectType}:{context.ContextObjectId}", async (x) =>
+            _distributedLockProvider.ExecuteSynchronized($"loyalty-operation:{context.ContextObjectType}:{context.ContextObjectId}", async (x) =>
             {
                 if (x == DistributedLockCondition.Delayed)
                 {
@@ -96,7 +96,7 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
                     return;
                 }
 
-                await _loyaltyLogicService.LogLoyaltyUsageAsync(context, loyaltyReward);
+                await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(context, loyaltyReward);
             });
         }
     }

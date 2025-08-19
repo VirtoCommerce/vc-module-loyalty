@@ -3,4 +3,4 @@ using VirtoCommerce.Platform.Core.GenericCrud;
 
 namespace VirtoCommerce.Loyalty.Core.Services;
 
-public interface ILoyaltyProgramUsageService : ICrudService<LoyaltyProgramUsage>;
+public interface ILoyaltyProgramOperationLogService : ICrudService<LoyaltyProgramOperationLog>;

@@ -16,23 +16,23 @@ namespace VirtoCommerce.Loyalty.Data.Services;
 public class LoyaltyLogicService : ILoyaltyLogicService
 {
     private readonly ILoyaltyProgramSearchService _loyaltyProgramSearchService;
-    private readonly ILoyaltyProgramUsageService _loyaltyProgramUsageService;
-    private readonly ILoyaltyProgramUsageSearchService _loyaltyProgramUsageSearchService;
+    private readonly ILoyaltyProgramOperationLogService _loyaltyProgramOperationLogService;
+    private readonly ILoyaltyProgramOperationLogSearchService _loyaltyProgramOperationLogSearchService;
     private readonly IMemberResolver _memberResolver;
     private readonly ICustomerOrderService _customerOrderService;
     private readonly ICustomerOrderSearchService _customerOrderSearchService;
 
     public LoyaltyLogicService(
         ILoyaltyProgramSearchService loyaltyProgramSearchService,
-        ILoyaltyProgramUsageService loyaltyProgramUsageService,
-        ILoyaltyProgramUsageSearchService loyaltyProgramUsageSearchService,
+        ILoyaltyProgramOperationLogService loyaltyProgramOperationLogService,
+        ILoyaltyProgramOperationLogSearchService loyaltyProgramOperationLogSearchService,
         IMemberResolver memberResolver,
         ICustomerOrderService customerOrderService,
         ICustomerOrderSearchService customerOrderSearchService)
     {
         _loyaltyProgramSearchService = loyaltyProgramSearchService;
-        _loyaltyProgramUsageService = loyaltyProgramUsageService;
-        _loyaltyProgramUsageSearchService = loyaltyProgramUsageSearchService;
+        _loyaltyProgramOperationLogService = loyaltyProgramOperationLogService;
+        _loyaltyProgramOperationLogSearchService = loyaltyProgramOperationLogSearchService;
         _memberResolver = memberResolver;
         _customerOrderService = customerOrderService;
         _customerOrderSearchService = customerOrderSearchService;
@@ -68,19 +68,19 @@ public class LoyaltyLogicService : ILoyaltyLogicService
 
     public async Task<decimal> GetUserBalanceAsync(string userId)
     {
-        var usage = await GetLastLoyaltyPrgoramUsageByUser(userId);
-        return usage?.Balance ?? 0;
+        var operationLog = await GetLastLoyaltyOperationLogByUser(userId);
+        return operationLog?.Balance ?? 0;
     }
 
     public async Task<bool> IsObjectProcessedAsync(string objectType, string objectId)
     {
-        var criteria = AbstractTypeFactory<LoyaltyProgramUsageSearchCriteria>.TryCreateInstance();
+        var criteria = AbstractTypeFactory<LoyaltyProgramOperationLogSearchCriteria>.TryCreateInstance();
         criteria.ObjectType = objectType;
         criteria.ObjectId = objectId;
-        criteria.UsageType = ModuleConstants.LoyaltyPrograms.AwardedUsageType; // Assuming "Awarded" is the usage type for processed orders
+        criteria.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for processed orders
         criteria.Take = 0;
 
-        var searchResult = await _loyaltyProgramUsageSearchService.SearchNoCloneAsync(criteria);
+        var searchResult = await _loyaltyProgramOperationLogSearchService.SearchNoCloneAsync(criteria);
 
         return searchResult.TotalCount > 0;
     }
@@ -208,33 +208,33 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         return maxReward;
     }
 
-    public async Task LogLoyaltyUsageAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult)
+    public async Task LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult)
     {
         if (await IsObjectProcessedAsync(loyaltyContext.ContextObjectType, loyaltyContext.ContextObjectId))
         {
             return;
         }
 
-        var usage = AbstractTypeFactory<LoyaltyProgramUsage>.TryCreateInstance();
-        usage.ObjectType = loyaltyContext.ContextObjectType;
-        usage.ObjectId = loyaltyContext.ContextObjectId;
-        usage.UserId = loyaltyContext.UserId;
-        usage.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
-        usage.UsageType = ModuleConstants.LoyaltyPrograms.AwardedUsageType; // Assuming "Awarded" is the usage type for rewards
-        usage.Points = loyaltyResult.ActualRewardAmount;
-        usage.Balance = await GetUserBalanceAsync(loyaltyContext.UserId) + loyaltyResult.ActualRewardAmount;
+        var operationLog = AbstractTypeFactory<LoyaltyProgramOperationLog>.TryCreateInstance();
+        operationLog.ObjectType = loyaltyContext.ContextObjectType;
+        operationLog.ObjectId = loyaltyContext.ContextObjectId;
+        operationLog.UserId = loyaltyContext.UserId;
+        operationLog.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
+        operationLog.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for rewards
+        operationLog.Amount = loyaltyResult.ActualRewardAmount;
+        operationLog.Balance = await GetUserBalanceAsync(loyaltyContext.UserId) + loyaltyResult.ActualRewardAmount;
 
-        await _loyaltyProgramUsageService.SaveChangesAsync([usage]);
+        await _loyaltyProgramOperationLogService.SaveChangesAsync([operationLog]);
     }
 
-    private async Task<LoyaltyProgramUsage> GetLastLoyaltyPrgoramUsageByUser(string userId)
+    private async Task<LoyaltyProgramOperationLog> GetLastLoyaltyOperationLogByUser(string userId)
     {
-        var criteria = AbstractTypeFactory<LoyaltyProgramUsageSearchCriteria>.TryCreateInstance();
+        var criteria = AbstractTypeFactory<LoyaltyProgramOperationLogSearchCriteria>.TryCreateInstance();
         criteria.UserId = userId;
         criteria.Take = 1;
-        criteria.Sort = "CreatedDate:desc"; // Assuming we want the most recent usage for balance calculation
+        criteria.Sort = "CreatedDate:desc"; // Assuming we want the most recent operation log for balance calculation
 
-        var searchResult = await _loyaltyProgramUsageSearchService.SearchNoCloneAsync(criteria);
+        var searchResult = await _loyaltyProgramOperationLogSearchService.SearchNoCloneAsync(criteria);
 
         return searchResult.Results?.FirstOrDefault();
     }

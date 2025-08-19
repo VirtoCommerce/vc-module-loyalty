@@ -2,7 +2,7 @@ using VirtoCommerce.CoreModule.Core.Conditions;
 
 namespace VirtoCommerce.Loyalty.Core.Models.Rewards;
 
-public class RelativeOrderValueReward : ConditionTree, IHasLoyaltyRewards
+public class RelativeAmountReward : ConditionTree, IHasLoyaltyRewards
 {
     public decimal Amount { get; set; }
 

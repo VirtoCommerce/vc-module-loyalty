@@ -12,5 +12,5 @@ public interface ILoyaltyLogicService
 
     Task<LoyaltyProgramsEvaluationResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext);
 
-    Task LogLoyaltyUsageAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult);
+    Task LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult);
 }

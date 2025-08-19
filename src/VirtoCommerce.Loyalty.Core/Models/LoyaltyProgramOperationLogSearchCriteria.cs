@@ -2,7 +2,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
 
-public class LoyaltyProgramUsageSearchCriteria : SearchCriteriaBase
+public class LoyaltyProgramOperationLogSearchCriteria : SearchCriteriaBase
 {
     public string UserId { get; set; }
 
@@ -10,5 +10,5 @@ public class LoyaltyProgramUsageSearchCriteria : SearchCriteriaBase
 
     public string LoyaltyProgramId { get; set; }
 
-    public string UsageType { get; set; }
+    public string OperationType { get; set; }
 }

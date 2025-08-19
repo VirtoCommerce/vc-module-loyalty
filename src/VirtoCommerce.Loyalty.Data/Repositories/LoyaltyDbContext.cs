@@ -32,15 +32,15 @@ public class LoyaltyDbContext : DbContextBase
             .HasIndex(x => new { x.LanguageCode, x.ParentEntityId }).IsUnique()
             .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
 
-        modelBuilder.Entity<LoyaltyProgramUsageEntity>().ToTable("LoyaltyProgramUsage").HasKey(x => x.Id);
-        modelBuilder.Entity<LoyaltyProgramUsageEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
-        modelBuilder.Entity<LoyaltyProgramUsageEntity>().HasOne(x => x.LoyaltyProgram).WithMany()
+        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().ToTable("LoyaltyProgramOperationLog").HasKey(x => x.Id);
+        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
+        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().HasOne(x => x.LoyaltyProgram).WithMany()
             .HasForeignKey(x => x.LoyaltyProgramId).OnDelete(DeleteBehavior.Cascade).IsRequired(false);
-        modelBuilder.Entity<LoyaltyProgramUsageEntity>().Property(x => x.Points).HasColumnType("decimal").HasPrecision(18, 4);
-        modelBuilder.Entity<LoyaltyProgramUsageEntity>().Property(x => x.Balance).HasColumnType("decimal").HasPrecision(18, 4);
-        modelBuilder.Entity<LoyaltyProgramUsageEntity>()
-             .HasIndex(x => new { x.ObjectId, x.ObjectType, x.UsageType }).IsUnique()
-             .HasDatabaseName("IX_LoyaltyProgramUsage_ObjectId_ObjectType_UsageType");
+        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().Property(x => x.Amount).HasColumnType("decimal").HasPrecision(18, 4);
+        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().Property(x => x.Balance).HasColumnType("decimal").HasPrecision(18, 4);
+        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>()
+             .HasIndex(x => new { x.ObjectId, x.ObjectType, x.OperationType }).IsUnique()
+             .HasDatabaseName("IX_LoyaltyProgramOperationLog_ObjectId_ObjectType_OperationType");
 
         switch (Database.ProviderName)
         {

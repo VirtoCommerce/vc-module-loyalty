@@ -34,19 +34,17 @@
           "name": "Enter program name"
         }
       },
-      "loyalty-program-customer-usage-list": {
-        "title": "Loyalty program customers",
+      "loyalty-program-operation-log-list": {
+        "title": "Loyalty operation log",
         "commands": {
-          "open-order": "Open order",
           "open-loyalty-program": "Open program"
         },
         "labels": {
-          "loyalty-points": "Loyalty points",
-          "usage-type": "Type",
-          "usage-type-awarded": "Awarded",
-          "usage-type-redeemed": "Redeemed",
+          "operation-type": "Operation",
+          "operation-type-earned": "Earned",
+          "operation-type-redeemed": "Redeemed",
           "order-number": "Order number",
-          "points": "Points",
+          "amount": "Amount",
           "balance": "Balance",
           "created-date": "Created"
         }
@@ -70,7 +68,7 @@
     },
     "widgets": {
       "customer-loyalty": {
-        "title": "Loyalty"
+        "title": "Loyalty balance"
       }
     },
     "dialogs": {

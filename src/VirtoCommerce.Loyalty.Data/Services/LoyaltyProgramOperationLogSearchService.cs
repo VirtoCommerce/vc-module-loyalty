@@ -13,18 +13,18 @@ using VirtoCommerce.Platform.Data.GenericCrud;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
-public class LoyaltyProgramUsageSearchService(
+public class LoyaltyProgramOperationLogSearchService(
     Func<ILoyaltyRepository> repositoryFactory,
     IPlatformMemoryCache platformMemoryCache,
-    ILoyaltyProgramUsageService crudService,
+    ILoyaltyProgramOperationLogService crudService,
     IOptions<CrudOptions> crudOptions)
-    : SearchService<LoyaltyProgramUsageSearchCriteria, LoyaltyProgramUsageSearchResult, LoyaltyProgramUsage, LoyaltyProgramUsageEntity>
+    : SearchService<LoyaltyProgramOperationLogSearchCriteria, LoyaltyProgramOperationLogSearchResult, LoyaltyProgramOperationLog, LoyaltyProgramOperationLogEntity>
         (repositoryFactory, platformMemoryCache, crudService, crudOptions),
-        ILoyaltyProgramUsageSearchService
+        ILoyaltyProgramOperationLogSearchService
 {
-    protected override IQueryable<LoyaltyProgramUsageEntity> BuildQuery(IRepository repository, LoyaltyProgramUsageSearchCriteria criteria)
+    protected override IQueryable<LoyaltyProgramOperationLogEntity> BuildQuery(IRepository repository, LoyaltyProgramOperationLogSearchCriteria criteria)
     {
-        var query = ((ILoyaltyRepository)repository).LoyaltyProgramUsages;
+        var query = ((ILoyaltyRepository)repository).LoyaltyProgramOperationLogs;
 
         if (!criteria.UserId.IsNullOrEmpty())
         {
@@ -46,15 +46,15 @@ public class LoyaltyProgramUsageSearchService(
             query = query.Where(x => x.LoyaltyProgramId == criteria.LoyaltyProgramId);
         }
 
-        if (!criteria.UsageType.IsNullOrEmpty())
+        if (!criteria.OperationType.IsNullOrEmpty())
         {
-            query = query.Where(x => x.UsageType == criteria.UsageType);
+            query = query.Where(x => x.OperationType == criteria.OperationType);
         }
 
         return query;
     }
 
-    protected override IList<SortInfo> BuildSortExpression(LoyaltyProgramUsageSearchCriteria criteria)
+    protected override IList<SortInfo> BuildSortExpression(LoyaltyProgramOperationLogSearchCriteria criteria)
     {
         var sortInfos = criteria.SortInfos;
 
@@ -62,8 +62,8 @@ public class LoyaltyProgramUsageSearchService(
         {
             sortInfos =
             [
-                new SortInfo { SortColumn = nameof(LoyaltyProgramUsageEntity.CreatedDate), SortDirection = SortDirection.Descending },
-                new SortInfo { SortColumn = nameof(LoyaltyProgramUsageEntity.Id) },
+                new SortInfo { SortColumn = nameof(LoyaltyProgramOperationLogEntity.CreatedDate), SortDirection = SortDirection.Descending },
+                new SortInfo { SortColumn = nameof(LoyaltyProgramOperationLogEntity.Id) },
             ];
         }
 

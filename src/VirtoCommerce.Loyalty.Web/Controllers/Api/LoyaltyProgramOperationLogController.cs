@@ -9,15 +9,15 @@ using Permissions = VirtoCommerce.Loyalty.Core.ModuleConstants.Security.Permissi
 namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 
 [Authorize]
-[Route("api/loyalty-program-usages")]
-public class LoyaltyProgramUsageController(
-    ILoyaltyProgramUsageSearchService searchService,
+[Route("api/loyalty-program-operation-log")]
+public class LoyaltyProgramOperationLogController(
+    ILoyaltyProgramOperationLogSearchService searchService,
     ILoyaltyLogicService loyaltyLogicService)
     : Controller
 {
     [HttpPost("search")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyProgramUsageSearchResult>> Search([FromBody] LoyaltyProgramUsageSearchCriteria criteria)
+    public async Task<ActionResult<LoyaltyProgramOperationLogSearchResult>> Search([FromBody] LoyaltyProgramOperationLogSearchCriteria criteria)
     {
         var result = await searchService.SearchNoCloneAsync(criteria);
         return Ok(result);
@@ -25,7 +25,7 @@ public class LoyaltyProgramUsageController(
 
     [HttpGet("balance/{userId}")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyProgramUsage>> GetBalance([FromRoute] string userId)
+    public async Task<ActionResult<LoyaltyProgramOperationLog>> GetBalance([FromRoute] string userId)
     {
         var balance = await loyaltyLogicService.GetUserBalanceAsync(userId);
 

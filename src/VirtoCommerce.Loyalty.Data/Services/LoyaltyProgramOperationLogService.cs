@@ -13,16 +13,16 @@ using VirtoCommerce.Platform.Data.GenericCrud;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
-public class LoyaltyProgramUsageService(
+public class LoyaltyProgramOperationLogService(
     Func<ILoyaltyRepository> repositoryFactory,
     IPlatformMemoryCache platformMemoryCache,
     IEventPublisher eventPublisher)
-    : CrudService<LoyaltyProgramUsage, LoyaltyProgramUsageEntity, LoyaltyProgramUsageChangingEvent, LoyaltyProgramUsageChangedEvent>
+    : CrudService<LoyaltyProgramOperationLog, LoyaltyProgramOperationLogEntity, LoyaltyProgramOperationLogChangingEvent, LoyaltyProgramOperationLogChangedEvent>
         (repositoryFactory, platformMemoryCache, eventPublisher),
-        ILoyaltyProgramUsageService
+        ILoyaltyProgramOperationLogService
 {
-    protected override Task<IList<LoyaltyProgramUsageEntity>> LoadEntities(IRepository repository, IList<string> ids, string responseGroup)
+    protected override Task<IList<LoyaltyProgramOperationLogEntity>> LoadEntities(IRepository repository, IList<string> ids, string responseGroup)
     {
-        return ((ILoyaltyRepository)repository).GetLoyaltyProgramUsageByIdsAsync(ids, responseGroup);
+        return ((ILoyaltyRepository)repository).GetLoyaltyProgramOperationLogsByIdsAsync(ids, responseGroup);
     }
 }

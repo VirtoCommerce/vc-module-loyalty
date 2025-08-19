@@ -171,12 +171,12 @@ angular.module(moduleName, [])
             });
 
             dynamicExpressionService.registerExpression({
-                id: 'FixedPointsReward',
+                id: 'FixedAmountReward',
                 displayName: 'Earn fixed amount of points per order',
             });
 
             dynamicExpressionService.registerExpression({
-                id: 'RelativeOrderValueReward',
+                id: 'RelativeAmountReward',
                 displayName: 'Earn % of order value as points',
             });
 

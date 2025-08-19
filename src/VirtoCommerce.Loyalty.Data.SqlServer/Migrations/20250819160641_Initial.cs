@@ -54,15 +54,15 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LoyaltyProgramUsage",
+                name: "LoyaltyProgramOperationLog",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ObjectId = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ObjectType = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    UsageType = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Points = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
+                    OperationType = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
                     LoyaltyProgramId = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -72,9 +72,9 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LoyaltyProgramUsage", x => x.Id);
+                    table.PrimaryKey("PK_LoyaltyProgramOperationLog", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LoyaltyProgramUsage_LoyaltyProgram_LoyaltyProgramId",
+                        name: "FK_LoyaltyProgramOperationLog_LoyaltyProgram_LoyaltyProgramId",
                         column: x => x.LoyaltyProgramId,
                         principalTable: "LoyaltyProgram",
                         principalColumn: "Id",
@@ -93,14 +93,14 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 column: "ParentEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoyaltyProgramUsage_LoyaltyProgramId",
-                table: "LoyaltyProgramUsage",
+                name: "IX_LoyaltyProgramOperationLog_LoyaltyProgramId",
+                table: "LoyaltyProgramOperationLog",
                 column: "LoyaltyProgramId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoyaltyProgramUsage_ObjectId_ObjectType_UsageType",
-                table: "LoyaltyProgramUsage",
-                columns: new[] { "ObjectId", "ObjectType", "UsageType" },
+                name: "IX_LoyaltyProgramOperationLog_ObjectId_ObjectType_OperationType",
+                table: "LoyaltyProgramOperationLog",
+                columns: new[] { "ObjectId", "ObjectType", "OperationType" },
                 unique: true);
         }
 
@@ -111,7 +111,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 name: "LoyaltyProgramLocalizedName");
 
             migrationBuilder.DropTable(
-                name: "LoyaltyProgramUsage");
+                name: "LoyaltyProgramOperationLog");
 
             migrationBuilder.DropTable(
                 name: "LoyaltyProgram");

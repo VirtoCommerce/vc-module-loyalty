@@ -103,12 +103,16 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                     b.ToTable("LoyaltyProgramLocalizedName", (string)null);
                 });
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUsageEntity", b =>
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramOperationLogEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
 
                     b.Property<decimal>("Balance")
                         .HasPrecision(18, 4)
@@ -142,11 +146,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<decimal>("Points")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal");
-
-                    b.Property<string>("UsageType")
+                    b.Property<string>("OperationType")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -160,11 +160,11 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
 
                     b.HasIndex("LoyaltyProgramId");
 
-                    b.HasIndex("ObjectId", "ObjectType", "UsageType")
+                    b.HasIndex("ObjectId", "ObjectType", "OperationType")
                         .IsUnique()
-                        .HasDatabaseName("IX_LoyaltyProgramUsage_ObjectId_ObjectType_UsageType");
+                        .HasDatabaseName("IX_LoyaltyProgramOperationLog_ObjectId_ObjectType_OperationType");
 
-                    b.ToTable("LoyaltyProgramUsage", (string)null);
+                    b.ToTable("LoyaltyProgramOperationLog", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
@@ -178,7 +178,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                     b.Navigation("ParentEntity");
                 });
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramUsageEntity", b =>
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramOperationLogEntity", b =>
                 {
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
                         .WithMany()

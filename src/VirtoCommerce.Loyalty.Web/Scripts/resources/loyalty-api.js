@@ -9,9 +9,9 @@ angular.module('VirtoCommerce.Loyalty')
             delete: { method: 'DELETE' },
         });
     }])
-    .factory('VirtoCommerce.Loyalty.loyaltyProgramUsages', ['$resource', function ($resource) {
-        return $resource('api/loyalty-program-usages/', {}, {
-            getBalance: { method: 'GET', url: 'api/loyalty-program-usages/balance/:userId' },
-            search: { url: 'api/loyalty-program-usages/search', method: 'POST' },
+    .factory('VirtoCommerce.Loyalty.loyaltyProgramOperationLogs', ['$resource', function ($resource) {
+        return $resource('api/loyalty-program-operation-log/', {}, {
+            getBalance: { method: 'GET', url: 'api/loyalty-program-operation-log/balance/:userId' },
+            search: { url: 'api/loyalty-program-operation-log/search', method: 'POST' },
         });
     }]);
