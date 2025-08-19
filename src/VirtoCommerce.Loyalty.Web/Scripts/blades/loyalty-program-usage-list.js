@@ -5,7 +5,7 @@ angular.module('VirtoCommerce.Loyalty')
         function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyProgramUsages) {
             var blade = $scope.blade;
             var bladeNavigationService = bladeUtils.bladeNavigationService;
-            blade.headIcon = 'fa fa-area-chart'; //todo: find better icon
+            blade.headIcon = 'fa fa-area-chart'; // find better icon
 
             // simple and advanced filtering
             var filter = blade.filter = $scope.filter = {};

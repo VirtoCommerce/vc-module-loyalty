@@ -92,7 +92,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
     {
         var result = new List<string>();
 
-        // todo: rewrite to batch processing
+        // rewrite to batch processing
         foreach (var objectId in objectIds)
         {
             if (await IsObjectProcessedAsync(objectType, objectId))
