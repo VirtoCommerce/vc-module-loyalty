@@ -10,10 +10,12 @@ using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Handlers;
 using VirtoCommerce.Loyalty.Data.MySql;
 using VirtoCommerce.Loyalty.Data.PostgreSql;
+using VirtoCommerce.Loyalty.Data.Provider;
 using VirtoCommerce.Loyalty.Data.Repositories;
 using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.OrdersModule.Core.Events;
+using VirtoCommerce.PaymentModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.Platform.Core.Modularity;
@@ -64,6 +66,8 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyLogicService, LoyaltyLogicService>();
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
+
+        serviceCollection.AddTransient<LoyaltyPaymentMethod>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
@@ -90,6 +94,11 @@ public class Module : IModule, IHasConfiguration
 
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<UserChangedEvent, LoyaltyProgramHandler>();
+
+        // Register payment method
+        var paymentMethodsRegistrar = appBuilder.ApplicationServices.GetRequiredService<IPaymentMethodsRegistrar>();
+        paymentMethodsRegistrar.RegisterPaymentMethod(() =>
+            appBuilder.ApplicationServices.GetService<LoyaltyPaymentMethod>());
     }
 
     public void Uninstall()
