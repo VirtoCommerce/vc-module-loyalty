@@ -15,7 +15,7 @@ namespace VirtoCommerce.Loyalty.Data.Provider
 
         public override PaymentMethodType PaymentMethodType => PaymentMethodType.Unknown;
 
-        public override PaymentMethodGroupType PaymentMethodGroupType => PaymentMethodGroupType.Manual;
+        public override PaymentMethodGroupType PaymentMethodGroupType => PaymentMethodGroupType.Alternative;
 
         public override ProcessPaymentRequestResult ProcessPayment(ProcessPaymentRequest request)
         {
