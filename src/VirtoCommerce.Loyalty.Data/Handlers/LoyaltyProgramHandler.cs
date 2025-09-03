@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Hangfire;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.Provider;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.Platform.Core.Common;
@@ -29,10 +30,16 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
 
     public virtual Task Handle(OrderChangedEvent message)
     {
+        // remove order with loyalty payment method
         var loyaltyContexts = message.ChangedEntries
-            .Where(x => (x.EntryState == EntryState.Added || x.EntryState == EntryState.Modified) && !x.NewEntry.IsPrototype)
-            .OrderBy(x => x.NewEntry.ModifiedDate)
-            .Select(x => CreateLoyaltyContextByOrder(x.NewEntry))
+            .Where(x => (x.EntryState == EntryState.Added || x.EntryState == EntryState.Modified))
+            .Select(x => x.NewEntry)
+            .Where(x =>
+                !x.IsPrototype &&
+                !x.InPayments.IsNullOrEmpty() &&
+                x.InPayments.All(x => x.GatewayCode != nameof(LoyaltyPaymentMethod)))
+            .OrderBy(x => x.ModifiedDate)
+            .Select(x => CreateLoyaltyContextByOrder(x))
             .ToList();
 
         if (loyaltyContexts.Count > 0)

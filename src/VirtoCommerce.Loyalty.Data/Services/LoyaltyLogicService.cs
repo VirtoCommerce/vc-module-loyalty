@@ -149,7 +149,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         return ordersCount.TotalCount == 1;
     }
 
-    public async Task<LoyaltyProgramsEvaluationResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext)
+    public async Task<LoyaltyAmountResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext)
     {
         var allRewards = new List<LoyaltyReward>();
 
@@ -193,38 +193,48 @@ public class LoyaltyLogicService : ILoyaltyLogicService
 
         var summedRewardsByProgramId = allRewards
             .GroupBy(x => x.LoyaltyProgram.Id)
-            .Select(x => new LoyaltyProgramsEvaluationResult
+            .Select(x => new LoyaltyAmountResult
             {
                 LoyaltyProgramId = x.Key,
-                ActualRewardAmount = x.Sum(x => x.GetActualRewardAmount(loyaltyContext.OrderTotal))
+                Amount = x.Sum(x => x.GetActualRewardAmount(loyaltyContext.OrderTotal))
             })
             .ToArray();
 
         var maxReward = summedRewardsByProgramId
             .Where(x => maxPriotiryLoyaltyProgramIds.Contains(x.LoyaltyProgramId))
-            .OrderByDescending(x => x.ActualRewardAmount)
+            .OrderByDescending(x => x.Amount)
             .FirstOrDefault();
+
+        maxReward.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for rewards
 
         return maxReward;
     }
 
-    public async Task LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyProgramsEvaluationResult loyaltyResult)
+    public async Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult)
     {
         if (await IsObjectProcessedAsync(loyaltyContext.ContextObjectType, loyaltyContext.ContextObjectId))
         {
-            return;
+            return false;
         }
 
         var operationLog = AbstractTypeFactory<LoyaltyProgramOperationLog>.TryCreateInstance();
+        operationLog.OperationType = loyaltyResult.OperationType;
         operationLog.ObjectType = loyaltyContext.ContextObjectType;
         operationLog.ObjectId = loyaltyContext.ContextObjectId;
         operationLog.UserId = loyaltyContext.UserId;
         operationLog.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
-        operationLog.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for rewards
-        operationLog.Amount = loyaltyResult.ActualRewardAmount;
-        operationLog.Balance = await GetUserBalanceAsync(loyaltyContext.UserId) + loyaltyResult.ActualRewardAmount;
+        operationLog.Amount = loyaltyResult.Amount;
+
+        var balance = await GetUserBalanceAsync(loyaltyContext.UserId);
+        operationLog.Balance = operationLog.OperationType switch
+        {
+            ModuleConstants.LoyaltyPrograms.EarnedOperationType => balance + loyaltyResult.Amount,
+            _ => balance - loyaltyResult.Amount,
+        };
 
         await _loyaltyProgramOperationLogService.SaveChangesAsync([operationLog]);
+
+        return true;
     }
 
     private async Task<LoyaltyProgramOperationLog> GetLastLoyaltyOperationLogByUser(string userId)

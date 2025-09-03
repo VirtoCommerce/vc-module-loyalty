@@ -1,6 +1,11 @@
+using System.Collections.Specialized;
+using VirtoCommerce.Loyalty.Core;
+using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.PaymentModule.Core.Model;
 using VirtoCommerce.PaymentModule.Model.Requests;
+using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Data.Provider
 {
@@ -19,16 +24,62 @@ namespace VirtoCommerce.Loyalty.Data.Provider
 
         public override ProcessPaymentRequestResult ProcessPayment(ProcessPaymentRequest request)
         {
+            // empty result, actual payment processed in post process step
             return new ProcessPaymentRequestResult
             {
                 IsSuccess = true,
-                NewPaymentStatus = PaymentStatus.Paid
+            };
+        }
+
+        public override ValidatePostProcessRequestResult ValidatePostProcessRequest(NameValueCollection queryString)
+        {
+            return new ValidatePostProcessRequestResult
+            {
+                IsSuccess = true,
             };
         }
 
         public override PostProcessPaymentRequestResult PostProcessPayment(PostProcessPaymentRequest request)
         {
-            return NotSupportedResult<PostProcessPaymentRequestResult>();
+            // check balance against order total
+            var order = (CustomerOrder)request.Order;
+            var balance = _loyaltyLogicService.GetUserBalanceAsync(order.CustomerId)
+                .GetAwaiter()
+                .GetResult();
+
+            if (balance < order.Total)
+            {
+                return new PostProcessPaymentRequestResult
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Insufficient loyalty points balance.",
+                };
+            }
+
+            // create loyalty transaction
+            var context = CreateLoyaltyContextByOrder(order);
+            var amountResult = new LoyaltyAmountResult
+            {
+                Amount = order.Total,
+                OperationType = ModuleConstants.LoyaltyPrograms.RedeemedOperationType,
+            };
+
+            var redeemResult = _loyaltyLogicService.LogLoyaltyProgramOperationAsync(context, amountResult).GetAwaiter().GetResult();
+            var result = new PostProcessPaymentRequestResult
+            {
+                IsSuccess = redeemResult,
+            };
+
+            if (redeemResult)
+            {
+                result.NewPaymentStatus = PaymentStatus.Paid;
+            }
+            else
+            {
+                result.ErrorMessage = "Failed redeem loyalty points for this order.";
+            }
+
+            return result;
         }
 
         public override VoidPaymentRequestResult VoidProcessPayment(VoidPaymentRequest request)
@@ -46,12 +97,13 @@ namespace VirtoCommerce.Loyalty.Data.Provider
             return NotSupportedResult<RefundPaymentRequestResult>();
         }
 
-        public override ValidatePostProcessRequestResult ValidatePostProcessRequest(System.Collections.Specialized.NameValueCollection queryString)
+        private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByOrder(CustomerOrder order)
         {
-            return new ValidatePostProcessRequestResult
-            {
-                IsSuccess = true,
-            };
+            var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+            context.ContextObjectType = nameof(CustomerOrder);
+            context.OrderId = order.Id;
+            context.UserId = order.CustomerId;
+            return context;
         }
 
         private static T NotSupportedResult<T>() where T : PaymentRequestResultBase, new()
