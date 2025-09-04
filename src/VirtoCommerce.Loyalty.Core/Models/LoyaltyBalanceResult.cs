@@ -4,5 +4,5 @@ public class LoyaltyBalanceResult
 {
     public decimal CurrentBalance { get; set; }
 
-    public decimal ResultBance { get; set; }
+    public decimal ResultBalance { get; set; }
 }

@@ -41,11 +41,11 @@ public class GetLoyaltyBalanceQueryBuilderHandler : IQueryHandler<GetLoyaltyBala
             return result;
         }
 
-        result.CurrentBalance = await _loyaltyLogicService.GetUserBalanceAsync(userId);
+        result.CurrentBalance = result.ResultBalance = await _loyaltyLogicService.GetUserBalanceAsync(userId);
 
         if (order != null)
         {
-            result.ResultBance = Math.Max(result.CurrentBalance - order.Total, 0);
+            result.ResultBalance = Math.Max(result.CurrentBalance - order.Total, 0);
         }
 
         return result;
