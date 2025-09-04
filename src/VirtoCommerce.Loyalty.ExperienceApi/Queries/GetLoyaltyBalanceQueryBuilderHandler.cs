@@ -1,11 +1,8 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
-using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.OrdersModule.Core.Services;
-using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Xapi.Core.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
@@ -23,30 +20,11 @@ public class GetLoyaltyBalanceQueryBuilderHandler : IQueryHandler<GetLoyaltyBala
 
     public async Task<LoyaltyBalanceResult> Handle(GetLoyaltyBalanceQuery request, CancellationToken cancellationToken)
     {
-        // if UserId is not provided get user from order, if order is not provided return 0
-        var result = new LoyaltyBalanceResult();
-
-        CustomerOrder order = null;
-
-        var userId = request.UserId;
-        if (userId.IsNullOrEmpty() && request.OrderId.IsNullOrEmpty())
+        var result = await _loyaltyLogicService.GetLoyaltyBalanceAsync(new LoyaltyBalanceRequest
         {
-            order = await _customerOrderService.GetNoCloneAsync(request.OrderId, CustomerOrderResponseGroup.WithPrices.ToString());
-
-            userId = order?.CustomerId;
-        }
-
-        if (userId.IsNullOrEmpty())
-        {
-            return result;
-        }
-
-        result.CurrentBalance = result.ResultBalance = await _loyaltyLogicService.GetUserBalanceAsync(userId);
-
-        if (order != null)
-        {
-            result.ResultBalance = Math.Max(result.CurrentBalance - order.Total, 0);
-        }
+            OrderId = request.OrderId,
+            UserId = request.UserId,
+        });
 
         return result;
     }

@@ -21,7 +21,7 @@ public class GetLoyaltyBalanceQuery : Query<LoyaltyBalanceResult>
 
     public override void Map(IResolveFieldContext context)
     {
-        UserId = context.GetArgument<string>(nameof(UserId));
+        UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
         OrderId = context.GetArgument<string>(nameof(OrderId));
     }
 }

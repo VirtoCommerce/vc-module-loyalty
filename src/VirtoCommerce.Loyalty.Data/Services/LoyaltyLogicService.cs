@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,6 +71,38 @@ public class LoyaltyLogicService : ILoyaltyLogicService
     {
         var operationLog = await GetLastLoyaltyOperationLogByUser(userId);
         return operationLog?.Balance ?? 0;
+    }
+
+    public async Task<LoyaltyBalanceResult> GetLoyaltyBalanceAsync(LoyaltyBalanceRequest request)
+    {
+        // if UserId is not provided get user from order, if order is not provided return 0
+        var result = new LoyaltyBalanceResult();
+        var order = request.CustomerOrder;
+        var userId = request.UserId;
+
+        if (order == null && !request.OrderId.IsNullOrEmpty())
+        {
+            order = await _customerOrderService.GetNoCloneAsync(request.OrderId, CustomerOrderResponseGroup.WithPrices.ToString());
+        }
+
+        if (userId.IsNullOrEmpty() && order != null)
+        {
+            userId = order.CustomerId;
+        }
+
+        if (userId.IsNullOrEmpty())
+        {
+            return result;
+        }
+
+        result.CurrentBalance = result.ResultBalance = await GetUserBalanceAsync(userId);
+
+        if (order != null)
+        {
+            result.ResultBalance = result.CurrentBalance - order.Total;
+        }
+
+        return result;
     }
 
     public async Task<bool> IsObjectProcessedAsync(string objectType, string objectId)
