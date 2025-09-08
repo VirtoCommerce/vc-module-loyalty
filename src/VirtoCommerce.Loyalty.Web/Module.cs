@@ -1,6 +1,7 @@
 using System;
 using GraphQL;
 using GraphQL.MicrosoftDI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ using VirtoCommerce.Loyalty.Data.Repositories;
 using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
+using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -77,6 +79,8 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
 
         serviceCollection.AddTransient<LoyaltyPaymentMethod>();
+
+        serviceCollection.AddSingleton<IAuthorizationHandler, CanAccessLoyaltyAuthorizationHandler>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
