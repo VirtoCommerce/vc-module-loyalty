@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+  <id>VirtoCommerce.Loyalty</id>
+  <version>3.800.0</version>
+  <version-tag></version-tag>
+
+  <platformVersion>3.895.0</platformVersion>
+  <dependencies>
+    <dependency id="VirtoCommerce.Core" version="3.822.0" />
+    <dependency id="VirtoCommerce.Orders" version="3.853.0" />
+  </dependencies>
+
+  <title>VirtoCommerce Loyalty</title>
+  <description>VirtoCommerce Loyalty</description>
+
+  <authors>
+    <author>Konstantin Savosteev</author>
+  </authors>
+  <owners>
+    <owner>VirtoCommerce</owner>
+  </owners>
+
+  <projectUrl>https://github.com/VirtoCommerce/vc-module-loyalty</projectUrl>
+  <iconUrl>Modules/$(VirtoCommerce.Loyalty)/Content/logo.png</iconUrl>
+  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+  <assemblyFile>VirtoCommerce.Loyalty.Web.dll</assemblyFile>
+  <moduleType>VirtoCommerce.Loyalty.Web.Module, VirtoCommerce.Loyalty.Web</moduleType>
+
+  <releaseNotes>First version.</releaseNotes>
+  <copyright>Copyright © 2025 VirtoCommerce. All rights reserved</copyright>
+  <tags>extension module</tags>
+  <useFullTypeNameInSwagger>false</useFullTypeNameInSwagger>
+</module>

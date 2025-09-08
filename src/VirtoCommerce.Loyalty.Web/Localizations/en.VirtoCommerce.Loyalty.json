@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Loyalty programs",
+        "labels": {
+          "name": "Name",
+          "is-active": "Is active",
+          "last-modified": "Last modified",
+          "new-filter": "New filter"
+        },
+        "placeholders": {
+          "select-filter": "Select filter"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Loyalty program details",
+        "new-program": "New loyalty program",
+        "labels": {
+          "name": "Name",
+          "localized-names": "Localized names",
+          "description": "Description",
+          "is-active": "Is active",
+          "priority": "Priority",
+          "store": "Store",
+          "start-date": "Start date",
+          "end-date": "End date",
+          "loyalty-program": "Loyalty program",
+          "show-more-languages": "Show more languages",
+          "show-less-languages": "Show less languages"
+        },
+        "placeholders": {
+          "store": "Select store",
+          "name": "Enter program name"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Loyalty operation log",
+        "commands": {
+          "open-loyalty-program": "Open program"
+        },
+        "labels": {
+          "operation-type": "Operation",
+          "operation-type-earned": "Earned",
+          "operation-type-redeemed": "Redeemed",
+          "order-number": "Order number",
+          "amount": "Amount",
+          "balance": "Balance",
+          "created-date": "Created"
+        }
+      },
+      "filter-detail": {
+        "title": "Filter loyalty programs",
+        "labels": {
+          "name": "Name",
+          "is-active": "Is active",
+          "store": "Stores",
+          "start-date": "Start date",
+          "end-date": "End date",
+          "unnamed-filter": "Unnamed filter",
+          "criteria": "Filter criteria"
+        },
+        "placeholders": {
+          "name": "Enter program name",
+          "store": "Select store"
+        }
+      } 
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Loyalty balance"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Delete loyalty program",
+        "message": "Are you sure you want to delete selected loyalty program?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Open Loyalty menu",
+    "loyalty:create": "Create Loyalty related data",
+    "loyalty:read": "View Loyalty related data",
+    "loyalty:update": "Update Loyalty related data",
+    "loyalty:delete": "Delete Loyalty related data"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enabled": {
+        "title": "Loyalty Enabled",
+        "description": "Loyalty Enabled setting"
+      }
+    }
+  }
+}
