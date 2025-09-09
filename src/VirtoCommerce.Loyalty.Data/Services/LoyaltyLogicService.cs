@@ -238,8 +238,12 @@ public class LoyaltyLogicService : ILoyaltyLogicService
             .OrderByDescending(x => x.Amount)
             .FirstOrDefault();
 
-        maxReward.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for rewards
+        if (maxReward == null)
+        {
+            return null;
+        }
 
+        maxReward.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for rewards
         return maxReward;
     }
 

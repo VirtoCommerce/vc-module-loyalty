@@ -87,12 +87,12 @@ namespace VirtoCommerce.Loyalty.Data.Provider
             return NotSupportedResult<VoidPaymentRequestResult>();
         }
 
-        public override CapturePaymentRequestResult CaptureProcessPayment(CapturePaymentRequest request)
+        public override CapturePaymentRequestResult CaptureProcessPayment(CapturePaymentRequest context)
         {
             return NotSupportedResult<CapturePaymentRequestResult>();
         }
 
-        public override RefundPaymentRequestResult RefundProcessPayment(RefundPaymentRequest request)
+        public override RefundPaymentRequestResult RefundProcessPayment(RefundPaymentRequest context)
         {
             return NotSupportedResult<RefundPaymentRequestResult>();
         }
