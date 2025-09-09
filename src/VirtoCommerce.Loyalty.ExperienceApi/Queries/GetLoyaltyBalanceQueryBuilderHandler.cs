@@ -10,7 +10,7 @@ public class GetLoyaltyBalanceQueryBuilderHandler : IQueryHandler<GetLoyaltyBala
 {
     private readonly ILoyaltyLogicService _loyaltyLogicService;
 
-    public GetLoyaltyBalanceQueryBuilderHandler(ILoyaltyLogicService loyaltyLogicService,)
+    public GetLoyaltyBalanceQueryBuilderHandler(ILoyaltyLogicService loyaltyLogicService)
     {
         _loyaltyLogicService = loyaltyLogicService;
     }
