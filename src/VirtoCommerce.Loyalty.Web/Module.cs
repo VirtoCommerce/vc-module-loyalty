@@ -30,7 +30,9 @@ using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.Platform.Data.MySql.Extensions;
 using VirtoCommerce.Platform.Data.PostgreSql.Extensions;
 using VirtoCommerce.Platform.Data.SqlServer.Extensions;
+using VirtoCommerce.StoreModule.Core.Model;
 using VirtoCommerce.Xapi.Core.Extensions;
+using VirtoCommerce.Xapi.Core.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.Web;
 
@@ -45,6 +47,7 @@ public class Module : IModule, IHasConfiguration
         {
             builder.AddSchema(serviceCollection, typeof(XapiAssemblyMarker));
         });
+        serviceCollection.AddSingleton<ScopedSchemaFactory<XapiAssemblyMarker>>();
 
         serviceCollection.AddDbContext<LoyaltyDbContext>(options =>
         {
@@ -85,11 +88,16 @@ public class Module : IModule, IHasConfiguration
 
     public void PostInitialize(IApplicationBuilder appBuilder)
     {
+        appBuilder.UseScopedSchema<XapiAssemblyMarker>("loyalty");
+
         var serviceProvider = appBuilder.ApplicationServices;
 
         // Register settings
         var settingsRegistrar = serviceProvider.GetRequiredService<ISettingsRegistrar>();
         settingsRegistrar.RegisterSettings(ModuleConstants.Settings.AllSettings, ModuleInfo.Id);
+
+        // Register store settings
+        settingsRegistrar.RegisterSettingsForType(ModuleConstants.Settings.StoreSettings, nameof(Store));
 
         // Register permissions
         var permissionsRegistrar = serviceProvider.GetRequiredService<IPermissionsRegistrar>();
