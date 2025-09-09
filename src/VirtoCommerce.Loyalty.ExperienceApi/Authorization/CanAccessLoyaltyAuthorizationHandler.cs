@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using VirtoCommerce.Loyalty.ExperienceApi.Queries;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.Platform.Core;
 using VirtoCommerce.Platform.Core.Security;
@@ -26,9 +27,14 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
 
             if (!result)
             {
-                if (context.Resource is CustomerOrder order)
+                switch (context.Resource)
                 {
-                    result = order.CustomerId == GetCurrentUserId(context);
+                    case CustomerOrder order:
+                        result = order.CustomerId == GetCurrentUserId(context);
+                        break;
+                    case GetLoyaltyHistoryQuery query:
+                        result = query.UserId == GetCurrentUserId(context);
+                        break;
                 }
             }
 
