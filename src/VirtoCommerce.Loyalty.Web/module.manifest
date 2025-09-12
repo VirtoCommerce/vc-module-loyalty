@@ -10,8 +10,8 @@
     <dependency id="VirtoCommerce.Orders" version="3.853.0" />
   </dependencies>
 
-  <title>VirtoCommerce Loyalty</title>
-  <description>VirtoCommerce Loyalty</description>
+  <title>Loyalty</title>
+  <description>Customer loyalty program is offering your customers some reward for shopping at your store.</description>
 
   <authors>
     <author>Konstantin Savosteev</author>
