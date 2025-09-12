@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Treueprogramme",
+        "labels": {
+          "name": "Name",
+          "is-active": "Aktiv",
+          "last-modified": "Zuletzt geändert",
+          "new-filter": "Neuer Filter"
+        },
+        "placeholders": {
+          "select-filter": "Filter auswählen"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Details zum Treueprogramm",
+        "new-program": "Neues Treueprogramm",
+        "labels": {
+          "name": "Name",
+          "localized-names": "Lokalisierte Namen",
+          "description": "Beschreibung",
+          "is-active": "Aktiv",
+          "priority": "Priorität",
+          "store": "Geschäft",
+          "start-date": "Startdatum",
+          "end-date": "Enddatum",
+          "loyalty-program": "Treueprogramm",
+          "show-more-languages": "Mehr Sprachen anzeigen",
+          "show-less-languages": "Weniger Sprachen anzeigen"
+        },
+        "placeholders": {
+          "store": "Geschäft auswählen",
+          "name": "Programmnamen eingeben"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Treue-Operationsprotokoll",
+        "commands": {
+          "open-loyalty-program": "Programm öffnen"
+        },
+        "labels": {
+          "operation-type": "Vorgang",
+          "operation-type-earned": "Erhalten",
+          "operation-type-redeemed": "Eingelöst",
+          "order-number": "Bestellnummer",
+          "amount": "Betrag",
+          "balance": "Saldo",
+          "created-date": "Erstellt"
+        }
+      },
+      "filter-detail": {
+        "title": "Treueprogramme filtern",
+        "labels": {
+          "name": "Name",
+          "is-active": "Aktiv",
+          "store": "Geschäfte",
+          "start-date": "Startdatum",
+          "end-date": "Enddatum",
+          "unnamed-filter": "Unbenannter Filter",
+          "criteria": "Filterkriterien"
+        },
+        "placeholders": {
+          "name": "Programmnamen eingeben",
+          "store": "Geschäft auswählen"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Treuesaldo"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Treueprogramm löschen",
+        "message": "Möchten Sie das ausgewählte Treueprogramm wirklich löschen?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Treue-Menü öffnen",
+    "loyalty:create": "Treuedaten erstellen",
+    "loyalty:read": "Treuedaten anzeigen",
+    "loyalty:update": "Treuedaten aktualisieren",
+    "loyalty:delete": "Treuedaten löschen"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Treue aktiviert",
+        "description": "Einstellung für Treue aktiviert"
+      }
+    }
+  }
+}

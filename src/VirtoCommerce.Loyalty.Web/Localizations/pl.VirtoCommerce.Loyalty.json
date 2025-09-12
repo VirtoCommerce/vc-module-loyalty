@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Programy lojalnościowe",
+        "labels": {
+          "name": "Nazwa",
+          "is-active": "Aktywny",
+          "last-modified": "Ostatnia modyfikacja",
+          "new-filter": "Nowy filtr"
+        },
+        "placeholders": {
+          "select-filter": "Wybierz filtr"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Szczegóły programu lojalnościowego",
+        "new-program": "Nowy program lojalnościowy",
+        "labels": {
+          "name": "Nazwa",
+          "localized-names": "Zlokalizowane nazwy",
+          "description": "Opis",
+          "is-active": "Aktywny",
+          "priority": "Priorytet",
+          "store": "Sklep",
+          "start-date": "Data rozpoczęcia",
+          "end-date": "Data zakończenia",
+          "loyalty-program": "Program lojalnościowy",
+          "show-more-languages": "Pokaż więcej języków",
+          "show-less-languages": "Pokaż mniej języków"
+        },
+        "placeholders": {
+          "store": "Wybierz sklep",
+          "name": "Wpisz nazwę programu"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Dziennik operacji lojalnościowych",
+        "commands": {
+          "open-loyalty-program": "Otwórz program"
+        },
+        "labels": {
+          "operation-type": "Operacja",
+          "operation-type-earned": "Zebrane",
+          "operation-type-redeemed": "Wykorzystane",
+          "order-number": "Numer zamówienia",
+          "amount": "Kwota",
+          "balance": "Saldo",
+          "created-date": "Utworzono"
+        }
+      },
+      "filter-detail": {
+        "title": "Filtruj programy lojalnościowe",
+        "labels": {
+          "name": "Nazwa",
+          "is-active": "Aktywny",
+          "store": "Sklepy",
+          "start-date": "Data rozpoczęcia",
+          "end-date": "Data zakończenia",
+          "unnamed-filter": "Filtr bez nazwy",
+          "criteria": "Kryteria filtra"
+        },
+        "placeholders": {
+          "name": "Wpisz nazwę programu",
+          "store": "Wybierz sklep"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Saldo lojalnościowe"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Usuń program lojalnościowy",
+        "message": "Czy na pewno chcesz usunąć wybrany program lojalnościowy?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Otwórz menu lojalnościowe",
+    "loyalty:create": "Utwórz dane lojalnościowe",
+    "loyalty:read": "Wyświetl dane lojalnościowe",
+    "loyalty:update": "Zaktualizuj dane lojalnościowe",
+    "loyalty:delete": "Usuń dane lojalnościowe"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Lojalność włączona",
+        "description": "Ustawienie lojalności włączone"
+      }
+    }
+  }
+}

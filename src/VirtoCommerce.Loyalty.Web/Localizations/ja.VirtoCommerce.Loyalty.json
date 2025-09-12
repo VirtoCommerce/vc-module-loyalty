@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "ロイヤルティプログラム",
+        "labels": {
+          "name": "名前",
+          "is-active": "有効",
+          "last-modified": "最終更新",
+          "new-filter": "新しいフィルター"
+        },
+        "placeholders": {
+          "select-filter": "フィルターを選択"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "ロイヤルティプログラムの詳細",
+        "new-program": "新しいロイヤルティプログラム",
+        "labels": {
+          "name": "名前",
+          "localized-names": "ローカライズされた名前",
+          "description": "説明",
+          "is-active": "有効",
+          "priority": "優先度",
+          "store": "店舗",
+          "start-date": "開始日",
+          "end-date": "終了日",
+          "loyalty-program": "ロイヤルティプログラム",
+          "show-more-languages": "さらに言語を表示",
+          "show-less-languages": "言語を少なく表示"
+        },
+        "placeholders": {
+          "store": "店舗を選択",
+          "name": "プログラム名を入力"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "ロイヤルティ操作ログ",
+        "commands": {
+          "open-loyalty-program": "プログラムを開く"
+        },
+        "labels": {
+          "operation-type": "操作",
+          "operation-type-earned": "獲得",
+          "operation-type-redeemed": "利用",
+          "order-number": "注文番号",
+          "amount": "金額",
+          "balance": "残高",
+          "created-date": "作成日"
+        }
+      },
+      "filter-detail": {
+        "title": "ロイヤルティプログラムをフィルタ",
+        "labels": {
+          "name": "名前",
+          "is-active": "有効",
+          "store": "店舗",
+          "start-date": "開始日",
+          "end-date": "終了日",
+          "unnamed-filter": "名前なしフィルター",
+          "criteria": "フィルター条件"
+        },
+        "placeholders": {
+          "name": "プログラム名を入力",
+          "store": "店舗を選択"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "ロイヤルティ残高"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "ロイヤルティプログラムを削除",
+        "message": "選択したロイヤルティプログラムを削除してもよろしいですか？"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "ロイヤルティメニューを開く",
+    "loyalty:create": "ロイヤルティ関連データを作成",
+    "loyalty:read": "ロイヤルティ関連データを表示",
+    "loyalty:update": "ロイヤルティ関連データを更新",
+    "loyalty:delete": "ロイヤルティ関連データを削除"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "ロイヤルティ有効",
+        "description": "ロイヤルティ有効設定"
+      }
+    }
+  }
+}

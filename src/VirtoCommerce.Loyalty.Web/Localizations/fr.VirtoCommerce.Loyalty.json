@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Programmes de fidélité",
+        "labels": {
+          "name": "Nom",
+          "is-active": "Actif",
+          "last-modified": "Dernière modification",
+          "new-filter": "Nouveau filtre"
+        },
+        "placeholders": {
+          "select-filter": "Sélectionner un filtre"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Détails du programme de fidélité",
+        "new-program": "Nouveau programme de fidélité",
+        "labels": {
+          "name": "Nom",
+          "localized-names": "Noms localisés",
+          "description": "Description",
+          "is-active": "Actif",
+          "priority": "Priorité",
+          "store": "Magasin",
+          "start-date": "Date de début",
+          "end-date": "Date de fin",
+          "loyalty-program": "Programme de fidélité",
+          "show-more-languages": "Afficher plus de langues",
+          "show-less-languages": "Afficher moins de langues"
+        },
+        "placeholders": {
+          "store": "Sélectionner un magasin",
+          "name": "Saisir le nom du programme"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Journal des opérations de fidélité",
+        "commands": {
+          "open-loyalty-program": "Ouvrir le programme"
+        },
+        "labels": {
+          "operation-type": "Opération",
+          "operation-type-earned": "Gagné",
+          "operation-type-redeemed": "Utilisé",
+          "order-number": "Numéro de commande",
+          "amount": "Montant",
+          "balance": "Solde",
+          "created-date": "Créé"
+        }
+      },
+      "filter-detail": {
+        "title": "Filtrer les programmes de fidélité",
+        "labels": {
+          "name": "Nom",
+          "is-active": "Actif",
+          "store": "Magasins",
+          "start-date": "Date de début",
+          "end-date": "Date de fin",
+          "unnamed-filter": "Filtre sans nom",
+          "criteria": "Critères de filtre"
+        },
+        "placeholders": {
+          "name": "Saisir le nom du programme",
+          "store": "Sélectionner un magasin"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Solde de fidélité"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Supprimer le programme de fidélité",
+        "message": "Êtes-vous sûr de vouloir supprimer le programme de fidélité sélectionné ?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Ouvrir le menu fidélité",
+    "loyalty:create": "Créer des données liées à la fidélité",
+    "loyalty:read": "Voir les données liées à la fidélité",
+    "loyalty:update": "Mettre à jour les données liées à la fidélité",
+    "loyalty:delete": "Supprimer les données liées à la fidélité"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Fidélité activée",
+        "description": "Paramètre de fidélité activé"
+      }
+    }
+  }
+}
