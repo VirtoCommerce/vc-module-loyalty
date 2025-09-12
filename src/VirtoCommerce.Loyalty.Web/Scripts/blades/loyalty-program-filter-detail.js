@@ -68,10 +68,6 @@ angular.module('VirtoCommerce.Loyalty')
                     }
                 }];
 
-            blade.fetchVendors = function (criteria) {
-                return members.search(criteria);
-            }
-
             function deleteEntry() {
                 blade.parentBlade.filter.current = null;
                 $localStorage.loyaltyProgramSearchFilters.splice($localStorage.loyaltyProgramSearchFilters.indexOf(blade.originalEntity), 1);
