@@ -87,7 +87,7 @@
   },
   "settings": {
     "Loyalty": {
-      "Enabled": {
+      "Enable": {
         "title": "Loyalty Enabled",
         "description": "Loyalty Enabled setting"
       }

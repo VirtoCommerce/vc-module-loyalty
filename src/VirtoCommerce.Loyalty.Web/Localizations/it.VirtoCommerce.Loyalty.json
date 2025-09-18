@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Programmi fedeltà",
+        "labels": {
+          "name": "Nome",
+          "is-active": "Attivo",
+          "last-modified": "Ultima modifica",
+          "new-filter": "Nuovo filtro"
+        },
+        "placeholders": {
+          "select-filter": "Seleziona filtro"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Dettagli programma fedeltà",
+        "new-program": "Nuovo programma fedeltà",
+        "labels": {
+          "name": "Nome",
+          "localized-names": "Nomi localizzati",
+          "description": "Descrizione",
+          "is-active": "Attivo",
+          "priority": "Priorità",
+          "store": "Negozio",
+          "start-date": "Data di inizio",
+          "end-date": "Data di fine",
+          "loyalty-program": "Programma fedeltà",
+          "show-more-languages": "Mostra più lingue",
+          "show-less-languages": "Mostra meno lingue"
+        },
+        "placeholders": {
+          "store": "Seleziona negozio",
+          "name": "Inserisci nome del programma"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Registro operazioni fedeltà",
+        "commands": {
+          "open-loyalty-program": "Apri programma"
+        },
+        "labels": {
+          "operation-type": "Operazione",
+          "operation-type-earned": "Accumulato",
+          "operation-type-redeemed": "Riscattato",
+          "order-number": "Numero ordine",
+          "amount": "Importo",
+          "balance": "Saldo",
+          "created-date": "Creato"
+        }
+      },
+      "filter-detail": {
+        "title": "Filtrare programmi fedeltà",
+        "labels": {
+          "name": "Nome",
+          "is-active": "Attivo",
+          "store": "Negozi",
+          "start-date": "Data di inizio",
+          "end-date": "Data di fine",
+          "unnamed-filter": "Filtro senza nome",
+          "criteria": "Criteri di filtro"
+        },
+        "placeholders": {
+          "name": "Inserisci nome del programma",
+          "store": "Seleziona negozio"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Saldo fedeltà"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Elimina programma fedeltà",
+        "message": "Sei sicuro di voler eliminare il programma fedeltà selezionato?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Apri menu fedeltà",
+    "loyalty:create": "Crea dati relativi alla fedeltà",
+    "loyalty:read": "Visualizza dati relativi alla fedeltà",
+    "loyalty:update": "Aggiorna dati relativi alla fedeltà",
+    "loyalty:delete": "Elimina dati relativi alla fedeltà"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Fedeltà attivata",
+        "description": "Impostazione fedeltà attivata"
+      }
+    }
+  }
+}

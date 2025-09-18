@@ -1,4 +1,7 @@
 using System;
+using GraphQL;
+using GraphQL.MicrosoftDI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,10 +13,14 @@ using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Handlers;
 using VirtoCommerce.Loyalty.Data.MySql;
 using VirtoCommerce.Loyalty.Data.PostgreSql;
+using VirtoCommerce.Loyalty.Data.Provider;
 using VirtoCommerce.Loyalty.Data.Repositories;
 using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
+using VirtoCommerce.Loyalty.ExperienceApi;
+using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
 using VirtoCommerce.OrdersModule.Core.Events;
+using VirtoCommerce.PaymentModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.Platform.Core.Modularity;
@@ -23,6 +30,9 @@ using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.Platform.Data.MySql.Extensions;
 using VirtoCommerce.Platform.Data.PostgreSql.Extensions;
 using VirtoCommerce.Platform.Data.SqlServer.Extensions;
+using VirtoCommerce.StoreModule.Core.Model;
+using VirtoCommerce.Xapi.Core.Extensions;
+using VirtoCommerce.Xapi.Core.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.Web;
 
@@ -33,6 +43,12 @@ public class Module : IModule, IHasConfiguration
 
     public void Initialize(IServiceCollection serviceCollection)
     {
+        _ = new GraphQLBuilder(serviceCollection, builder =>
+        {
+            builder.AddSchema(serviceCollection, typeof(XapiAssemblyMarker));
+        });
+        serviceCollection.AddSingleton<ScopedSchemaFactory<XapiAssemblyMarker>>();
+
         serviceCollection.AddDbContext<LoyaltyDbContext>(options =>
         {
             var databaseProvider = Configuration.GetValue("DatabaseProvider", "SqlServer");
@@ -64,15 +80,24 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyLogicService, LoyaltyLogicService>();
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
+
+        serviceCollection.AddTransient<LoyaltyPaymentMethod>();
+
+        serviceCollection.AddSingleton<IAuthorizationHandler, CanAccessLoyaltyAuthorizationHandler>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
     {
+        appBuilder.UseScopedSchema<XapiAssemblyMarker>("loyalty");
+
         var serviceProvider = appBuilder.ApplicationServices;
 
         // Register settings
         var settingsRegistrar = serviceProvider.GetRequiredService<ISettingsRegistrar>();
         settingsRegistrar.RegisterSettings(ModuleConstants.Settings.AllSettings, ModuleInfo.Id);
+
+        // Register store settings
+        settingsRegistrar.RegisterSettingsForType(ModuleConstants.Settings.StoreSettings, nameof(Store));
 
         // Register permissions
         var permissionsRegistrar = serviceProvider.GetRequiredService<IPermissionsRegistrar>();
@@ -90,6 +115,11 @@ public class Module : IModule, IHasConfiguration
 
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<UserChangedEvent, LoyaltyProgramHandler>();
+
+        // Register payment method
+        var paymentMethodsRegistrar = appBuilder.ApplicationServices.GetRequiredService<IPaymentMethodsRegistrar>();
+        paymentMethodsRegistrar.RegisterPaymentMethod(() =>
+            appBuilder.ApplicationServices.GetService<LoyaltyPaymentMethod>());
     }
 
     public void Uninstall()

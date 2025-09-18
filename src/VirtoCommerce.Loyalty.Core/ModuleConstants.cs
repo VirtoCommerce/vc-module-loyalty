@@ -36,20 +36,29 @@ public static class ModuleConstants
     {
         public static class General
         {
-            public static SettingDescriptor LoyaltyEnabled { get; } = new()
+            public static SettingDescriptor Enable { get; } = new()
             {
-                Name = "Loyalty.Enabled",
+                Name = "Loyalty.Enable",
                 GroupName = "Loyalty|General",
                 ValueType = SettingValueType.Boolean,
                 DefaultValue = false,
+                IsPublic = true,
             };
 
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
                 {
-                    yield return LoyaltyEnabled;
+                    yield return Enable;
                 }
+            }
+        }
+
+        public static IEnumerable<SettingDescriptor> StoreSettings
+        {
+            get
+            {
+                yield return General.Enable;
             }
         }
 

@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Программы лояльности",
+        "labels": {
+          "name": "Название",
+          "is-active": "Активно",
+          "last-modified": "Последнее изменение",
+          "new-filter": "Новый фильтр"
+        },
+        "placeholders": {
+          "select-filter": "Выберите фильтр"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Детали программы лояльности",
+        "new-program": "Новая программа лояльности",
+        "labels": {
+          "name": "Название",
+          "localized-names": "Локализованные названия",
+          "description": "Описание",
+          "is-active": "Активно",
+          "priority": "Приоритет",
+          "store": "Магазин",
+          "start-date": "Дата начала",
+          "end-date": "Дата окончания",
+          "loyalty-program": "Программа лояльности",
+          "show-more-languages": "Показать больше языков",
+          "show-less-languages": "Показать меньше языков"
+        },
+        "placeholders": {
+          "store": "Выберите магазин",
+          "name": "Введите название программы"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Журнал операций лояльности",
+        "commands": {
+          "open-loyalty-program": "Открыть программу"
+        },
+        "labels": {
+          "operation-type": "Операция",
+          "operation-type-earned": "Начислено",
+          "operation-type-redeemed": "Списано",
+          "order-number": "Номер заказа",
+          "amount": "Сумма",
+          "balance": "Баланс",
+          "created-date": "Создано"
+        }
+      },
+      "filter-detail": {
+        "title": "Фильтр программ лояльности",
+        "labels": {
+          "name": "Название",
+          "is-active": "Активно",
+          "store": "Магазины",
+          "start-date": "Дата начала",
+          "end-date": "Дата окончания",
+          "unnamed-filter": "Фильтр без названия",
+          "criteria": "Критерии фильтра"
+        },
+        "placeholders": {
+          "name": "Введите название программы",
+          "store": "Выберите магазин"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Баланс лояльности"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Удалить программу лояльности",
+        "message": "Вы уверены, что хотите удалить выбранную программу лояльности?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Открыть меню лояльности",
+    "loyalty:create": "Создать данные о лояльности",
+    "loyalty:read": "Просмотреть данные о лояльности",
+    "loyalty:update": "Обновить данные о лояльности",
+    "loyalty:delete": "Удалить данные о лояльности"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Лояльность включена",
+        "description": "Настройка включения лояльности"
+      }
+    }
+  }
+}

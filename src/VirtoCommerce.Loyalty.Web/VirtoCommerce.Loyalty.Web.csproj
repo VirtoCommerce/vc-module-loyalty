@@ -22,5 +22,6 @@
     <ProjectReference Include="..\VirtoCommerce.Loyalty.Data.MySql\VirtoCommerce.Loyalty.Data.MySql.csproj" />
     <ProjectReference Include="..\VirtoCommerce.Loyalty.Data.PostgreSql\VirtoCommerce.Loyalty.Data.PostgreSql.csproj" />
     <ProjectReference Include="..\VirtoCommerce.Loyalty.Data.SqlServer\VirtoCommerce.Loyalty.Data.SqlServer.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.Loyalty.ExperienceApi\VirtoCommerce.Loyalty.ExperienceApi.csproj" />
   </ItemGroup>
 </Project>

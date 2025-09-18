@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "忠诚度计划",
+        "labels": {
+          "name": "名称",
+          "is-active": "是否启用",
+          "last-modified": "最后修改",
+          "new-filter": "新筛选器"
+        },
+        "placeholders": {
+          "select-filter": "选择筛选器"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "忠诚度计划详情",
+        "new-program": "新建忠诚度计划",
+        "labels": {
+          "name": "名称",
+          "localized-names": "本地化名称",
+          "description": "描述",
+          "is-active": "是否启用",
+          "priority": "优先级",
+          "store": "门店",
+          "start-date": "开始日期",
+          "end-date": "结束日期",
+          "loyalty-program": "忠诚度计划",
+          "show-more-languages": "显示更多语言",
+          "show-less-languages": "显示更少语言"
+        },
+        "placeholders": {
+          "store": "选择门店",
+          "name": "输入计划名称"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "忠诚度操作日志",
+        "commands": {
+          "open-loyalty-program": "打开计划"
+        },
+        "labels": {
+          "operation-type": "操作类型",
+          "operation-type-earned": "获取",
+          "operation-type-redeemed": "兑换",
+          "order-number": "订单号",
+          "amount": "金额",
+          "balance": "余额",
+          "created-date": "创建日期"
+        }
+      },
+      "filter-detail": {
+        "title": "筛选忠诚度计划",
+        "labels": {
+          "name": "名称",
+          "is-active": "是否启用",
+          "store": "门店",
+          "start-date": "开始日期",
+          "end-date": "结束日期",
+          "unnamed-filter": "未命名筛选器",
+          "criteria": "筛选条件"
+        },
+        "placeholders": {
+          "name": "输入计划名称",
+          "store": "选择门店"
+        }
+      }
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "忠诚度余额"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "删除忠诚度计划",
+        "message": "您确定要删除所选的忠诚度计划吗？"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "打开忠诚度菜单",
+    "loyalty:create": "创建忠诚度数据",
+    "loyalty:read": "查看忠诚度数据",
+    "loyalty:update": "更新忠诚度数据",
+    "loyalty:delete": "删除忠诚度数据"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "启用忠诚度",
+        "description": "启用忠诚度设置"
+      }
+    }
+  }
+}
