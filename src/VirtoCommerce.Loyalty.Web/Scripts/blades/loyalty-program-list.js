@@ -106,7 +106,7 @@ angular.module('VirtoCommerce.Loyalty')
                 dialogService.showConfirmationDialog(dialog);
             };
 
-            blade.headIcon = 'fa fa-area-chart';
+            blade.headIcon = 'fa fa-star';
 
             blade.toolbarCommands = [
                 {

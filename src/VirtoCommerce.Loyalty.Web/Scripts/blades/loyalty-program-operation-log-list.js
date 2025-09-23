@@ -5,7 +5,7 @@ angular.module('VirtoCommerce.Loyalty')
         function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyProgramOperationLogs) {
             var blade = $scope.blade;
             var bladeNavigationService = bladeUtils.bladeNavigationService;
-            blade.headIcon = 'fa fa-area-chart';
+            blade.headIcon = 'fa fa-star';
 
             blade.refresh = function () {
                 blade.isLoading = true;

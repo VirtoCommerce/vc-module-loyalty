@@ -4,7 +4,7 @@ angular.module('VirtoCommerce.Loyalty')
             'VirtoCommerce.Loyalty.loyaltyPrograms', 'virtoCommerce.storeModule.stores', 'virtoCommerce.coreModule.common.dynamicExpressionService',
             function ($scope, bladeNavigationService, settings, metaFormsService, loyaltyPrograms, stores, dynamicExpressionService) {
                 var blade = $scope.blade;
-                blade.headIcon = 'fa fa-area-chart';
+                blade.headIcon = 'fa fa-star';
                 blade.updatePermission = 'loyalty:update';
                 blade.metaFields = metaFormsService.getMetaFields("loyaltyProgramDetail");
                 blade.expressionTreeTemplateUrl = dynamicExpressionService.expressionTreeTemplateUrl;
