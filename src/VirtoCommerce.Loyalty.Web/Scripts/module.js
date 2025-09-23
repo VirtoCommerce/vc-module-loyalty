@@ -38,7 +38,7 @@ angular.module(moduleName, [])
             // Register module in main menu
             var menuItem = {
                 path: 'browse/loyalty',
-                icon: 'fa fa-money',
+                icon: 'fa fa-star',
                 title: 'Loyalty',
                 priority: 100,
                 action: function () { $state.go('workspace.LoyaltyState'); },
