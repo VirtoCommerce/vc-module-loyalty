@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Lojalitetsprogram",
+        "labels": {
+          "name": "Namn",
+          "is-active": "Är aktiv",
+          "last-modified": "Senast ändrad",
+          "new-filter": "Nytt filter"
+        },
+        "placeholders": {
+          "select-filter": "Välj filter"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Detaljer för lojalitetsprogram",
+        "new-program": "Nytt lojalitetsprogram",
+        "labels": {
+          "name": "Namn",
+          "localized-names": "Lokaliserade namn",
+          "description": "Beskrivning",
+          "is-active": "Aktiv",
+          "priority": "Prioritet",
+          "store": "Butik",
+          "start-date": "Startdatum",
+          "end-date": "Slutdatum",
+          "loyalty-program": "Lojalitetsprogram",
+          "show-more-languages": "Visa fler språk",
+          "show-less-languages": "Visa färre språk"
+        },
+        "placeholders": {
+          "store": "Välj butik",
+          "name": "Ange programnamn"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Logg för lojalitetstransaktioner",
+        "commands": {
+          "open-loyalty-program": "Öppna program"
+        },
+        "labels": {
+          "operation-type": "Transaktion",
+          "operation-type-earned": "Intjänad",
+          "operation-type-redeemed": "Inlöst",
+          "order-number": "Ordernummer",
+          "amount": "Belopp",
+          "balance": "Saldo",
+          "created-date": "Skapad"
+        }
+      },
+      "filter-detail": {
+        "title": "Filtrera lojalitetsprogram",
+        "labels": {
+          "name": "Namn",
+          "is-active": "Aktiv",
+          "store": "Butiker",
+          "start-date": "Startdatum",
+          "end-date": "Slutdatum",
+          "unnamed-filter": "Namnlöst filter",
+          "criteria": "Filterkriterier"
+        },
+        "placeholders": {
+          "name": "Ange programnamn",
+          "store": "Välj butik"
+        }
+      } 
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Lojalitetssaldo"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Radera lojalitetsprogram",
+        "message": "Är du säker på att du vill radera det valda lojalitetsprogrammet?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Öppna lojalitetsmeny",
+    "loyalty:create": "Skapa lojalitetsrelaterade data",
+    "loyalty:read": "Visa lojalitetsrelaterade data",
+    "loyalty:update": "Uppdatera lojalitetsrelaterade data",
+    "loyalty:delete": "Radera lojalitetsrelaterade data"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Lojalitetsprogram",
+        "description": "Aktivera eller inaktivera lojalitetsprogram"
+      }
+    }
+  }
+}
