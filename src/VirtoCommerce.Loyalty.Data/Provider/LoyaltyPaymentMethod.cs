@@ -1,4 +1,6 @@
 using System.Collections.Specialized;
+using System.Threading;
+using System.Threading.Tasks;
 using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
@@ -22,24 +24,24 @@ namespace VirtoCommerce.Loyalty.Data.Provider
 
         public override PaymentMethodGroupType PaymentMethodGroupType => PaymentMethodGroupType.Alternative;
 
-        public override ProcessPaymentRequestResult ProcessPayment(ProcessPaymentRequest request)
+        public override Task<ProcessPaymentRequestResult> ProcessPaymentAsync(ProcessPaymentRequest request, CancellationToken cancellationToken)
         {
             // empty result, actual payment processed in post process step
-            return new ProcessPaymentRequestResult
+            return Task.FromResult(new ProcessPaymentRequestResult
             {
                 IsSuccess = true,
-            };
+            });
         }
 
-        public override ValidatePostProcessRequestResult ValidatePostProcessRequest(NameValueCollection queryString)
+        public override Task<ValidatePostProcessRequestResult> ValidatePostProcessRequestAsync(NameValueCollection queryString, CancellationToken cancellationToken)
         {
-            return new ValidatePostProcessRequestResult
+            return Task.FromResult(new ValidatePostProcessRequestResult
             {
                 IsSuccess = true,
-            };
+            });
         }
 
-        public override PostProcessPaymentRequestResult PostProcessPayment(PostProcessPaymentRequest request)
+        public override Task<PostProcessPaymentRequestResult> PostProcessPaymentAsync(PostProcessPaymentRequest request, CancellationToken cancellationToken)
         {
             // check balance against order total
             var order = (CustomerOrder)request.Order;
@@ -49,11 +51,11 @@ namespace VirtoCommerce.Loyalty.Data.Provider
 
             if (balance < order.Total)
             {
-                return new PostProcessPaymentRequestResult
+                return Task.FromResult(new PostProcessPaymentRequestResult
                 {
                     IsSuccess = false,
                     ErrorMessage = "Insufficient loyalty points balance.",
-                };
+                });
             }
 
             // create loyalty transaction
@@ -79,22 +81,7 @@ namespace VirtoCommerce.Loyalty.Data.Provider
                 result.ErrorMessage = "Failed redeem loyalty points for this order.";
             }
 
-            return result;
-        }
-
-        public override VoidPaymentRequestResult VoidProcessPayment(VoidPaymentRequest request)
-        {
-            return NotSupportedResult<VoidPaymentRequestResult>();
-        }
-
-        public override CapturePaymentRequestResult CaptureProcessPayment(CapturePaymentRequest context)
-        {
-            return NotSupportedResult<CapturePaymentRequestResult>();
-        }
-
-        public override RefundPaymentRequestResult RefundProcessPayment(RefundPaymentRequest context)
-        {
-            return NotSupportedResult<RefundPaymentRequestResult>();
+            return Task.FromResult(result);
         }
 
         private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByOrder(CustomerOrder order)
@@ -104,17 +91,6 @@ namespace VirtoCommerce.Loyalty.Data.Provider
             context.OrderId = order.Id;
             context.UserId = order.CustomerId;
             return context;
-        }
-
-        private static T NotSupportedResult<T>() where T : PaymentRequestResultBase, new()
-        {
-            var result = new T
-            {
-                IsSuccess = false,
-                ErrorMessage = "Not supported by LoyaltyPaymentMethod",
-            };
-
-            return result;
         }
     }
 }
