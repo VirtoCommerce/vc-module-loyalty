@@ -24,7 +24,7 @@ namespace VirtoCommerce.Loyalty.Data.Provider
 
         public override PaymentMethodGroupType PaymentMethodGroupType => PaymentMethodGroupType.Alternative;
 
-        public override Task<ProcessPaymentRequestResult> ProcessPaymentAsync(ProcessPaymentRequest request, CancellationToken cancellationToken)
+        public override Task<ProcessPaymentRequestResult> ProcessPaymentAsync(ProcessPaymentRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             // empty result, actual payment processed in post process step
             return Task.FromResult(new ProcessPaymentRequestResult
@@ -33,7 +33,7 @@ namespace VirtoCommerce.Loyalty.Data.Provider
             });
         }
 
-        public override Task<ValidatePostProcessRequestResult> ValidatePostProcessRequestAsync(NameValueCollection queryString, CancellationToken cancellationToken)
+        public override Task<ValidatePostProcessRequestResult> ValidatePostProcessRequestAsync(NameValueCollection queryString, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.FromResult(new ValidatePostProcessRequestResult
             {
@@ -41,7 +41,7 @@ namespace VirtoCommerce.Loyalty.Data.Provider
             });
         }
 
-        public override Task<PostProcessPaymentRequestResult> PostProcessPaymentAsync(PostProcessPaymentRequest request, CancellationToken cancellationToken)
+        public override Task<PostProcessPaymentRequestResult> PostProcessPaymentAsync(PostProcessPaymentRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             // check balance against order total
             var order = (CustomerOrder)request.Order;
