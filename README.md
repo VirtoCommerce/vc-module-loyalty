@@ -56,10 +56,30 @@ The **VirtoCommerce.Loyalty** module provides a flexible loyalty program managem
   - After completion, loyalty points are credited.
   - Next purchase: customer can choose **Pay with points** at checkout.
 
+## View Customer Balance and Transactions
+From customer account, ecommerce administrator can view customer's loyalty points balance and transaction history, including points earned and redeemed.
+
+![Customer Balance and Transactions](docs/media/loyalty-customer-balance-transactions.png)
+
+## Integration with Virto Commerce Frontend
+
+Virto Commerce Frontend are ready for handling loyalty store portal scenarios with following features:
+* Loyalty points balance and transaction history.
+* Use Loyalty payment method.
+
+![Loyalty Portal](docs/media/frontend-loyalty-portal.png)
+
+![Loyalty Portal](docs/media/frontend-loyalty-points-history.png)
+
+## Documentation
+
+* [User Documentation](https://docs.virtocommerce.org/platform/user-guide/3.0/loyalty/overview/)
+* [API Reference](https://docs.virtocommerce.org/platform/developer-guide/3.0/GraphQL-Storefront-API-Reference-xAPI/Loyalty/overview/)
+
 
 ## References
-* [Deployment](https://docs.virtocommerce.org/platform/developer-guide/Tutorials-and-How-tos/Tutorials/deploy-module-from-source-code/)
-* [Installation](https://docs.virtocommerce.org/platform/user-guide/modules-installation/)
+
+* [Documentation](https://docs.virtocommerce.org)
 * [Home](https://virtocommerce.com)
 * [Community](https://www.virtocommerce.org)
 * [Support](https://help.virtocommerce.com)
