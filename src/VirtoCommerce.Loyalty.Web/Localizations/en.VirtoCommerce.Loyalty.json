@@ -5,7 +5,7 @@
         "title": "Loyalty programs",
         "labels": {
           "name": "Name",
-          "is-active": "Is active",
+          "is-active": "Active",
           "last-modified": "Last modified",
           "new-filter": "New filter"
         },
@@ -20,7 +20,7 @@
           "name": "Name",
           "localized-names": "Localized names",
           "description": "Description",
-          "is-active": "Is active",
+          "is-active": "Active",
           "priority": "Priority",
           "store": "Store",
           "start-date": "Start date",
@@ -53,7 +53,7 @@
         "title": "Filter loyalty programs",
         "labels": {
           "name": "Name",
-          "is-active": "Is active",
+          "is-active": "Active",
           "store": "Stores",
           "start-date": "Start date",
           "end-date": "End date",
@@ -74,22 +74,22 @@
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Delete loyalty program",
-        "message": "Are you sure you want to delete selected loyalty program?"
+        "message": "Are you sure you want to delete the selected loyalty program?"
       }
     }
   },
   "permissions": {
-    "loyalty:access": "Open Loyalty menu",
-    "loyalty:create": "Create Loyalty related data",
-    "loyalty:read": "View Loyalty related data",
-    "loyalty:update": "Update Loyalty related data",
-    "loyalty:delete": "Delete Loyalty related data"
+    "loyalty:access": "Open loyalty menu",
+    "loyalty:create": "Create loyalty related data",
+    "loyalty:read": "View loyalty related data",
+    "loyalty:update": "Update loyalty related data",
+    "loyalty:delete": "Delete loyalty related data"
   },
   "settings": {
     "Loyalty": {
       "Enable": {
-        "title": "Loyalty Enabled",
-        "description": "Loyalty Enabled setting"
+        "title": "Loyalty",
+        "description": "Enable/ disable loyalty program"
       }
     }
   }
