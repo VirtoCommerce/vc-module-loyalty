@@ -63,9 +63,10 @@ From customer account, ecommerce administrator can view customer's loyalty point
 
 ## Integration with Virto Commerce Frontend
 
-Virto Commerce Frontend are ready for handling loyalty store portal scenarios with following features:
-* Loyalty points balance and transaction history.
-* Use Loyalty payment method.
+Virto Commerce Frontend supports loyalty store portal scenarios out of the box, with the following features:
+
+* Loyalty points balance and transaction history
+* Loyalty points as a payment method
 
 ![Loyalty Portal](docs/media/frontend-loyalty-portal.png)
 
