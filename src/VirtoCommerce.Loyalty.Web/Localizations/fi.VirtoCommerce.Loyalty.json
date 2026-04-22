@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Kanta-asiakasohjelmat",
+        "labels": {
+          "name": "Nimi",
+          "is-active": "On aktiivinen",
+          "last-modified": "Viimeksi muokattu",
+          "new-filter": "Uusi suodatin"
+        },
+        "placeholders": {
+          "select-filter": "Valitse suodatin"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Kanta-asiakasohjelman tiedot",
+        "new-program": "Uusi kanta-asiakasohjelma",
+        "labels": {
+          "name": "Nimi",
+          "localized-names": "Paikannetut nimet",
+          "description": "Kuvaus",
+          "is-active": "Aktiivinen",
+          "priority": "Prioriteetti",
+          "store": "Kauppa",
+          "start-date": "Aloituspäivä",
+          "end-date": "Päättymispäivä",
+          "loyalty-program": "Kanta-asiakasohjelma",
+          "show-more-languages": "Näytä lisää kieliä",
+          "show-less-languages": "Näytä vähemmän kieliä"
+        },
+        "placeholders": {
+          "store": "Valitse kauppa",
+          "name": "Syötä ohjelman nimi"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Kanta-asiakastoimintaloki",
+        "commands": {
+          "open-loyalty-program": "Avaa ohjelma"
+        },
+        "labels": {
+          "operation-type": "Toiminto",
+          "operation-type-earned": "Ansaittu",
+          "operation-type-redeemed": "Lunastettu",
+          "order-number": "Tilausnumero",
+          "amount": "Määrä",
+          "balance": "Saldo",
+          "created-date": "Luotu"
+        }
+      },
+      "filter-detail": {
+        "title": "Suodata kanta-asiakasohjelmia",
+        "labels": {
+          "name": "Nimi",
+          "is-active": "Aktiivinen",
+          "store": "Kaupat",
+          "start-date": "Aloituspäivä",
+          "end-date": "Päättymispäivä",
+          "unnamed-filter": "Nimetön suodatin",
+          "criteria": "Suodatinkriteerit"
+        },
+        "placeholders": {
+          "name": "Syötä ohjelman nimi",
+          "store": "Valitse kauppa"
+        }
+      } 
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Kanta-asiakassaldo"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Poista kanta-asiakasohjelma",
+        "message": "Oletko varma, että haluat poistaa valitun kanta-asiakasohjelman?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Avaa kanta-asiakasvalikko",
+    "loyalty:create": "Luo kanta-asiakkuuteen liittyviä tietoja",
+    "loyalty:read": "Näytä kanta-asiakkuuteen liittyviä tietoja",
+    "loyalty:update": "Päivitä kanta-asiakkuuteen liittyviä tietoja",
+    "loyalty:delete": "Poista kanta-asiakkuuteen liittyviä tietoja"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Kanta-asiakasohjelma",
+        "description": "Ota käyttöön tai poista käytöstä kanta-asiakasohjelma"
+      }
+    }
+  }
+}

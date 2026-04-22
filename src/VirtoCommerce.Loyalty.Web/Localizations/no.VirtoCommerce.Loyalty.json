@@ -1,0 +1,96 @@
+{
+  "Loyalty": {
+    "blades": {
+      "loyalty-program-list": {
+        "title": "Lojalitetsprogrammer",
+        "labels": {
+          "name": "Navn",
+          "is-active": "Er aktiv",
+          "last-modified": "Sist endret",
+          "new-filter": "Nytt filter"
+        },
+        "placeholders": {
+          "select-filter": "Velg filter"
+        }
+      },
+      "loyalty-program-details": {
+        "title": "Detaljer for lojalitetsprogram",
+        "new-program": "Nytt lojalitetsprogram",
+        "labels": {
+          "name": "Navn",
+          "localized-names": "Lokaliserte navn",
+          "description": "Beskrivelse",
+          "is-active": "Aktiv",
+          "priority": "Prioritet",
+          "store": "Butikk",
+          "start-date": "Startdato",
+          "end-date": "Sluttdato",
+          "loyalty-program": "Lojalitetsprogram",
+          "show-more-languages": "Vis flere språk",
+          "show-less-languages": "Vis færre språk"
+        },
+        "placeholders": {
+          "store": "Velg butikk",
+          "name": "Skriv inn programnavn"
+        }
+      },
+      "loyalty-program-operation-log-list": {
+        "title": "Logg for lojalitetstransaksjoner",
+        "commands": {
+          "open-loyalty-program": "Åpne program"
+        },
+        "labels": {
+          "operation-type": "Transaksjon",
+          "operation-type-earned": "Opptjent",
+          "operation-type-redeemed": "Innløst",
+          "order-number": "Ordrenummer",
+          "amount": "Beløp",
+          "balance": "Saldo",
+          "created-date": "Opprettet"
+        }
+      },
+      "filter-detail": {
+        "title": "Filtrer lojalitetsprogrammer",
+        "labels": {
+          "name": "Navn",
+          "is-active": "Aktiv",
+          "store": "Butikker",
+          "start-date": "Startdato",
+          "end-date": "Sluttdato",
+          "unnamed-filter": "Navnløst filter",
+          "criteria": "Filterkriterier"
+        },
+        "placeholders": {
+          "name": "Skriv inn programnavn",
+          "store": "Velg butikk"
+        }
+      } 
+    },
+    "widgets": {
+      "customer-loyalty": {
+        "title": "Lojalitetssaldo"
+      }
+    },
+    "dialogs": {
+      "loyalty-program-delete": {
+        "title": "Slett lojalitetsprogram",
+        "message": "Er du sikker på at du vil slette det valgte lojalitetsprogrammet?"
+      }
+    }
+  },
+  "permissions": {
+    "loyalty:access": "Åpne lojalitetsmeny",
+    "loyalty:create": "Opprett lojalitetsrelaterte data",
+    "loyalty:read": "Vis lojalitetsrelaterte data",
+    "loyalty:update": "Oppdater lojalitetsrelaterte data",
+    "loyalty:delete": "Slett lojalitetsrelaterte data"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "Lojalitetsprogram",
+        "description": "Aktiver eller deaktiver lojalitetsprogram"
+      }
+    }
+  }
+}
