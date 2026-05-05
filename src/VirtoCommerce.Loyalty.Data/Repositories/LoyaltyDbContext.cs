@@ -42,6 +42,12 @@ public class LoyaltyDbContext : DbContextBase
              .HasIndex(x => new { x.ObjectId, x.ObjectType, x.OperationType }).IsUnique()
              .HasDatabaseName("IX_LoyaltyProgramOperationLog_ObjectId_ObjectType_OperationType");
 
+        modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().ToTable("LoyaltyProgramProductFactor").HasKey(x => x.Id);
+        modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
+        modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().HasOne(x => x.LoyaltyProgram).WithMany()
+            .HasForeignKey(x => x.LoyaltyProgramId).OnDelete(DeleteBehavior.Cascade).IsRequired();
+        modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().Property(x => x.Factor).HasPrecision(18, 2);
+
         switch (Database.ProviderName)
         {
             case "Pomelo.EntityFrameworkCore.MySql":

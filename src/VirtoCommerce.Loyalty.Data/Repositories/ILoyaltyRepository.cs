@@ -15,4 +15,8 @@ public interface ILoyaltyRepository : IRepository
     IQueryable<LoyaltyProgramOperationLogEntity> LoyaltyProgramOperationLogs { get; }
 
     Task<IList<LoyaltyProgramOperationLogEntity>> GetLoyaltyProgramOperationLogsByIdsAsync(IList<string> ids, string responseGroup);
+
+    IQueryable<LoyaltyProgramProductFactorEntity> LoyaltyProgramProductFactors { get; }
+
+    Task<IList<LoyaltyProgramProductFactorEntity>> GetLoyaltyProgramProductFactorsByIdsAsync(IList<string> ids, string responseGroup);
 }
