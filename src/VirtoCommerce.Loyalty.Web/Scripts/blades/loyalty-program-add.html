@@ -1,0 +1,25 @@
+<div class="blade-content __wide">
+    <div class="blade-inner">
+        <div class="inner-block">
+            <table class="basic-table">
+                <thead>
+                    <tr>
+                        <th translate="Loyalty.blades.loyalty-program-add.labels.name"></th>
+                        <th translate="Loyalty.blades.loyalty-program-add.labels.description"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="programType in blade.programTypes"
+                        ng-click="selectType(programType)"
+                        style="cursor: pointer;">
+                        <td>
+                            <i class="fa fa-star" style="margin-right: 6px;"></i>
+                            <span translate="{{ programType.name }}"></span>
+                        </td>
+                        <td><span translate="{{ programType.description }}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

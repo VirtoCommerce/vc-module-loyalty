@@ -13,6 +13,24 @@
           "select-filter": "Select filter"
         }
       },
+      "loyalty-program-add": {
+        "title": "Add loyalty program",
+        "subtitle": "Select program type",
+        "labels": {
+          "name": "Type",
+          "description": "Description"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Order loyalty",
+            "description": "Reward customers based on order conditions and totals"
+          },
+          "product-points-loyalty": {
+            "name": "Product Points Loyalty",
+            "description": "Reward customers with points for purchasing specific products"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Loyalty program details",
         "new-program": "New loyalty program",

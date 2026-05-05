@@ -13,6 +13,24 @@
           "select-filter": "Выберите фильтр"
         }
       },
+      "loyalty-program-add": {
+        "title": "Добавить программу лояльности",
+        "subtitle": "Выберите тип программы",
+        "labels": {
+          "name": "Тип",
+          "description": "Описание"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Order loyalty",
+            "description": "Начисление вознаграждений на основе условий и сумм заказа"
+          },
+          "product-points-loyalty": {
+            "name": "Product Points Loyalty",
+            "description": "Начисление баллов за покупку определённых товаров"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Детали программы лояльности",
         "new-program": "Новая программа лояльности",

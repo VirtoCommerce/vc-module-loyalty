@@ -31,3 +31,23 @@ public class LoyaltyProgramConditionAndRewardTreePrototype : ConditionTree
         WithAvailableChildren(children);
     }
 }
+
+/// <summary>
+/// Condition tree for ProductType loyalty - only user type conditions
+/// </summary>
+public class LoyaltyProgramProductConditionTreePrototype : ConditionTree
+{
+    public LoyaltyProgramProductConditionTreePrototype()
+    {
+        IConditionTree[] children =
+        [
+            new BlockLoyaltyCondition()
+                .WithAvailableChildren(
+                    new UserGroupIsCondition()
+                ),
+        ];
+
+        WithChildren(children);
+        WithAvailableChildren(children);
+    }
+}

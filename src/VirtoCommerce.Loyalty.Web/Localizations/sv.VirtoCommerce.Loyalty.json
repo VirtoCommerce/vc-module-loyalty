@@ -13,6 +13,24 @@
           "select-filter": "Välj filter"
         }
       },
+      "loyalty-program-add": {
+        "title": "Lägg till lojalitetsprogram",
+        "subtitle": "Välj programtyp",
+        "labels": {
+          "name": "Typ",
+          "description": "Beskrivning"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Order loyalty",
+            "description": "Belöna kunder baserat på ordervillkor och summor"
+          },
+          "product-points-loyalty": {
+            "name": "Product Points Loyalty",
+            "description": "Belöna kunder med poäng för köp av specifika produkter"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Detaljer för lojalitetsprogram",
         "new-program": "Nytt lojalitetsprogram",

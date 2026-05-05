@@ -113,6 +113,11 @@ public class Module : IModule, IHasConfiguration
             AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
         }
 
+        foreach (var conditionTree in AbstractTypeFactory<LoyaltyProgramProductConditionTreePrototype>.TryCreateInstance().Traverse<IConditionTree>(x => x.AvailableChildren))
+        {
+            AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
+        }
+
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<UserChangedEvent, LoyaltyProgramHandler>();
 

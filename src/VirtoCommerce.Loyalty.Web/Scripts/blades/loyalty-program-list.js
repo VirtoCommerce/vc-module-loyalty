@@ -123,12 +123,10 @@ angular.module('VirtoCommerce.Loyalty')
                         bladeNavigationService.closeChildrenBlades(blade, function () {
                             var newBlade = {
                                 id: 'listItemChild',
-                                title: 'Loyalty.blades.loyalty-program-details.new-program',
-                                subtitle: blade.subtitle,
-                                isNew: true,
-                                currentEntity: {},
-                                controller: 'VirtoCommerce.Loyalty.loyaltyProgramDetailsController',
-                                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-details.html'
+                                title: 'Loyalty.blades.loyalty-program-add.title',
+                                subtitle: 'Loyalty.blades.loyalty-program-add.subtitle',
+                                controller: 'VirtoCommerce.Loyalty.loyaltyProgramAddController',
+                                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-add.html'
                             };
                             bladeNavigationService.showBlade(newBlade, blade);
                         });
