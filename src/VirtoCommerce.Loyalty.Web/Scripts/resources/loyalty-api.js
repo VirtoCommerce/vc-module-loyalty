@@ -14,4 +14,14 @@ angular.module('VirtoCommerce.Loyalty')
             getBalance: { method: 'GET', url: 'api/loyalty-program-operation-log/balance/:userId' },
             search: { url: 'api/loyalty-program-operation-log/search', method: 'POST' },
         });
+    }])
+    .factory('VirtoCommerce.Loyalty.loyaltyProgramProductFactors', ['$resource', function ($resource) {
+        return $resource('api/loyalty-program-product-factors/', {}, {
+            get: { method: 'GET', url: 'api/loyalty-program-product-factors/:id' },
+            search: { url: 'api/loyalty-program-product-factors/search', method: 'POST' },
+            save: { method: 'POST' },
+            update: { method: 'PUT' },
+            updateFactors: { url: 'api/loyalty-program-product-factors/factors', method: 'PUT' },
+            delete: { method: 'DELETE' },
+        });
     }]);

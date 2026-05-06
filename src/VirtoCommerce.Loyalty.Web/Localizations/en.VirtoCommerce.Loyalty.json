@@ -67,6 +67,19 @@
           "created-date": "Created"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "Product factors",
+        "labels": {
+          "product-id": "Product ID",
+          "factor": "Factor"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Select product factors",
+        "commands": {
+          "add": "Add selected"
+        }
+      },
       "filter-detail": {
         "title": "Filter loyalty programs",
         "labels": {
@@ -82,11 +95,14 @@
           "name": "Enter program name",
           "store": "Select store"
         }
-      } 
+      }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Loyalty balance"
+      },
+      "loyalty-product-factors": {
+        "title": "Product factors"
       }
     },
     "dialogs": {

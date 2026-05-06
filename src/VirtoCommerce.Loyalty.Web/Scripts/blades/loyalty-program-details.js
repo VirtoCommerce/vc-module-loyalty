@@ -44,6 +44,8 @@ angular.module('VirtoCommerce.Loyalty')
                         blade.languages = languagesData;
                     });
 
+                    blade.programType = data.programType;
+
                     blade.isLoading = false;
                 }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,14 @@ public class LoyaltyProgramProductFactorController(
     {
         await crudService.SaveChangesAsync([model]);
         return Ok(model);
+    }
+
+    [HttpPut("factors")]
+    [Authorize(Permissions.Update)]
+    public async Task<ActionResult> UpdateFactors([FromBody] IList<LoyaltyProgramProductFactor> models)
+    {
+        await crudService.SaveChangesAsync(models);
+        return NoContent();
     }
 
     [HttpGet("{id}")]

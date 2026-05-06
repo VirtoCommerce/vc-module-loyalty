@@ -14,6 +14,9 @@
           </fieldset>
         </div>
       </form>
+
+      <va-widget-container ng-if="!blade.isNew && blade.programType === 'ProductPoints'" group="loyaltyDetail" blade="blade"></va-widget-container>
+
     </div>
   </div>
 </div>
