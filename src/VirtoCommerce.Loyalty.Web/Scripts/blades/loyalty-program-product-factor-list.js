@@ -1,8 +1,8 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramProductFactorListController', [
-        '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension', 'platformWebApp.bladeNavigationService',
+        '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService',
         'VirtoCommerce.Loyalty.loyaltyProgramProductFactors',
-        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, bladeNavigationService, loyaltyProgramProductFactors) {
+        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, bladeNavigationService, dialogService, loyaltyProgramProductFactors) {
             var blade = $scope.blade;
             blade.headIcon = 'fa fa-star';
             blade.updatePermission = 'loyalty:update';
@@ -61,6 +61,28 @@ angular.module('VirtoCommerce.Loyalty')
                 });
             }
 
+            $scope.deleteList = function (list) {
+                var dialog = {
+                    id: "confirmDeleteItem",
+                    title: "Loyalty.dialogs.loyalty-program-product-factor-delete.title",
+                    message: "Loyalty.dialogs.loyalty-program-product-factor-delete.message",
+                    callback: function (remove) {
+                        if (remove) {
+                            blade.isLoading = true;
+
+                            var itemIds = _.pluck(list, 'id');
+                            loyaltyProgramProductFactors.delete({ ids: itemIds }, function () {
+                                blade.refresh();
+                            }, function (error) {
+                                blade.isLoading = false;
+                                bladeNavigationService.setError('Error ' + error.status, blade);
+                            });
+                        }
+                    }
+                };
+                dialogService.showConfirmationDialog(dialog);
+            };
+
             blade.toolbarCommands = [
                 {
                     name: "platform.commands.save",
@@ -84,6 +106,16 @@ angular.module('VirtoCommerce.Loyalty')
                         return true;
                     },
                     permission: blade.updatePermission
+                },
+                {
+                    name: "platform.commands.delete", icon: 'fas fa-trash-alt',
+                    executeMethod: function () {
+                        $scope.deleteList($scope.gridApi.selection.getSelectedRows());
+                    },
+                    canExecuteMethod: function () {
+                        return $scope.gridApi && _.any($scope.gridApi.selection.getSelectedRows());
+                    },
+                    permission: 'loyalty:delete'
                 },
             ];
 

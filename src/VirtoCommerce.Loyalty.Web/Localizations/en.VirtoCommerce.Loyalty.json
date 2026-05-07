@@ -111,6 +111,10 @@
       "loyalty-program-delete": {
         "title": "Delete loyalty program",
         "message": "Are you sure you want to delete the selected loyalty program?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Delete product factors",
+        "message": "Are you sure you want to delete the selected product factors?"
       }
     }
   },
