@@ -73,6 +73,9 @@ angular.module('VirtoCommerce.Loyalty')
                             var itemIds = _.pluck(list, 'id');
                             loyaltyProgramProductFactors.delete({ ids: itemIds }, function () {
                                 blade.refresh();
+                                if (angular.isFunction(blade.parentWidgetRefresh)) {
+                                    blade.parentWidgetRefresh();
+                                }
                             }, function (error) {
                                 blade.isLoading = false;
                                 bladeNavigationService.setError('Error ' + error.status, blade);
@@ -193,8 +196,8 @@ angular.module('VirtoCommerce.Loyalty')
                     loyaltyProgramProductFactors.updateFactors(productFactors, function () {
                         bladeNavigationService.closeBlade(currentBlade);
                         blade.refresh();
-                        if (blade.parentRefresh) {
-                            blade.parentRefresh();
+                        if (angular.isFunction(blade.parentWidgetRefresh)) {
+                            blade.parentWidgetRefresh();
                         }
                     }, function (error) {
                         bladeNavigationService.setError('Error ' + error.status, blade);
