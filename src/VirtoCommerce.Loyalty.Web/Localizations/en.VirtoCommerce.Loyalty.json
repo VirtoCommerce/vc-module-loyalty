@@ -76,6 +76,13 @@
           "factor": "Factor"
         }
       },
+      "product-loyalty-program-list": {
+        "title": "Loyalty programs",
+        "labels": {
+          "program-name": "Program name",
+          "factor": "Factor"
+        }
+      },
       "select-loyalty-program-products-list": {
         "title": "Select product factors",
         "commands": {

@@ -5,4 +5,6 @@ namespace VirtoCommerce.Loyalty.Core.Models;
 public class LoyaltyProgramProductFactorListItem : LoyaltyProgramProductFactor
 {
     public CatalogProduct Product { get; set; }
+
+    public LoyaltyProgram Program { get; set; }
 }

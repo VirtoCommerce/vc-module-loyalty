@@ -18,7 +18,8 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 public class LoyaltyProgramProductFactorController(
     ILoyaltyProgramProductFactorService crudService,
     ILoyaltyProgramProductFactorSearchService searchService,
-    IItemService itemService)
+    IItemService itemService,
+    ILoyaltyProgramService loyaltyProgramService)
     : Controller
 {
     [HttpPost("search")]
@@ -33,6 +34,12 @@ public class LoyaltyProgramProductFactorController(
             : [];
         var productById = products.ToDictionary(x => x.Id);
 
+        var programIds = searchResult.Results.Select(x => x.LoyaltyProgramId).Distinct().ToList();
+        var programs = programIds.Count > 0
+            ? await loyaltyProgramService.GetNoCloneAsync(programIds)
+            : [];
+        var programById = programs.ToDictionary(x => x.Id);
+
         var listItems = searchResult.Results
             .Select(factor => new LoyaltyProgramProductFactorListItem
             {
@@ -45,6 +52,7 @@ public class LoyaltyProgramProductFactorController(
                 ModifiedDate = factor.ModifiedDate,
                 ModifiedBy = factor.ModifiedBy,
                 Product = productById.GetValueOrDefault(factor.ProductId),
+                Program = programById.GetValueOrDefault(factor.LoyaltyProgramId),
             })
             .ToList();
 

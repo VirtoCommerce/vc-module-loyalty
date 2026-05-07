@@ -1,0 +1,140 @@
+angular.module('VirtoCommerce.Loyalty')
+    .controller('VirtoCommerce.Loyalty.productLoyaltyProgramListController', [
+        '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService',
+        'VirtoCommerce.Loyalty.loyaltyProgramProductFactors',
+        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, bladeNavigationService, dialogService, loyaltyProgramProductFactors) {
+            var blade = $scope.blade;
+            blade.headIcon = 'fa fa-star';
+            blade.updatePermission = 'loyalty:update';
+
+            blade.refresh = function () {
+                blade.isLoading = true;
+
+                var criteria = {
+                    productIds: [blade.productId],
+                    sort: uiGridHelper.getSortExpression($scope),
+                    skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
+                    take: $scope.pageSettings.itemsPerPageCount
+                };
+
+                loyaltyProgramProductFactors.search(criteria, function (data) {
+                    blade.isLoading = false;
+
+                    $scope.pageSettings.totalItems = data.totalCount;
+                    $scope.listEntries = data.results;
+                    blade.originalEntries = angular.copy(data.results);
+                });
+            };
+
+            function getModifiedEntries() {
+                if (!$scope.listEntries || !blade.originalEntries) {
+                    return [];
+                }
+                return _.filter($scope.listEntries, function (entry) {
+                    var original = _.findWhere(blade.originalEntries, { id: entry.id });
+                    // factor input is bound to a string via ng-model; compare numerically to avoid false positives
+                    return original && (+entry.factor !== +original.factor || !angular.equals(_.omit(entry, 'factor'), _.omit(original, 'factor')));
+                });
+            }
+
+            function isDirty() {
+                return getModifiedEntries().length > 0;
+            }
+
+            function saveChanges() {
+                var modified = getModifiedEntries();
+                if (!modified.length) {
+                    return;
+                }
+
+                var payload = _.map(modified, function (entry) {
+                    return angular.extend({}, entry, { factor: +entry.factor });
+                });
+
+                blade.isLoading = true;
+                loyaltyProgramProductFactors.updateFactors(payload, function () {
+                    blade.refresh();
+                    if (angular.isFunction(blade.parentWidgetRefresh)) {
+                        blade.parentWidgetRefresh();
+                    }
+                }, function (error) {
+                    blade.isLoading = false;
+                    bladeNavigationService.setError('Error ' + error.status, blade);
+                });
+            }
+
+            $scope.deleteList = function (list) {
+                var dialog = {
+                    id: "confirmDeleteItem",
+                    title: "Loyalty.dialogs.loyalty-program-product-factor-delete.title",
+                    message: "Loyalty.dialogs.loyalty-program-product-factor-delete.message",
+                    callback: function (remove) {
+                        if (remove) {
+                            blade.isLoading = true;
+
+                            var itemIds = _.pluck(list, 'id');
+                            loyaltyProgramProductFactors.delete({ ids: itemIds }, function () {
+                                blade.refresh();
+                                if (angular.isFunction(blade.parentWidgetRefresh)) {
+                                    blade.parentWidgetRefresh();
+                                }
+                            }, function (error) {
+                                blade.isLoading = false;
+                                bladeNavigationService.setError('Error ' + error.status, blade);
+                            });
+                        }
+                    }
+                };
+                dialogService.showConfirmationDialog(dialog);
+            };
+
+            blade.toolbarCommands = [
+                {
+                    name: "platform.commands.save",
+                    icon: 'fas fa-save',
+                    executeMethod: saveChanges,
+                    canExecuteMethod: isDirty,
+                    permission: blade.updatePermission
+                },
+                {
+                    name: "platform.commands.refresh",
+                    icon: 'fa fa-refresh',
+                    executeMethod: blade.refresh,
+                    canExecuteMethod: function () {
+                        return true;
+                    }
+                },
+                {
+                    name: "platform.commands.delete", icon: 'fas fa-trash-alt',
+                    executeMethod: function () {
+                        $scope.deleteList($scope.gridApi.selection.getSelectedRows());
+                    },
+                    canExecuteMethod: function () {
+                        return $scope.gridApi && _.any($scope.gridApi.selection.getSelectedRows());
+                    },
+                    permission: 'loyalty:delete'
+                },
+            ];
+
+            blade.onClose = function (closeCallback) {
+                bladeNavigationService.showConfirmationIfNeeded(isDirty(), true, blade, saveChanges, closeCallback,
+                    "platform.dialogs.unsaved-changes.title", "platform.dialogs.unsaved-changes.message");
+            };
+
+            $scope.setGridOptions = function (gridId, gridOptions) {
+                $scope.gridOptions = gridOptions;
+                gridOptionExtension.tryExtendGridOptions(gridId, gridOptions);
+
+                uiGridHelper.initialize($scope, gridOptions, function (gridApi) {
+                    uiGridHelper.bindRefreshOnSortChanged($scope);
+                });
+
+                gridOptions.onRegisterApi = function (gridApi) {
+                    $scope.gridApi = gridApi;
+                };
+
+                bladeUtils.initializePagination($scope);
+
+                return gridOptions;
+            };
+        }]);
