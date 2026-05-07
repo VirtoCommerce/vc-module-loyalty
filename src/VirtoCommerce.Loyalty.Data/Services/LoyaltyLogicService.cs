@@ -14,7 +14,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
-public class LoyaltyLogicService : ILoyaltyLogicService
+public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramService
 {
     private readonly ILoyaltyProgramSearchService _loyaltyProgramSearchService;
     private readonly ILoyaltyProgramOperationLogService _loyaltyProgramOperationLogService;
@@ -39,11 +39,12 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         _customerOrderSearchService = customerOrderSearchService;
     }
 
-    public async IAsyncEnumerable<LoyaltyProgram> GetActiveLoyaltyProgramsAsync(string[] storeIds)
+    public async IAsyncEnumerable<LoyaltyProgram> GetActiveLoyaltyProgramsAsync(string[] storeIds, string programType)
     {
         var criteria = AbstractTypeFactory<LoyaltyProgramSearchCriteria>.TryCreateInstance();
         criteria.StoreIds = storeIds;
         criteria.OnlyActive = true;
+        criteria.ProgramType = programType;
         criteria.Sort = "priority:desc";
 
         await foreach (var searchResult in _loyaltyProgramSearchService.SearchBatchesNoCloneAsync(criteria))
@@ -190,7 +191,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService
 
         var maxPriority = 0;
 
-        await foreach (var loyaltyProgram in GetActiveLoyaltyProgramsAsync([loyaltyContext.StoreId]))
+        await foreach (var loyaltyProgram in GetActiveLoyaltyProgramsAsync([loyaltyContext.StoreId], loyaltyContext.ProgramType))
         {
             var isSatisfied = loyaltyProgram.DynamicExpression.IsSatisfiedBy(loyaltyContext);
             if (!isSatisfied)
@@ -272,6 +273,32 @@ public class LoyaltyLogicService : ILoyaltyLogicService
         await _loyaltyProgramOperationLogService.SaveChangesAsync([operationLog]);
 
         return true;
+    }
+
+    public async Task<LoyaltyProgram> GetTopLoyaltyProgramAsync(LoyaltyProgramEvaluationContext loyaltyContext)
+    {
+        await PopulateLoyaltyProgramEvaluationContextAsync(loyaltyContext);
+
+        var criteria = AbstractTypeFactory<LoyaltyProgramSearchCriteria>.TryCreateInstance();
+        criteria.OnlyActive = true;
+        criteria.StoreIds = [loyaltyContext.StoreId];
+        criteria.ProgramType = loyaltyContext.ProgramType;
+        criteria.Sort = "priority:desc";
+        criteria.Take = 5;
+
+        await foreach (var searchResult in _loyaltyProgramSearchService.SearchBatchesNoCloneAsync(criteria))
+        {
+            foreach (var loyaltyProgram in searchResult.Results)
+            {
+                var isSatisfied = loyaltyProgram.DynamicExpression.IsSatisfiedBy(loyaltyContext);
+                if (isSatisfied)
+                {
+                    return loyaltyProgram;
+                }
+            }
+        }
+
+        return null;
     }
 
     private async Task<LoyaltyProgramOperationLog> GetLastLoyaltyOperationLogByUser(string userId)

@@ -22,10 +22,53 @@ angular.module('VirtoCommerce.Loyalty')
 
                     $scope.pageSettings.totalItems = data.totalCount;
                     $scope.listEntries = data.results;
+                    blade.originalEntries = angular.copy(data.results);
                 });
             };
 
+            function getModifiedEntries() {
+                if (!$scope.listEntries || !blade.originalEntries) {
+                    return [];
+                }
+                return _.filter($scope.listEntries, function (entry) {
+                    var original = _.findWhere(blade.originalEntries, { id: entry.id });
+                    // factor input is bound to a string via ng-model; compare numerically to avoid false positives
+                    return original && (+entry.factor !== +original.factor || !angular.equals(_.omit(entry, 'factor'), _.omit(original, 'factor')));
+                });
+            }
+
+            function isDirty() {
+                return getModifiedEntries().length > 0;
+            }
+
+            function saveChanges() {
+                var modified = getModifiedEntries();
+                if (!modified.length) {
+                    return;
+                }
+
+                // normalize factor to a number before sending
+                var payload = _.map(modified, function (entry) {
+                    return angular.extend({}, entry, { factor: +entry.factor });
+                });
+
+                blade.isLoading = true;
+                loyaltyProgramProductFactors.updateFactors(payload, function () {
+                    blade.refresh();
+                }, function (error) {
+                    blade.isLoading = false;
+                    bladeNavigationService.setError('Error ' + error.status, blade);
+                });
+            }
+
             blade.toolbarCommands = [
+                {
+                    name: "platform.commands.save",
+                    icon: 'fas fa-save',
+                    executeMethod: saveChanges,
+                    canExecuteMethod: isDirty,
+                    permission: blade.updatePermission
+                },
                 {
                     name: "platform.commands.refresh",
                     icon: 'fa fa-refresh',
@@ -43,6 +86,11 @@ angular.module('VirtoCommerce.Loyalty')
                     permission: blade.updatePermission
                 },
             ];
+
+            blade.onClose = function (closeCallback) {
+                bladeNavigationService.showConfirmationIfNeeded(isDirty(), true, blade, saveChanges, closeCallback,
+                    "platform.dialogs.unsaved-changes.title", "platform.dialogs.unsaved-changes.message");
+            };
 
             function openCatalogItemsSelect() {
                 $scope.selectedNodeId = null;
