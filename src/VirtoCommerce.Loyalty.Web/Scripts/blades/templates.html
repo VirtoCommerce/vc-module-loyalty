@@ -1,0 +1,26 @@
+<script type="text/ng-template" id="loyalty-factor.cell.html">
+  <style>
+    .ui-grid-editable .ui-grid-cell-contents {
+      overflow: visible;
+      width: 90px;
+      padding: 10px 0 0 10px;
+    }
+
+    .ui-grid-cell .ui-grid-editable input {
+      padding: 6px 10px;
+      box-sizing: border-box;
+    }
+
+    .ui-grid-cell .ui-grid-editable input.ng-valid {
+      border: 1px solid #dee9f0;
+    }
+  </style>
+
+  <div class="ui-grid-editable">
+    <div class="ui-grid-cell-contents">
+      <div class="form-input">
+        <input ng-model="row.entity.factor" required>
+      </div>
+    </div>
+  </div>
+</script>

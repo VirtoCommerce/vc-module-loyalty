@@ -12,6 +12,7 @@ angular.module('VirtoCommerce.Loyalty')
 
                 var criteria = {
                     loyaltyProgramId: blade.loyaltyProgramId,
+                    productIds: blade.productId ? [blade.productId] : undefined,
                     sort: uiGridHelper.getSortExpression($scope),
                     skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
                     take: $scope.pageSettings.itemsPerPageCount
@@ -103,14 +104,6 @@ angular.module('VirtoCommerce.Loyalty')
                     }
                 },
                 {
-                    name: "platform.commands.add", icon: 'fas fa-plus',
-                    executeMethod: openCatalogItemsSelect,
-                    canExecuteMethod: function () {
-                        return true;
-                    },
-                    permission: blade.updatePermission
-                },
-                {
                     name: "platform.commands.delete", icon: 'fas fa-trash-alt',
                     executeMethod: function () {
                         $scope.deleteList($scope.gridApi.selection.getSelectedRows());
@@ -121,6 +114,18 @@ angular.module('VirtoCommerce.Loyalty')
                     permission: 'loyalty:delete'
                 },
             ];
+
+            // Add command only makes sense when scoped to a specific loyalty program
+            if (blade.loyaltyProgramId) {
+                blade.toolbarCommands.splice(2, 0, {
+                    name: "platform.commands.add", icon: 'fas fa-plus',
+                    executeMethod: openCatalogItemsSelect,
+                    canExecuteMethod: function () {
+                        return true;
+                    },
+                    permission: blade.updatePermission
+                });
+            }
 
             blade.onClose = function (closeCallback) {
                 bladeNavigationService.showConfirmationIfNeeded(isDirty(), true, blade, saveChanges, closeCallback,

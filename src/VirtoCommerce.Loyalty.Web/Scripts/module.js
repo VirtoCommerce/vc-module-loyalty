@@ -195,5 +195,6 @@ angular.module(moduleName, [])
             });
 
             dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/dynamicConditions/templates.html');
+            dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/templates.html');
         }
     ]);
