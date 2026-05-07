@@ -71,6 +71,8 @@
         "title": "Product factors",
         "labels": {
           "product-id": "Product ID",
+          "product-name": "Product name",
+          "product-code": "SKU",
           "factor": "Factor"
         }
       },

@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VirtoCommerce.CatalogModule.Core.Model;
+using VirtoCommerce.CatalogModule.Core.Services;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -14,14 +17,43 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 [Route("api/loyalty-program-product-factors")]
 public class LoyaltyProgramProductFactorController(
     ILoyaltyProgramProductFactorService crudService,
-    ILoyaltyProgramProductFactorSearchService searchService)
+    ILoyaltyProgramProductFactorSearchService searchService,
+    IItemService itemService)
     : Controller
 {
     [HttpPost("search")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyProgramProductFactorSearchResult>> Search([FromBody] LoyaltyProgramProductFactorSearchCriteria criteria)
+    public async Task<ActionResult<LoyaltyProgramProductFactorListItemSearchResult>> Search([FromBody] LoyaltyProgramProductFactorSearchCriteria criteria)
     {
-        var result = await searchService.SearchNoCloneAsync(criteria);
+        var searchResult = await searchService.SearchNoCloneAsync(criteria);
+
+        var productIds = searchResult.Results.Select(x => x.ProductId).Distinct().ToList();
+        var products = productIds.Count > 0
+            ? await itemService.GetByIdsAsync(productIds, ItemResponseGroup.ItemInfo.ToString(), catalogId: null)
+            : [];
+        var productById = products.ToDictionary(x => x.Id);
+
+        var listItems = searchResult.Results
+            .Select(factor => new LoyaltyProgramProductFactorListItem
+            {
+                Id = factor.Id,
+                LoyaltyProgramId = factor.LoyaltyProgramId,
+                ProductId = factor.ProductId,
+                Factor = factor.Factor,
+                CreatedDate = factor.CreatedDate,
+                CreatedBy = factor.CreatedBy,
+                ModifiedDate = factor.ModifiedDate,
+                ModifiedBy = factor.ModifiedBy,
+                Product = productById.GetValueOrDefault(factor.ProductId),
+            })
+            .ToList();
+
+        var result = new LoyaltyProgramProductFactorListItemSearchResult
+        {
+            TotalCount = searchResult.TotalCount,
+            Results = listItems,
+        };
+
         return Ok(result);
     }
 
