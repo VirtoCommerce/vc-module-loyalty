@@ -13,6 +13,24 @@
           "select-filter": "Filter auswählen"
         }
       },
+      "loyalty-program-add": {
+        "title": "Treueprogramm hinzufügen",
+        "subtitle": "Programmtyp auswählen",
+        "labels": {
+          "name": "Typ",
+          "description": "Beschreibung"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Bestelltreue",
+            "description": "Kunden basierend auf Bestellbedingungen und Gesamtsummen belohnen"
+          },
+          "product-points-loyalty": {
+            "name": "Produktpunkte-Treue",
+            "description": "Kunden mit Punkten für den Kauf bestimmter Produkte belohnen"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Details zum Treueprogramm",
         "new-program": "Neues Treueprogramm",
@@ -49,6 +67,28 @@
           "created-date": "Erstellt"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "Produktfaktoren",
+        "labels": {
+          "product-id": "Produkt-ID",
+          "product-name": "Produktname",
+          "product-code": "SKU",
+          "factor": "Faktor"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Treueprogramme",
+        "labels": {
+          "program-name": "Programmname",
+          "factor": "Faktor"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Produktfaktoren auswählen",
+        "commands": {
+          "add": "Ausgewählte hinzufügen"
+        }
+      },
       "filter-detail": {
         "title": "Treueprogramme filtern",
         "labels": {
@@ -69,12 +109,19 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Treuesaldo"
+      },
+      "loyalty-product-factors": {
+        "title": "Produktfaktoren"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Treueprogramm löschen",
         "message": "Möchten Sie das ausgewählte Treueprogramm wirklich löschen?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Produktfaktoren löschen",
+        "message": "Möchten Sie die ausgewählten Produktfaktoren wirklich löschen?"
       }
     }
   },
@@ -90,6 +137,10 @@
       "Enable": {
         "title": "Treue aktiviert",
         "description": "Einstellung für Treue aktiviert"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Standard-Produktmultiplikator",
+        "description": "Standardmultiplikator, der auf den Produktpreis angewendet wird, wenn Treuepunkte berechnet werden und kein produktspezifischer Faktor konfiguriert ist"
       }
     }
   }

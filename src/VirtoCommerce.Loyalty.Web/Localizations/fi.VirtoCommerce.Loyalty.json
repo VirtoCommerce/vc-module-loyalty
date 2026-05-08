@@ -13,6 +13,24 @@
           "select-filter": "Valitse suodatin"
         }
       },
+      "loyalty-program-add": {
+        "title": "Lisää kanta-asiakasohjelma",
+        "subtitle": "Valitse ohjelmatyyppi",
+        "labels": {
+          "name": "Tyyppi",
+          "description": "Kuvaus"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Tilaususkollisuus",
+            "description": "Palkitse asiakkaita tilausten ehtojen ja kokonaissummien perusteella"
+          },
+          "product-points-loyalty": {
+            "name": "Tuotepisteuskollisuus",
+            "description": "Palkitse asiakkaita pisteillä tiettyjen tuotteiden ostamisesta"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Kanta-asiakasohjelman tiedot",
         "new-program": "Uusi kanta-asiakasohjelma",
@@ -49,6 +67,28 @@
           "created-date": "Luotu"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "Tuotekertoimet",
+        "labels": {
+          "product-id": "Tuotetunnus",
+          "product-name": "Tuotteen nimi",
+          "product-code": "SKU",
+          "factor": "Kerroin"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Kanta-asiakasohjelmat",
+        "labels": {
+          "program-name": "Ohjelman nimi",
+          "factor": "Kerroin"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Valitse tuotekertoimet",
+        "commands": {
+          "add": "Lisää valitut"
+        }
+      },
       "filter-detail": {
         "title": "Suodata kanta-asiakasohjelmia",
         "labels": {
@@ -64,17 +104,24 @@
           "name": "Syötä ohjelman nimi",
           "store": "Valitse kauppa"
         }
-      } 
+      }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Kanta-asiakassaldo"
+      },
+      "loyalty-product-factors": {
+        "title": "Tuotekertoimet"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Poista kanta-asiakasohjelma",
         "message": "Oletko varma, että haluat poistaa valitun kanta-asiakasohjelman?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Poista tuotekertoimet",
+        "message": "Haluatko varmasti poistaa valitut tuotekertoimet?"
       }
     }
   },
@@ -90,6 +137,10 @@
       "Enable": {
         "title": "Kanta-asiakasohjelma",
         "description": "Ota käyttöön tai poista käytöstä kanta-asiakasohjelma"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Tuotteen oletuskertoja",
+        "description": "Oletuskerroin, jota käytetään tuotteen hintaan kanta-asiakaspisteitä laskettaessa, jos tuotekohtaista kerrointa ei ole määritetty"
       }
     }
   }

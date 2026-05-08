@@ -13,6 +13,24 @@
           "select-filter": "选择筛选器"
         }
       },
+      "loyalty-program-add": {
+        "title": "添加会员奖励计划",
+        "subtitle": "选择计划类型",
+        "labels": {
+          "name": "类型",
+          "description": "描述"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "订单奖励计划",
+            "description": "根据订单条件和总金额奖励客户"
+          },
+          "product-points-loyalty": {
+            "name": "商品积分奖励计划",
+            "description": "客户购买指定商品时奖励积分"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "忠诚度计划详情",
         "new-program": "新建忠诚度计划",
@@ -49,6 +67,28 @@
           "created-date": "创建日期"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "商品系数",
+        "labels": {
+          "product-id": "商品ID",
+          "product-name": "商品名称",
+          "product-code": "SKU",
+          "factor": "系数"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "会员奖励计划",
+        "labels": {
+          "program-name": "计划名称",
+          "factor": "系数"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "选择商品系数",
+        "commands": {
+          "add": "添加所选项"
+        }
+      },
       "filter-detail": {
         "title": "筛选忠诚度计划",
         "labels": {
@@ -69,12 +109,19 @@
     "widgets": {
       "customer-loyalty": {
         "title": "忠诚度余额"
+      },
+      "loyalty-product-factors": {
+        "title": "商品系数"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "删除忠诚度计划",
         "message": "您确定要删除所选的忠诚度计划吗？"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "删除商品系数",
+        "message": "您确定要删除所选商品系数吗？"
       }
     }
   },
@@ -90,6 +137,10 @@
       "Enable": {
         "title": "启用忠诚度",
         "description": "启用忠诚度设置"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "默认商品乘数系数",
+        "description": "在未配置商品专属系数时，用于计算会员积分的默认商品价格乘数"
       }
     }
   }
