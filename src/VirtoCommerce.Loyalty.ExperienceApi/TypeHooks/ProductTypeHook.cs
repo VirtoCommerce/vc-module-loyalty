@@ -94,7 +94,7 @@ public class ProductTypeHook : IGraphTypeHook
                 return null;
             }
 
-            var factor = factors?.FirstOrDefault(x => x.ProductId == x.Id)?.Factor ?? defaultFactor;
+            var factor = factors?.FirstOrDefault(f => f.ProductId == x.Id)?.Factor ?? defaultFactor;
 
             var pointsAmount = price.ActualPrice.Amount * factor;
             var pointsMoney = new Money(pointsAmount, pointsCurrency);
