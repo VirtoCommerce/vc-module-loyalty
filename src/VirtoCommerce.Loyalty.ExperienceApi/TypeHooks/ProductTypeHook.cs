@@ -84,7 +84,7 @@ public class ProductTypeHook : IGraphTypeHook
         productType.AddField(fieldAsync);
     }
 
-    private static IDictionary<ExpProduct, Money> CreatePointsResult(IEnumerable<ExpProduct> products, Currency pointsCurrency, decimal defaultFactor, IList<LoyaltyProgramProductFactor> factors = null)
+    private static Dictionary<ExpProduct, Money> CreatePointsResult(IEnumerable<ExpProduct> products, Currency pointsCurrency, decimal defaultFactor, IList<LoyaltyProgramProductFactor> factors = null)
     {
         return products.ToDictionary(x => x, x =>
         {
