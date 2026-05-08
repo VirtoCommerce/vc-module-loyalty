@@ -56,7 +56,7 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
         yield return OrderId;
         yield return OrderStatus;
         yield return OrderTotal;
-
+        yield return ProgramType;
         yield return Language;
 
         foreach (var entry in GetCollectionComponents(UserGroups))
