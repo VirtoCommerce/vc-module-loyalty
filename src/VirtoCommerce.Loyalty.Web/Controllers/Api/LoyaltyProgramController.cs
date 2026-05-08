@@ -81,6 +81,7 @@ public class LoyaltyProgramController(
         }
 
         result.IsActive = true;
+        result.ProgramType = programType;
 
         return Ok(result);
     }
