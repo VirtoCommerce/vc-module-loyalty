@@ -12,8 +12,8 @@ using VirtoCommerce.Loyalty.Data.Repositories;
 namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
 {
     [DbContext(typeof(LoyaltyDbContext))]
-    [Migration("20260505104631_AddLoyaltyProgramProductFactor")]
-    partial class AddLoyaltyProgramProductFactor
+    [Migration("20260508101008_AddLoyaltyProgramType")]
+    partial class AddLoyaltyProgramType
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

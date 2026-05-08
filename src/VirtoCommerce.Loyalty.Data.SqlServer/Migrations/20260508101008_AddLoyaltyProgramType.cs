@@ -1,4 +1,3 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,11 +5,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
 {
     /// <inheritdoc />
-    public partial class AddLoyaltyProgramProductFactor : Migration
+    public partial class AddLoyaltyProgramType : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "ProgramType",
+                table: "LoyaltyProgram",
+                type: "nvarchar(32)",
+                maxLength: 32,
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "LoyaltyProgramProductFactor",
                 columns: table => new
@@ -39,6 +45,8 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 name: "IX_LoyaltyProgramProductFactor_LoyaltyProgramId",
                 table: "LoyaltyProgramProductFactor",
                 column: "LoyaltyProgramId");
+
+            migrationBuilder.Sql("UPDATE LoyaltyProgram SET ProgramType = 'Default'");
         }
 
         /// <inheritdoc />
@@ -46,6 +54,10 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "LoyaltyProgramProductFactor");
+
+            migrationBuilder.DropColumn(
+                name: "ProgramType",
+                table: "LoyaltyProgram");
         }
     }
 }
