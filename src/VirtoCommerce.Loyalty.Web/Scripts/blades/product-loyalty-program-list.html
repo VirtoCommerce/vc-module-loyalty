@@ -8,7 +8,7 @@
               data: 'listEntries',
               rowHeight: 60,
               columnDefs: [
-                { name: 'programName', field: 'program.name', displayName: 'Loyalty.blades.product-loyalty-program-list.labels.program-name' },
+                { name: 'programName', displayName: 'Loyalty.blades.product-loyalty-program-list.labels.program-name' },
                 { name: 'factor', displayName: 'Loyalty.blades.product-loyalty-program-list.labels.factor', width: 120, cellTemplate: 'loyalty-factor.cell.html' }
               ]})">
             <div class="table-wrapper" ng-if="listEntries.length">

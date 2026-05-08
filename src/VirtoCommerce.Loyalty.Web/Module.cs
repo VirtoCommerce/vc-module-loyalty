@@ -82,6 +82,7 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyProgramProductFactorService, LoyaltyProgramProductFactorService>();
         serviceCollection.AddTransient<ILoyaltyProgramProductFactorSearchService, LoyaltyProgramProductFactorSearchService>();
+        serviceCollection.AddTransient<ILoyaltyProgramProductFactorListItemSearchService, LoyaltyProgramProductFactorListItemSearchService>();
 
         serviceCollection.AddTransient<ILoyaltyLogicService, LoyaltyLogicService>();
         serviceCollection.AddTransient<IProductLoyaltyProgramService, LoyaltyLogicService>();

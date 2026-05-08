@@ -53,7 +53,7 @@ public static class ModuleConstants
                 Name = "Loyalty.DefaultProductMultiplyFactor",
                 GroupName = "Loyalty|General",
                 ValueType = SettingValueType.Decimal,
-                DefaultValue = 1,
+                DefaultValue = 1m,
                 IsPublic = true,
             };
 

@@ -136,7 +136,11 @@
     "Loyalty": {
       "Enable": {
         "title": "Loyalty",
-        "description": "Enable/ disable loyalty program"
+        "description": "Enable/disable loyalty program"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Default product multiply factor",
+        "description": "Default multiplier applied to a product price when calculating loyalty points if no per-product factor is configured"
       }
     }
   }

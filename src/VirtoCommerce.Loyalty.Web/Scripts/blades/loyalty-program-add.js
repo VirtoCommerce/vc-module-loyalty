@@ -9,11 +9,13 @@ angular.module('VirtoCommerce.Loyalty')
                 blade.programTypes = [
                     {
                         type: 'Default',
+                        icon: 'fa-shopping-cart',
                         name: 'Loyalty.blades.loyalty-program-add.types.order-loyalty.name',
                         description: 'Loyalty.blades.loyalty-program-add.types.order-loyalty.description'
                     },
                     {
                         type: 'ProductPoints',
+                        icon: 'fa-star',
                         name: 'Loyalty.blades.loyalty-program-add.types.product-points-loyalty.name',
                         description: 'Loyalty.blades.loyalty-program-add.types.product-points-loyalty.description'
                     }
