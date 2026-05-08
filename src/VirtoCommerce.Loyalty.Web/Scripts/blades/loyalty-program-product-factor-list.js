@@ -1,7 +1,7 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramProductFactorListController', [
-        '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService',
-        'VirtoCommerce.Loyalty.loyaltyProgramProductFactors',
+        '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
+        'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'VirtoCommerce.Loyalty.loyaltyProgramProductFactors',
         function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, bladeNavigationService, dialogService, loyaltyProgramProductFactors) {
             var blade = $scope.blade;
             blade.headIcon = 'fa fa-star';
@@ -145,8 +145,8 @@ angular.module('VirtoCommerce.Loyalty')
                         {
                             name: 'Loyalty.blades.select-loyalty-program-products-list.commands.add',
                             icon: 'fas fa-plus',
-                            executeMethod: function (blade) {
-                                addProductsToLoyaltyProgram(selectedProducts, blade);
+                            executeMethod: function (catalogSelectBlade) {
+                                addProductsToLoyaltyProgram(selectedProducts, catalogSelectBlade);
                             },
                             canExecuteMethod: function () {
                                 return selectedProducts.length > 0;
@@ -157,21 +157,21 @@ angular.module('VirtoCommerce.Loyalty')
                 newBlade.options = {
                     allowCheckingCategory: false,
                     checkItemFn: function (listItem, isSelected) {
-                            if (isSelected) {
-                                if (_.all(selectedProducts, function (x) {
-                                    return x.id !== listItem.id;
-                                })) {
-                                    selectedProducts.push(listItem);
-                                }
+                        if (isSelected) {
+                            if (_.all(selectedProducts, function (x) {
+                                return x.id !== listItem.id;
+                            })) {
+                                selectedProducts.push(listItem);
                             }
-                            else {
-                                selectedProducts = _.reject(selectedProducts,
-                                    function (x) {
-                                        return x.id === listItem.id;
-                                    });
-                            }
-                            newBlade.error = undefined;
                         }
+                        else {
+                            selectedProducts = _.reject(selectedProducts,
+                                function (x) {
+                                    return x.id === listItem.id;
+                                });
+                        }
+                        newBlade.error = undefined;
+                    }
                 };
 
                 bladeNavigationService.showBlade(newBlade, blade);

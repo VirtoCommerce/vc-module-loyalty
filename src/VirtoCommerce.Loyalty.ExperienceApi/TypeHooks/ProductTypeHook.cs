@@ -56,72 +56,26 @@ public class ProductTypeHook : IGraphTypeHook
                   var factorSearchService = fieldContext.RequestServices.GetRequiredService<ILoyaltyProgramProductFactorSearchService>();
                   var storeService = fieldContext.RequestServices.GetRequiredService<IStoreService>();
 
-                  var result = new Dictionary<ExpProduct, Money>();
-
                   var currencies = await currencyService.GetAllCurrenciesAsync();
-                  var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase("XPT"));
+                  var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(ModuleConstants.PointsCurrencyCode));
                   if (pointsCurrency == null)
                   {
-                      return result;
+                      return new Dictionary<ExpProduct, Money>();
                   }
 
+                  var defaultFactor = await GetDefaultFactorAsync(fieldContext, storeService);
                   var loyaltyContext = CreateLoyaltyContext(fieldContext);
                   var loyaltyProgram = await productLoyaltyService.GetTopLoyaltyProgramAsync(loyaltyContext);
                   if (loyaltyProgram == null)
                   {
-                      // apply default factor to all products if no loyalty program found
-                      var factor = await GetDefaultFactorAsync(fieldContext, storeService);
-
-                      foreach (var product in products)
-                      {
-                          result.TryAdd(product, null);
-
-                          var price = product.AllPrices.FirstOrDefault();
-                          if (price == null)
-                          {
-                              continue;
-                          }
-
-                          var pointsAmount = price.ActualPrice.Amount * factor;
-                          var pointsMoney = new Money(pointsAmount, pointsCurrency);
-
-                          result[product] = pointsMoney;
-                      }
-
-                      return result;
+                      return CreatePointsResult(products, pointsCurrency, defaultFactor);
                   }
 
                   // get factors for products
                   var factorCriteria = CreateLoyaltyFactorCriteria(products, loyaltyProgram);
                   var factors = await factorSearchService.SearchAllNoCloneAsync(factorCriteria);
 
-                  decimal? defaultFactor = null;
-
-                  foreach (var product in products)
-                  {
-                      result.TryAdd(product, null);
-
-                      var price = product.AllPrices.FirstOrDefault();
-                      if (price == null)
-                      {
-                          continue;
-                      }
-
-                      var productFactor = factors.FirstOrDefault(x => x.ProductId == product.Id);
-                      if (productFactor == null)
-                      {
-                          defaultFactor ??= await GetDefaultFactorAsync(fieldContext, storeService);
-                          productFactor = new LoyaltyProgramProductFactor { Factor = defaultFactor.Value };
-                      }
-
-                      var pointsAmount = price.ActualPrice.Amount * productFactor.Factor;
-                      var pointsMoney = new Money(pointsAmount, pointsCurrency);
-
-                      result[product] = pointsMoney;
-                  }
-
-                  return result;
-
+                  return CreatePointsResult(products, pointsCurrency, defaultFactor, factors);
               }, keyComparer: AnonymousComparer.Create((ExpProduct x) => x.Id));
 
               return loader.LoadAsync(fieldContext.Source);
@@ -130,7 +84,26 @@ public class ProductTypeHook : IGraphTypeHook
         productType.AddField(fieldAsync);
     }
 
-    private async Task<decimal> GetDefaultFactorAsync(IResolveFieldContext<ExpProduct> fieldContext, IStoreService storeService)
+    private static IDictionary<ExpProduct, Money> CreatePointsResult(IEnumerable<ExpProduct> products, Currency pointsCurrency, decimal defaultFactor, IList<LoyaltyProgramProductFactor> factors = null)
+    {
+        return products.ToDictionary(x => x, x =>
+        {
+            var price = x.AllPrices.FirstOrDefault();
+            if (price == null)
+            {
+                return null;
+            }
+
+            var factor = factors?.FirstOrDefault(x => x.ProductId == x.Id)?.Factor ?? defaultFactor;
+
+            var pointsAmount = price.ActualPrice.Amount * factor;
+            var pointsMoney = new Money(pointsAmount, pointsCurrency);
+
+            return pointsMoney;
+        });
+    }
+
+    private static async Task<decimal> GetDefaultFactorAsync(IResolveFieldContext<ExpProduct> fieldContext, IStoreService storeService)
     {
         var storeId = fieldContext.GetArgumentOrValue<string>("storeId");
         var store = await storeService.GetByIdAsync(storeId);

@@ -35,6 +35,8 @@ public static class ModuleConstants
         public const string DefaultProgramType = "Default";
     }
 
+    public const string PointsCurrencyCode = "XPT";
+
     public static class Settings
     {
         public static class General
