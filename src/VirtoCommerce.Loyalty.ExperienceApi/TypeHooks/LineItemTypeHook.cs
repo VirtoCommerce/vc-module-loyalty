@@ -12,6 +12,7 @@ using VirtoCommerce.Xapi.Core.Extensions;
 using VirtoCommerce.Xapi.Core.Helpers;
 using VirtoCommerce.Xapi.Core.Infrastructure;
 using VirtoCommerce.Xapi.Core.Schemas;
+using VirtoCommerce.XCart.Core;
 using VirtoCommerce.XCart.Core.Schemas;
 using static VirtoCommerce.Xapi.Core.ModuleConstants;
 
@@ -38,13 +39,15 @@ public class LineItemTypeHook : IGraphTypeHook
                     return null;
                 }
 
+                var cartId = fieldContext.GetValueForSource<CartAggregate>()?.Id;
+
                 var dataLoader = fieldContext.RequestServices.GetRequiredService<IDataLoaderContextAccessor>();
-                var loader = dataLoader.Context.GetOrAddBatchLoader<LineItem, Money>("cart_loyalty_points", async lineItems =>
+                var loader = dataLoader.Context.GetOrAddBatchLoader<LineItem, Money>($"cart_loyalty_points_{cartId}", async lineItems =>
                 {
                     var calculator = fieldContext.RequestServices.GetRequiredService<ILoyaltyPointsCalculator>();
                     var pointsContext = await calculator.ResolveAsync(
-                        storeId: fieldContext.GetArgumentOrValue<string>("storeId"),
                         userId: fieldContext.User.GetCurrentUserId(),
+                        storeId: fieldContext.GetArgumentOrValue<string>("storeId"),
                         language: fieldContext.GetArgumentOrValue<string>("cultureName"),
                         currencyCode: fieldContext.GetArgumentOrValue<string>("currencyCode"),
                         productIds: lineItems.Select(x => x.ProductId).Distinct().ToArray());

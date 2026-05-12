@@ -43,8 +43,8 @@ public class ProductTypeHook : IGraphTypeHook
                 {
                     var calculator = fieldContext.RequestServices.GetRequiredService<ILoyaltyPointsCalculator>();
                     var pointsContext = await calculator.ResolveAsync(
-                        storeId: fieldContext.GetArgumentOrValue<string>("storeId"),
                         userId: fieldContext.User.GetCurrentUserId(),
+                        storeId: fieldContext.GetArgumentOrValue<string>("storeId"),
                         language: fieldContext.GetArgumentOrValue<string>("cultureName"),
                         currencyCode: fieldContext.GetArgumentOrValue<string>("currencyCode"),
                         productIds: products.Select(x => x.Id).Distinct().ToArray());
