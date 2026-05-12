@@ -175,6 +175,12 @@ angular.module(moduleName, [])
                 displayName: 'Registration',
             });
 
+            dynamicExpressionService.registerExpression({
+                groupName: 'Shopper profile',
+                id: 'AnyUserGroupCondition',
+                displayName: 'Any User Group',
+            });
+
             // Rewards
             dynamicExpressionService.registerExpression({
                 id: 'BlockLoyaltyReward',

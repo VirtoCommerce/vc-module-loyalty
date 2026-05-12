@@ -32,6 +32,10 @@ angular.module('VirtoCommerce.Loyalty')
                     return [];
                 }
                 return _.filter($scope.listEntries, function (entry) {
+                    // new (unsaved) entries have no id yet — always treat as modified
+                    if (!entry.id) {
+                        return true;
+                    }
                     var original = _.findWhere(blade.originalEntries, { id: entry.id });
                     // factor input is bound to a string via ng-model; compare numerically to avoid false positives
                     return original && (+entry.factor !== +original.factor || !angular.equals(_.omit(entry, 'factor'), _.omit(original, 'factor')));
@@ -56,6 +60,9 @@ angular.module('VirtoCommerce.Loyalty')
                 blade.isLoading = true;
                 loyaltyProgramProductFactors.updateFactors(payload, function () {
                     blade.refresh();
+                    if (angular.isFunction(blade.parentWidgetRefresh)) {
+                        blade.parentWidgetRefresh();
+                    }
                 }, function (error) {
                     blade.isLoading = false;
                     bladeNavigationService.setError('Error ' + error.status, blade);
@@ -180,35 +187,39 @@ angular.module('VirtoCommerce.Loyalty')
             function addProductsToLoyaltyProgram(products, currentBlade) {
                 currentBlade.isLoading = true;
 
+                // Skip products that already have a saved factor in DB, or are already staged locally
                 loyaltyProgramProductFactors.search({
                     loyaltyProgramId: blade.loyaltyProgramId,
                     productIds: _.pluck(products, 'id')
                 }, function (data) {
+                    var alreadyPresentIds = _.uniq(
+                        _.pluck(data.results, 'productId')
+                            .concat(_.pluck($scope.listEntries || [], 'productId'))
+                    );
+
                     var newItems = _.filter(products, function (product) {
-                        return _.all(data.results, function (x) {
-                            return x.productId !== product.id;
-                        })
+                        return !_.contains(alreadyPresentIds, product.id);
                     });
 
                     var productFactors = _.map(newItems, function (x) {
                         return {
+                            // no id — getModifiedEntries() will pick it up as a new entry to save
                             productId: x.id,
+                            productCode: x.code,
+                            productName: x.name,
                             factor: 1,
                             loyaltyProgramId: blade.loyaltyProgramId
                         };
                     });
 
-                    loyaltyProgramProductFactors.updateFactors(productFactors, function () {
-                        bladeNavigationService.closeBlade(currentBlade);
-                        blade.refresh();
-                        if (angular.isFunction(blade.parentWidgetRefresh)) {
-                            blade.parentWidgetRefresh();
-                        }
-                    }, function (error) {
-                        bladeNavigationService.setError('Error ' + error.status, blade);
-                    });
+                    $scope.listEntries = ($scope.listEntries || []).concat(productFactors);
+                    $scope.pageSettings.totalItems += productFactors.length;
+
+                    currentBlade.isLoading = false;
+                    bladeNavigationService.closeBlade(currentBlade);
                 }, function (error) {
-                    bladeNavigationService.setError('Error ' + error.status, blade);
+                    currentBlade.isLoading = false;
+                    bladeNavigationService.setError('Error ' + error.status, currentBlade);
                 });
             }
 

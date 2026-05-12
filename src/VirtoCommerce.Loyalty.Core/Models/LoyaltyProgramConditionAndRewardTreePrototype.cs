@@ -43,7 +43,8 @@ public class LoyaltyProgramProductConditionTreePrototype : ConditionTree
         [
             new BlockLoyaltyCondition()
                 .WithAvailableChildren(
-                    new UserGroupIsCondition()
+                    new UserGroupIsCondition(),
+                    new AnyUserGroupCondition()
                 ),
         ];
 

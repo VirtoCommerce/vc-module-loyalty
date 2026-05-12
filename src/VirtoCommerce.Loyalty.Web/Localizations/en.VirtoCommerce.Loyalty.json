@@ -45,7 +45,8 @@
           "end-date": "End date",
           "loyalty-program": "Loyalty program",
           "show-more-languages": "Show more languages",
-          "show-less-languages": "Show less languages"
+          "show-less-languages": "Show less languages",
+          "is-new": "Save the program first to start managing product factors"
         },
         "placeholders": {
           "store": "Select store",
@@ -73,7 +74,8 @@
           "product-id": "Product ID",
           "product-name": "Product name",
           "product-code": "SKU",
-          "factor": "Factor"
+          "factor": "Factor",
+          "new": "New" 
         }
       },
       "product-loyalty-program-list": {

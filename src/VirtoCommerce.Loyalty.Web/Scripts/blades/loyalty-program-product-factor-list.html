@@ -8,8 +8,8 @@
               data: 'listEntries',
               rowHeight: 60,
               columnDefs: [
+                { name: 'productName', displayName: 'Loyalty.blades.loyalty-program-product-factor-list.labels.product-name', cellTemplate: 'product-factor-list-name.cell.html'  },
                 { name: 'productCode', displayName: 'Loyalty.blades.loyalty-program-product-factor-list.labels.product-code' },
-                { name: 'productName', displayName: 'Loyalty.blades.loyalty-program-product-factor-list.labels.product-name' },
                 { name: 'factor', displayName: 'Loyalty.blades.loyalty-program-product-factor-list.labels.factor', width: 120, cellTemplate: 'loyalty-factor.cell.html' }
               ]})">
             <div class="table-wrapper" ng-if="listEntries.length">
@@ -18,5 +18,18 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="product-factor-list-name.cell.html">
+  <div class="ui-grid-cell-contents">
+    <div class="inner-contents">
+      <div class="table-t">{{COL_FIELD}}</div>
+      <div class="table-descr">
+        <div class="table-descr" ng-if="!row.entity.id">
+          <span class="label">{{ 'Loyalty.blades.loyalty-program-product-factor-list.labels.new' | translate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
 
 
