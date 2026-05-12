@@ -19,6 +19,7 @@ using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
+using VirtoCommerce.Loyalty.ExperienceApi.Services;
 using VirtoCommerce.Loyalty.ExperienceApi.TypeHooks;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;
@@ -48,6 +49,7 @@ public class Module : IModule, IHasConfiguration
         {
             builder.AddSchema(serviceCollection, typeof(XapiAssemblyMarker));
             builder.AddGraphTypeHook<ProductTypeHook>();
+            builder.AddGraphTypeHook<LineItemTypeHook>();
         });
         serviceCollection.AddSingleton<ScopedSchemaFactory<XapiAssemblyMarker>>();
 
@@ -86,6 +88,8 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyLogicService, LoyaltyLogicService>();
         serviceCollection.AddTransient<IProductLoyaltyProgramService, LoyaltyLogicService>();
+
+        serviceCollection.AddTransient<ILoyaltyPointsCalculator, LoyaltyPointsCalculator>();
 
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
 
