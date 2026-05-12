@@ -56,18 +56,6 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         }
     }
 
-    public async Task<LoyaltyProgram> GetActiveLoyaltyProgramAsync(string storeId)
-    {
-        var criteria = AbstractTypeFactory<LoyaltyProgramSearchCriteria>.TryCreateInstance();
-        criteria.StoreId = storeId;
-        criteria.OnlyActive = true;
-        criteria.Sort = "priority:desc";
-        criteria.Take = 1;
-
-        var searchResult = await _loyaltyProgramSearchService.SearchNoCloneAsync(criteria);
-        return searchResult.Results?.FirstOrDefault();
-    }
-
     public async Task<decimal> GetUserBalanceAsync(string userId)
     {
         var operationLog = await GetLastLoyaltyOperationLogByUser(userId);
