@@ -27,8 +27,8 @@ angular.module('VirtoCommerce.Loyalty')
                     blade.originalEntries = angular.copy(data.results);
 
                     if (blade.storeId) {
-                        stores.get({ id: blade.storeId }, (data) => {
-                            blade.catalogId = data.catalog;
+                        stores.get({ id: blade.storeId }, (storeData) => {
+                            blade.catalogId = storeData.catalog;
                         });
                     }
                 });
