@@ -2,7 +2,8 @@ angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramProductFactorListController', [
         '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
         'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'VirtoCommerce.Loyalty.loyaltyProgramProductFactors',
-        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, bladeNavigationService, dialogService, loyaltyProgramProductFactors) {
+        'virtoCommerce.storeModule.stores',
+        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, bladeNavigationService, dialogService, loyaltyProgramProductFactors, stores) {
             var blade = $scope.blade;
             blade.headIcon = 'fa fa-star';
             blade.updatePermission = 'loyalty:update';
@@ -24,6 +25,12 @@ angular.module('VirtoCommerce.Loyalty')
                     $scope.pageSettings.totalItems = data.totalCount;
                     $scope.listEntries = data.results;
                     blade.originalEntries = angular.copy(data.results);
+
+                    if (blade.storeId) {
+                        stores.get({ id: blade.storeId }, (data) => {
+                            blade.catalogId = data.catalog;
+                        });
+                    }
                 });
             };
 
@@ -128,7 +135,7 @@ angular.module('VirtoCommerce.Loyalty')
                     name: "platform.commands.add", icon: 'fas fa-plus',
                     executeMethod: openCatalogItemsSelect,
                     canExecuteMethod: function () {
-                        return true;
+                        return blade.catalogId;
                     },
                     permission: blade.updatePermission
                 });
@@ -148,6 +155,7 @@ angular.module('VirtoCommerce.Loyalty')
                     controller: 'virtoCommerce.catalogModule.catalogItemSelectController',
                     template: 'Modules/$(VirtoCommerce.Catalog)/Scripts/blades/common/catalog-items-select.tpl.html',
                     breadcrumbs: [],
+                    catalogId: blade.catalogId,
                     toolbarCommands: [
                         {
                             name: 'Loyalty.blades.select-loyalty-program-products-list.commands.add',

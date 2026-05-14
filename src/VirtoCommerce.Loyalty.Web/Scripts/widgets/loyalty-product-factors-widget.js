@@ -22,6 +22,7 @@ angular.module('VirtoCommerce.Loyalty')
                         id: 'loyaltyProgramProductFactorList',
                         title: 'Loyalty.blades.loyalty-program-product-factor-list.title',
                         loyaltyProgramId: blade.currentEntityId,
+                        storeId: blade.currentEntity.storeId,
                         controller: 'VirtoCommerce.Loyalty.loyaltyProgramProductFactorListController',
                         template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-product-factor-list.html',
                         parentWidgetRefresh: refresh
