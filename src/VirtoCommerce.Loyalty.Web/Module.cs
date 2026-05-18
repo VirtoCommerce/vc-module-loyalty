@@ -84,6 +84,8 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<LoyaltyPaymentMethod>();
 
         serviceCollection.AddSingleton<IAuthorizationHandler, CanAccessLoyaltyAuthorizationHandler>();
+
+        serviceCollection.AddTransient<ILoyaltySettingService, LoyaltySettingService>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)

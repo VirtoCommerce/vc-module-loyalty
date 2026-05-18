@@ -45,11 +45,31 @@ public static class ModuleConstants
                 IsPublic = true,
             };
 
+            public static SettingDescriptor LoyaltyMode { get; } = new()
+            {
+                Name = "Loyalty.Mode",
+                GroupName = "Loyalty|General",
+                ValueType = SettingValueType.ShortText,
+                IsPublic = true,
+                AllowedValues = ["Loyalty Store", "Mixed Cart", "Coupon Redemption", "Payment Method"]
+            };
+
+            public static SettingDescriptor LoyaltyCurrency { get; } = new()
+            {
+                Name = "Loyalty.Currency",
+                GroupName = "Loyalty|General",
+                ValueType = SettingValueType.ShortText,
+                IsPublic = true,
+            };
+
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
                 {
                     yield return Enable;
+                    yield return LoyaltyMode;
+                    yield return LoyaltyCurrency;
+
                 }
             }
         }
@@ -59,6 +79,8 @@ public static class ModuleConstants
             get
             {
                 yield return General.Enable;
+                yield return General.LoyaltyMode;
+                yield return General.LoyaltyCurrency;
             }
         }
 

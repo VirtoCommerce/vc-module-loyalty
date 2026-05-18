@@ -14,4 +14,10 @@ angular.module('VirtoCommerce.Loyalty')
             getBalance: { method: 'GET', url: 'api/loyalty-program-operation-log/balance/:userId' },
             search: { url: 'api/loyalty-program-operation-log/search', method: 'POST' },
         });
+    }])
+    .factory('VirtoCommerce.Loyalty.loyaltySetting', ['$resource', function ($resource) {
+        return $resource('api/loyalty-setting', {}, {
+            getByStore: { method: 'GET', url: 'api/loyalty-setting/store/:storeId' },
+            updateSetting: { method: 'PUT' }
+        });
     }]);

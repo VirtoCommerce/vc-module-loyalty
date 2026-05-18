@@ -58,6 +58,16 @@ angular.module(moduleName, [])
 
             widgetService.registerWidget(customerLoyaltyWidget, 'customerDetail1');
 
+            var loyaltySettingWidget = {
+                controller: 'VirtoCommerce.Loyalty.loyaltySettingWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-setting-wdget.html',
+                isVisible: function (blade) {
+                    return !blade.isNew;
+                }
+            };
+
+            widgetService.registerWidget(loyaltySettingWidget, 'storeDetail');
+
             // Register meta fields
             metaFormsService.registerMetaFields('loyaltyProgramDetail', [
                 {
