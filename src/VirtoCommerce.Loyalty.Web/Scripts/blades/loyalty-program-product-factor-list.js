@@ -53,6 +53,11 @@ angular.module('VirtoCommerce.Loyalty')
                 return getModifiedEntries().length > 0;
             }
 
+            var formScope;
+            $scope.setForm = function (form) { 
+                formScope = form; 
+            };
+
             function saveChanges() {
                 var modified = getModifiedEntries();
                 if (!modified.length) {
@@ -106,7 +111,9 @@ angular.module('VirtoCommerce.Loyalty')
                     name: "platform.commands.save",
                     icon: 'fas fa-save',
                     executeMethod: saveChanges,
-                    canExecuteMethod: isDirty,
+                    canExecuteMethod: function () {
+                        return isDirty() && formScope && formScope.$valid;
+                    },
                     permission: blade.updatePermission
                 },
                 {
@@ -143,7 +150,7 @@ angular.module('VirtoCommerce.Loyalty')
 
             blade.onClose = function (closeCallback) {
                 bladeNavigationService.showConfirmationIfNeeded(isDirty(), true, blade, saveChanges, closeCallback,
-                    "platform.dialogs.unsaved-changes.title", "platform.dialogs.unsaved-changes.message");
+                    "Loyalty.dialogs.loyalty-program-save.title", "Loyalty.dialogs.loyalty-program-save.message");
             };
 
             function openCatalogItemsSelect() {

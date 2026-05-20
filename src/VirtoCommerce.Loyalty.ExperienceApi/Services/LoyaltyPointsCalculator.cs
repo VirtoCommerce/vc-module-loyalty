@@ -7,6 +7,7 @@ using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Settings;
+using VirtoCommerce.StoreModule.Core.Model;
 using VirtoCommerce.StoreModule.Core.Services;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Services;
@@ -20,10 +21,17 @@ public class LoyaltyPointsCalculator(
 {
     public async Task<LoyaltyPointsContext> ResolveAsync(string storeId, string userId, string language, string currencyCode, IList<string> productIds)
     {
+        var store = await storeService.GetByIdAsync(storeId);
+        var loyaltyEnabled = store.Settings.GetValue<bool>(ModuleConstants.Settings.General.Enable);
+        if (!loyaltyEnabled)
+        {
+            return new LoyaltyPointsContext();
+        }
+
         var currencies = await currencyService.GetAllCurrenciesAsync();
         var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(ModuleConstants.PointsCurrencyCode));
 
-        var defaultFactor = await GetDefaultFactorAsync(storeId);
+        var defaultFactor = await GetDefaultFactorAsync(store);
 
         var factorByProductId = new Dictionary<string, decimal>();
 
@@ -50,9 +58,8 @@ public class LoyaltyPointsCalculator(
         };
     }
 
-    private async Task<decimal> GetDefaultFactorAsync(string storeId)
+    private async Task<decimal> GetDefaultFactorAsync(Store store)
     {
-        var store = await storeService.GetByIdAsync(storeId);
         return store.Settings.GetValue<decimal>(ModuleConstants.Settings.General.DefaultProductMultiplyFactor);
     }
 

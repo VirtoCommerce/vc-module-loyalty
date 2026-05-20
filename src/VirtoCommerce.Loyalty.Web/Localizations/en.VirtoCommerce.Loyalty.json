@@ -124,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Delete product factors",
         "message": "Are you sure you want to delete the selected product factors?"
+      },
+      "loyalty-program-save": {
+        "title": "Save changes",
+        "message": "Loyalty program was modified. Do you want to save changes?"
       }
     }
   },
