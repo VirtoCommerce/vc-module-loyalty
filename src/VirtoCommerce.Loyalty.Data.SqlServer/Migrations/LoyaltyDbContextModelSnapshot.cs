@@ -17,7 +17,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.6")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -208,7 +208,9 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LoyaltyProgramId");
+                    b.HasIndex("LoyaltyProgramId", "ProductId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyProgramProductFactor_LoyaltyProgramId_ProductId");
 
                     b.ToTable("LoyaltyProgramProductFactor", (string)null);
                 });

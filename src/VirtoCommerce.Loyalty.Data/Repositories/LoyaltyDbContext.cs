@@ -47,6 +47,9 @@ public class LoyaltyDbContext : DbContextBase
         modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().HasOne(x => x.LoyaltyProgram).WithMany()
             .HasForeignKey(x => x.LoyaltyProgramId).OnDelete(DeleteBehavior.Cascade).IsRequired();
         modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().Property(x => x.Factor).HasPrecision(18, 2);
+        modelBuilder.Entity<LoyaltyProgramProductFactorEntity>()
+            .HasIndex(x => new { x.LoyaltyProgramId, x.ProductId }).IsUnique()
+            .HasDatabaseName("IX_LoyaltyProgramProductFactor_LoyaltyProgramId_ProductId");
 
         switch (Database.ProviderName)
         {
