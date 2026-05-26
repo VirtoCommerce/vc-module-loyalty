@@ -11,6 +11,11 @@ public class LoyaltyPointsContext
 
     public Money CalculatePoints(decimal price, string productId)
     {
+        if (PointsCurrency == null)
+        {
+            return null;
+        }
+
         var factor = FactorByProductId != null && FactorByProductId.TryGetValue(productId, out var value) ? value : DefaultFactor;
         return new Money(price * factor, PointsCurrency);
     }

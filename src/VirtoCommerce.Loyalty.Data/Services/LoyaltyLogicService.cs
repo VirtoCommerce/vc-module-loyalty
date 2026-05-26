@@ -267,21 +267,12 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
     {
         await PopulateLoyaltyProgramEvaluationContextAsync(loyaltyContext);
 
-        var criteria = AbstractTypeFactory<LoyaltyProgramSearchCriteria>.TryCreateInstance();
-        criteria.OnlyActive = true;
-        criteria.StoreIds = [loyaltyContext.StoreId];
-        criteria.ProgramType = loyaltyContext.ProgramType;
-        criteria.Sort = "priority:desc";
-
-        await foreach (var searchResult in _loyaltyProgramSearchService.SearchBatchesNoCloneAsync(criteria))
+        await foreach (var loyaltyProgram in GetActiveLoyaltyProgramsAsync([loyaltyContext.StoreId], loyaltyContext.ProgramType))
         {
-            foreach (var loyaltyProgram in searchResult.Results)
+            var isSatisfied = loyaltyProgram.DynamicExpression.IsSatisfiedBy(loyaltyContext);
+            if (isSatisfied)
             {
-                var isSatisfied = loyaltyProgram.DynamicExpression.IsSatisfiedBy(loyaltyContext);
-                if (isSatisfied)
-                {
-                    return loyaltyProgram;
-                }
+                return loyaltyProgram;
             }
         }
 
