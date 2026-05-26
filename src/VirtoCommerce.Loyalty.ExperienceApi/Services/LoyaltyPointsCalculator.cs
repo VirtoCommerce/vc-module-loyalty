@@ -31,7 +31,7 @@ public class LoyaltyPointsCalculator(
         var currencies = await currencyService.GetAllCurrenciesAsync();
         var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(ModuleConstants.PointsCurrencyCode));
 
-        var defaultFactor = await GetDefaultFactorAsync(store);
+        var defaultFactor = GetDefaultFactor(store);
 
         var factorByProductId = new Dictionary<string, decimal>();
 
@@ -58,7 +58,7 @@ public class LoyaltyPointsCalculator(
         };
     }
 
-    private async Task<decimal> GetDefaultFactorAsync(Store store)
+    private static decimal GetDefaultFactor(Store store)
     {
         return store.Settings.GetValue<decimal>(ModuleConstants.Settings.General.DefaultProductMultiplyFactor);
     }
