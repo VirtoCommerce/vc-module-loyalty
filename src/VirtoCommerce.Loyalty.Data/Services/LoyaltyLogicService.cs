@@ -272,7 +272,6 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         criteria.StoreIds = [loyaltyContext.StoreId];
         criteria.ProgramType = loyaltyContext.ProgramType;
         criteria.Sort = "priority:desc";
-        criteria.Take = 5;
 
         await foreach (var searchResult in _loyaltyProgramSearchService.SearchBatchesNoCloneAsync(criteria))
         {

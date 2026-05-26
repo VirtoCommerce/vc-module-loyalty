@@ -54,8 +54,8 @@ angular.module('VirtoCommerce.Loyalty')
             }
 
             var formScope;
-            $scope.setForm = function (form) { 
-                formScope = form; 
+            $scope.setForm = function (form) {
+                formScope = form;
             };
 
             function saveChanges() {
