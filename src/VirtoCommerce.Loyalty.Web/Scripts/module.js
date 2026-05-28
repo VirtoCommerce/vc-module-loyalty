@@ -58,6 +58,20 @@ angular.module(moduleName, [])
 
             widgetService.registerWidget(customerLoyaltyWidget, 'customerDetail1');
 
+            var loyaltyProductFactorsWidget = {
+                controller: 'VirtoCommerce.Loyalty.loyaltyProgramProductFactorsWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-product-factors-widget.html'
+            };
+
+            widgetService.registerWidget(loyaltyProductFactorsWidget, 'loyaltyDetail');
+
+            var productDetailsloyaltyFactorsWidget = {
+                controller: 'VirtoCommerce.Loyalty.productDetailsLoyaltyFactorsWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/product-details-loyalty-factors-widget.html'
+            };
+
+            widgetService.registerWidget(productDetailsloyaltyFactorsWidget, 'itemDetail');
+
             // Register meta fields
             metaFormsService.registerMetaFields('loyaltyProgramDetail', [
                 {
@@ -161,6 +175,12 @@ angular.module(moduleName, [])
                 displayName: 'Registration',
             });
 
+            dynamicExpressionService.registerExpression({
+                groupName: 'Shopper profile',
+                id: 'AnyUserGroupCondition',
+                displayName: 'Any User Group',
+            });
+
             // Rewards
             dynamicExpressionService.registerExpression({
                 id: 'BlockLoyaltyReward',
@@ -181,5 +201,6 @@ angular.module(moduleName, [])
             });
 
             dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/dynamicConditions/templates.html');
+            dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/templates.html');
         }
     ]);

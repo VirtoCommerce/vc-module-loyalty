@@ -13,6 +13,24 @@
           "select-filter": "Välj filter"
         }
       },
+      "loyalty-program-add": {
+        "title": "Lägg till lojalitetsprogram",
+        "subtitle": "Välj programtyp",
+        "labels": {
+          "name": "Typ",
+          "description": "Beskrivning"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Orderlojalitet",
+            "description": "Belöna kunder baserat på ordervillkor och totalsummor"
+          },
+          "product-points-loyalty": {
+            "name": "Produktpoänglojalitet",
+            "description": "Belöna kunder med poäng för köp av specifika produkter"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Detaljer för lojalitetsprogram",
         "new-program": "Nytt lojalitetsprogram",
@@ -49,6 +67,28 @@
           "created-date": "Skapad"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "Produktfaktorer",
+        "labels": {
+          "product-id": "Produkt-ID",
+          "product-name": "Produktnamn",
+          "product-code": "SKU",
+          "factor": "Faktor"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Lojalitetsprogram",
+        "labels": {
+          "program-name": "Programnamn",
+          "factor": "Faktor"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Välj produktfaktorer",
+        "commands": {
+          "add": "Lägg till valda"
+        }
+      },
       "filter-detail": {
         "title": "Filtrera lojalitetsprogram",
         "labels": {
@@ -64,17 +104,24 @@
           "name": "Ange programnamn",
           "store": "Välj butik"
         }
-      } 
+      }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Lojalitetssaldo"
+      },
+      "loyalty-product-factors": {
+        "title": "Produktfaktorer"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Radera lojalitetsprogram",
         "message": "Är du säker på att du vill radera det valda lojalitetsprogrammet?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Ta bort produktfaktorer",
+        "message": "Är du säker på att du vill ta bort de valda produktfaktorerna?"
       }
     }
   },
@@ -90,6 +137,10 @@
       "Enable": {
         "title": "Lojalitetsprogram",
         "description": "Aktivera eller inaktivera lojalitetsprogram"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Standard multiplikationsfaktor för produkt",
+        "description": "Standardmultiplikator som tillämpas på produktpriset vid beräkning av lojalitetspoäng om ingen produktspecifik faktor är konfigurerad"
       }
     }
   }

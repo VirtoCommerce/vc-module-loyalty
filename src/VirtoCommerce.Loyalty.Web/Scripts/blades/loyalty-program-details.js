@@ -13,7 +13,10 @@ angular.module('VirtoCommerce.Loyalty')
 
                 blade.refresh = function (parentRefresh) {
                     if (blade.isNew) {
-                        loyaltyPrograms.getNew(initializeBlade);
+                        loyaltyPrograms.getNew({ programType: blade.programType }, function (data) {
+                            data.programType = blade.programType;
+                            initializeBlade(data);
+                        });
                     }
                     else {
                         loyaltyPrograms.get({ id: blade.currentEntityId }, initializeBlade);
@@ -40,6 +43,8 @@ angular.module('VirtoCommerce.Loyalty')
                     languagesPromise.then(function (languagesData) {
                         blade.languages = languagesData;
                     });
+
+                    blade.programType = data.programType;
 
                     blade.isLoading = false;
                 }

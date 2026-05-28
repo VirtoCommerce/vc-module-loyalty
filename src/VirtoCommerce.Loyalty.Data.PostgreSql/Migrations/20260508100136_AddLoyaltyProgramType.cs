@@ -1,0 +1,63 @@
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddLoyaltyProgramType : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "ProgramType",
+                table: "LoyaltyProgram",
+                type: "character varying(32)",
+                maxLength: 32,
+                nullable: true);
+
+            migrationBuilder.CreateTable(
+                name: "LoyaltyProgramProductFactor",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    LoyaltyProgramId = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    ProductId = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    Factor = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    ModifiedBy = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoyaltyProgramProductFactor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LoyaltyProgramProductFactor_LoyaltyProgram_LoyaltyProgramId",
+                        column: x => x.LoyaltyProgramId,
+                        principalTable: "LoyaltyProgram",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LoyaltyProgramProductFactor_LoyaltyProgramId",
+                table: "LoyaltyProgramProductFactor",
+                column: "LoyaltyProgramId");
+
+            migrationBuilder.Sql("UPDATE \"LoyaltyProgram\" SET \"ProgramType\" = 'Default'");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "LoyaltyProgramProductFactor");
+
+            migrationBuilder.DropColumn(
+                name: "ProgramType",
+                table: "LoyaltyProgram");
+        }
+    }
+}

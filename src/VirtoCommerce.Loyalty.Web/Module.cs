@@ -19,6 +19,8 @@ using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
+using VirtoCommerce.Loyalty.ExperienceApi.Services;
+using VirtoCommerce.Loyalty.ExperienceApi.TypeHooks;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -46,6 +48,8 @@ public class Module : IModule, IHasConfiguration
         _ = new GraphQLBuilder(serviceCollection, builder =>
         {
             builder.AddSchema(serviceCollection, typeof(XapiAssemblyMarker));
+            builder.AddGraphTypeHook<ProductTypeHook>();
+            builder.AddGraphTypeHook<LineItemTypeHook>();
         });
         serviceCollection.AddSingleton<ScopedSchemaFactory<XapiAssemblyMarker>>();
 
@@ -78,7 +82,15 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<ILoyaltyProgramOperationLogService, LoyaltyProgramOperationLogService>();
         serviceCollection.AddTransient<ILoyaltyProgramOperationLogSearchService, LoyaltyProgramOperationLogSearchService>();
 
+        serviceCollection.AddTransient<ILoyaltyProgramProductFactorService, LoyaltyProgramProductFactorService>();
+        serviceCollection.AddTransient<ILoyaltyProgramProductFactorSearchService, LoyaltyProgramProductFactorSearchService>();
+        serviceCollection.AddTransient<ILoyaltyProgramProductFactorListItemSearchService, LoyaltyProgramProductFactorListItemSearchService>();
+
         serviceCollection.AddTransient<ILoyaltyLogicService, LoyaltyLogicService>();
+        serviceCollection.AddTransient<IProductLoyaltyProgramService, LoyaltyLogicService>();
+
+        serviceCollection.AddTransient<ILoyaltyPointsCalculator, LoyaltyPointsCalculator>();
+
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
 
         serviceCollection.AddTransient<LoyaltyPaymentMethod>();
@@ -109,6 +121,11 @@ public class Module : IModule, IHasConfiguration
         dbContext.Database.Migrate();
 
         foreach (var conditionTree in AbstractTypeFactory<LoyaltyProgramConditionAndRewardTreePrototype>.TryCreateInstance().Traverse<IConditionTree>(x => x.AvailableChildren))
+        {
+            AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
+        }
+
+        foreach (var conditionTree in AbstractTypeFactory<LoyaltyProgramProductConditionTreePrototype>.TryCreateInstance().Traverse<IConditionTree>(x => x.AvailableChildren))
         {
             AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
         }

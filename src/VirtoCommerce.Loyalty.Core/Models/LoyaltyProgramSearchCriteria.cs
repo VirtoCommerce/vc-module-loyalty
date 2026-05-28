@@ -8,6 +8,8 @@ public class LoyaltyProgramSearchCriteria : SearchCriteriaBase
 
     public string StoreId { get; set; }
 
+    public string ProgramType { get; set; }
+
     private string[] _storeIds;
     public string[] StoreIds
     {

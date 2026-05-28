@@ -30,7 +30,12 @@ public static class ModuleConstants
     {
         public const string EarnedOperationType = "Earned";
         public const string RedeemedOperationType = "Redeemed";
+
+        public const string ProductProgramType = "ProductPoints";
+        public const string DefaultProgramType = "Default";
     }
+
+    public const string PointsCurrencyCode = "XPT";
 
     public static class Settings
     {
@@ -45,11 +50,21 @@ public static class ModuleConstants
                 IsPublic = true,
             };
 
+            public static SettingDescriptor DefaultProductMultiplyFactor { get; } = new()
+            {
+                Name = "Loyalty.DefaultProductMultiplyFactor",
+                GroupName = "Loyalty|General",
+                ValueType = SettingValueType.Decimal,
+                DefaultValue = 1m,
+                IsPublic = true,
+            };
+
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
                 {
                     yield return Enable;
+                    yield return DefaultProductMultiplyFactor;
                 }
             }
         }
@@ -59,6 +74,7 @@ public static class ModuleConstants
             get
             {
                 yield return General.Enable;
+                yield return General.DefaultProductMultiplyFactor;
             }
         }
 

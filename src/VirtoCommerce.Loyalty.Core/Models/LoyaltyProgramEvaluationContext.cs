@@ -24,6 +24,8 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
         }
     }
 
+    public string ProgramType { get; set; } = ModuleConstants.LoyaltyPrograms.DefaultProgramType;
+
     public string UserId { get; set; }
     public string StoreId { get; set; }
     public string CurrencyCode { get; set; }
@@ -54,7 +56,7 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
         yield return OrderId;
         yield return OrderStatus;
         yield return OrderTotal;
-
+        yield return ProgramType;
         yield return Language;
 
         foreach (var entry in GetCollectionComponents(UserGroups))

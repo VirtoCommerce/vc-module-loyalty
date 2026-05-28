@@ -13,6 +13,24 @@
           "select-filter": "Sélectionner un filtre"
         }
       },
+      "loyalty-program-add": {
+        "title": "Ajouter un programme de fidélité",
+        "subtitle": "Sélectionner le type de programme",
+        "labels": {
+          "name": "Type",
+          "description": "Description"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Fidélité sur commande",
+            "description": "Récompenser les clients selon les conditions et les montants des commandes"
+          },
+          "product-points-loyalty": {
+            "name": "Fidélité par points produit",
+            "description": "Récompenser les clients avec des points pour l’achat de produits spécifiques"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Détails du programme de fidélité",
         "new-program": "Nouveau programme de fidélité",
@@ -49,6 +67,28 @@
           "created-date": "Créé"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "Facteurs de produit",
+        "labels": {
+          "product-id": "ID produit",
+          "product-name": "Nom du produit",
+          "product-code": "SKU",
+          "factor": "Facteur"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Programmes de fidélité",
+        "labels": {
+          "program-name": "Nom du programme",
+          "factor": "Facteur"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Sélectionner les facteurs de produit",
+        "commands": {
+          "add": "Ajouter la sélection"
+        }
+      },
       "filter-detail": {
         "title": "Filtrer les programmes de fidélité",
         "labels": {
@@ -69,12 +109,19 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Solde de fidélité"
+      },
+      "loyalty-product-factors": {
+        "title": "Facteurs de produit"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Supprimer le programme de fidélité",
         "message": "Êtes-vous sûr de vouloir supprimer le programme de fidélité sélectionné ?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Supprimer les facteurs de produit",
+        "message": "Êtes-vous sûr de vouloir supprimer les facteurs de produit sélectionnés ?"
       }
     }
   },
@@ -90,6 +137,10 @@
       "Enable": {
         "title": "Fidélité activée",
         "description": "Paramètre de fidélité activé"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Facteur multiplicateur de produit par défaut",
+        "description": "Multiplicateur par défaut appliqué au prix d’un produit lors du calcul des points de fidélité si aucun facteur spécifique au produit n’est configuré"
       }
     }
   }
