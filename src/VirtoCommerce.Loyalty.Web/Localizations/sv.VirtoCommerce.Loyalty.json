@@ -45,7 +45,8 @@
           "end-date": "Slutdatum",
           "loyalty-program": "Lojalitetsprogram",
           "show-more-languages": "Visa fler språk",
-          "show-less-languages": "Visa färre språk"
+          "show-less-languages": "Visa färre språk",
+          "is-new": "Spara programmet först för att börja hantera produktfaktorer"
         },
         "placeholders": {
           "store": "Välj butik",
@@ -73,7 +74,8 @@
           "product-id": "Produkt-ID",
           "product-name": "Produktnamn",
           "product-code": "SKU",
-          "factor": "Faktor"
+          "factor": "Faktor",
+          "new": "Ny"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Ta bort produktfaktorer",
         "message": "Är du säker på att du vill ta bort de valda produktfaktorerna?"
+      },
+      "loyalty-program-save": {
+        "title": "Spara ändringar",
+        "message": "Lojalitetsprogrammet har ändrats. Vill du spara ändringarna?"
       }
     }
   },

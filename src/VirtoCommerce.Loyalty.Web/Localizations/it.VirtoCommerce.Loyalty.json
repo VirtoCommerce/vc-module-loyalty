@@ -45,7 +45,8 @@
           "end-date": "Data di fine",
           "loyalty-program": "Programma fedeltà",
           "show-more-languages": "Mostra più lingue",
-          "show-less-languages": "Mostra meno lingue"
+          "show-less-languages": "Mostra meno lingue",
+          "is-new": "Salva prima il programma per iniziare a gestire i fattori prodotto"
         },
         "placeholders": {
           "store": "Seleziona negozio",
@@ -58,7 +59,8 @@
           "product-id": "ID prodotto",
           "product-name": "Nome prodotto",
           "product-code": "SKU",
-          "factor": "Fattore"
+          "factor": "Fattore",
+          "new": "Nuovo"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Elimina fattori prodotto",
         "message": "Sei sicuro di voler eliminare i fattori prodotto selezionati?"
+      },
+      "loyalty-program-save": {
+        "title": "Salva modifiche",
+        "message": "Il programma fedeltà è stato modificato. Vuoi salvare le modifiche?"
       }
     }
   },

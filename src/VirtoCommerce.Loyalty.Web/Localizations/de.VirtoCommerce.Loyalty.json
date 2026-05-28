@@ -45,7 +45,8 @@
           "end-date": "Enddatum",
           "loyalty-program": "Treueprogramm",
           "show-more-languages": "Mehr Sprachen anzeigen",
-          "show-less-languages": "Weniger Sprachen anzeigen"
+          "show-less-languages": "Weniger Sprachen anzeigen",
+          "is-new": "Speichern Sie das Programm zuerst, um Produktfaktoren verwalten zu können"
         },
         "placeholders": {
           "store": "Geschäft auswählen",
@@ -73,7 +74,8 @@
           "product-id": "Produkt-ID",
           "product-name": "Produktname",
           "product-code": "SKU",
-          "factor": "Faktor"
+          "factor": "Faktor",
+          "new": "Neu"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Produktfaktoren löschen",
         "message": "Möchten Sie die ausgewählten Produktfaktoren wirklich löschen?"
+      },
+      "loyalty-program-save": {
+        "title": "Änderungen speichern",
+        "message": "Das Treueprogramm wurde geändert. Möchten Sie die Änderungen speichern?"
       }
     }
   },

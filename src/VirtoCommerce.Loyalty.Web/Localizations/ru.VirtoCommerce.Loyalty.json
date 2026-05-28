@@ -45,7 +45,8 @@
           "end-date": "Дата окончания",
           "loyalty-program": "Программа лояльности",
           "show-more-languages": "Показать больше языков",
-          "show-less-languages": "Показать меньше языков"
+          "show-less-languages": "Показать меньше языков",
+          "is-new": "Сначала сохраните программу, чтобы начать управлять коэффициентами товаров"
         },
         "placeholders": {
           "store": "Выберите магазин",
@@ -73,7 +74,8 @@
           "product-id": "ID товара",
           "product-name": "Название товара",
           "product-code": "SKU",
-          "factor": "Коэффициент"
+          "factor": "Коэффициент",
+          "new": "Новый"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Удалить коэффициенты товаров",
         "message": "Вы уверены, что хотите удалить выбранные коэффициенты товаров?"
+      },
+      "loyalty-program-save": {
+        "title": "Сохранить изменения",
+        "message": "Программа лояльности была изменена. Сохранить изменения?"
       }
     }
   },

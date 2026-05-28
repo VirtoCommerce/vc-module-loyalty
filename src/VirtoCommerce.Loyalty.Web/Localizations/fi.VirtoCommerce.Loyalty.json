@@ -45,7 +45,8 @@
           "end-date": "Päättymispäivä",
           "loyalty-program": "Kanta-asiakasohjelma",
           "show-more-languages": "Näytä lisää kieliä",
-          "show-less-languages": "Näytä vähemmän kieliä"
+          "show-less-languages": "Näytä vähemmän kieliä",
+          "is-new": "Tallenna ohjelma ensin, jotta voit alkaa hallita tuotekertoimia"
         },
         "placeholders": {
           "store": "Valitse kauppa",
@@ -73,7 +74,8 @@
           "product-id": "Tuotetunnus",
           "product-name": "Tuotteen nimi",
           "product-code": "SKU",
-          "factor": "Kerroin"
+          "factor": "Kerroin",
+          "new": "Uusi"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Poista tuotekertoimet",
         "message": "Haluatko varmasti poistaa valitut tuotekertoimet?"
+      },
+      "loyalty-program-save": {
+        "title": "Tallenna muutokset",
+        "message": "Kanta-asiakasohjelmaa on muokattu. Haluatko tallentaa muutokset?"
       }
     }
   },

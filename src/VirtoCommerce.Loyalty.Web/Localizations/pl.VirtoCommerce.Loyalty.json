@@ -45,7 +45,8 @@
           "end-date": "Data zakończenia",
           "loyalty-program": "Program lojalnościowy",
           "show-more-languages": "Pokaż więcej języków",
-          "show-less-languages": "Pokaż mniej języków"
+          "show-less-languages": "Pokaż mniej języków",
+          "is-new": "Najpierw zapisz program, aby rozpocząć zarządzanie współczynnikami produktów"
         },
         "placeholders": {
           "store": "Wybierz sklep",
@@ -73,7 +74,8 @@
           "product-id": "ID produktu",
           "product-name": "Nazwa produktu",
           "product-code": "SKU",
-          "factor": "Współczynnik"
+          "factor": "Współczynnik",
+          "new": "Nowy"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Usuń współczynniki produktów",
         "message": "Czy na pewno chcesz usunąć wybrane współczynniki produktów?"
+      },
+      "loyalty-program-save": {
+        "title": "Zapisz zmiany",
+        "message": "Program lojalnościowy został zmodyfikowany. Czy chcesz zapisać zmiany?"
       }
     }
   },

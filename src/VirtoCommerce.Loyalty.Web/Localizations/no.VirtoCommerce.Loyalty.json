@@ -45,7 +45,8 @@
           "end-date": "Sluttdato",
           "loyalty-program": "Lojalitetsprogram",
           "show-more-languages": "Vis flere språk",
-          "show-less-languages": "Vis færre språk"
+          "show-less-languages": "Vis færre språk",
+          "is-new": "Lagre programmet først for å begynne å administrere produktfaktorer"
         },
         "placeholders": {
           "store": "Velg butikk",
@@ -73,7 +74,8 @@
           "product-id": "Produkt-ID",
           "product-name": "Produktnavn",
           "product-code": "SKU",
-          "factor": "Faktor"
+          "factor": "Faktor",
+          "new": "Ny"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "Slett produktfaktorer",
         "message": "Er du sikker på at du vil slette de valgte produktfaktorene?"
+      },
+      "loyalty-program-save": {
+        "title": "Lagre endringer",
+        "message": "Lojalitetsprogrammet er endret. Vil du lagre endringene?"
       }
     }
   },

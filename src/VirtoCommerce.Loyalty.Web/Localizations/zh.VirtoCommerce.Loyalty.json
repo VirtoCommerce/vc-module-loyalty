@@ -45,7 +45,8 @@
           "end-date": "结束日期",
           "loyalty-program": "忠诚度计划",
           "show-more-languages": "显示更多语言",
-          "show-less-languages": "显示更少语言"
+          "show-less-languages": "显示更少语言",
+          "is-new": "请先保存计划以开始管理商品系数"
         },
         "placeholders": {
           "store": "选择门店",
@@ -73,7 +74,8 @@
           "product-id": "商品ID",
           "product-name": "商品名称",
           "product-code": "SKU",
-          "factor": "系数"
+          "factor": "系数",
+          "new": "新建"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "删除商品系数",
         "message": "您确定要删除所选商品系数吗？"
+      },
+      "loyalty-program-save": {
+        "title": "保存更改",
+        "message": "忠诚度计划已修改。是否要保存更改？"
       }
     }
   },

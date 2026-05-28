@@ -45,7 +45,8 @@
           "end-date": "終了日",
           "loyalty-program": "ロイヤルティプログラム",
           "show-more-languages": "さらに言語を表示",
-          "show-less-languages": "言語を少なく表示"
+          "show-less-languages": "言語を少なく表示",
+          "is-new": "商品係数の管理を開始するには、まずプログラムを保存してください"
         },
         "placeholders": {
           "store": "店舗を選択",
@@ -73,7 +74,8 @@
           "product-id": "商品ID",
           "product-name": "商品名",
           "product-code": "SKU",
-          "factor": "係数"
+          "factor": "係数",
+          "new": "新規"
         }
       },
       "product-loyalty-program-list": {
@@ -122,6 +124,10 @@
       "loyalty-program-product-factor-delete": {
         "title": "商品係数を削除",
         "message": "選択した商品係数を削除してもよろしいですか？"
+      },
+      "loyalty-program-save": {
+        "title": "変更を保存",
+        "message": "ロイヤルティプログラムが変更されました。変更を保存しますか？"
       }
     }
   },
