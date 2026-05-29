@@ -13,6 +13,24 @@
           "select-filter": "Seleziona filtro"
         }
       },
+      "loyalty-program-add": {
+        "title": "Aggiungi programma fedeltà",
+        "subtitle": "Seleziona il tipo di programma",
+        "labels": {
+          "name": "Tipo",
+          "description": "Descrizione"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Fedeltà ordine",
+            "description": "Premia i clienti in base alle condizioni e ai totali degli ordini"
+          },
+          "product-points-loyalty": {
+            "name": "Fedeltà punti prodotto",
+            "description": "Premia i clienti con punti per l'acquisto di prodotti specifici"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Dettagli programma fedeltà",
         "new-program": "Nuovo programma fedeltà",
@@ -27,11 +45,35 @@
           "end-date": "Data di fine",
           "loyalty-program": "Programma fedeltà",
           "show-more-languages": "Mostra più lingue",
-          "show-less-languages": "Mostra meno lingue"
+          "show-less-languages": "Mostra meno lingue",
+          "is-new": "Salva prima il programma per iniziare a gestire i fattori prodotto"
         },
         "placeholders": {
           "store": "Seleziona negozio",
           "name": "Inserisci nome del programma"
+        }
+      },
+      "loyalty-program-product-factor-list": {
+        "title": "Fattori prodotto",
+        "labels": {
+          "product-id": "ID prodotto",
+          "product-name": "Nome prodotto",
+          "product-code": "SKU",
+          "factor": "Fattore",
+          "new": "Nuovo"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Programmi fedeltà",
+        "labels": {
+          "program-name": "Nome programma",
+          "factor": "Fattore"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Seleziona fattori prodotto",
+        "commands": {
+          "add": "Aggiungi selezionati"
         }
       },
       "loyalty-program-operation-log-list": {
@@ -69,12 +111,23 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Saldo fedeltà"
+      },
+      "loyalty-product-factors": {
+        "title": "Fattori prodotto"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Elimina programma fedeltà",
         "message": "Sei sicuro di voler eliminare il programma fedeltà selezionato?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Elimina fattori prodotto",
+        "message": "Sei sicuro di voler eliminare i fattori prodotto selezionati?"
+      },
+      "loyalty-program-save": {
+        "title": "Salva modifiche",
+        "message": "Il programma fedeltà è stato modificato. Vuoi salvare le modifiche?"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "Fedeltà attivata",
         "description": "Impostazione fedeltà attivata"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Fattore moltiplicatore prodotto predefinito",
+        "description": "Moltiplicatore predefinito applicato al prezzo del prodotto durante il calcolo dei punti fedeltà se non è configurato un fattore specifico per prodotto"
       }
     }
   }

@@ -42,6 +42,11 @@ public class LoyaltyProgramSearchService(
             query = query.Where(x => criteria.StoreIds.Contains(x.StoreId));
         }
 
+        if (!criteria.ProgramType.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.ProgramType == criteria.ProgramType);
+        }
+
         return query;
     }
 

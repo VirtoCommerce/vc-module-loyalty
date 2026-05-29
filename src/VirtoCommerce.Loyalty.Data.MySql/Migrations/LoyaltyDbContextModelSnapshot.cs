@@ -17,7 +17,7 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -59,6 +59,10 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProgramType")
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime(6)");
@@ -167,6 +171,50 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.ToTable("LoyaltyProgramOperationLog", (string)null);
                 });
 
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramProductFactorEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("Factor")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("LoyaltyProgramId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoyaltyProgramId", "ProductId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyProgramProductFactor_LoyaltyProgramId_ProductId");
+
+                    b.ToTable("LoyaltyProgramProductFactor", (string)null);
+                });
+
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
                 {
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "ParentEntity")
@@ -184,6 +232,17 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                         .WithMany()
                         .HasForeignKey("LoyaltyProgramId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("LoyaltyProgram");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramProductFactorEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
+                        .WithMany()
+                        .HasForeignKey("LoyaltyProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LoyaltyProgram");
                 });

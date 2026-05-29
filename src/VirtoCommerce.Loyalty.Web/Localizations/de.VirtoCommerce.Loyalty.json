@@ -13,6 +13,24 @@
           "select-filter": "Filter auswählen"
         }
       },
+      "loyalty-program-add": {
+        "title": "Treueprogramm hinzufügen",
+        "subtitle": "Programmtyp auswählen",
+        "labels": {
+          "name": "Typ",
+          "description": "Beschreibung"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Bestelltreue",
+            "description": "Kunden basierend auf Bestellbedingungen und Gesamtsummen belohnen"
+          },
+          "product-points-loyalty": {
+            "name": "Produktpunkte-Treue",
+            "description": "Kunden mit Punkten für den Kauf bestimmter Produkte belohnen"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Details zum Treueprogramm",
         "new-program": "Neues Treueprogramm",
@@ -27,7 +45,8 @@
           "end-date": "Enddatum",
           "loyalty-program": "Treueprogramm",
           "show-more-languages": "Mehr Sprachen anzeigen",
-          "show-less-languages": "Weniger Sprachen anzeigen"
+          "show-less-languages": "Weniger Sprachen anzeigen",
+          "is-new": "Speichern Sie das Programm zuerst, um Produktfaktoren verwalten zu können"
         },
         "placeholders": {
           "store": "Geschäft auswählen",
@@ -47,6 +66,29 @@
           "amount": "Betrag",
           "balance": "Saldo",
           "created-date": "Erstellt"
+        }
+      },
+      "loyalty-program-product-factor-list": {
+        "title": "Produktfaktoren",
+        "labels": {
+          "product-id": "Produkt-ID",
+          "product-name": "Produktname",
+          "product-code": "SKU",
+          "factor": "Faktor",
+          "new": "Neu"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Treueprogramme",
+        "labels": {
+          "program-name": "Programmname",
+          "factor": "Faktor"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Produktfaktoren auswählen",
+        "commands": {
+          "add": "Ausgewählte hinzufügen"
         }
       },
       "filter-detail": {
@@ -69,12 +111,23 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Treuesaldo"
+      },
+      "loyalty-product-factors": {
+        "title": "Produktfaktoren"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Treueprogramm löschen",
         "message": "Möchten Sie das ausgewählte Treueprogramm wirklich löschen?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Produktfaktoren löschen",
+        "message": "Möchten Sie die ausgewählten Produktfaktoren wirklich löschen?"
+      },
+      "loyalty-program-save": {
+        "title": "Änderungen speichern",
+        "message": "Das Treueprogramm wurde geändert. Möchten Sie die Änderungen speichern?"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "Treue aktiviert",
         "description": "Einstellung für Treue aktiviert"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Standard-Produktmultiplikator",
+        "description": "Standardmultiplikator, der auf den Produktpreis angewendet wird, wenn Treuepunkte berechnet werden und kein produktspezifischer Faktor konfiguriert ist"
       }
     }
   }

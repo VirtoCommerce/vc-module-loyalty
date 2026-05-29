@@ -19,6 +19,11 @@ public class LoyaltyProgram : AuditableEntity, ICloneable
 
     public int Priority { get; set; }
 
+    /// <summary>
+    /// "Product", "Default"
+    /// </summary>
+    public string ProgramType { get; set; }
+
     public LoyaltyProgramConditionAndRewardTree DynamicExpression { get; set; } = AbstractTypeFactory<LoyaltyProgramConditionAndRewardTree>.TryCreateInstance();
 
     public object Clone()

@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -48,20 +49,39 @@ public class LoyaltyProgramController(
 
         if (model != null)
         {
-            model.DynamicExpression?.MergeFromPrototype(AbstractTypeFactory<LoyaltyProgramConditionAndRewardTreePrototype>.TryCreateInstance());
+            switch (model.ProgramType)
+            {
+                case ModuleConstants.LoyaltyPrograms.ProductProgramType:
+                    model.DynamicExpression?.MergeFromPrototype(AbstractTypeFactory<LoyaltyProgramProductConditionTreePrototype>.TryCreateInstance());
+                    break;
+                default:
+                    model.DynamicExpression?.MergeFromPrototype(AbstractTypeFactory<LoyaltyProgramConditionAndRewardTreePrototype>.TryCreateInstance());
+                    break;
+            }
         }
 
         return Ok(model);
     }
 
     [HttpGet]
-    [Route("new")]
+    [Route("new/{programType}")]
     [Authorize(Permissions.Create)]
-    public ActionResult<LoyaltyProgram> GetNewLoyaltyProgram()
+    public ActionResult<LoyaltyProgram> GetNewLoyaltyProgram([FromRoute] string programType)
     {
         var result = AbstractTypeFactory<LoyaltyProgram>.TryCreateInstance();
-        result.DynamicExpression.MergeFromPrototype(AbstractTypeFactory<LoyaltyProgramConditionAndRewardTreePrototype>.TryCreateInstance());
+
+        switch (programType)
+        {
+            case ModuleConstants.LoyaltyPrograms.ProductProgramType:
+                result.DynamicExpression.MergeFromPrototype(AbstractTypeFactory<LoyaltyProgramProductConditionTreePrototype>.TryCreateInstance());
+                break;
+            default:
+                result.DynamicExpression.MergeFromPrototype(AbstractTypeFactory<LoyaltyProgramConditionAndRewardTreePrototype>.TryCreateInstance());
+                break;
+        }
+
         result.IsActive = true;
+        result.ProgramType = programType;
 
         return Ok(result);
     }

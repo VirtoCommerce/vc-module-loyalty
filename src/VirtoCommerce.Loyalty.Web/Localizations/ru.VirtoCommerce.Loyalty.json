@@ -13,6 +13,24 @@
           "select-filter": "Выберите фильтр"
         }
       },
+      "loyalty-program-add": {
+        "title": "Добавить программу лояльности",
+        "subtitle": "Выберите тип программы",
+        "labels": {
+          "name": "Тип",
+          "description": "Описание"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Лояльность по заказам",
+            "description": "Вознаграждать клиентов на основе условий и сумм заказов"
+          },
+          "product-points-loyalty": {
+            "name": "Программа баллов за товары",
+            "description": "Начислять клиентам баллы за покупку определённых товаров"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Детали программы лояльности",
         "new-program": "Новая программа лояльности",
@@ -27,7 +45,8 @@
           "end-date": "Дата окончания",
           "loyalty-program": "Программа лояльности",
           "show-more-languages": "Показать больше языков",
-          "show-less-languages": "Показать меньше языков"
+          "show-less-languages": "Показать меньше языков",
+          "is-new": "Сначала сохраните программу, чтобы начать управлять коэффициентами товаров"
         },
         "placeholders": {
           "store": "Выберите магазин",
@@ -47,6 +66,29 @@
           "amount": "Сумма",
           "balance": "Баланс",
           "created-date": "Создано"
+        }
+      },
+      "loyalty-program-product-factor-list": {
+        "title": "Коэффициенты товаров",
+        "labels": {
+          "product-id": "ID товара",
+          "product-name": "Название товара",
+          "product-code": "SKU",
+          "factor": "Коэффициент",
+          "new": "Новый"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Программы лояльности",
+        "labels": {
+          "program-name": "Название программы",
+          "factor": "Коэффициент"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Выбрать коэффициенты товаров",
+        "commands": {
+          "add": "Добавить выбранные"
         }
       },
       "filter-detail": {
@@ -69,12 +111,23 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Баланс лояльности"
+      },
+      "loyalty-product-factors": {
+        "title": "Коэффициенты товаров"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Удалить программу лояльности",
         "message": "Вы уверены, что хотите удалить выбранную программу лояльности?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Удалить коэффициенты товаров",
+        "message": "Вы уверены, что хотите удалить выбранные коэффициенты товаров?"
+      },
+      "loyalty-program-save": {
+        "title": "Сохранить изменения",
+        "message": "Программа лояльности была изменена. Сохранить изменения?"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "Лояльность включена",
         "description": "Настройка включения лояльности"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Коэффициент умножения товара по умолчанию",
+        "description": "Коэффициент по умолчанию, применяемый к цене товара при расчёте баллов лояльности, если для товара не настроен отдельный коэффициент"
       }
     }
   }

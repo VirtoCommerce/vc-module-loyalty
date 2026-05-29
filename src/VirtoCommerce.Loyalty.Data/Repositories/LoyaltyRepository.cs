@@ -39,4 +39,18 @@ public class LoyaltyRepository(LoyaltyDbContext dbContext, IUnitOfWork unitOfWor
             ? await LoyaltyProgramOperationLogs.Where(x => x.Id == ids.First()).ToListAsync()
             : await LoyaltyProgramOperationLogs.Where(x => ids.Contains(x.Id)).ToListAsync();
     }
+
+    public IQueryable<LoyaltyProgramProductFactorEntity> LoyaltyProgramProductFactors => DbContext.Set<LoyaltyProgramProductFactorEntity>();
+
+    public virtual async Task<IList<LoyaltyProgramProductFactorEntity>> GetLoyaltyProgramProductFactorsByIdsAsync(IList<string> ids, string responseGroup)
+    {
+        if (ids.IsNullOrEmpty())
+        {
+            return [];
+        }
+
+        return ids.Count == 1
+            ? await LoyaltyProgramProductFactors.Where(x => x.Id == ids.First()).ToListAsync()
+            : await LoyaltyProgramProductFactors.Where(x => ids.Contains(x.Id)).ToListAsync();
+    }
 }

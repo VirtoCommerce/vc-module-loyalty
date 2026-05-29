@@ -31,6 +31,12 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
 
     public int Priority { get; set; }
 
+    /// <summary>
+    /// "ProductPoints", "Default"
+    /// </summary>
+    [StringLength(DbContextBase.Length32)]
+    public string ProgramType { get; set; }
+
     public string PredicateVisualTreeSerialized { get; set; }
 
     public virtual LoyaltyProgram ToModel(LoyaltyProgram model)
@@ -47,6 +53,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         model.StartDate = StartDate;
         model.EndDate = EndDate;
         model.Priority = Priority;
+        model.ProgramType = ProgramType;
 
         if (PredicateVisualTreeSerialized != null)
         {
@@ -81,6 +88,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         StartDate = model.StartDate;
         EndDate = model.EndDate;
         Priority = model.Priority;
+        ProgramType = model.ProgramType;
 
         if (model.DynamicExpression != null)
         {
@@ -111,6 +119,7 @@ public class LoyaltyProgramEntity : AuditableEntity, IDataEntity<LoyaltyProgramE
         target.EndDate = EndDate;
         target.Priority = Priority;
         target.PredicateVisualTreeSerialized = PredicateVisualTreeSerialized;
+        target.ProgramType = ProgramType;
 
         if (!LocalizedNames.IsNullCollection())
         {

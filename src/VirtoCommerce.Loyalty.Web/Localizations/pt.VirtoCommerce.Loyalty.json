@@ -13,6 +13,24 @@
           "select-filter": "Selecionar filtro"
         }
       },
+      "loyalty-program-add": {
+        "title": "Adicionar programa de fidelidade",
+        "subtitle": "Selecionar tipo de programa",
+        "labels": {
+          "name": "Tipo",
+          "description": "Descrição"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Fidelidade de pedidos",
+            "description": "Recompensar clientes com base nas condições e totais dos pedidos"
+          },
+          "product-points-loyalty": {
+            "name": "Fidelidade por pontos de produtos",
+            "description": "Recompensar clientes com pontos pela compra de produtos específicos"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Detalhes do programa de fidelidade",
         "new-program": "Novo programa de fidelidade",
@@ -27,7 +45,8 @@
           "end-date": "Data de término",
           "loyalty-program": "Programa de fidelidade",
           "show-more-languages": "Mostrar mais idiomas",
-          "show-less-languages": "Mostrar menos idiomas"
+          "show-less-languages": "Mostrar menos idiomas",
+          "is-new": "Salve o programa primeiro para começar a gerenciar os fatores do produto"
         },
         "placeholders": {
           "store": "Selecionar loja",
@@ -47,6 +66,29 @@
           "amount": "Valor",
           "balance": "Saldo",
           "created-date": "Criado"
+        }
+      },
+      "loyalty-program-product-factor-list": {
+        "title": "Fatores do produto",
+        "labels": {
+          "product-id": "ID do produto",
+          "product-name": "Nome do produto",
+          "product-code": "SKU",
+          "factor": "Fator",
+          "new": "Novo"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Programas de fidelidade",
+        "labels": {
+          "program-name": "Nome do programa",
+          "factor": "Fator"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Selecionar fatores do produto",
+        "commands": {
+          "add": "Adicionar selecionados"
         }
       },
       "filter-detail": {
@@ -69,12 +111,23 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Saldo de fidelidade"
+      },
+      "loyalty-product-factors": {
+        "title": "Fatores do produto"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Excluir programa de fidelidade",
         "message": "Tem certeza de que deseja excluir o programa de fidelidade selecionado?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Excluir fatores do produto",
+        "message": "Tem certeza de que deseja excluir os fatores do produto selecionados?"
+      },
+      "loyalty-program-save": {
+        "title": "Salvar alterações",
+        "message": "O programa de fidelidade foi modificado. Deseja salvar as alterações?"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "Fidelidade ativada",
         "description": "Configuração de fidelidade ativada"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Fator multiplicador padrão do produto",
+        "description": "Multiplicador padrão aplicado ao preço do produto ao calcular pontos de fidelidade se nenhum fator específico por produto estiver configurado"
       }
     }
   }

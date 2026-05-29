@@ -30,16 +30,19 @@ angular.module('VirtoCommerce.Loyalty')
                             if (results) {
                                 initialize(results[0], results[1], results[2]);
                             }
+                        }, function (error) {
+                            blade.isLoading = false;
+                            bladeNavigationService.setError('Error ' + error.status, blade);
                         });
                     }
                 };
 
-                function initialize(data, settings, currencies) {
+                function initialize(data, loyaltySettings, currencies) {
                     blade.currentEntity = angular.copy(data);
                     blade.originalEntity = data;
 
-                    if (settings && settings.allowedValues) {
-                        blade.settings = _.map(settings.allowedValues, function (settingValue) {
+                    if (loyaltySettings && loyaltySettings.allowedValues) {
+                        blade.settings = _.map(loyaltySettings.allowedValues, function (settingValue) {
                             return {
                                 id: settingValue,
                                 name: settingValue
@@ -48,10 +51,10 @@ angular.module('VirtoCommerce.Loyalty')
                     }
 
                     if (currencies) {
-                        blade.currencies = _.map(currencies, function (currency) {
+                        blade.currencies = _.map(currencies, function (currencyData) {
                             return {
-                                id: currency.code,
-                                name: currency.code
+                                id: currencyData.code,
+                                name: currencyData.code
                             }
                         });
                     }

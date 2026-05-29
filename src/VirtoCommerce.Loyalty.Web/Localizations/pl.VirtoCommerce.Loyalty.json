@@ -13,6 +13,24 @@
           "select-filter": "Wybierz filtr"
         }
       },
+      "loyalty-program-add": {
+        "title": "Dodaj program lojalnościowy",
+        "subtitle": "Wybierz typ programu",
+        "labels": {
+          "name": "Typ",
+          "description": "Opis"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Lojalność zamówień",
+            "description": "Nagradzaj klientów na podstawie warunków i wartości zamówień"
+          },
+          "product-points-loyalty": {
+            "name": "Lojalność punktowa produktów",
+            "description": "Nagradzaj klientów punktami za zakup określonych produktów"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Szczegóły programu lojalnościowego",
         "new-program": "Nowy program lojalnościowy",
@@ -27,7 +45,8 @@
           "end-date": "Data zakończenia",
           "loyalty-program": "Program lojalnościowy",
           "show-more-languages": "Pokaż więcej języków",
-          "show-less-languages": "Pokaż mniej języków"
+          "show-less-languages": "Pokaż mniej języków",
+          "is-new": "Najpierw zapisz program, aby rozpocząć zarządzanie współczynnikami produktów"
         },
         "placeholders": {
           "store": "Wybierz sklep",
@@ -47,6 +66,29 @@
           "amount": "Kwota",
           "balance": "Saldo",
           "created-date": "Utworzono"
+        }
+      },
+      "loyalty-program-product-factor-list": {
+        "title": "Współczynniki produktów",
+        "labels": {
+          "product-id": "ID produktu",
+          "product-name": "Nazwa produktu",
+          "product-code": "SKU",
+          "factor": "Współczynnik",
+          "new": "Nowy"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Programy lojalnościowe",
+        "labels": {
+          "program-name": "Nazwa programu",
+          "factor": "Współczynnik"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Wybierz współczynniki produktów",
+        "commands": {
+          "add": "Dodaj wybrane"
         }
       },
       "filter-detail": {
@@ -69,12 +111,23 @@
     "widgets": {
       "customer-loyalty": {
         "title": "Saldo lojalnościowe"
+      },
+      "loyalty-product-factors": {
+        "title": "Współczynniki produktów"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Usuń program lojalnościowy",
         "message": "Czy na pewno chcesz usunąć wybrany program lojalnościowy?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Usuń współczynniki produktów",
+        "message": "Czy na pewno chcesz usunąć wybrane współczynniki produktów?"
+      },
+      "loyalty-program-save": {
+        "title": "Zapisz zmiany",
+        "message": "Program lojalnościowy został zmodyfikowany. Czy chcesz zapisać zmiany?"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "Lojalność włączona",
         "description": "Ustawienie lojalności włączone"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Domyślny współczynnik mnożnika produktu",
+        "description": "Domyślny mnożnik stosowany do ceny produktu podczas obliczania punktów lojalnościowych, jeśli nie skonfigurowano współczynnika dla konkretnego produktu"
       }
     }
   }

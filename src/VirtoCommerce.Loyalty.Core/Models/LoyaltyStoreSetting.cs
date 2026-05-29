@@ -9,6 +9,4 @@ public class LoyaltyStoreSetting
     public string LoyaltyMode { get; set; }
 
     public string LoyaltyCurrency { get; set; }
-
-    public string LoyaltyRoute { get; set; }
 }

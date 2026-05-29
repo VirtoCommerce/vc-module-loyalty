@@ -13,6 +13,24 @@
           "select-filter": "Velg filter"
         }
       },
+      "loyalty-program-add": {
+        "title": "Legg til lojalitetsprogram",
+        "subtitle": "Velg programtype",
+        "labels": {
+          "name": "Type",
+          "description": "Beskrivelse"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "Bestillingslojalitet",
+            "description": "Belønn kunder basert på bestillingsbetingelser og totalsummer"
+          },
+          "product-points-loyalty": {
+            "name": "Produktpoenglojalitet",
+            "description": "Belønn kunder med poeng for kjøp av spesifikke produkter"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "Detaljer for lojalitetsprogram",
         "new-program": "Nytt lojalitetsprogram",
@@ -27,7 +45,8 @@
           "end-date": "Sluttdato",
           "loyalty-program": "Lojalitetsprogram",
           "show-more-languages": "Vis flere språk",
-          "show-less-languages": "Vis færre språk"
+          "show-less-languages": "Vis færre språk",
+          "is-new": "Lagre programmet først for å begynne å administrere produktfaktorer"
         },
         "placeholders": {
           "store": "Velg butikk",
@@ -49,6 +68,29 @@
           "created-date": "Opprettet"
         }
       },
+      "loyalty-program-product-factor-list": {
+        "title": "Produktfaktorer",
+        "labels": {
+          "product-id": "Produkt-ID",
+          "product-name": "Produktnavn",
+          "product-code": "SKU",
+          "factor": "Faktor",
+          "new": "Ny"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "Lojalitetsprogrammer",
+        "labels": {
+          "program-name": "Programnavn",
+          "factor": "Faktor"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "Velg produktfaktorer",
+        "commands": {
+          "add": "Legg til valgte"
+        }
+      },
       "filter-detail": {
         "title": "Filtrer lojalitetsprogrammer",
         "labels": {
@@ -64,17 +106,28 @@
           "name": "Skriv inn programnavn",
           "store": "Velg butikk"
         }
-      } 
+      }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Lojalitetssaldo"
+      },
+      "loyalty-product-factors": {
+        "title": "Produktfaktorer"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "Slett lojalitetsprogram",
         "message": "Er du sikker på at du vil slette det valgte lojalitetsprogrammet?"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "Slett produktfaktorer",
+        "message": "Er du sikker på at du vil slette de valgte produktfaktorene?"
+      },
+      "loyalty-program-save": {
+        "title": "Lagre endringer",
+        "message": "Lojalitetsprogrammet er endret. Vil du lagre endringene?"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "Lojalitetsprogram",
         "description": "Aktiver eller deaktiver lojalitetsprogram"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "Standard multiplikasjonsfaktor for produkt",
+        "description": "Standard multiplikator som brukes på produktprisen ved beregning av lojalitetspoeng dersom ingen produkttilpasset faktor er konfigurert"
       }
     }
   }

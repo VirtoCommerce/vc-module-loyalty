@@ -13,6 +13,24 @@
           "select-filter": "フィルターを選択"
         }
       },
+      "loyalty-program-add": {
+        "title": "ロイヤルティプログラムを追加",
+        "subtitle": "プログラムタイプを選択",
+        "labels": {
+          "name": "タイプ",
+          "description": "説明"
+        },
+        "types": {
+          "order-loyalty": {
+            "name": "注文ロイヤルティ",
+            "description": "注文条件と合計金額に基づいて顧客に特典を付与します"
+          },
+          "product-points-loyalty": {
+            "name": "商品ポイントロイヤルティ",
+            "description": "特定の商品を購入した顧客にポイントを付与します"
+          }
+        }
+      },
       "loyalty-program-details": {
         "title": "ロイヤルティプログラムの詳細",
         "new-program": "新しいロイヤルティプログラム",
@@ -27,7 +45,8 @@
           "end-date": "終了日",
           "loyalty-program": "ロイヤルティプログラム",
           "show-more-languages": "さらに言語を表示",
-          "show-less-languages": "言語を少なく表示"
+          "show-less-languages": "言語を少なく表示",
+          "is-new": "商品係数の管理を開始するには、まずプログラムを保存してください"
         },
         "placeholders": {
           "store": "店舗を選択",
@@ -47,6 +66,29 @@
           "amount": "金額",
           "balance": "残高",
           "created-date": "作成日"
+        }
+      },
+      "loyalty-program-product-factor-list": {
+        "title": "商品係数",
+        "labels": {
+          "product-id": "商品ID",
+          "product-name": "商品名",
+          "product-code": "SKU",
+          "factor": "係数",
+          "new": "新規"
+        }
+      },
+      "product-loyalty-program-list": {
+        "title": "ロイヤルティプログラム",
+        "labels": {
+          "program-name": "プログラム名",
+          "factor": "係数"
+        }
+      },
+      "select-loyalty-program-products-list": {
+        "title": "商品係数を選択",
+        "commands": {
+          "add": "選択した項目を追加"
         }
       },
       "filter-detail": {
@@ -69,12 +111,23 @@
     "widgets": {
       "customer-loyalty": {
         "title": "ロイヤルティ残高"
+      },
+      "loyalty-product-factors": {
+        "title": "商品係数"
       }
     },
     "dialogs": {
       "loyalty-program-delete": {
         "title": "ロイヤルティプログラムを削除",
         "message": "選択したロイヤルティプログラムを削除してもよろしいですか？"
+      },
+      "loyalty-program-product-factor-delete": {
+        "title": "商品係数を削除",
+        "message": "選択した商品係数を削除してもよろしいですか？"
+      },
+      "loyalty-program-save": {
+        "title": "変更を保存",
+        "message": "ロイヤルティプログラムが変更されました。変更を保存しますか？"
       }
     }
   },
@@ -90,6 +143,10 @@
       "Enable": {
         "title": "ロイヤルティ有効",
         "description": "ロイヤルティ有効設定"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "デフォルト商品乗数係数",
+        "description": "商品ごとの係数が設定されていない場合、ロイヤルティポイント計算時に商品価格へ適用されるデフォルト乗数です"
       }
     }
   }
