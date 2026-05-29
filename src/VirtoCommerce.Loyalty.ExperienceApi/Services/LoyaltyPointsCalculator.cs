@@ -66,7 +66,8 @@ public class LoyaltyPointsCalculator(
 
     private static string GetLoyaltyCurrencyCode(Store store)
     {
-        return store.Settings.GetValue<string>(ModuleConstants.Settings.General.LoyaltyCurrency) ?? ModuleConstants.FallbackLoyaltyCurrencyCode;
+        var currencyCode = store.Settings.GetValue<string>(ModuleConstants.Settings.General.LoyaltyCurrency);
+        return !currencyCode.IsNullOrEmpty() ? currencyCode : ModuleConstants.FallbackLoyaltyCurrencyCode;
     }
 
     private static LoyaltyProgramEvaluationContext CreateLoyaltyContext(string storeId, string userId, string language, string currencyCode)
