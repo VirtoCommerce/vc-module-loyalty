@@ -35,7 +35,7 @@ public static class ModuleConstants
         public const string DefaultProgramType = "Default";
     }
 
-    public const string PointsCurrencyCode = "XPT";
+    public const string FallbackLoyaltyCurrencyCode = "XPT";
 
     public static class Settings
     {
@@ -47,6 +47,23 @@ public static class ModuleConstants
                 GroupName = "Loyalty|General",
                 ValueType = SettingValueType.Boolean,
                 DefaultValue = false,
+                IsPublic = true,
+            };
+
+            public static SettingDescriptor LoyaltyMode { get; } = new()
+            {
+                Name = "Loyalty.Mode",
+                GroupName = "Loyalty|General",
+                ValueType = SettingValueType.ShortText,
+                IsPublic = true,
+                AllowedValues = ["Loyalty Store", "Mixed Cart", "Coupon Redemption", "Payment Method"]
+            };
+
+            public static SettingDescriptor LoyaltyCurrency { get; } = new()
+            {
+                Name = "Loyalty.Currency",
+                GroupName = "Loyalty|General",
+                ValueType = SettingValueType.ShortText,
                 IsPublic = true,
             };
 
@@ -64,6 +81,8 @@ public static class ModuleConstants
                 get
                 {
                     yield return Enable;
+                    yield return LoyaltyMode;
+                    yield return LoyaltyCurrency;
                     yield return DefaultProductMultiplyFactor;
                 }
             }
@@ -74,6 +93,8 @@ public static class ModuleConstants
             get
             {
                 yield return General.Enable;
+                yield return General.LoyaltyMode;
+                yield return General.LoyaltyCurrency;
                 yield return General.DefaultProductMultiplyFactor;
             }
         }

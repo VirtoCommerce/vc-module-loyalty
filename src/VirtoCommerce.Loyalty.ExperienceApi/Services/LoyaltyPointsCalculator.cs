@@ -29,7 +29,8 @@ public class LoyaltyPointsCalculator(
         }
 
         var currencies = await currencyService.GetAllCurrenciesAsync();
-        var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(ModuleConstants.PointsCurrencyCode));
+        var pointsCurrencyCode = GetLoyaltyCurrencyCode(store);
+        var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(pointsCurrencyCode));
 
         var defaultFactor = GetDefaultFactor(store);
 
@@ -61,6 +62,12 @@ public class LoyaltyPointsCalculator(
     private static decimal GetDefaultFactor(Store store)
     {
         return store.Settings.GetValue<decimal>(ModuleConstants.Settings.General.DefaultProductMultiplyFactor);
+    }
+
+    private static string GetLoyaltyCurrencyCode(Store store)
+    {
+        var currencyCode = store.Settings.GetValue<string>(ModuleConstants.Settings.General.LoyaltyCurrency);
+        return !currencyCode.IsNullOrEmpty() ? currencyCode : ModuleConstants.FallbackLoyaltyCurrencyCode;
     }
 
     private static LoyaltyProgramEvaluationContext CreateLoyaltyContext(string storeId, string userId, string language, string currencyCode)

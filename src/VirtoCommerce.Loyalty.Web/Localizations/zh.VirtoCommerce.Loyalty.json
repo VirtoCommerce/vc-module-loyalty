@@ -106,11 +106,26 @@
           "name": "输入计划名称",
           "store": "选择门店"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "忠诚度设置",
+        "labels": {
+          "enabled": "启用忠诚度",
+          "mode": "忠诚度模式",
+          "currency": "忠诚度货币"
+        },
+        "placeholders": {
+          "mode": "选择忠诚度模式",
+          "currency": "选择忠诚度货币"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "忠诚度余额"
+      },
+      "loyalty-setting": {
+        "title": "忠诚度设置"
       },
       "loyalty-product-factors": {
         "title": "商品系数"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "启用忠诚度",
         "description": "启用忠诚度设置"
+      },
+      "Mode": {
+        "title": "忠诚度模式",
+        "description": "当前忠诚度模式"
+      },
+      "Currency": {
+        "title": "忠诚度货币",
+        "description": "当前忠诚度货币"
       },
       "DefaultProductMultiplyFactor": {
         "title": "默认商品乘数系数",

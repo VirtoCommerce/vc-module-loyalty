@@ -106,11 +106,26 @@
           "name": "Enter program name",
           "store": "Select store"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Loyalty settings",
+        "labels": {
+          "enabled": "Enable Loyalty",
+          "mode": "Loyalty Mode",
+          "currency": "Loyalty Currency"
+        },
+        "placeholders": {
+          "mode": "Select loyalty mode",
+          "currency": "Select loyalty currency"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Loyalty balance"
+      },
+      "loyalty-setting": {
+        "title": "Loyalty settings"
       },
       "loyalty-product-factors": {
         "title": "Product factors"
@@ -144,10 +159,18 @@
         "title": "Loyalty",
         "description": "Enable/disable loyalty program"
       },
+      "Mode": {
+        "title": "Loyalty mode",
+        "description": "Active loyalty mode"
+      },
+      "Currency": {
+        "title": "Loyalty currency",
+        "description": "Active loyalty currency"
+      },
       "DefaultProductMultiplyFactor": {
         "title": "Default product multiply factor",
         "description": "Default multiplier applied to a product price when calculating loyalty points if no per-product factor is configured"
       }
     }
   }
-}
+} 

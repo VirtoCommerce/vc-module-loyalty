@@ -106,11 +106,26 @@
           "name": "Inserisci nome del programma",
           "store": "Seleziona negozio"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Impostazioni fedeltà",
+        "labels": {
+          "enabled": "Abilita fedeltà",
+          "mode": "Modalità fedeltà",
+          "currency": "Valuta fedeltà"
+        },
+        "placeholders": {
+          "mode": "Seleziona modalità fedeltà",
+          "currency": "Seleziona valuta fedeltà"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Saldo fedeltà"
+      },
+      "loyalty-setting": {
+        "title": "Impostazioni fedeltà"
       },
       "loyalty-product-factors": {
         "title": "Fattori prodotto"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Fedeltà attivata",
         "description": "Impostazione fedeltà attivata"
+      },
+      "Mode": {
+        "title": "Modalità fedeltà",
+        "description": "Modalità fedeltà attiva"
+      },
+      "Currency": {
+        "title": "Valuta fedeltà",
+        "description": "Valuta fedeltà attiva"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Fattore moltiplicatore prodotto predefinito",

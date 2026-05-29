@@ -106,11 +106,26 @@
           "name": "Skriv inn programnavn",
           "store": "Velg butikk"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Lojalitetsinnstillinger",
+        "labels": {
+          "enabled": "Aktiver lojalitet",
+          "mode": "Lojalitetsmodus",
+          "currency": "Lojalitetsvaluta"
+        },
+        "placeholders": {
+          "mode": "Velg lojalitetsmodus",
+          "currency": "Velg lojalitetsvaluta"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Lojalitetssaldo"
+      },
+      "loyalty-setting": {
+        "title": "Lojalitetsinnstillinger"
       },
       "loyalty-product-factors": {
         "title": "Produktfaktorer"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Lojalitetsprogram",
         "description": "Aktiver eller deaktiver lojalitetsprogram"
+      },
+      "Mode": {
+        "title": "Lojalitetsmodus",
+        "description": "Aktiv lojalitetsmodus"
+      },
+      "Currency": {
+        "title": "Lojalitetsvaluta",
+        "description": "Aktiv lojalitetsvaluta"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Standard multiplikasjonsfaktor for produkt",

@@ -24,4 +24,10 @@ angular.module('VirtoCommerce.Loyalty')
             updateFactors: { url: 'api/loyalty-program-product-factors/factors', method: 'PUT' },
             delete: { method: 'DELETE' },
         });
+    }])
+    .factory('VirtoCommerce.Loyalty.loyaltySetting', ['$resource', function ($resource) {
+        return $resource('api/loyalty-setting', {}, {
+            getByStore: { method: 'GET', url: 'api/loyalty-setting/store/:storeId' },
+            updateSetting: { method: 'PUT' }
+        });
     }]);
