@@ -106,11 +106,26 @@
           "name": "Programmnamen eingeben",
           "store": "Geschäft auswählen"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Treueeinstellungen",
+        "labels": {
+          "enabled": "Treue aktivieren",
+          "mode": "Treuemodus",
+          "currency": "Treuewährung"
+        },
+        "placeholders": {
+          "mode": "Treuemodus auswählen",
+          "currency": "Treuewährung auswählen"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Treuesaldo"
+      },
+      "loyalty-setting": {
+        "title": "Treueeinstellungen"
       },
       "loyalty-product-factors": {
         "title": "Produktfaktoren"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Treue aktiviert",
         "description": "Einstellung für Treue aktiviert"
+      },
+      "Mode": {
+        "title": "Treuemodus",
+        "description": "Aktiver Treuemodus"
+      },
+      "Currency": {
+        "title": "Treuewährung",
+        "description": "Aktive Treuewährung"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Standard-Produktmultiplikator",

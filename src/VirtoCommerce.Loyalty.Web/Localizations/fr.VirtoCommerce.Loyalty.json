@@ -106,11 +106,26 @@
           "name": "Saisir le nom du programme",
           "store": "Sélectionner un magasin"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Paramètres de fidélité",
+        "labels": {
+          "enabled": "Activer la fidélité",
+          "mode": "Mode de fidélité",
+          "currency": "Devise de fidélité"
+        },
+        "placeholders": {
+          "mode": "Sélectionner le mode de fidélité",
+          "currency": "Sélectionner la devise de fidélité"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Solde de fidélité"
+      },
+      "loyalty-setting": {
+        "title": "Paramètres de fidélité"
       },
       "loyalty-product-factors": {
         "title": "Facteurs de produit"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Fidélité activée",
         "description": "Paramètre de fidélité activé"
+      },
+      "Mode": {
+        "title": "Mode de fidélité",
+        "description": "Mode de fidélité actif"
+      },
+      "Currency": {
+        "title": "Devise de fidélité",
+        "description": "Devise de fidélité active"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Facteur multiplicateur de produit par défaut",

@@ -60,7 +60,7 @@ angular.module(moduleName, [])
 
             var loyaltySettingWidget = {
                 controller: 'VirtoCommerce.Loyalty.loyaltySettingWidgetController',
-                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-setting-wdget.html',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-setting-widget.html',
                 isVisible: function (blade) {
                     return !blade.isNew;
                 }

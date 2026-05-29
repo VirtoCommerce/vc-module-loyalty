@@ -106,11 +106,26 @@
           "name": "Ange programnamn",
           "store": "Välj butik"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Lojalitetsinställningar",
+        "labels": {
+          "enabled": "Aktivera lojalitet",
+          "mode": "Lojalitetsläge",
+          "currency": "Lojalitetsvaluta"
+        },
+        "placeholders": {
+          "mode": "Välj lojalitetsläge",
+          "currency": "Välj lojalitetsvaluta"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Lojalitetssaldo"
+      },
+      "loyalty-setting": {
+        "title": "Lojalitetsinställningar"
       },
       "loyalty-product-factors": {
         "title": "Produktfaktorer"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Lojalitetsprogram",
         "description": "Aktivera eller inaktivera lojalitetsprogram"
+      },
+      "Mode": {
+        "title": "Lojalitetsläge",
+        "description": "Aktivt lojalitetsläge"
+      },
+      "Currency": {
+        "title": "Lojalitetsvaluta",
+        "description": "Aktiv lojalitetsvaluta"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Standard multiplikationsfaktor för produkt",

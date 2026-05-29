@@ -106,11 +106,26 @@
           "name": "Syötä ohjelman nimi",
           "store": "Valitse kauppa"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Kanta-asiakasasetukset",
+        "labels": {
+          "enabled": "Ota kanta-asiakkuus käyttöön",
+          "mode": "Kanta-asiakastila",
+          "currency": "Kanta-asiakasvaluutta"
+        },
+        "placeholders": {
+          "mode": "Valitse kanta-asiakastila",
+          "currency": "Valitse kanta-asiakasvaluutta"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Kanta-asiakassaldo"
+      },
+      "loyalty-setting": {
+        "title": "Kanta-asiakasasetukset"
       },
       "loyalty-product-factors": {
         "title": "Tuotekertoimet"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Kanta-asiakasohjelma",
         "description": "Ota käyttöön tai poista käytöstä kanta-asiakasohjelma"
+      },
+      "Mode": {
+        "title": "Kanta-asiakastila",
+        "description": "Aktiivinen kanta-asiakastila"
+      },
+      "Currency": {
+        "title": "Kanta-asiakasvaluutta",
+        "description": "Aktiivinen kanta-asiakasvaluutta"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Tuotteen oletuskertoja",

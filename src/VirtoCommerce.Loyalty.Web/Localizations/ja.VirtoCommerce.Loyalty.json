@@ -106,11 +106,26 @@
           "name": "プログラム名を入力",
           "store": "店舗を選択"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "ロイヤルティ設定",
+        "labels": {
+          "enabled": "ロイヤルティを有効化",
+          "mode": "ロイヤルティモード",
+          "currency": "ロイヤルティ通貨"
+        },
+        "placeholders": {
+          "mode": "ロイヤルティモードを選択",
+          "currency": "ロイヤルティ通貨を選択"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "ロイヤルティ残高"
+      },
+      "loyalty-setting": {
+        "title": "ロイヤルティ設定"
       },
       "loyalty-product-factors": {
         "title": "商品係数"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "ロイヤルティ有効",
         "description": "ロイヤルティ有効設定"
+      },
+      "Mode": {
+        "title": "ロイヤルティモード",
+        "description": "アクティブなロイヤルティモード"
+      },
+      "Currency": {
+        "title": "ロイヤルティ通貨",
+        "description": "アクティブなロイヤルティ通貨"
       },
       "DefaultProductMultiplyFactor": {
         "title": "デフォルト商品乗数係数",

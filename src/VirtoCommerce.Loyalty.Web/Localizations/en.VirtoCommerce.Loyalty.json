@@ -157,7 +157,7 @@
     "Loyalty": {
       "Enable": {
         "title": "Loyalty",
-        "description": "Enable/ disable loyalty program"
+        "description": "Enable/disable loyalty program"
       },
       "Mode": {
         "title": "Loyalty mode",

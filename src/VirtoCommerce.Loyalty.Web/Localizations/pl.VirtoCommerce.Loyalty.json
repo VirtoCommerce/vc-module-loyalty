@@ -106,11 +106,26 @@
           "name": "Wpisz nazwę programu",
           "store": "Wybierz sklep"
         }
+      },
+      "loyalty-setting-details": {
+        "title": "Ustawienia lojalności",
+        "labels": {
+          "enabled": "Włącz lojalność",
+          "mode": "Tryb lojalności",
+          "currency": "Waluta lojalności"
+        },
+        "placeholders": {
+          "mode": "Wybierz tryb lojalności",
+          "currency": "Wybierz walutę lojalności"
+        }
       }
     },
     "widgets": {
       "customer-loyalty": {
         "title": "Saldo lojalnościowe"
+      },
+      "loyalty-setting": {
+        "title": "Ustawienia lojalności"
       },
       "loyalty-product-factors": {
         "title": "Współczynniki produktów"
@@ -143,6 +158,14 @@
       "Enable": {
         "title": "Lojalność włączona",
         "description": "Ustawienie lojalności włączone"
+      },
+      "Mode": {
+        "title": "Tryb lojalności",
+        "description": "Aktywny tryb lojalności"
+      },
+      "Currency": {
+        "title": "Waluta lojalności",
+        "description": "Aktywna waluta lojalności"
       },
       "DefaultProductMultiplyFactor": {
         "title": "Domyślny współczynnik mnożnika produktu",
