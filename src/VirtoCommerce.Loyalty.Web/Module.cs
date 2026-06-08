@@ -95,6 +95,8 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<LoyaltyPaymentMethod>();
 
+        serviceCollection.AddTransient<LoyaltyProductHandler>();
+
         serviceCollection.AddSingleton<IAuthorizationHandler, CanAccessLoyaltyAuthorizationHandler>();
 
         serviceCollection.AddTransient<ILoyaltySettingService, LoyaltySettingService>();
@@ -134,6 +136,7 @@ public class Module : IModule, IHasConfiguration
 
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<UserChangedEvent, LoyaltyProgramHandler>();
+        appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProductHandler>();
 
         // Register payment method
         var paymentMethodsRegistrar = appBuilder.ApplicationServices.GetRequiredService<IPaymentMethodsRegistrar>();

@@ -95,7 +95,7 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
                 continue;
             }
 
-            _distributedLockProvider.ExecuteSynchronized($"loyalty-operation:{context.ContextObjectType}:{context.ContextObjectId}", async (x) =>
+            _distributedLockProvider.ExecuteSynchronized($"loyalty-operation:{context.ContextObjectType}:{context.ContextObjectId}:{loyaltyReward.OperationType}", async (x) =>
             {
                 if (x == DistributedLockCondition.Delayed)
                 {
