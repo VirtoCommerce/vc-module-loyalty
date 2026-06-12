@@ -7,44 +7,53 @@ using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Provider;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Model;
+using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Security.Events;
-using VirtoCommerce.Platform.DistributedLock;
+using VirtoCommerce.Platform.Core.Settings;
+using VirtoCommerce.StoreModule.Core.Model;
+using VirtoCommerce.StoreModule.Core.Services;
+using static VirtoCommerce.Loyalty.Core.ModuleConstants;
 
 namespace VirtoCommerce.Loyalty.Data.Handlers;
 
 public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHandler<UserChangedEvent>
 {
     private readonly ILoyaltyLogicService _loyaltyLogicService;
-    private readonly IInternalDistributedLockService _distributedLockProvider;
+    private readonly IStoreService _storeService;
+    private readonly ICustomerOrderService _customerOrderService;
 
     public LoyaltyProgramHandler(
         ILoyaltyLogicService loyaltyLogicService,
-        IInternalDistributedLockService distributedLockProvider)
+        IStoreService storeService,
+        ICustomerOrderService customerOrderService)
     {
         _loyaltyLogicService = loyaltyLogicService;
-        _distributedLockProvider = distributedLockProvider;
+        _storeService = storeService;
+        _customerOrderService = customerOrderService;
     }
 
     public virtual Task Handle(OrderChangedEvent message)
     {
-        // remove order with loyalty payment method
-        var loyaltyContexts = message.ChangedEntries
-            .Where(x => (x.EntryState == EntryState.Added || x.EntryState == EntryState.Modified))
+        var orderIds = message.ChangedEntries
+            .Where(x => x.EntryState == EntryState.Added)
             .Select(x => x.NewEntry)
-            .Where(x =>
-                !x.IsPrototype &&
-                !x.InPayments.IsNullOrEmpty() &&
-                x.InPayments.All(x => x.GatewayCode != nameof(LoyaltyPaymentMethod)))
+            .Where(x => !x.IsPrototype)
             .OrderBy(x => x.ModifiedDate)
-            .Select(x => CreateLoyaltyContextByOrder(x))
-            .ToList();
+            .Select(x => x.Id)
+            .Distinct()
+            .ToArray();
 
-        if (loyaltyContexts.Count > 0)
+        if (orderIds.Length > 0)
         {
-            BackgroundJob.Enqueue(() => ProcessAwardsAsync(loyaltyContexts, nameof(CustomerOrder)));
+            var context = new LoyaltyOrdersContext
+            {
+                OrderIds = orderIds,
+            };
+
+            BackgroundJob.Enqueue(() => ProcessOrdersAsync(context));
         }
 
         return Task.CompletedTask;
@@ -63,6 +72,27 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         }
 
         return Task.CompletedTask;
+    }
+
+    [DisableConcurrentExecution(10)]
+    public async Task ProcessOrdersAsync(LoyaltyOrdersContext context)
+    {
+        var orders = await _customerOrderService.GetNoCloneAsync(context.OrderIds);
+        var storeIds = orders.Select(x => x.StoreId).Distinct().ToArray();
+        var stores = await _storeService.GetNoCloneAsync(storeIds);
+
+        foreach (var order in orders.OrderBy(x => x.ModifiedDate))
+        {
+            var store = stores.FirstOrDefault(x => x.Id == order.StoreId);
+            if (store == null)
+            {
+                continue;
+            }
+
+            // Balance integrity is guaranteed by the per-user lock inside the loyalty logic
+            // service and the unique (object, type, operation) index, so no per-order lock here.
+            await ProcessOrderAsync(order, store);
+        }
     }
 
     [DisableConcurrentExecution(10)]
@@ -95,25 +125,72 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
                 continue;
             }
 
-            _distributedLockProvider.ExecuteSynchronized($"loyalty-operation:{context.ContextObjectType}:{context.ContextObjectId}:{loyaltyReward.OperationType}", async (x) =>
-            {
-                if (x == DistributedLockCondition.Delayed)
-                {
-                    // If the lock is delayed, we can skip processing this object
-                    return;
-                }
-
-                await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(context, loyaltyReward);
-            });
+            // Balance integrity is guaranteed by the per-user lock inside the loyalty logic
+            // service and the unique (object, type, operation) index.
+            await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(context, loyaltyReward);
         }
     }
 
-    private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByOrder(CustomerOrder order)
+    private async Task ProcessOrderAsync(CustomerOrder order, Store store)
     {
-        var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
-        context.ContextObjectType = nameof(CustomerOrder);
-        context.OrderId = order.Id;
-        return context;
+        var storeLoyaltyMode = store.Settings.GetValue<string>(Settings.General.LoyaltyMode);
+
+        // Redeem loyalty-currency total for Mixed Cart orders (products bought with loyalty points).
+        if (storeLoyaltyMode.EqualsIgnoreCase("Mixed Cart"))
+        {
+            await RedeemLoyaltyProductsAsync(order, store);
+        }
+
+        // Earn points for orders that are not paid with the loyalty payment method.
+        // Payment-method redemption is handled by the LoyaltyPaymentMethod gateway.
+        if (!order.InPayments.IsNullOrEmpty() &&
+            order.InPayments.All(x => x.GatewayCode != nameof(LoyaltyPaymentMethod)))
+        {
+            await EarnLoyaltyProgramAsync(order);
+        }
+    }
+
+    private async Task RedeemLoyaltyProductsAsync(CustomerOrder order, Store store)
+    {
+        var loyaltyCurrency = GetLoyaltyCurrencyCode(store);
+
+        var loyaltyTotal = order.OrderTotals?.FirstOrDefault(x => x.CurrencyCode.EqualsIgnoreCase(loyaltyCurrency));
+        if (loyaltyTotal == null || loyaltyTotal.Total <= 0)
+        {
+            return;
+        }
+
+        var loyaltyAmountResult = AbstractTypeFactory<LoyaltyAmountResult>.TryCreateInstance();
+        loyaltyAmountResult.Amount = loyaltyTotal.Total;
+        loyaltyAmountResult.OperationType = LoyaltyPrograms.RedeemedOperationType;
+
+        var loyaltyContext = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        loyaltyContext.ContextObjectType = nameof(CustomerOrder);
+        loyaltyContext.OrderId = order.Id;
+        loyaltyContext.UserId = order.CustomerId;
+
+        await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(loyaltyContext, loyaltyAmountResult);
+    }
+
+    private async Task EarnLoyaltyProgramAsync(CustomerOrder order)
+    {
+        // Skip the (potentially expensive) program evaluation when the order was already awarded.
+        if (await _loyaltyLogicService.IsObjectProcessedAsync(nameof(CustomerOrder), order.Id, LoyaltyPrograms.EarnedOperationType))
+        {
+            return;
+        }
+
+        var loyaltyContext = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        loyaltyContext.ContextObjectType = nameof(CustomerOrder);
+        loyaltyContext.OrderId = order.Id;
+
+        var loyaltyReward = await _loyaltyLogicService.EvaluateLoyaltyProgramsAsync(loyaltyContext);
+        if (loyaltyReward == null)
+        {
+            return;
+        }
+
+        await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(loyaltyContext, loyaltyReward);
     }
 
     private static LoyaltyProgramEvaluationContext CreateLoyaltyContextByUser(ApplicationUser user)
@@ -124,5 +201,11 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         context.StoreId = user.StoreId;
         context.IsRegistration = true;
         return context;
+    }
+
+    private static string GetLoyaltyCurrencyCode(Store store)
+    {
+        var currencyCode = store.Settings.GetValue<string>(Settings.General.LoyaltyCurrency);
+        return !currencyCode.IsNullOrEmpty() ? currencyCode : FallbackLoyaltyCurrencyCode;
     }
 }
