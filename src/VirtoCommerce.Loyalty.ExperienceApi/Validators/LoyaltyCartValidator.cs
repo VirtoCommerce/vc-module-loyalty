@@ -1,5 +1,6 @@
 using System.Linq;
 using FluentValidation;
+using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Extensions;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -16,28 +17,47 @@ public class LoyaltyCartValidator : AbstractValidator<CartValidationContext>, IC
     {
         RuleFor(x => x).CustomAsync(async (cartValidationContext, context, _) =>
         {
-            var loyaltyCurrencyCode = cartValidationContext.CartAggregate.Store.GetLoyaltyCurrencyCode();
-
-            var pointsTotals = cartValidationContext.CartAggregate.Cart.CartTotals.FirstOrDefault(x => x.CurrencyCode.EqualsIgnoreCase(loyaltyCurrencyCode));
-
-            if (pointsTotals == null || pointsTotals.Total <= 0)
-            {
-                return;
-            }
-
+            var store = cartValidationContext.CartAggregate.Store;
             var cart = cartValidationContext.CartAggregate.Cart;
-            var balance = await loyaltyService.GetUserBalanceAsync(cart.CustomerId);
-            if (balance < pointsTotals.Total)
+
+            var loyaltyMode = store.GetLoyaltyMode();
+            var loyaltyCurrencyCode = store.GetLoyaltyCurrencyCode();
+
+            var pointsTotals = cart.CartTotals.FirstOrDefault(x => x.CurrencyCode.EqualsIgnoreCase(loyaltyCurrencyCode));
+            var hasPointProducts = pointsTotals != null && pointsTotals.Total > 0;
+
+            var usesLoyaltyPayment = cart.Payments?.Any(x => x.PaymentGatewayCode.EqualsIgnoreCase(ModuleConstants.LoyaltyPaymentMethodGatewayCode)) == true;
+
+            // Products priced in loyalty points are only valid in Mixed Cart mode.
+            if (hasPointProducts && !loyaltyMode.EqualsIgnoreCase(ModuleConstants.LoyaltyModes.MixedCart))
             {
                 context.AddFailure(new CartValidationError(cart,
-                    "Insufficient loyalty points balance", "LOYALTY_INSUFFICIENT_BALANCE")
+                    "Loyalty point products are not allowed for the current store loyalty mode", "LOYALTY_POINT_PRODUCTS_NOT_ALLOWED"));
+            }
+
+            // The loyalty payment method is only valid in Payment Method mode.
+            if (usesLoyaltyPayment && !loyaltyMode.EqualsIgnoreCase(ModuleConstants.LoyaltyModes.PaymentMethod))
+            {
+                context.AddFailure(new CartValidationError(cart,
+                    "Loyalty payment method is not allowed for the current store loyalty mode", "LOYALTY_PAYMENT_METHOD_NOT_ALLOWED"));
+            }
+
+            // Ensure the balance covers the points spent on loyalty-priced products.
+            if (hasPointProducts)
+            {
+                var balance = await loyaltyService.GetUserBalanceAsync(cart.CustomerId);
+                if (balance < pointsTotals.Total)
                 {
-                    FormattedMessagePlaceholderValues = new()
+                    context.AddFailure(new CartValidationError(cart,
+                        "Insufficient loyalty points balance", "LOYALTY_INSUFFICIENT_BALANCE")
                     {
-                        ["required"] = pointsTotals.Total,
-                        ["available"] = balance,
-                    }
-                });
+                        FormattedMessagePlaceholderValues = new()
+                        {
+                            ["required"] = pointsTotals.Total,
+                            ["available"] = balance,
+                        }
+                    });
+                }
             }
         });
     }

@@ -13,4 +13,9 @@ public static class StoreExtensions
         var fallbackCurrencyCode = useFallbackCurrencyCode ? FallbackLoyaltyCurrencyCode : null;
         return !currencyCode.IsNullOrEmpty() ? currencyCode : fallbackCurrencyCode;
     }
+
+    public static string GetLoyaltyMode(this Store store)
+    {
+        return store.Settings.GetValue<string>(Settings.General.LoyaltyMode);
+    }
 }

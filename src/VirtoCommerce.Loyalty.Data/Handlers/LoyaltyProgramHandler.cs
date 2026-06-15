@@ -147,7 +147,7 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         }
 
         var storeLoyaltyMode = store.Settings.GetValue<string>(Settings.General.LoyaltyMode);
-        var isMixedCart = storeLoyaltyMode.EqualsIgnoreCase("Mixed Cart");
+        var isMixedCart = storeLoyaltyMode.EqualsIgnoreCase(LoyaltyModes.MixedCart);
 
         if (isMixedCart)
         {
