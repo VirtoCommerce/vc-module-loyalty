@@ -137,30 +137,28 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
 
     private async Task ProcessOrderAsync(CustomerOrder order, Store store)
     {
+        // Orders that involve the loyalty payment method are handled entirely by the
+        // LoyaltyPaymentMethod gateway. Their consistency with the store mode is checked
+        // during order validation, so skip them here.
+        if (!order.InPayments.IsNullOrEmpty() &&
+            order.InPayments.Any(x => x.GatewayCode == nameof(LoyaltyPaymentMethod)))
+        {
+            return;
+        }
+
         var storeLoyaltyMode = store.Settings.GetValue<string>(Settings.General.LoyaltyMode);
         var isMixedCart = storeLoyaltyMode.EqualsIgnoreCase("Mixed Cart");
 
-        // Redeem loyalty-currency total for Mixed Cart orders (products bought with loyalty points).
         if (isMixedCart)
         {
+            // Redeem loyalty-currency total (products bought with loyalty points) and earn
+            // via the ProductPoints program (per-item factors) instead of the Default program.
+            await EarnProductPointsAsync(order, store);
             await RedeemLoyaltyProductsAsync(order, store);
         }
-
-        // Earn points for orders that are not paid with the loyalty payment method.
-        // Payment-method redemption is handled by the LoyaltyPaymentMethod gateway.
-        if (!order.InPayments.IsNullOrEmpty() &&
-            order.InPayments.All(x => x.GatewayCode != nameof(LoyaltyPaymentMethod)))
+        else
         {
-            // Mixed Cart uses the ProductPoints program (per-item factors) instead of the
-            // Default order-total program.
-            if (isMixedCart)
-            {
-                await EarnProductPointsAsync(order, store);
-            }
-            else
-            {
-                await EarnLoyaltyProgramAsync(order);
-            }
+            await EarnLoyaltyProgramAsync(order);
         }
     }
 

@@ -42,7 +42,12 @@ public class LineItemTypeHook : IGraphTypeHook
                 }
 
                 var cartAggregate = fieldContext.GetValueForSource<CartAggregate>();
-                var cartId = cartAggregate?.Id;
+                if (cartAggregate == null)
+                {
+                    return null;
+                }
+
+                var cartId = cartAggregate.Id;
 
                 var dataLoader = fieldContext.RequestServices.GetRequiredService<IDataLoaderContextAccessor>();
                 var loader = dataLoader.Context.GetOrAddBatchLoader<LineItem, Money>($"cart_loyalty_points_{cartId}", async lineItems =>
@@ -52,7 +57,7 @@ public class LineItemTypeHook : IGraphTypeHook
                     // Exclude line items already priced in loyalty points (e.g. XPT) - only cash-priced items earn.
                     var eligibleItems = lineItems
                         .Where(x => !x.Currency.EqualsIgnoreCase(loyaltyCurrency))
-                        .ToArray() ?? [];
+                        .ToArray();
 
                     var calculator = fieldContext.RequestServices.GetRequiredService<ILoyaltyPointsCalculator>();
                     var pointsContext = await calculator.ResolveAsync(
