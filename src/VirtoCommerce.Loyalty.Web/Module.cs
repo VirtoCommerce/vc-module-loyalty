@@ -19,7 +19,6 @@ using VirtoCommerce.Loyalty.Data.Services;
 using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
-using VirtoCommerce.Loyalty.ExperienceApi.Services;
 using VirtoCommerce.Loyalty.ExperienceApi.TypeHooks;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;

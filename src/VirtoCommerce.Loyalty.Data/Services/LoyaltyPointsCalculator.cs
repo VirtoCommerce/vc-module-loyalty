@@ -10,7 +10,7 @@ using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.StoreModule.Core.Model;
 using VirtoCommerce.StoreModule.Core.Services;
 
-namespace VirtoCommerce.Loyalty.ExperienceApi.Services;
+namespace VirtoCommerce.Loyalty.Data.Services;
 
 public class LoyaltyPointsCalculator(
     ICurrencyService currencyService,
@@ -28,8 +28,15 @@ public class LoyaltyPointsCalculator(
             return new LoyaltyPointsContext();
         }
 
-        var currencies = await currencyService.GetAllCurrenciesAsync();
         var pointsCurrencyCode = GetLoyaltyCurrencyCode(store);
+
+        // do not resolve points for the loyalty points currency 
+        if (pointsCurrencyCode.EqualsIgnoreCase(currencyCode))
+        {
+            return new LoyaltyPointsContext();
+        }
+
+        var currencies = await currencyService.GetAllCurrenciesAsync();
         var pointsCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(pointsCurrencyCode));
 
         var defaultFactor = GetDefaultFactor(store);

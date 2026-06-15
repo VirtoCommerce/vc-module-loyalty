@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
+using VirtoCommerce.Loyalty.Core.Extensions;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Provider;
@@ -24,15 +25,18 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
     private readonly ILoyaltyLogicService _loyaltyLogicService;
     private readonly IStoreService _storeService;
     private readonly ICustomerOrderService _customerOrderService;
+    private readonly ILoyaltyPointsCalculator _loyaltyPointsCalculator;
 
     public LoyaltyProgramHandler(
         ILoyaltyLogicService loyaltyLogicService,
         IStoreService storeService,
-        ICustomerOrderService customerOrderService)
+        ICustomerOrderService customerOrderService,
+        ILoyaltyPointsCalculator loyaltyPointsCalculator)
     {
         _loyaltyLogicService = loyaltyLogicService;
         _storeService = storeService;
         _customerOrderService = customerOrderService;
+        _loyaltyPointsCalculator = loyaltyPointsCalculator;
     }
 
     public virtual Task Handle(OrderChangedEvent message)
@@ -134,9 +138,10 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
     private async Task ProcessOrderAsync(CustomerOrder order, Store store)
     {
         var storeLoyaltyMode = store.Settings.GetValue<string>(Settings.General.LoyaltyMode);
+        var isMixedCart = storeLoyaltyMode.EqualsIgnoreCase("Mixed Cart");
 
         // Redeem loyalty-currency total for Mixed Cart orders (products bought with loyalty points).
-        if (storeLoyaltyMode.EqualsIgnoreCase("Mixed Cart"))
+        if (isMixedCart)
         {
             await RedeemLoyaltyProductsAsync(order, store);
         }
@@ -146,13 +151,22 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         if (!order.InPayments.IsNullOrEmpty() &&
             order.InPayments.All(x => x.GatewayCode != nameof(LoyaltyPaymentMethod)))
         {
-            await EarnLoyaltyProgramAsync(order);
+            // Mixed Cart uses the ProductPoints program (per-item factors) instead of the
+            // Default order-total program.
+            if (isMixedCart)
+            {
+                await EarnProductPointsAsync(order, store);
+            }
+            else
+            {
+                await EarnLoyaltyProgramAsync(order);
+            }
         }
     }
 
     private async Task RedeemLoyaltyProductsAsync(CustomerOrder order, Store store)
     {
-        var loyaltyCurrency = GetLoyaltyCurrencyCode(store);
+        var loyaltyCurrency = store.GetLoyaltyCurrencyCode();
 
         var loyaltyTotal = order.OrderTotals?.FirstOrDefault(x => x.CurrencyCode.EqualsIgnoreCase(loyaltyCurrency));
         if (loyaltyTotal == null || loyaltyTotal.Total <= 0)
@@ -163,6 +177,56 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         var loyaltyAmountResult = AbstractTypeFactory<LoyaltyAmountResult>.TryCreateInstance();
         loyaltyAmountResult.Amount = loyaltyTotal.Total;
         loyaltyAmountResult.OperationType = LoyaltyPrograms.RedeemedOperationType;
+
+        var loyaltyContext = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        loyaltyContext.ContextObjectType = nameof(CustomerOrder);
+        loyaltyContext.OrderId = order.Id;
+        loyaltyContext.UserId = order.CustomerId;
+
+        await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(loyaltyContext, loyaltyAmountResult);
+    }
+
+    private async Task EarnProductPointsAsync(CustomerOrder order, Store store)
+    {
+        // Skip when the order was already awarded (avoids the calculator round-trip).
+        if (await _loyaltyLogicService.IsObjectProcessedAsync(nameof(CustomerOrder), order.Id, LoyaltyPrograms.EarnedOperationType))
+        {
+            return;
+        }
+
+        var loyaltyCurrency = store.GetLoyaltyCurrencyCode();
+
+        // Exclude line items already priced in loyalty points (e.g. XPT) - only cash-priced items earn.
+        var eligibleItems = order.Items?
+            .Where(x => !x.Currency.EqualsIgnoreCase(loyaltyCurrency))
+            .ToArray() ?? [];
+
+        if (eligibleItems.Length == 0)
+        {
+            return;
+        }
+
+        var pointsContext = await _loyaltyPointsCalculator.ResolveAsync(
+            storeId: order.StoreId,
+            userId: order.CustomerId,
+            language: order.LanguageCode,
+            currencyCode: order.Currency,
+            productIds: eligibleItems.Select(x => x.ProductId).Distinct().ToArray());
+
+        if (pointsContext.PointsCurrency == null)
+        {
+            return;
+        }
+
+        var totalPoints = eligibleItems.Sum(x => pointsContext.CalculatePoints(x.ExtendedPrice, x.ProductId)?.Amount ?? 0m);
+        if (totalPoints <= 0)
+        {
+            return;
+        }
+
+        var loyaltyAmountResult = AbstractTypeFactory<LoyaltyAmountResult>.TryCreateInstance();
+        loyaltyAmountResult.Amount = totalPoints;
+        loyaltyAmountResult.OperationType = LoyaltyPrograms.EarnedOperationType;
 
         var loyaltyContext = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
         loyaltyContext.ContextObjectType = nameof(CustomerOrder);
@@ -201,11 +265,5 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         context.StoreId = user.StoreId;
         context.IsRegistration = true;
         return context;
-    }
-
-    private static string GetLoyaltyCurrencyCode(Store store)
-    {
-        var currencyCode = store.Settings.GetValue<string>(Settings.General.LoyaltyCurrency);
-        return !currencyCode.IsNullOrEmpty() ? currencyCode : FallbackLoyaltyCurrencyCode;
     }
 }

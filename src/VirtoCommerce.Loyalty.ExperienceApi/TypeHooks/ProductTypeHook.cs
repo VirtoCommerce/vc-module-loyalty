@@ -5,7 +5,7 @@ using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using VirtoCommerce.CoreModule.Core.Currency;
-using VirtoCommerce.Loyalty.ExperienceApi.Services;
+using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Xapi.Core.Extensions;
 using VirtoCommerce.Xapi.Core.Helpers;
