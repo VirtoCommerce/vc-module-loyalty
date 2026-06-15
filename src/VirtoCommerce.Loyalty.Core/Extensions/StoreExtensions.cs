@@ -7,9 +7,10 @@ namespace VirtoCommerce.Loyalty.Core.Extensions;
 
 public static class StoreExtensions
 {
-    public static string GetLoyaltyCurrencyCode(this Store store)
+    public static string GetLoyaltyCurrencyCode(this Store store, bool useFallbackCurrencyCode = true)
     {
         var currencyCode = store.Settings.GetValue<string>(Settings.General.LoyaltyCurrency);
-        return !currencyCode.IsNullOrEmpty() ? currencyCode : FallbackLoyaltyCurrencyCode;
+        var fallbackCurrencyCode = useFallbackCurrencyCode ? FallbackLoyaltyCurrencyCode : null;
+        return !currencyCode.IsNullOrEmpty() ? currencyCode : fallbackCurrencyCode;
     }
 }

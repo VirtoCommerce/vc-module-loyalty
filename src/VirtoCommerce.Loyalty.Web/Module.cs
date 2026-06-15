@@ -20,6 +20,7 @@ using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
 using VirtoCommerce.Loyalty.ExperienceApi.TypeHooks;
+using VirtoCommerce.Loyalty.ExperienceApi.Validators;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -34,6 +35,7 @@ using VirtoCommerce.Platform.Data.SqlServer.Extensions;
 using VirtoCommerce.StoreModule.Core.Model;
 using VirtoCommerce.Xapi.Core.Extensions;
 using VirtoCommerce.Xapi.Core.Infrastructure;
+using VirtoCommerce.XCart.Core.Validators;
 
 namespace VirtoCommerce.Loyalty.Web;
 
@@ -97,6 +99,8 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddSingleton<IAuthorizationHandler, CanAccessLoyaltyAuthorizationHandler>();
 
         serviceCollection.AddTransient<ILoyaltySettingService, LoyaltySettingService>();
+
+        serviceCollection.AddTransient<ICartValidator<CartValidationContext>, LoyaltyCartValidator>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)
