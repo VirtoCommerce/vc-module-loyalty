@@ -25,24 +25,31 @@ public class LoyaltyCartValidator : AbstractValidator<CartValidationContext>, IC
 
             var pointsTotals = cart.CartTotals.FirstOrDefault(x => x.CurrencyCode.EqualsIgnoreCase(loyaltyCurrencyCode));
             var hasPointProducts = pointsTotals != null && pointsTotals.Total > 0;
-
+            var hasCashProducts = cart.Items?.Any(x => !x.Currency.EqualsIgnoreCase(loyaltyCurrencyCode)) == true;
             var usesLoyaltyPayment = cart.Payments?.Any(x => x.PaymentGatewayCode.EqualsIgnoreCase(ModuleConstants.LoyaltyPaymentMethodGatewayCode)) == true;
 
-            // Products priced in loyalty points are only valid in Mixed Cart mode.
+            // 1. Products priced in loyalty points are only valid in Mixed Cart mode.
             if (hasPointProducts && !loyaltyMode.EqualsIgnoreCase(ModuleConstants.LoyaltyModes.MixedCart))
             {
                 context.AddFailure(new CartValidationError(cart,
                     "Loyalty point products are not allowed for the current store loyalty mode", "LOYALTY_POINT_PRODUCTS_NOT_ALLOWED"));
             }
 
-            // The loyalty payment method is only valid in Payment Method mode.
+            // 2. A cart cannot consist solely of loyalty-priced products - at least one cash product is required.
+            if (hasPointProducts && !hasCashProducts)
+            {
+                context.AddFailure(new CartValidationError(cart,
+                    "A cart cannot contain only loyalty point products", "LOYALTY_ONLY_POINT_PRODUCTS_NOT_ALLOWED"));
+            }
+
+            // 3. The loyalty payment method is only valid in Payment Method mode.
             if (usesLoyaltyPayment && !loyaltyMode.EqualsIgnoreCase(ModuleConstants.LoyaltyModes.PaymentMethod))
             {
                 context.AddFailure(new CartValidationError(cart,
                     "Loyalty payment method is not allowed for the current store loyalty mode", "LOYALTY_PAYMENT_METHOD_NOT_ALLOWED"));
             }
 
-            // Ensure the balance covers the points spent on loyalty-priced products.
+            // 4. Ensure the balance covers the points spent on loyalty-priced products.
             if (hasPointProducts)
             {
                 var balance = await loyaltyService.GetUserBalanceAsync(cart.CustomerId);
