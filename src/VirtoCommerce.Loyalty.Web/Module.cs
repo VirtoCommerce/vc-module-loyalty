@@ -51,6 +51,7 @@ public class Module : IModule, IHasConfiguration
             builder.AddSchema(serviceCollection, typeof(XapiAssemblyMarker));
             builder.AddGraphTypeHook<ProductTypeHook>();
             builder.AddGraphTypeHook<LineItemTypeHook>();
+            builder.AddGraphTypeHook<ShoppingCartHook>();
         });
         serviceCollection.AddSingleton<ScopedSchemaFactory<XapiAssemblyMarker>>();
 
