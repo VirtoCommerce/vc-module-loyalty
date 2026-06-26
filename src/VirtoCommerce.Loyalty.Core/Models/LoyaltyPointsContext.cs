@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VirtoCommerce.CoreModule.Core.Currency;
 
-namespace VirtoCommerce.Loyalty.ExperienceApi.Services;
+namespace VirtoCommerce.Loyalty.Core.Models;
 
 public class LoyaltyPointsContext
 {

@@ -35,6 +35,16 @@ public static class ModuleConstants
         public const string DefaultProgramType = "Default";
     }
 
+    public static class LoyaltyModes
+    {
+        public const string LoyaltyStore = "Loyalty Store";
+        public const string MixedCart = "Mixed Cart";
+        public const string CouponRedemption = "Coupon Redemption";
+        public const string PaymentMethod = "Payment Method";
+    }
+
+    public const string LoyaltyPaymentMethodGatewayCode = "LoyaltyPaymentMethod";
+
     public const string FallbackLoyaltyCurrencyCode = "XPT";
 
     public static class Settings
@@ -56,7 +66,7 @@ public static class ModuleConstants
                 GroupName = "Loyalty|General",
                 ValueType = SettingValueType.ShortText,
                 IsPublic = true,
-                AllowedValues = ["Loyalty Store", "Mixed Cart", "Coupon Redemption", "Payment Method"]
+                AllowedValues = [LoyaltyModes.LoyaltyStore, LoyaltyModes.MixedCart, LoyaltyModes.CouponRedemption, LoyaltyModes.PaymentMethod]
             };
 
             public static SettingDescriptor LoyaltyCurrency { get; } = new()

@@ -10,6 +10,8 @@ public interface ILoyaltyLogicService
 
     Task<LoyaltyBalanceResult> GetLoyaltyBalanceAsync(LoyaltyBalanceRequest request);
 
+    Task<bool> IsObjectProcessedAsync(string objectType, string objectId, string operationType);
+
     Task<List<string>> FindProcessedObjectIdsAsync(string objectType, string[] objectIds);
 
     Task<LoyaltyAmountResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext);
