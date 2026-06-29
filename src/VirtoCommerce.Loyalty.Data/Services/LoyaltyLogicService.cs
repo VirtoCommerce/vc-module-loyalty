@@ -11,6 +11,7 @@ using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.OrdersModule.Core.Model.Search;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Core.DistributedLock;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
@@ -22,6 +23,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
     private readonly IMemberResolver _memberResolver;
     private readonly ICustomerOrderService _customerOrderService;
     private readonly ICustomerOrderSearchService _customerOrderSearchService;
+    private readonly IDistributedLockService _distributedLockService;
 
     public LoyaltyLogicService(
         ILoyaltyProgramSearchService loyaltyProgramSearchService,
@@ -29,7 +31,8 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         ILoyaltyProgramOperationLogSearchService loyaltyProgramOperationLogSearchService,
         IMemberResolver memberResolver,
         ICustomerOrderService customerOrderService,
-        ICustomerOrderSearchService customerOrderSearchService)
+        ICustomerOrderSearchService customerOrderSearchService,
+        IDistributedLockService distributedLockService)
     {
         _loyaltyProgramSearchService = loyaltyProgramSearchService;
         _loyaltyProgramOperationLogService = loyaltyProgramOperationLogService;
@@ -37,6 +40,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         _memberResolver = memberResolver;
         _customerOrderService = customerOrderService;
         _customerOrderSearchService = customerOrderSearchService;
+        _distributedLockService = distributedLockService;
     }
 
     public async IAsyncEnumerable<LoyaltyProgram> GetActiveLoyaltyProgramsAsync(string[] storeIds, string programType)
@@ -94,12 +98,12 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         return result;
     }
 
-    public async Task<bool> IsObjectProcessedAsync(string objectType, string objectId)
+    public async Task<bool> IsObjectProcessedAsync(string objectType, string objectId, string operationType)
     {
         var criteria = AbstractTypeFactory<LoyaltyProgramOperationLogSearchCriteria>.TryCreateInstance();
         criteria.ObjectType = objectType;
         criteria.ObjectId = objectId;
-        criteria.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType; // Assuming "Earned" is the operation type for processed orders
+        criteria.OperationType = operationType;
         criteria.Take = 0;
 
         var searchResult = await _loyaltyProgramOperationLogSearchService.SearchNoCloneAsync(criteria);
@@ -114,7 +118,8 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         // rewrite to batch processing
         foreach (var objectId in objectIds)
         {
-            if (await IsObjectProcessedAsync(objectType, objectId))
+            // registration / award path tracks "Earned" operations only
+            if (await IsObjectProcessedAsync(objectType, objectId, ModuleConstants.LoyaltyPrograms.EarnedOperationType))
             {
                 result.Add(objectId);
             }
@@ -236,9 +241,23 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         return maxReward;
     }
 
-    public async Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult)
+    public Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult)
     {
-        if (await IsObjectProcessedAsync(loyaltyContext.ContextObjectType, loyaltyContext.ContextObjectId))
+        // Serialize the per-user balance read-modify-write across all operation sources
+        // (earn, mixed-cart redeem, payment-method redeem) so concurrent operations for the
+        // same user cannot read a stale balance and overwrite each other's running total.
+        return _distributedLockService.ExecuteAsync($"loyalty-balance:{loyaltyContext.UserId}",
+            () => LogLoyaltyProgramOperationInternalAsync(loyaltyContext, loyaltyResult),
+            lockTimeout: TimeSpan.FromSeconds(30),
+            tryLockTimeout: TimeSpan.FromSeconds(30),
+            retryInterval: TimeSpan.FromMilliseconds(200));
+    }
+
+    private async Task<bool> LogLoyaltyProgramOperationInternalAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult)
+    {
+        // dedup against the specific operation type being logged, so earn and redeem
+        // for the same object do not block each other and repeats are still skipped
+        if (await IsObjectProcessedAsync(loyaltyContext.ContextObjectType, loyaltyContext.ContextObjectId, loyaltyResult.OperationType))
         {
             return false;
         }

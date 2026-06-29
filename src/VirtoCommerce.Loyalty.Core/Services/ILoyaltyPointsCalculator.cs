@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using VirtoCommerce.Loyalty.Core.Models;
 
-namespace VirtoCommerce.Loyalty.ExperienceApi.Services;
+namespace VirtoCommerce.Loyalty.Core.Services;
 
 public interface ILoyaltyPointsCalculator
 {

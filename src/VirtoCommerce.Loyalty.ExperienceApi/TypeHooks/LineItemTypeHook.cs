@@ -4,9 +4,11 @@ using GraphQL;
 using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using VirtoCommerce.CartModule.Core.Model;
 using VirtoCommerce.CoreModule.Core.Currency;
-using VirtoCommerce.Loyalty.ExperienceApi.Services;
+using VirtoCommerce.Loyalty.Core.Extensions;
+using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Xapi.Core.Extensions;
 using VirtoCommerce.Xapi.Core.Helpers;
@@ -39,25 +41,38 @@ public class LineItemTypeHook : IGraphTypeHook
                     return null;
                 }
 
-                var cartId = fieldContext.GetValueForSource<CartAggregate>()?.Id;
+                var cartAggregate = fieldContext.GetValueForSource<CartAggregate>();
+                if (cartAggregate == null)
+                {
+                    return null;
+                }
+
+                var cartId = cartAggregate.Id;
 
                 var dataLoader = fieldContext.RequestServices.GetRequiredService<IDataLoaderContextAccessor>();
                 var loader = dataLoader.Context.GetOrAddBatchLoader<LineItem, Money>($"cart_loyalty_points_{cartId}", async lineItems =>
                 {
+                    var loyaltyCurrency = cartAggregate.Store.GetLoyaltyCurrencyCode();
+
+                    // Exclude line items already priced in loyalty points (e.g. XPT) - only cash-priced items earn.
+                    var eligibleItems = lineItems
+                        .Where(x => !x.Currency.EqualsIgnoreCase(loyaltyCurrency))
+                        .ToArray();
+
                     var calculator = fieldContext.RequestServices.GetRequiredService<ILoyaltyPointsCalculator>();
                     var pointsContext = await calculator.ResolveAsync(
                         userId: fieldContext.User.GetCurrentUserId(),
                         storeId: fieldContext.GetArgumentOrValue<string>("storeId"),
                         language: fieldContext.GetArgumentOrValue<string>("cultureName"),
                         currencyCode: fieldContext.GetArgumentOrValue<string>("currencyCode"),
-                        productIds: lineItems.Select(x => x.ProductId).Distinct().ToArray());
+                        productIds: eligibleItems.Select(x => x.ProductId).Distinct().ToArray());
 
                     if (pointsContext.PointsCurrency is null)
                     {
                         return new Dictionary<LineItem, Money>();
                     }
 
-                    return lineItems.ToDictionary(x => x, x => pointsContext.CalculatePoints(x.ExtendedPrice, x.ProductId));
+                    return eligibleItems.ToDictionary(x => x, x => pointsContext.CalculatePoints(x.ExtendedPrice, x.ProductId));
                 },
                 keyComparer: AnonymousComparer.Create((LineItem x) => x.Id));
 
