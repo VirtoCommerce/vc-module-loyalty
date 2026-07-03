@@ -35,6 +35,13 @@ public static class ModuleConstants
         public const string DefaultProgramType = "Default";
     }
 
+    public static class MissionTypes
+    {
+        public const string OrderValue = "OrderValue";
+        public const string OrderCount = "OrderCount";
+        public const string PerSku = "PerSku";
+    }
+
     public static class LoyaltyModes
     {
         public const string LoyaltyStore = "Loyalty Store";
