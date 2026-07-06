@@ -170,6 +170,12 @@
       "DefaultProductMultiplyFactor": {
         "title": "Default product multiply factor",
         "description": "Default multiplier applied to a product price when calculating loyalty points if no per-product factor is configured"
+      },
+      "Missions": {
+        "Enable": {
+          "title": "Loyalty missions",
+          "description": "Enable/disable loyalty missions for the store"
+        }
       }
     }
   }

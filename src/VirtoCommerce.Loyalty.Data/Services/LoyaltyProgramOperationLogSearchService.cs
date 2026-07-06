@@ -41,9 +41,14 @@ public class LoyaltyProgramOperationLogSearchService(
             query = query.Where(x => x.ObjectType == criteria.ObjectType);
         }
 
-        if (!criteria.LoyaltyProgramId.IsNullOrEmpty())
+        if (!criteria.SourceType.IsNullOrEmpty())
         {
-            query = query.Where(x => x.LoyaltyProgramId == criteria.LoyaltyProgramId);
+            query = query.Where(x => x.SourceType == criteria.SourceType);
+        }
+
+        if (!criteria.SourceId.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.SourceId == criteria.SourceId);
         }
 
         if (!criteria.OperationType.IsNullOrEmpty())
