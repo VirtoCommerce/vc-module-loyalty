@@ -42,6 +42,34 @@ public static class ModuleConstants
         public const string PerSku = "PerSku";
     }
 
+    public static class MissionStatuses
+    {
+        public const string Draft = "Draft";
+        public const string Published = "Published";
+        public const string Archived = "Archived";
+    }
+
+    public static class MissionProgressStatuses
+    {
+        public const string InProgress = "InProgress";
+        public const string Completed = "Completed";
+        public const string Expired = "Expired";
+    }
+
+    public static class MissionPeriodicities
+    {
+        public const string None = "None";
+    }
+
+    /// <summary>
+    /// Values for <see cref="Models.LoyaltyProgramOperationLog.SourceType"/>.
+    /// </summary>
+    public static class LoyaltySourceTypes
+    {
+        public const string LoyaltyProgram = nameof(Models.LoyaltyProgram);
+        public const string LoyaltyMission = nameof(Models.LoyaltyMission);
+    }
+
     public static class LoyaltyModes
     {
         public const string LoyaltyStore = "Loyalty Store";
@@ -93,6 +121,15 @@ public static class ModuleConstants
                 IsPublic = true,
             };
 
+            public static SettingDescriptor MissionsEnable { get; } = new()
+            {
+                Name = "Loyalty.Missions.Enable",
+                GroupName = "Loyalty|Missions",
+                ValueType = SettingValueType.Boolean,
+                DefaultValue = false,
+                IsPublic = true,
+            };
+
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
@@ -101,6 +138,7 @@ public static class ModuleConstants
                     yield return LoyaltyMode;
                     yield return LoyaltyCurrency;
                     yield return DefaultProductMultiplyFactor;
+                    yield return MissionsEnable;
                 }
             }
         }
@@ -113,6 +151,7 @@ public static class ModuleConstants
                 yield return General.LoyaltyMode;
                 yield return General.LoyaltyCurrency;
                 yield return General.DefaultProductMultiplyFactor;
+                yield return General.MissionsEnable;
             }
         }
 

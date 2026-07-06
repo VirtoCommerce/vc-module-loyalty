@@ -19,6 +19,7 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
             {
                 nameof(CustomerOrder) => OrderId,
                 nameof(ApplicationUser) => UserId,
+                nameof(LoyaltyMissionProgress) => MissionProgressId,
                 _ => null,
             };
         }
@@ -35,6 +36,7 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
     public string OrderId { get; set; }
     public string OrderStatus { get; set; }
     public decimal OrderTotal { get; set; }
+    public string MissionProgressId { get; set; }
 
     public string GetCacheKey()
     {
@@ -56,6 +58,7 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
         yield return OrderId;
         yield return OrderStatus;
         yield return OrderTotal;
+        yield return MissionProgressId;
         yield return ProgramType;
         yield return Language;
 
