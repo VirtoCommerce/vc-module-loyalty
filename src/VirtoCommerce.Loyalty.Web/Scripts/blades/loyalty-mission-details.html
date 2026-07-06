@@ -1,0 +1,58 @@
+<div class="blade-content __medium-wide">
+  <div class="blade-inner">
+    <div class="inner-block">
+      <form class="form" name="formScope">
+        <fieldset>
+          <va-metaform registered-inputs="blade.metaFields" blade="blade" column-count="6" ng-if="blade.currentEntity" ng-init="setForm(formScope)"></va-metaform>
+        </fieldset>
+        <div class="form-group" ng-if="blade.currentEntity.dynamicExpression">
+          <fieldset>
+            <legend>{{'Loyalty.blades.loyalty-mission-details.labels.mission' | translate}}</legend>
+            <div class="dynamic-expression">
+              <va-dynamic-expression-tree source="blade.currentEntity.dynamicExpression"></va-dynamic-expression-tree>
+            </div>
+          </fieldset>
+        </div>
+      </form>
+
+      <va-widget-container ng-if="!blade.isNew" group="loyaltyMissionDetail" blade="blade"></va-widget-container>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="loyaltyMissionStatusSelector.html">
+  <div class="form-input">
+    <select ng-model="blade.currentEntity.status" ng-options="s for s in blade.missionStatuses"></select>
+  </div>
+</script>
+
+<script type="text/ng-template" id="loyaltyMissionStoreSelector.html">
+  <div class="form-input">
+    <va-store-selector required ng-model="blade.currentEntity.storeId" placeholder="'Loyalty.blades.loyalty-mission-details.placeholders.store'"></va-store-selector>
+  </div>
+</script>
+
+<script type="text/ng-template" id="loyaltyMissionLocalizedName.html">
+  <div class="vc-catalog form-input __langs" ng-repeat="language in blade.languages | limitTo: blade.showAllLanguages ? blade.languages.length : 2">
+    <label class="lang-code">{{language}}</label>
+    <input ng-model="blade.currentEntity.localizedName.values[language]" type="text" ng-maxlength="1024" placeholder="{{ 'Loyalty.blades.loyalty-mission-details.placeholders.name' | translate }}" />
+  </div>
+  <div ng-if="blade.languages.length > 2">
+    <a href="" ng-click="blade.showAllLanguages = !blade.showAllLanguages">
+      {{ (blade.showAllLanguages ? 'Loyalty.blades.loyalty-mission-details.labels.show-less-languages' : 'Loyalty.blades.loyalty-mission-details.labels.show-more-languages') | translate }}
+    </a>
+  </div>
+</script>
+
+<script type="text/ng-template" id="loyaltyMissionLocalizedDescription.html">
+  <div class="vc-catalog form-input __langs" ng-repeat="language in blade.languages | limitTo: blade.showAllDescriptionLanguages ? blade.languages.length : 2">
+    <label class="lang-code">{{language}}</label>
+    <textarea ng-model="blade.currentEntity.description.values[language]" ng-maxlength="4000"></textarea>
+  </div>
+  <div ng-if="blade.languages.length > 2">
+    <a href="" ng-click="blade.showAllDescriptionLanguages = !blade.showAllDescriptionLanguages">
+      {{ (blade.showAllDescriptionLanguages ? 'Loyalty.blades.loyalty-mission-details.labels.show-less-languages' : 'Loyalty.blades.loyalty-mission-details.labels.show-more-languages') | translate }}
+    </a>
+  </div>
+</script>

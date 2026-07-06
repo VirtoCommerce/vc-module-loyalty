@@ -25,6 +25,23 @@ angular.module(moduleName, [])
                             bladeNavigationService.showBlade(newBlade);
                         }
                     ]
+                })
+                .state('workspace.LoyaltyMissionState', {
+                    url: '/loyalty-missions',
+                    templateUrl: '$(Platform)/Scripts/common/templates/home.tpl.html',
+                    controller: [
+                        'platformWebApp.bladeNavigationService',
+                        function (bladeNavigationService) {
+                            var newBlade = {
+                                id: 'loyaltyMissionList',
+                                controller: 'VirtoCommerce.Loyalty.loyaltyMissionListController',
+                                title: 'Loyalty.blades.loyalty-mission-list.title',
+                                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-mission-list.html',
+                                isClosingDisabled: true,
+                            };
+                            bladeNavigationService.showBlade(newBlade);
+                        }
+                    ]
                 });
         }
     ])
@@ -45,6 +62,16 @@ angular.module(moduleName, [])
                 permission: 'loyalty:access',
             };
             mainMenuService.addMenuItem(menuItem);
+
+            var missionsMenuItem = {
+                path: 'browse/loyalty-missions',
+                icon: 'fa fa-flag-checkered',
+                title: 'Loyalty.blades.loyalty-mission-list.title',
+                priority: 101,
+                action: function () { $state.go('workspace.LoyaltyMissionState'); },
+                permission: 'loyalty:access',
+            };
+            mainMenuService.addMenuItem(missionsMenuItem);
 
             // widgets
             var customerLoyaltyWidget = {
@@ -74,6 +101,16 @@ angular.module(moduleName, [])
             };
 
             widgetService.registerWidget(loyaltyProductFactorsWidget, 'loyaltyDetail');
+
+            var loyaltyMissionGoalItemsWidget = {
+                controller: 'VirtoCommerce.Loyalty.loyaltyMissionGoalItemsWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-mission-goal-items-widget.html',
+                isVisible: function (blade) {
+                    return !blade.isNew;
+                }
+            };
+
+            widgetService.registerWidget(loyaltyMissionGoalItemsWidget, 'loyaltyMissionDetail');
 
             var productDetailsloyaltyFactorsWidget = {
                 controller: 'VirtoCommerce.Loyalty.productDetailsLoyaltyFactorsWidgetController',
@@ -142,6 +179,58 @@ angular.module(moduleName, [])
                 }
             ]);
 
+            metaFormsService.registerMetaFields('loyaltyMissionDetail', [
+                {
+                    name: 'status',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.status',
+                    colSpan: 3,
+                    templateUrl: 'loyaltyMissionStatusSelector.html'
+                },
+                {
+                    name: 'public',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.public',
+                    colSpan: 3,
+                    valueType: 'Boolean'
+                },
+                {
+                    name: 'name',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.name',
+                    placeholder: 'Loyalty.blades.loyalty-mission-details.placeholders.name',
+                    colSpan: 6,
+                    valueType: 'ShortText',
+                    isRequired: true
+                },
+                {
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.localized-names',
+                    placeholder: 'Loyalty.blades.loyalty-mission-details.placeholders.name',
+                    colSpan: 6,
+                    templateUrl: 'loyaltyMissionLocalizedName.html'
+                },
+                {
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.localized-descriptions',
+                    colSpan: 6,
+                    templateUrl: 'loyaltyMissionLocalizedDescription.html'
+                },
+                {
+                    name: 'storeId',
+                    colSpan: 6,
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.store',
+                    templateUrl: 'loyaltyMissionStoreSelector.html'
+                },
+                {
+                    name: 'startDate',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.start-date',
+                    colSpan: 3,
+                    valueType: 'DateTime'
+                },
+                {
+                    name: 'endDate',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.end-date',
+                    colSpan: 3,
+                    valueType: 'DateTime'
+                },
+            ]);
+
             // Register dynamic expression tree templates
             // Conditions
             const order = 'Order conditions';
@@ -208,6 +297,27 @@ angular.module(moduleName, [])
             dynamicExpressionService.registerExpression({
                 id: 'RelativeAmountReward',
                 displayName: 'Earn % of order value as points',
+            });
+
+            // Mission goals
+            const missionGoal = 'Mission goal';
+
+            dynamicExpressionService.registerExpression({
+                groupName: missionGoal,
+                id: 'OrderValueGoal',
+                displayName: 'Reach target order value',
+            });
+
+            dynamicExpressionService.registerExpression({
+                groupName: missionGoal,
+                id: 'OrderCountGoal',
+                displayName: 'Reach target number of orders',
+            });
+
+            dynamicExpressionService.registerExpression({
+                groupName: missionGoal,
+                id: 'PerSkuGoal',
+                displayName: 'Purchase target quantity of SKUs',
             });
 
             dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/dynamicConditions/templates.html');

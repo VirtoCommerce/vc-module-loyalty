@@ -70,3 +70,29 @@
     <input smart-float num-type="float" required ng-model="element1.amount">
   </div>% of order value as points
 </script>
+
+<script type="text/ng-template" id="expression-OrderValueGoal.html">
+  Reach order total of
+  <div class="form-input __mini">
+    <input money required ng-model="element1.value">
+  </div>
+  per mission period
+</script>
+
+<script type="text/ng-template" id="expression-OrderCountGoal.html">
+  Reach
+  <div class="form-input __mini __number">
+    <input smart-float num-type="integer" required ng-model="element1.count">
+  </div>
+  orders per mission period
+</script>
+
+<script type="text/ng-template" id="expression-PerSkuGoal.html">
+  Purchase
+  <a class="__link" left-click-menu data-target="perSkuAllAny_menu{{element1.id}}">{{element1.all | boolToValue:'all':'any'}}</a>
+  of the target SKUs (managed in the "Goal SKUs" widget)
+  <ul class="menu __context" role="menu" id="perSkuAllAny_menu{{element1.id}}">
+    <li class="menu-item" ng-click='element1.all=true;'>all</li>
+    <li class="menu-item" ng-click='element1.all=false;'>any</li>
+  </ul>
+</script>

@@ -118,6 +118,44 @@
           "mode": "Select loyalty mode",
           "currency": "Select loyalty currency"
         }
+      },
+      "loyalty-mission-list": {
+        "title": "Loyalty missions",
+        "labels": {
+          "name": "Name",
+          "status": "Status"
+        }
+      },
+      "loyalty-mission-details": {
+        "title": "Loyalty mission details",
+        "new-mission": "New loyalty mission",
+        "labels": {
+          "status": "Status",
+          "public": "Public",
+          "name": "Name",
+          "localized-names": "Localized names",
+          "localized-descriptions": "Localized descriptions",
+          "store": "Store",
+          "start-date": "Start date",
+          "end-date": "End date",
+          "mission": "Mission",
+          "show-more-languages": "Show more languages",
+          "show-less-languages": "Show less languages"
+        },
+        "placeholders": {
+          "store": "Select store",
+          "name": "Enter mission name"
+        }
+      },
+      "loyalty-mission-goal-item-list": {
+        "title": "Goal SKUs",
+        "select-products": "Select products",
+        "labels": {
+          "product-name": "Product name",
+          "product-code": "SKU",
+          "quantity": "Quantity",
+          "new": "New"
+        }
       }
     },
     "widgets": {
@@ -129,6 +167,9 @@
       },
       "loyalty-product-factors": {
         "title": "Product factors"
+      },
+      "loyalty-mission-goal-items": {
+        "title": "Goal SKUs"
       }
     },
     "dialogs": {
@@ -143,6 +184,18 @@
       "loyalty-program-save": {
         "title": "Save changes",
         "message": "Loyalty program was modified. Do you want to save changes?"
+      },
+      "loyalty-mission-delete": {
+        "title": "Delete loyalty mission",
+        "message": "Are you sure you want to delete the selected loyalty mission?"
+      },
+      "loyalty-mission-goal-item-delete": {
+        "title": "Delete goal SKUs",
+        "message": "Are you sure you want to delete the selected goal SKUs?"
+      },
+      "loyalty-mission-save": {
+        "title": "Save changes",
+        "message": "Loyalty mission was modified. Do you want to save changes?"
       }
     }
   },

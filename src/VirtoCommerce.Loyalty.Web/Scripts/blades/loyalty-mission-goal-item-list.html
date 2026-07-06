@@ -1,0 +1,41 @@
+<div class="blade-static __bottom" ng-if="pageSettings.itemsPerPageCount < pageSettings.totalItems" ng-include="'pagerTemplate.html'"></div>
+
+<div class="blade-content __medium-wide">
+    <div class="blade-inner">
+        <div class="note" ng-if="!listEntries.length">{{ 'platform.list.no-data' | translate }}</div>
+        <form name="formScope">
+          <div class="inner-block" ng-init="setGridOptions('loyalty-mission-goal-item-list-grid', {
+                useExternalSorting: true,
+                data: 'listEntries',
+                rowHeight: 60,
+                columnDefs: [
+                  { name: 'productName', displayName: 'Loyalty.blades.loyalty-mission-goal-item-list.labels.product-name', cellTemplate: 'mission-goal-item-name.cell.html', enableSorting: false  },
+                  { name: 'productCode', displayName: 'Loyalty.blades.loyalty-mission-goal-item-list.labels.product-code', enableSorting: false },
+                  { name: 'quantity', displayName: 'Loyalty.blades.loyalty-mission-goal-item-list.labels.quantity', width: 120, cellTemplate: 'mission-goal-quantity.cell.html' }
+                ]})">
+              <div class="table-wrapper" ng-if="listEntries.length" ng-init="setForm(formScope)">
+                  <div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-save-state ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-height></div>
+              </div>
+          </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/ng-template" id="mission-goal-item-name.cell.html">
+  <div class="ui-grid-cell-contents">
+    <div class="inner-contents">
+      <div class="table-t">{{COL_FIELD}}</div>
+      <div class="table-descr" ng-if="!row.entity.id">
+        <span class="label">{{ 'Loyalty.blades.loyalty-mission-goal-item-list.labels.new' | translate }}</span>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="mission-goal-quantity.cell.html">
+  <div class="ui-grid-cell-contents">
+    <div class="form-input __number">
+      <input smart-float num-type="integer" required min="1" ng-model="row.entity.quantity" name="quantity_{{rowRenderIndex}}" />
+    </div>
+  </div>
+</script>
