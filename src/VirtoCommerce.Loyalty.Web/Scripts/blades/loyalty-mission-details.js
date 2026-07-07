@@ -2,7 +2,8 @@ angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyMissionDetailsController',
         ['$scope', 'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'platformWebApp.metaFormsService',
             'VirtoCommerce.Loyalty.loyaltyMissions', 'virtoCommerce.storeModule.stores', 'virtoCommerce.coreModule.common.dynamicExpressionService',
-            function ($scope, bladeNavigationService, settings, metaFormsService, loyaltyMissions, stores, dynamicExpressionService) {
+            'platformWebApp.dialogService',
+            function ($scope, bladeNavigationService, settings, metaFormsService, loyaltyMissions, stores, dynamicExpressionService, dialogService) {
                 var blade = $scope.blade;
                 blade.headIcon = 'fa fa-flag-checkered';
                 blade.updatePermission = 'loyalty:update';
@@ -24,6 +25,18 @@ angular.module('VirtoCommerce.Loyalty')
                         }
                     }
                 };
+
+                blade.showGoalItemsBlade = function () {
+                    var newBlade = {
+                        id: 'loyaltyMissionGoalItemList',
+                        title: 'Loyalty.blades.loyalty-mission-goal-item-list.title',
+                        missionId: blade.currentEntityId,
+                        storeId: blade.currentEntity.storeId,
+                        controller: 'VirtoCommerce.Loyalty.loyaltyMissionGoalItemListController',
+                        template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-mission-goal-item-list.html'
+                    };
+                    bladeNavigationService.showBlade(newBlade, blade);
+                }
 
                 function initializeBlade(data) {
                     if (data.dynamicExpression) {
@@ -107,8 +120,12 @@ angular.module('VirtoCommerce.Loyalty')
                     $scope.formScope = form;
                 };
 
+                function isDraft() {
+                    return blade.isNew || (blade.currentEntity && blade.currentEntity.status === 'Draft');
+                }
+
                 function canSave() {
-                    return isDirty() && $scope.formScope && $scope.formScope.$valid;
+                    return isDirty() && isDraft() && $scope.formScope && $scope.formScope.$valid;
                 }
 
                 function isDirty() {
@@ -116,7 +133,7 @@ angular.module('VirtoCommerce.Loyalty')
                 }
 
                 blade.onClose = function (closeCallback) {
-                    bladeNavigationService.showConfirmationIfNeeded(isDirty() && !blade.isNew,
+                    bladeNavigationService.showConfirmationIfNeeded(isDraft() && isDirty() && !blade.isNew,
                         canSave(),
                         blade,
                         $scope.saveChanges,
@@ -132,6 +149,36 @@ angular.module('VirtoCommerce.Loyalty')
                             subitems: items
                         };
                     });
+                }
+
+                function publish() {
+                    var dialog = {
+                        id: 'confirmPublishMission',
+                        title: 'Loyalty.dialogs.loyalty-mission-publish.title',
+                        message: 'Loyalty.dialogs.loyalty-mission-publish.message',
+                        callback: function (confirmed) {
+                            if (confirmed) {
+                                blade.currentEntity.status = 'Published';
+                                $scope.saveChanges();
+                            }
+                        }
+                    };
+                    dialogService.showConfirmationDialog(dialog);
+                }
+
+                function archive() {
+                    var dialog = {
+                        id: 'confirmArchiveMission',
+                        title: 'Loyalty.dialogs.loyalty-mission-archive.title',
+                        message: 'Loyalty.dialogs.loyalty-mission-archive.message',
+                        callback: function (confirmed) {
+                            if (confirmed) {
+                                blade.currentEntity.status = 'Archived';
+                                $scope.saveChanges();
+                            }
+                        }
+                    };
+                    dialogService.showConfirmationDialog(dialog);
                 }
 
                 function initializeToolbar() {
@@ -150,7 +197,29 @@ angular.module('VirtoCommerce.Loyalty')
                             executeMethod: function () {
                                 angular.copy(blade.originalEntity, blade.currentEntity);
                             },
-                            canExecuteMethod: isDirty,
+                            canExecuteMethod: function () {
+                                return isDraft() && isDirty();
+                            },
+                            permission: blade.updatePermission
+                        });
+
+                        blade.toolbarCommands.push({
+                            name: "Loyalty.blades.loyalty-mission-details.commands.publish",
+                            icon: 'fa fa-rocket',
+                            executeMethod: publish,
+                            canExecuteMethod: function () {
+                                return blade.currentEntity && blade.currentEntity.status === 'Draft';
+                            },
+                            permission: blade.updatePermission
+                        });
+
+                        blade.toolbarCommands.push({
+                            name: "Loyalty.blades.loyalty-mission-details.commands.archive",
+                            icon: 'fa fa-archive',
+                            executeMethod: archive,
+                            canExecuteMethod: function () {
+                                return blade.currentEntity && blade.currentEntity.status !== 'Archived';
+                            },
                             permission: blade.updatePermission
                         });
                     }

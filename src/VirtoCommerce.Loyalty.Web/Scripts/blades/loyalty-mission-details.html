@@ -2,6 +2,7 @@
   <div class="blade-inner">
     <div class="inner-block">
       <form class="form" name="formScope">
+        <div class="note info" ng-if="!blade.isNew && blade.currentEntity.status !== 'Draft'">{{'Loyalty.blades.loyalty-mission-details.labels.immutable-note' | translate}}</div>
         <fieldset>
           <va-metaform registered-inputs="blade.metaFields" blade="blade" column-count="6" ng-if="blade.currentEntity" ng-init="setForm(formScope)"></va-metaform>
         </fieldset>
@@ -23,7 +24,7 @@
 
 <script type="text/ng-template" id="loyaltyMissionStatusSelector.html">
   <div class="form-input">
-    <select ng-model="blade.currentEntity.status" ng-options="s for s in blade.missionStatuses"></select>
+    <input type="text" ng-model="blade.currentEntity.status" readonly />
   </div>
 </script>
 

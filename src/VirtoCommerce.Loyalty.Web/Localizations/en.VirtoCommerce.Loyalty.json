@@ -139,12 +139,17 @@
           "start-date": "Start date",
           "end-date": "End date",
           "mission": "Mission",
+          "immutable-note": "Only draft missions can be edited. Published or archived missions are read-only and cannot be changed.",
           "show-more-languages": "Show more languages",
           "show-less-languages": "Show less languages"
         },
         "placeholders": {
           "store": "Select store",
           "name": "Enter mission name"
+        },
+        "commands": {
+          "publish": "Publish",
+          "archive": "Archive"
         }
       },
       "loyalty-mission-goal-item-list": {
@@ -196,6 +201,14 @@
       "loyalty-mission-save": {
         "title": "Save changes",
         "message": "Loyalty mission was modified. Do you want to save changes?"
+      },
+      "loyalty-mission-publish": {
+        "title": "Publish mission",
+        "message": "After publishing the mission it cannot be changed. Do you want to publish the mission?"
+      },
+      "loyalty-mission-archive": {
+        "title": "Archive mission",
+        "message": "An archived mission can no longer be used and cannot be changed. Do you want to archive the mission?"
       }
     }
   },

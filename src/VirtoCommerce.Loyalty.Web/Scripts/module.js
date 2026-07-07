@@ -110,7 +110,8 @@ angular.module(moduleName, [])
                 }
             };
 
-            widgetService.registerWidget(loyaltyMissionGoalItemsWidget, 'loyaltyMissionDetail');
+            // temp disable 
+            //widgetService.registerWidget(loyaltyMissionGoalItemsWidget, 'loyaltyMissionDetail');
 
             var productDetailsloyaltyFactorsWidget = {
                 controller: 'VirtoCommerce.Loyalty.productDetailsLoyaltyFactorsWidgetController',
@@ -183,15 +184,15 @@ angular.module(moduleName, [])
                 {
                     name: 'status',
                     title: 'Loyalty.blades.loyalty-mission-details.labels.status',
-                    colSpan: 3,
+                    colSpan: 6,
                     templateUrl: 'loyaltyMissionStatusSelector.html'
                 },
-                {
-                    name: 'public',
-                    title: 'Loyalty.blades.loyalty-mission-details.labels.public',
-                    colSpan: 3,
-                    valueType: 'Boolean'
-                },
+                //{
+                //    name: 'public',
+                //    title: 'Loyalty.blades.loyalty-mission-details.labels.public',
+                //    colSpan: 3,
+                //    valueType: 'Boolean'
+                //},
                 {
                     name: 'name',
                     title: 'Loyalty.blades.loyalty-mission-details.labels.name',
@@ -248,6 +249,15 @@ angular.module(moduleName, [])
             dynamicExpressionService.registerExpression({
                 id: 'BlockLoyaltyMissionCondition',
                 newChildLabel: 'Add condition',
+                getValidationError: function () {
+                    var errorMessage = (this.children && this.children.length) ? undefined : 'Your loyalty mission must have at least one condition';
+                    return errorMessage;
+                },
+            });
+
+            dynamicExpressionService.registerExpression({
+                id: 'BlockLoyaltyMissionGoals',
+                newChildLabel: 'Add goal',
                 getValidationError: function () {
                     var goals = _.filter(this.children, function (child) { return !!child.missionType; });
                     if (goals.length === 0) {

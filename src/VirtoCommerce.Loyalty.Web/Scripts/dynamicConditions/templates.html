@@ -16,6 +16,10 @@
   </ul>
 </script>
 
+<script type="text/ng-template" id="expression-BlockLoyaltyMissionGoals.html">
+  Mission goal (choose one):
+</script>
+
 <script type="text/ng-template" id="expression-OrderStatusCondition.html">
   Order status is
   <div class="form-input">
@@ -81,7 +85,7 @@
 </script>
 
 <script type="text/ng-template" id="expression-OrderValueGoal.html">
-  Reach order total of
+  Reach order total of $
   <div class="form-input __mini">
     <input money required ng-model="element1.value">
   </div>
@@ -99,7 +103,8 @@
 <script type="text/ng-template" id="expression-PerSkuGoal.html">
   Purchase
   <a class="__link" left-click-menu data-target="perSkuAllAny_menu{{element1.id}}">{{element1.all | boolToValue:'all':'any'}}</a>
-  of the target SKUs (managed in the "Goal SKUs" widget)
+  of the target SKUs <a ng-show="!blade.isNew" ng-click="blade.showGoalItemsBlade()">select</a>
+  <span class="info" style="padding: 5px; display:block;" ng-show="blade.isNew">You can add SKUs after saving the mission</span>
   <ul class="menu __context" role="menu" id="perSkuAllAny_menu{{element1.id}}">
     <li class="menu-item" ng-click='element1.all=true;'>all</li>
     <li class="menu-item" ng-click='element1.all=false;'>any</li>

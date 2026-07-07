@@ -17,7 +17,10 @@ public class LoyaltyMissionConditionAndRewardTreePrototype : ConditionTree
             new BlockLoyaltyMissionCondition()
                 .WithAvailableChildren(
                     new UserGroupIsCondition(),
-                    new AnyUserGroupCondition(),
+                    new AnyUserGroupCondition()
+                ),
+            new BlockLoyaltyMissionGoals()
+                .WithAvailableChildren(
                     new OrderValueGoal(),
                     new OrderCountGoal(),
                     new PerSkuGoal()
