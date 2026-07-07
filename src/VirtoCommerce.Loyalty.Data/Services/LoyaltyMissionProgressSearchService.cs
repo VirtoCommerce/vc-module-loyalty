@@ -24,7 +24,9 @@ public class LoyaltyMissionProgressSearchService(
 {
     protected override IQueryable<LoyaltyMissionProgressEntity> BuildQuery(IRepository repository, LoyaltyMissionProgressSearchCriteria criteria)
     {
-        var query = ((ILoyaltyRepository)repository).LoyaltyMissionProgresses;
+        var loyaltyRepository = (ILoyaltyRepository)repository;
+
+        var query = loyaltyRepository.LoyaltyMissionProgresses;
 
         if (!criteria.MissionId.IsNullOrEmpty())
         {
@@ -44,6 +46,14 @@ public class LoyaltyMissionProgressSearchService(
         if (!criteria.Status.IsNullOrEmpty())
         {
             query = query.Where(x => x.Status == criteria.Status);
+        }
+
+        if (!criteria.StoreId.IsNullOrEmpty())
+        {
+            var missionIds = loyaltyRepository.LoyaltyMissions
+                .Where(m => m.StoreId == criteria.StoreId)
+                .Select(m => m.Id);
+            query = query.Where(x => missionIds.Contains(x.MissionId));
         }
 
         return query;

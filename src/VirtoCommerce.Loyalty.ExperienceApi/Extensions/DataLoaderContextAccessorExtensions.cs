@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.DataLoader;
 using VirtoCommerce.Loyalty.Core.Models;
+using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Security;
@@ -12,6 +13,21 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Extensions;
 
 public static class DataLoaderContextAccessorExtensions
 {
+    public static IDataLoaderResult<LoyaltyMission> LoadMission(
+        this IDataLoaderContextAccessor dataLoader,
+        ILoyaltyMissionService missionService,
+        string loaderKey,
+        string missionId)
+    {
+        var loader = dataLoader.Context.GetOrAddBatchLoader<string, LoyaltyMission>(loaderKey, async (ids) =>
+        {
+            var missions = await missionService.GetAsync(ids.ToArray(), responseGroup: null, clone: false);
+            return missions.ToDictionary(x => x.Id);
+        });
+
+        return loader.LoadAsync(missionId);
+    }
+
     public static IDataLoaderResult<LoyaltyOperationLogObject> LoadLoyaltyObject(
     this IDataLoaderContextAccessor dataLoader,
     ICustomerOrderService customerOrderService,
