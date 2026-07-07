@@ -14,14 +14,10 @@ public class LoyaltyMissionConditionAndRewardTreePrototype : ConditionTree
     {
         IConditionTree[] children =
         [
-            new BlockLoyaltyCondition()
+            new BlockLoyaltyMissionCondition()
                 .WithAvailableChildren(
-                    new UserGroupsContainsCondition(),
                     new UserGroupIsCondition(),
-                    new OrderStatusCondition(),
-                    new OrderTotalCondition(),
-                    new IsFirstOrderCondition(),
-                    new IsRecurringOrderCondition(),
+                    new AnyUserGroupCondition(),
                     new OrderValueGoal(),
                     new OrderCountGoal(),
                     new PerSkuGoal()

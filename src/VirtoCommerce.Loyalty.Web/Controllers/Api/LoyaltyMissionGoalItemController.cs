@@ -15,14 +15,14 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 [Route("api/loyalty-mission-goal-items")]
 public class LoyaltyMissionGoalItemController(
     ILoyaltyMissionGoalItemService crudService,
-    ILoyaltyMissionGoalItemSearchService searchService)
+    ILoyaltyMissionGoalItemListItemSearchService listItemSearchService)
     : Controller
 {
     [HttpPost("search")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyMissionGoalItemSearchResult>> Search([FromBody] LoyaltyMissionGoalItemSearchCriteria criteria)
+    public async Task<ActionResult<LoyaltyMissionGoalItemListItemSearchResult>> Search([FromBody] LoyaltyMissionGoalItemSearchCriteria criteria)
     {
-        var result = await searchService.SearchNoCloneAsync(criteria);
+        var result = await listItemSearchService.SearchAsync(criteria);
         return Ok(result);
     }
 

@@ -240,7 +240,23 @@ angular.module(moduleName, [])
                 id: 'BlockLoyaltyCondition',
                 newChildLabel: 'Add condition',
                 getValidationError: function () {
-                    return (this.children && this.children.length) ? undefined : 'Your loyalty program must have at least one condition';
+                    var errorMessage = (this.children && this.children.length) ? undefined : 'Your loyalty program must have at least one condition';
+                    return errorMessage;
+                },
+            });
+
+            dynamicExpressionService.registerExpression({
+                id: 'BlockLoyaltyMissionCondition',
+                newChildLabel: 'Add condition',
+                getValidationError: function () {
+                    var goals = _.filter(this.children, function (child) { return !!child.missionType; });
+                    if (goals.length === 0) {
+                        return 'Your mission must have exactly one goal: order value, order count or SKU-based';
+                    }
+                    if (goals.length > 1) {
+                        return 'Your mission must have only one goal';
+                    }
+                    return undefined;
                 },
             });
 

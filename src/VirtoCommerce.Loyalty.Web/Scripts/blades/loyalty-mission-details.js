@@ -45,8 +45,36 @@ angular.module('VirtoCommerce.Loyalty')
                     blade.isLoading = false;
                 }
 
+                function getExpressionValidationError(element) {
+                    if (!element) {
+                        return undefined;
+                    }
+                    if (angular.isFunction(element.getValidationError)) {
+                        var error = element.getValidationError();
+                        if (error) {
+                            return error;
+                        }
+                    }
+                    for (var i = 0; i < (element.children || []).length; i++) {
+                        var childError = getExpressionValidationError(element.children[i]);
+                        if (childError) {
+                            return childError;
+                        }
+                    }
+                    return undefined;
+                }
+
                 $scope.saveChanges = function () {
                     bladeNavigationService.setError(null, blade);
+
+                    if (blade.currentEntity.dynamicExpression) {
+                        var validationError = getExpressionValidationError(blade.currentEntity.dynamicExpression);
+                        if (validationError) {
+                            bladeNavigationService.setError(validationError, blade);
+                            return;
+                        }
+                    }
+
                     blade.isLoading = true;
 
                     if (blade.currentEntity.dynamicExpression) {

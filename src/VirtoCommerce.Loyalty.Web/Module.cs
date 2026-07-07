@@ -99,6 +99,7 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<ILoyaltyMissionSearchService, LoyaltyMissionSearchService>();
         serviceCollection.AddTransient<ILoyaltyMissionGoalItemService, LoyaltyMissionGoalItemService>();
         serviceCollection.AddTransient<ILoyaltyMissionGoalItemSearchService, LoyaltyMissionGoalItemSearchService>();
+        serviceCollection.AddTransient<ILoyaltyMissionGoalItemListItemSearchService, LoyaltyMissionGoalItemListItemSearchService>();
         serviceCollection.AddTransient<ILoyaltyMissionProgressService, LoyaltyMissionProgressService>();
         serviceCollection.AddTransient<ILoyaltyMissionProgressSearchService, LoyaltyMissionProgressSearchService>();
         serviceCollection.AddTransient<ILoyaltyMissionTransactionService, LoyaltyMissionTransactionService>();
