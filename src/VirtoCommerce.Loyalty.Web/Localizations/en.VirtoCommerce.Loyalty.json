@@ -56,7 +56,8 @@
       "loyalty-program-operation-log-list": {
         "title": "Loyalty operation log",
         "commands": {
-          "open-loyalty-program": "Open program"
+          "open-loyalty-program": "Open program",
+          "open-details": "Open details" 
         },
         "labels": {
           "operation-type": "Operation",
