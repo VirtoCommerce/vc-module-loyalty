@@ -151,12 +151,16 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         var eventDate = order.CreatedDate == default ? DateTime.UtcNow : order.CreatedDate;
         var progress = await GetOrCreateProgressAsync(mission, goal, userId, eventDate, goalItems);
 
-        var wasCompleted = progress.Status.EqualsIgnoreCase(ModuleConstants.MissionProgressStatuses.Completed);
+        // An already completed mission no longer accumulates: skip logging the transaction and updating the progress.
+        if (progress.Status.EqualsIgnoreCase(ModuleConstants.MissionProgressStatuses.Completed))
+        {
+            return false;
+        }
 
         var contribution = ApplyContribution(progress, goal, order);
         UpdateMetrics(progress, goal, contribution, out var completed);
 
-        if (completed && !wasCompleted)
+        if (completed)
         {
             progress.Status = ModuleConstants.MissionProgressStatuses.Completed;
             progress.CompletedDate = DateTime.UtcNow;
@@ -175,7 +179,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
         await _progressService.SaveChangesAsync([progress]);
 
-        if (completed && !wasCompleted)
+        if (completed)
         {
             await GrantRewardAsync(mission, progress, userId);
         }
