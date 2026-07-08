@@ -17,6 +17,11 @@ public class LoyaltyMission : AuditableEntity, ICloneable
 
     public LocalizedString Description { get; set; }
 
+    /// <summary>
+    /// URL of the mission banner image.
+    /// </summary>
+    public string BannerUrl { get; set; }
+
     public string StoreId { get; set; }
 
     public DateTime? StartDate { get; set; }

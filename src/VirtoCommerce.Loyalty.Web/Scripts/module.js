@@ -109,6 +109,16 @@ angular.module(moduleName, [])
 
             widgetService.registerWidget(productDetailsloyaltyFactorsWidget, 'itemDetail');
 
+            var loyaltyMissionBannerWidget = {
+                controller: 'VirtoCommerce.Loyalty.loyaltyMissionBannerWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-mission-banner-widget.html',
+                isVisible: function (blade) {
+                    return !blade.isNew;
+                }
+            };
+
+            widgetService.registerWidget(loyaltyMissionBannerWidget, 'loyaltyMissionDetail');
+
             // Register meta fields
             metaFormsService.registerMetaFields('loyaltyProgramDetail', [
                 {

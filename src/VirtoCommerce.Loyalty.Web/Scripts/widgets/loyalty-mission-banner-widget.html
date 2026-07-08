@@ -1,0 +1,7 @@
+<div class="gridster-cnt" ng-click="openBlade()">
+  <div class="cnt-inner">
+    <i class="fas fa-image fa-2x fa-gray" ng-show="!blade.currentEntity.bannerUrl"></i>
+    <img style="height:47px;width:47px;object-fit:cover;" ng-show="blade.currentEntity.bannerUrl" fallback-src="{{ blade.currentEntity.bannerUrl }}" ng-src="{{ blade.currentEntity.bannerUrl | thumbnail: '_64x64' }}">
+    <div class="list-t">{{'Loyalty.widgets.loyalty-mission-banner.title' | translate}}</div>
+  </div>
+</div>
