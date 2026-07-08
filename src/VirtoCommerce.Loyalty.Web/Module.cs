@@ -1,6 +1,7 @@
 using System;
 using GraphQL;
 using GraphQL.MicrosoftDI;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using VirtoCommerce.CoreModule.Core.Conditions;
 using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Models;
+using VirtoCommerce.Loyalty.Core.Models.Missions;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.Data.Handlers;
 using VirtoCommerce.Loyalty.Data.MySql;
@@ -93,7 +95,19 @@ public class Module : IModule, IHasConfiguration
 
         serviceCollection.AddTransient<ILoyaltyPointsCalculator, LoyaltyPointsCalculator>();
 
+        serviceCollection.AddTransient<ILoyaltyMissionService, LoyaltyMissionService>();
+        serviceCollection.AddTransient<ILoyaltyMissionSearchService, LoyaltyMissionSearchService>();
+        serviceCollection.AddTransient<ILoyaltyMissionGoalItemService, LoyaltyMissionGoalItemService>();
+        serviceCollection.AddTransient<ILoyaltyMissionGoalItemSearchService, LoyaltyMissionGoalItemSearchService>();
+        serviceCollection.AddTransient<ILoyaltyMissionGoalItemListItemSearchService, LoyaltyMissionGoalItemListItemSearchService>();
+        serviceCollection.AddTransient<ILoyaltyMissionProgressService, LoyaltyMissionProgressService>();
+        serviceCollection.AddTransient<ILoyaltyMissionProgressSearchService, LoyaltyMissionProgressSearchService>();
+        serviceCollection.AddTransient<ILoyaltyMissionTransactionService, LoyaltyMissionTransactionService>();
+        serviceCollection.AddTransient<ILoyaltyMissionTransactionSearchService, LoyaltyMissionTransactionSearchService>();
+        serviceCollection.AddTransient<ILoyaltyMissionLogicService, LoyaltyMissionLogicService>();
+
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
+        serviceCollection.AddTransient<LoyaltyMissionHandler>();
 
         serviceCollection.AddTransient<LoyaltyPaymentMethod>();
 
@@ -136,8 +150,20 @@ public class Module : IModule, IHasConfiguration
             AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
         }
 
+        foreach (var conditionTree in AbstractTypeFactory<LoyaltyMissionConditionAndRewardTreePrototype>.TryCreateInstance().Traverse<IConditionTree>(x => x.AvailableChildren))
+        {
+            AbstractTypeFactory<IConditionTree>.RegisterType(conditionTree.GetType());
+        }
+
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<UserChangedEvent, LoyaltyProgramHandler>();
+        appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyMissionHandler>();
+
+        // Schedule expiration of incomplete mission progress for ended missions.
+        RecurringJob.AddOrUpdate<ILoyaltyMissionLogicService>(
+            "Loyalty.ExpireMissions",
+            x => x.ExpireMissionsAsync(),
+            Cron.Daily());
 
         // Register payment method
         var paymentMethodsRegistrar = appBuilder.ApplicationServices.GetRequiredService<IPaymentMethodsRegistrar>();

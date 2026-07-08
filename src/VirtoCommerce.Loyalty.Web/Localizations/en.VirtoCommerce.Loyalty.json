@@ -56,7 +56,8 @@
       "loyalty-program-operation-log-list": {
         "title": "Loyalty operation log",
         "commands": {
-          "open-loyalty-program": "Open program"
+          "open-loyalty-program": "Open program",
+          "open-details": "Open details" 
         },
         "labels": {
           "operation-type": "Operation",
@@ -118,6 +119,57 @@
           "mode": "Select loyalty mode",
           "currency": "Select loyalty currency"
         }
+      },
+      "loyalty-mission-list": {
+        "title": "Loyalty missions",
+        "labels": {
+          "name": "Name",
+          "status": "Status"
+        }
+      },
+      "loyalty-mission-details": {
+        "title": "Loyalty mission details",
+        "new-mission": "New loyalty mission",
+        "labels": {
+          "status": "Status",
+          "public": "Public",
+          "name": "Name",
+          "localized-names": "Localized names",
+          "localized-descriptions": "Localized descriptions",
+          "store": "Store",
+          "start-date": "Start date",
+          "end-date": "End date",
+          "mission": "Mission",
+          "immutable-note": "Only draft missions can be edited. Published or archived missions are read-only and cannot be changed.",
+          "show-more-languages": "Show more languages",
+          "show-less-languages": "Show less languages"
+        },
+        "placeholders": {
+          "store": "Select store",
+          "name": "Enter mission name"
+        },
+        "commands": {
+          "publish": "Publish",
+          "archive": "Archive"
+        }
+      },
+      "loyalty-mission-goal-item-list": {
+        "title": "Goal SKUs",
+        "select-products": "Select products",
+        "labels": {
+          "product-name": "Product name",
+          "product-code": "SKU",
+          "quantity": "Quantity",
+          "new": "New"
+        }
+      },
+      "loyalty-mission-banner": {
+        "title": "Mission banner",
+        "labels": {
+          "banner": "Banner image",
+          "hint": "PNG, JPG, GIF, SVG or WEBP",
+          "preview": "Preview"
+        }
       }
     },
     "widgets": {
@@ -129,6 +181,12 @@
       },
       "loyalty-product-factors": {
         "title": "Product factors"
+      },
+      "loyalty-mission-goal-items": {
+        "title": "Goal SKUs"
+      },
+      "loyalty-mission-banner": {
+        "title": "Banner"
       }
     },
     "dialogs": {
@@ -143,6 +201,30 @@
       "loyalty-program-save": {
         "title": "Save changes",
         "message": "Loyalty program was modified. Do you want to save changes?"
+      },
+      "loyalty-mission-delete": {
+        "title": "Delete loyalty mission",
+        "message": "Are you sure you want to delete the selected loyalty mission?"
+      },
+      "loyalty-mission-goal-item-delete": {
+        "title": "Delete goal SKUs",
+        "message": "Are you sure you want to delete the selected goal SKUs?"
+      },
+      "loyalty-mission-save": {
+        "title": "Save changes",
+        "message": "Loyalty mission was modified. Do you want to save changes?"
+      },
+      "loyalty-mission-publish": {
+        "title": "Publish mission",
+        "message": "After publishing the mission it cannot be changed. Do you want to publish the mission?"
+      },
+      "loyalty-mission-archive": {
+        "title": "Archive mission",
+        "message": "An archived mission can no longer be used and cannot be changed. Do you want to archive the mission?"
+      },
+      "loyalty-mission-banner-upload-filter": {
+        "title": "File type error",
+        "message": "Only PNG, JPG, GIF, SVG or WEBP files are allowed."
       }
     }
   },
@@ -170,6 +252,12 @@
       "DefaultProductMultiplyFactor": {
         "title": "Default product multiply factor",
         "description": "Default multiplier applied to a product price when calculating loyalty points if no per-product factor is configured"
+      },
+      "Missions": {
+        "Enable": {
+          "title": "Loyalty missions",
+          "description": "Enable/disable loyalty missions for the store"
+        }
       }
     }
   }

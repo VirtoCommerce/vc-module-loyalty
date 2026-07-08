@@ -19,4 +19,20 @@ public interface ILoyaltyRepository : IRepository
     IQueryable<LoyaltyProgramProductFactorEntity> LoyaltyProgramProductFactors { get; }
 
     Task<IList<LoyaltyProgramProductFactorEntity>> GetLoyaltyProgramProductFactorsByIdsAsync(IList<string> ids, string responseGroup);
+
+    IQueryable<LoyaltyMissionEntity> LoyaltyMissions { get; }
+
+    Task<IList<LoyaltyMissionEntity>> GetLoyaltyMissionsByIdsAsync(IList<string> ids, string responseGroup);
+
+    IQueryable<LoyaltyMissionGoalItemEntity> LoyaltyMissionGoalItems { get; }
+
+    Task<IList<LoyaltyMissionGoalItemEntity>> GetLoyaltyMissionGoalItemsByIdsAsync(IList<string> ids, string responseGroup);
+
+    IQueryable<LoyaltyMissionProgressEntity> LoyaltyMissionProgresses { get; }
+
+    Task<IList<LoyaltyMissionProgressEntity>> GetLoyaltyMissionProgressesByIdsAsync(IList<string> ids, string responseGroup);
+
+    IQueryable<LoyaltyMissionTransactionEntity> LoyaltyMissionTransactions { get; }
+
+    Task<IList<LoyaltyMissionTransactionEntity>> GetLoyaltyMissionTransactionsByIdsAsync(IList<string> ids, string responseGroup);
 }

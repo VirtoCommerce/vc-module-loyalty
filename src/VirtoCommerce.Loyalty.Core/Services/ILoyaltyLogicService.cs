@@ -17,6 +17,8 @@ public interface ILoyaltyLogicService
     Task<LoyaltyAmountResult> EvaluateLoyaltyProgramsAsync(LoyaltyProgramEvaluationContext loyaltyContext);
 
     Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult);
+
+    Task PopulateLoyaltyProgramEvaluationContextAsync(LoyaltyProgramEvaluationContext context);
 }
 
 public interface IProductLoyaltyProgramService

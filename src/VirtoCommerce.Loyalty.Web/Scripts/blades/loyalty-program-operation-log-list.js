@@ -1,8 +1,8 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyProgramOperationLogListController', [
         '$scope', 'platformWebApp.bladeUtils', 'platformWebApp.uiGridHelper', 'platformWebApp.ui-grid.extension',
-        'VirtoCommerce.Loyalty.loyaltyProgramOperationLogs',
-        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyProgramOperationLogs) {
+        'VirtoCommerce.Loyalty.loyaltyProgramOperationLogs', 'virtoCommerce.orderModule.knownOperations',
+        function ($scope, bladeUtils, uiGridHelper, gridOptionExtension, loyaltyProgramOperationLogs, knownOperations) {
             var blade = $scope.blade;
             var bladeNavigationService = bladeUtils.bladeNavigationService;
             blade.headIcon = 'fa fa-star';
@@ -31,17 +31,43 @@ angular.module('VirtoCommerce.Loyalty')
             $scope.selectNode = function (node) {
                 $scope.selectedNodeId = node.id;
 
-                var newBlade = {
-                    id: 'loyaltyProgramBlade',
-                    currentEntity: {
-                        id: node.loyaltyProgramId
-                    },
-                    currentEntityId: node.loyaltyProgramId,
-                    controller: 'VirtoCommerce.Loyalty.loyaltyProgramDetailsController',
-                    template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-details.html'
-                };
+                if (node.sourceType === 'LoyaltyMission') {
+                    var newBlade = {
+                        id: 'loyaltyMissionBlade',
+                        currentEntity: {
+                            id: node.sourceId
+                        },
+                        currentEntityId: node.sourceId,
+                        controller: 'VirtoCommerce.Loyalty.loyaltyMissionDetailsController',
+                        template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-mission-details.html'
+                    };
 
-                bladeNavigationService.showBlade(newBlade, blade);
+                    bladeNavigationService.showBlade(newBlade, blade);
+                }
+                else if (node.sourceType === 'LoyaltyProgram') {
+                    var newBlade = {
+                        id: 'loyaltyProgramBlade',
+                        currentEntity: {
+                            id: node.sourceId
+                        },
+                        currentEntityId: node.sourceId,
+                        controller: 'VirtoCommerce.Loyalty.loyaltyProgramDetailsController',
+                        template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-program-details.html'
+                    };
+
+                    bladeNavigationService.showBlade(newBlade, blade);
+                }
+                else if (node.objectType === 'CustomerOrder') {
+                    var foundTemplate = knownOperations.getOperation(node.objectType);
+                    if (foundTemplate) {
+                        var newBlade = angular.copy(foundTemplate.detailBlade);
+                        //if (blade.preloadedOrders || angular.isFunction(blade.refreshCallback)) {
+                        //    newBlade.id = 'preloadedOrderDetails';
+                        //}
+                        newBlade.customerOrder = { id: node.objectId };
+                        bladeNavigationService.showBlade(newBlade, blade);
+                    }
+                }
             };
 
             blade.toolbarCommands = [
@@ -55,7 +81,7 @@ angular.module('VirtoCommerce.Loyalty')
                 }
             ];
 
-            $scope.openLoyaltyProgram = function (node) {
+            $scope.openDetails = function (node) {
                 $scope.selectNode(node);
             };
 
