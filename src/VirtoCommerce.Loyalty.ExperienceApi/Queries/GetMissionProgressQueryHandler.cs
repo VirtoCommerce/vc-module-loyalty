@@ -1,36 +1,33 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Xapi.Core.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQuery, LoyaltyMissionProgressSearchResult>
+public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQuery, LoyaltyUserMissionSearchResult>
 {
-    private readonly ILoyaltyMissionProgressSearchService _missionProgressSearchService;
+    private readonly ILoyaltyMissionLogicService _missionLogicService;
 
-    public GetMissionProgressQueryHandler(ILoyaltyMissionProgressSearchService missionProgressSearchService)
+    public GetMissionProgressQueryHandler(ILoyaltyMissionLogicService missionLogicService)
     {
-        _missionProgressSearchService = missionProgressSearchService;
+        _missionLogicService = missionLogicService;
     }
 
-    public virtual async Task<LoyaltyMissionProgressSearchResult> Handle(GetMissionProgressQuery request, CancellationToken cancellationToken)
-    {
-        var criteria = GetSearchCriteria(request);
-
-        var searchResult = await _missionProgressSearchService.SearchAsync(criteria);
-
-        return searchResult;
-    }
-
-    protected virtual LoyaltyMissionProgressSearchCriteria GetSearchCriteria(GetMissionProgressQuery request)
+    public virtual async Task<LoyaltyUserMissionSearchResult> Handle(GetMissionProgressQuery request, CancellationToken cancellationToken)
     {
         var criteria = request.GetSearchCriteria<LoyaltyMissionProgressSearchCriteria>();
-        criteria.UserId = request.UserId;
-        criteria.Statuses = request.Statuses;
-        criteria.StoreId = request.StoreId;
 
-        return criteria;
+        // Qualifying published missions paired with the user's progress (transient 0% when not started).
+        var userMissions = await _missionLogicService.GetUserMissionsAsync(request.UserId, request.StoreId, request.Statuses);
+
+        var result = AbstractTypeFactory<LoyaltyUserMissionSearchResult>.TryCreateInstance();
+        result.TotalCount = userMissions.Count;
+        result.Results = userMissions.Skip(criteria.Skip).Take(criteria.Take).ToList();
+
+        return result;
     }
 }
