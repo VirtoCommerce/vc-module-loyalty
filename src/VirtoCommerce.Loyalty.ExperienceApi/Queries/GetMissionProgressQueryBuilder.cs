@@ -11,7 +11,7 @@ using VirtoCommerce.Xapi.Core.Security.Authorization;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetMissionProgressQueryBuilder : SearchQueryBuilder<GetMissionProgressQuery, LoyaltyMissionProgressSearchResult, LoyaltyMissionProgress, LoyaltyMissionProgressType>
+public class GetMissionProgressQueryBuilder : SearchQueryBuilder<GetMissionProgressQuery, LoyaltyUserMissionSearchResult, LoyaltyUserMission, LoyaltyUserMissionType>
 {
     protected override string Name => "loyaltyMissionProgress";
 

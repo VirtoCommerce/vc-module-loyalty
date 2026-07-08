@@ -10,7 +10,7 @@ using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.DistributedLock;
-using VirtoCommerce.Platform.Core.GenericCrud;
+using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.StoreModule.Core.Model;
 
@@ -125,6 +125,84 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
                 await _progressService.SaveChangesAsync(progresses);
             }
         }
+    }
+
+    public async Task<IList<LoyaltyUserMission>> GetUserMissionsAsync(string userId, string storeId, IList<string> statuses)
+    {
+        if (storeId.IsNullOrEmpty() || userId.IsNullOrEmpty())
+        {
+            return [];
+        }
+
+        // 1. Published missions of the store the user qualifies for.
+        var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
+        context.ContextObjectType = nameof(ApplicationUser);
+        context.UserId = userId;
+        context.StoreId = storeId;
+        await _loyaltyLogicService.PopulateLoyaltyProgramEvaluationContextAsync(context);
+
+        var missionCriteria = AbstractTypeFactory<LoyaltyMissionSearchCriteria>.TryCreateInstance();
+        missionCriteria.StoreIds = [storeId];
+        missionCriteria.OnlyActive = true;
+        missionCriteria.Take = 50;
+
+        var qualifyingMissions = new List<LoyaltyMission>();
+        await foreach (var batch in _missionSearchService.SearchBatchesNoCloneAsync(missionCriteria))
+        {
+            qualifyingMissions.AddRange(batch.Results
+                .Where(x => x.DynamicExpression?.IsSatisfiedBy(context) ?? false));
+        }
+
+        if (qualifyingMissions.Count == 0)
+        {
+            return [];
+        }
+
+        // 2. Progress records for the qualifying missions (all statuses; the status filter is applied on the result).
+        var progressByMissionId = new Dictionary<string, LoyaltyMissionProgress>(StringComparer.OrdinalIgnoreCase);
+        var progressCriteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
+        progressCriteria.UserId = userId;
+        progressCriteria.MissionIds = qualifyingMissions.Select(x => x.Id).ToArray();
+        progressCriteria.Take = 100;
+
+        await foreach (var batch in _progressSearchService.SearchBatchesNoCloneAsync(progressCriteria))
+        {
+            foreach (var progress in batch.Results)
+            {
+                progressByMissionId.TryAdd(progress.MissionId, progress);
+            }
+        }
+
+        // 3. Pair every qualifying mission with its progress (real or transient 0%).
+        var now = DateTime.UtcNow;
+        var result = new List<LoyaltyUserMission>();
+
+        foreach (var mission in qualifyingMissions)
+        {
+            var progress = progressByMissionId.GetValueOrDefault(mission.Id);
+
+            if (progress == null)
+            {
+                var goal = ExtractGoal(mission.DynamicExpression);
+                if (goal == null)
+                {
+                    continue;
+                }
+
+                var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
+                progress = CreateTransientProgress(mission, goal, userId, goalItems);
+            }
+
+            result.Add(new LoyaltyUserMission { Mission = mission, Progress = progress });
+        }
+
+        // 4. Apply the requested progress-status filter.
+        if (!statuses.IsNullOrEmpty())
+        {
+            result = result.Where(x => statuses.Contains(x.Progress.Status)).ToList();
+        }
+
+        return result;
     }
 
     private Task ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
@@ -331,6 +409,35 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         }
 
         return result;
+    }
+
+    private static LoyaltyMissionProgress CreateTransientProgress(LoyaltyMission mission, IMissionGoal goal, string userId, IList<LoyaltyMissionGoalItem> goalItems)
+    {
+        var (periodStart, periodEnd) = ResolvePeriod(mission, DateTime.UtcNow);
+
+        var progress = AbstractTypeFactory<LoyaltyMissionProgress>.TryCreateInstance();
+        progress.MissionId = mission.Id;
+        progress.UserId = userId;
+        progress.Status = ModuleConstants.MissionProgressStatuses.InProgress;
+        progress.PeriodStart = periodStart;
+        progress.PeriodEnd = periodEnd;
+        progress.CurrentValue = 0m;
+        progress.Percentage = 0m;
+        progress.TargetValue = ComputeTargetValue(goal, goalItems);
+
+        if (goal is PerSkuGoal)
+        {
+            progress.Items = goalItems
+                .Select(x => new LoyaltyMissionProgressItem
+                {
+                    ProductId = x.ProductId,
+                    TargetQuantity = x.Quantity,
+                    CurrentQuantity = 0,
+                })
+                .ToList();
+        }
+
+        return progress;
     }
 
     private static decimal ComputeTargetValue(IMissionGoal goal, IList<LoyaltyMissionGoalItem> goalItems)

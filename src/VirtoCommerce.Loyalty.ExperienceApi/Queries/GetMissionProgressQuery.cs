@@ -7,7 +7,7 @@ using VirtoCommerce.Xapi.Core.Extensions;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetMissionProgressQuery : SearchQuery<LoyaltyMissionProgressSearchResult>
+public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResult>
 {
     public string UserId { get; set; }
 
