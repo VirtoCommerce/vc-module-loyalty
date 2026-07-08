@@ -8,7 +8,12 @@ public class LoyaltyProgramOperationLogSearchCriteria : SearchCriteriaBase
 
     public string ObjectId { get; set; }
 
-    public string LoyaltyProgramId { get; set; }
+    // Is in base SearchCriteriaBase
+    //public string ObjectType { get; set; }
+
+    public string SourceType { get; set; }
+
+    public string SourceId { get; set; }
 
     public string OperationType { get; set; }
 }

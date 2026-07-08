@@ -7,7 +7,15 @@ public class LoyaltyProgramOperationLog : AuditableEntity, ICloneable
 {
     public string UserId { get; set; }
 
-    public string LoyaltyProgramId { get; set; }
+    /// <summary>
+    /// "LoyaltyProgram" or "LoyaltyMission"
+    /// </summary>
+    public string SourceType { get; set; }
+
+    /// <summary>
+    /// Id of the program or mission
+    /// </summary>
+    public string SourceId { get; set; }
 
     public string ObjectId { get; set; }
 

@@ -25,6 +25,23 @@ angular.module(moduleName, [])
                             bladeNavigationService.showBlade(newBlade);
                         }
                     ]
+                })
+                .state('workspace.LoyaltyMissionState', {
+                    url: '/loyalty-missions',
+                    templateUrl: '$(Platform)/Scripts/common/templates/home.tpl.html',
+                    controller: [
+                        'platformWebApp.bladeNavigationService',
+                        function (bladeNavigationService) {
+                            var newBlade = {
+                                id: 'loyaltyMissionList',
+                                controller: 'VirtoCommerce.Loyalty.loyaltyMissionListController',
+                                title: 'Loyalty.blades.loyalty-mission-list.title',
+                                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/blades/loyalty-mission-list.html',
+                                isClosingDisabled: true,
+                            };
+                            bladeNavigationService.showBlade(newBlade);
+                        }
+                    ]
                 });
         }
     ])
@@ -45,6 +62,16 @@ angular.module(moduleName, [])
                 permission: 'loyalty:access',
             };
             mainMenuService.addMenuItem(menuItem);
+
+            var missionsMenuItem = {
+                path: 'browse/loyalty-missions',
+                icon: 'fa fa-flag-checkered',
+                title: 'Loyalty.blades.loyalty-mission-list.title',
+                priority: 101,
+                action: function () { $state.go('workspace.LoyaltyMissionState'); },
+                permission: 'loyalty:access',
+            };
+            mainMenuService.addMenuItem(missionsMenuItem);
 
             // widgets
             var customerLoyaltyWidget = {
@@ -81,6 +108,16 @@ angular.module(moduleName, [])
             };
 
             widgetService.registerWidget(productDetailsloyaltyFactorsWidget, 'itemDetail');
+
+            var loyaltyMissionBannerWidget = {
+                controller: 'VirtoCommerce.Loyalty.loyaltyMissionBannerWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-mission-banner-widget.html',
+                isVisible: function (blade) {
+                    return !blade.isNew;
+                }
+            };
+
+            widgetService.registerWidget(loyaltyMissionBannerWidget, 'loyaltyMissionDetail');
 
             // Register meta fields
             metaFormsService.registerMetaFields('loyaltyProgramDetail', [
@@ -142,6 +179,52 @@ angular.module(moduleName, [])
                 }
             ]);
 
+            metaFormsService.registerMetaFields('loyaltyMissionDetail', [
+                {
+                    name: 'status',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.status',
+                    colSpan: 6,
+                    templateUrl: 'loyaltyMissionStatusSelector.html'
+                },
+                {
+                    name: 'name',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.name',
+                    placeholder: 'Loyalty.blades.loyalty-mission-details.placeholders.name',
+                    colSpan: 6,
+                    valueType: 'ShortText',
+                    isRequired: true
+                },
+                {
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.localized-names',
+                    placeholder: 'Loyalty.blades.loyalty-mission-details.placeholders.name',
+                    colSpan: 6,
+                    templateUrl: 'loyaltyMissionLocalizedName.html'
+                },
+                {
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.localized-descriptions',
+                    colSpan: 6,
+                    templateUrl: 'loyaltyMissionLocalizedDescription.html'
+                },
+                {
+                    name: 'storeId',
+                    colSpan: 6,
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.store',
+                    templateUrl: 'loyaltyMissionStoreSelector.html'
+                },
+                {
+                    name: 'startDate',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.start-date',
+                    colSpan: 3,
+                    valueType: 'DateTime'
+                },
+                {
+                    name: 'endDate',
+                    title: 'Loyalty.blades.loyalty-mission-details.labels.end-date',
+                    colSpan: 3,
+                    valueType: 'DateTime'
+                },
+            ]);
+
             // Register dynamic expression tree templates
             // Conditions
             const order = 'Order conditions';
@@ -151,7 +234,32 @@ angular.module(moduleName, [])
                 id: 'BlockLoyaltyCondition',
                 newChildLabel: 'Add condition',
                 getValidationError: function () {
-                    return (this.children && this.children.length) ? undefined : 'Your loyalty program must have at least one condition';
+                    var errorMessage = (this.children && this.children.length) ? undefined : 'Your loyalty program must have at least one condition';
+                    return errorMessage;
+                },
+            });
+
+            dynamicExpressionService.registerExpression({
+                id: 'BlockLoyaltyMissionCondition',
+                newChildLabel: 'Add condition',
+                getValidationError: function () {
+                    var errorMessage = (this.children && this.children.length) ? undefined : 'Your loyalty mission must have at least one condition';
+                    return errorMessage;
+                },
+            });
+
+            dynamicExpressionService.registerExpression({
+                id: 'BlockLoyaltyMissionGoals',
+                newChildLabel: 'Add goal',
+                getValidationError: function () {
+                    var goals = _.filter(this.children, function (child) { return !!child.missionType; });
+                    if (goals.length === 0) {
+                        return 'Your mission must have exactly one goal: order value, order count or SKU-based';
+                    }
+                    if (goals.length > 1) {
+                        return 'Your mission must have only one goal';
+                    }
+                    return undefined;
                 },
             });
 
@@ -208,6 +316,27 @@ angular.module(moduleName, [])
             dynamicExpressionService.registerExpression({
                 id: 'RelativeAmountReward',
                 displayName: 'Earn % of order value as points',
+            });
+
+            // Mission goals
+            const missionGoal = 'Mission goal';
+
+            dynamicExpressionService.registerExpression({
+                groupName: missionGoal,
+                id: 'OrderValueGoal',
+                displayName: 'Reach target order value',
+            });
+
+            dynamicExpressionService.registerExpression({
+                groupName: missionGoal,
+                id: 'OrderCountGoal',
+                displayName: 'Reach target number of orders',
+            });
+
+            dynamicExpressionService.registerExpression({
+                groupName: missionGoal,
+                id: 'PerSkuGoal',
+                displayName: 'Purchase target quantity of SKUs',
             });
 
             dynamicTemplateService.ensureTemplateLoaded('Modules/$(VirtoCommerce.Loyalty)/Scripts/dynamicConditions/templates.html');

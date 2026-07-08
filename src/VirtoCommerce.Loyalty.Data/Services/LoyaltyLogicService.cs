@@ -222,13 +222,14 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
             .GroupBy(x => x.LoyaltyProgram.Id)
             .Select(x => new LoyaltyAmountResult
             {
-                LoyaltyProgramId = x.Key,
+                SourceType = ModuleConstants.LoyaltySourceTypes.LoyaltyProgram,
+                SourceId = x.Key,
                 Amount = x.Sum(x => x.GetActualRewardAmount(loyaltyContext.OrderTotal))
             })
             .ToArray();
 
         var maxReward = summedRewardsByProgramId
-            .Where(x => maxPriotiryLoyaltyProgramIds.Contains(x.LoyaltyProgramId))
+            .Where(x => maxPriotiryLoyaltyProgramIds.Contains(x.SourceId))
             .OrderByDescending(x => x.Amount)
             .FirstOrDefault();
 
@@ -267,7 +268,8 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         operationLog.ObjectType = loyaltyContext.ContextObjectType;
         operationLog.ObjectId = loyaltyContext.ContextObjectId;
         operationLog.UserId = loyaltyContext.UserId;
-        operationLog.LoyaltyProgramId = loyaltyResult.LoyaltyProgramId;
+        operationLog.SourceType = loyaltyResult.SourceType;
+        operationLog.SourceId = loyaltyResult.SourceId;
         operationLog.Amount = loyaltyResult.Amount;
 
         var balance = await GetUserBalanceAsync(loyaltyContext.UserId);

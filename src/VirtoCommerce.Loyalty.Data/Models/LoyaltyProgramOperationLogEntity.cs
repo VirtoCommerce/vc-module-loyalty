@@ -31,9 +31,17 @@ public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<Loy
 
     public decimal Balance { get; set; }
 
+    /// <summary>
+    /// Type of the entity that produced this ledger entry: "LoyaltyProgram" or "LoyaltyMission".
+    /// </summary>
+    [StringLength(DbContextBase.Length128)]
+    public string SourceType { get; set; }
+
+    /// <summary>
+    /// Id of the program or mission that produced this ledger entry.
+    /// </summary>
     [StringLength(DbContextBase.IdLength)]
-    public string LoyaltyProgramId { get; set; }
-    public virtual LoyaltyProgramEntity LoyaltyProgram { get; set; }
+    public string SourceId { get; set; }
 
     public virtual LoyaltyProgramOperationLog ToModel(LoyaltyProgramOperationLog model)
     {
@@ -44,7 +52,8 @@ public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<Loy
         model.ModifiedDate = ModifiedDate;
 
         model.UserId = UserId;
-        model.LoyaltyProgramId = LoyaltyProgramId;
+        model.SourceType = SourceType;
+        model.SourceId = SourceId;
         model.ObjectId = ObjectId;
         model.ObjectType = ObjectType;
         model.OperationType = OperationType;
@@ -65,7 +74,8 @@ public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<Loy
         ModifiedDate = model.ModifiedDate;
 
         UserId = model.UserId;
-        LoyaltyProgramId = model.LoyaltyProgramId;
+        SourceType = model.SourceType;
+        SourceId = model.SourceId;
         ObjectId = model.ObjectId;
         ObjectType = model.ObjectType;
         OperationType = model.OperationType;

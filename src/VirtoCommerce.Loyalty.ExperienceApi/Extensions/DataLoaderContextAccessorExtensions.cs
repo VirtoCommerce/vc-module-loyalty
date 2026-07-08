@@ -12,6 +12,7 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Extensions;
 
 public static class DataLoaderContextAccessorExtensions
 {
+
     public static IDataLoaderResult<LoyaltyOperationLogObject> LoadLoyaltyObject(
     this IDataLoaderContextAccessor dataLoader,
     ICustomerOrderService customerOrderService,

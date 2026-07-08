@@ -17,10 +17,334 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.7")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("BannerUrl")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Periodicity")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("PredicateVisualTreeSerialized")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Public")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("StoreId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoyaltyMission", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionGoalItemEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MissionId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MissionId", "ProductId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyMissionGoalItem_MissionId_ProductId");
+
+                    b.ToTable("LoyaltyMissionGoalItem", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionLocalizedDescriptionEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("LanguageCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<string>("ParentEntityId")
+                        .IsRequired()
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentEntityId");
+
+                    b.HasIndex("LanguageCode", "ParentEntityId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyMissionLocalizedDescription_LanguageCode_ParentEntityId");
+
+                    b.ToTable("LoyaltyMissionLocalizedDescription", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionLocalizedNameEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("LanguageCode")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<string>("ParentEntityId")
+                        .IsRequired()
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentEntityId");
+
+                    b.HasIndex("LanguageCode", "ParentEntityId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyMissionLocalizedName_LanguageCode_ParentEntityId");
+
+                    b.ToTable("LoyaltyMissionLocalizedName", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime?>("CompletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("CurrentValue")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("MissionId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Percentage")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
+
+                    b.Property<DateTime?>("PeriodEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("PeriodStart")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<decimal>("TargetValue")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MissionId", "UserId", "PeriodStart")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyMissionProgress_MissionId_UserId_PeriodStart");
+
+                    b.ToTable("LoyaltyMissionProgress", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressItemEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("CurrentQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MissionProgressId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("TargetQuantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MissionProgressId", "ProductId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyMissionProgressItem_MissionProgressId_ProductId");
+
+                    b.ToTable("LoyaltyMissionProgressItem", (string)null);
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionTransactionEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<decimal>("ContributionValue")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MissionId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("MissionProgressId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ObjectId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ObjectType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MissionProgressId")
+                        .HasDatabaseName("IX_LoyaltyMissionTransaction_MissionProgressId");
+
+                    b.HasIndex("MissionId", "ObjectId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_LoyaltyMissionTransaction_MissionId_ObjectId_UserId");
+
+                    b.ToTable("LoyaltyMissionTransaction", (string)null);
+                });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
                 {
@@ -129,10 +453,6 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("LoyaltyProgramId")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
@@ -155,6 +475,14 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
+                    b.Property<string>("SourceId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("SourceType")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -162,7 +490,8 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LoyaltyProgramId");
+                    b.HasIndex("SourceType", "SourceId")
+                        .HasDatabaseName("IX_LoyaltyProgramOperationLog_SourceType_SourceId");
 
                     b.HasIndex("ObjectId", "ObjectType", "OperationType")
                         .IsUnique()
@@ -215,6 +544,72 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                     b.ToTable("LoyaltyProgramProductFactor", (string)null);
                 });
 
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionGoalItemEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", "Mission")
+                        .WithMany()
+                        .HasForeignKey("MissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mission");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionLocalizedDescriptionEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", "ParentEntity")
+                        .WithMany("LocalizedDescriptions")
+                        .HasForeignKey("ParentEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParentEntity");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionLocalizedNameEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", "ParentEntity")
+                        .WithMany("LocalizedNames")
+                        .HasForeignKey("ParentEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParentEntity");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", "Mission")
+                        .WithMany()
+                        .HasForeignKey("MissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mission");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressItemEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", "MissionProgress")
+                        .WithMany("Items")
+                        .HasForeignKey("MissionProgressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MissionProgress");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionTransactionEntity", b =>
+                {
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", "Mission")
+                        .WithMany()
+                        .HasForeignKey("MissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mission");
+                });
+
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
                 {
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "ParentEntity")
@@ -226,16 +621,6 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                     b.Navigation("ParentEntity");
                 });
 
-            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramOperationLogEntity", b =>
-                {
-                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
-                        .WithMany()
-                        .HasForeignKey("LoyaltyProgramId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("LoyaltyProgram");
-                });
-
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramProductFactorEntity", b =>
                 {
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", "LoyaltyProgram")
@@ -245,6 +630,18 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                         .IsRequired();
 
                     b.Navigation("LoyaltyProgram");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", b =>
+                {
+                    b.Navigation("LocalizedDescriptions");
+
+                    b.Navigation("LocalizedNames");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>
