@@ -11,7 +11,7 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyMissionProgressSearchR
 {
     public string UserId { get; set; }
 
-    public string Status { get; set; }
+    public IList<string> Statuses { get; set; }
 
     public string StoreId { get; set; }
 
@@ -25,7 +25,7 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyMissionProgressSearchR
         }
 
         yield return Argument<StringGraphType>(nameof(UserId));
-        yield return Argument<StringGraphType>(nameof(Status));
+        yield return Argument<ListGraphType<StringGraphType>>(nameof(Statuses));
         yield return Argument<StringGraphType>(nameof(StoreId));
         yield return Argument<StringGraphType>(nameof(CultureName));
     }
@@ -35,7 +35,7 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyMissionProgressSearchR
         base.Map(context);
 
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
-        Status = context.GetArgument<string>(nameof(Status));
+        Statuses = context.GetArgument<IList<string>>(nameof(Statuses));
         StoreId = context.GetArgument<string>(nameof(StoreId));
         CultureName = context.GetArgument<string>(nameof(CultureName));
     }

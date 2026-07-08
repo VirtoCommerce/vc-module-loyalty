@@ -43,9 +43,9 @@ public class LoyaltyMissionProgressSearchService(
             query = query.Where(x => x.UserId == criteria.UserId);
         }
 
-        if (!criteria.Status.IsNullOrEmpty())
+        if (!criteria.Statuses.IsNullOrEmpty())
         {
-            query = query.Where(x => x.Status == criteria.Status);
+            query = query.Where(x => criteria.Statuses.Contains(x.Status));
         }
 
         if (!criteria.StoreId.IsNullOrEmpty())

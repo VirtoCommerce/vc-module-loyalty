@@ -102,17 +102,6 @@ angular.module(moduleName, [])
 
             widgetService.registerWidget(loyaltyProductFactorsWidget, 'loyaltyDetail');
 
-            var loyaltyMissionGoalItemsWidget = {
-                controller: 'VirtoCommerce.Loyalty.loyaltyMissionGoalItemsWidgetController',
-                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-mission-goal-items-widget.html',
-                isVisible: function (blade) {
-                    return !blade.isNew;
-                }
-            };
-
-            // temp disable 
-            //widgetService.registerWidget(loyaltyMissionGoalItemsWidget, 'loyaltyMissionDetail');
-
             var productDetailsloyaltyFactorsWidget = {
                 controller: 'VirtoCommerce.Loyalty.productDetailsLoyaltyFactorsWidgetController',
                 template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/product-details-loyalty-factors-widget.html'
@@ -187,12 +176,6 @@ angular.module(moduleName, [])
                     colSpan: 6,
                     templateUrl: 'loyaltyMissionStatusSelector.html'
                 },
-                //{
-                //    name: 'public',
-                //    title: 'Loyalty.blades.loyalty-mission-details.labels.public',
-                //    colSpan: 3,
-                //    valueType: 'Boolean'
-                //},
                 {
                     name: 'name',
                     title: 'Loyalty.blades.loyalty-mission-details.labels.name',

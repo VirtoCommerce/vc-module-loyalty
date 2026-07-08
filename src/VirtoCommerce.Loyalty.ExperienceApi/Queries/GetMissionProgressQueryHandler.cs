@@ -28,7 +28,7 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
     {
         var criteria = request.GetSearchCriteria<LoyaltyMissionProgressSearchCriteria>();
         criteria.UserId = request.UserId;
-        criteria.Status = request.Status;
+        criteria.Statuses = request.Statuses;
         criteria.StoreId = request.StoreId;
 
         return criteria;
