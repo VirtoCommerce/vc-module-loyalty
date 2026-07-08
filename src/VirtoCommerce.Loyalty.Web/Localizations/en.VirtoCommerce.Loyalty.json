@@ -162,6 +162,14 @@
           "quantity": "Quantity",
           "new": "New"
         }
+      },
+      "loyalty-mission-banner": {
+        "title": "Mission banner",
+        "labels": {
+          "banner": "Banner image",
+          "hint": "PNG, JPG, GIF, SVG or WEBP",
+          "preview": "Preview"
+        }
       }
     },
     "widgets": {
@@ -176,6 +184,9 @@
       },
       "loyalty-mission-goal-items": {
         "title": "Goal SKUs"
+      },
+      "loyalty-mission-banner": {
+        "title": "Banner"
       }
     },
     "dialogs": {
@@ -210,6 +221,10 @@
       "loyalty-mission-archive": {
         "title": "Archive mission",
         "message": "An archived mission can no longer be used and cannot be changed. Do you want to archive the mission?"
+      },
+      "loyalty-mission-banner-upload-filter": {
+        "title": "File type error",
+        "message": "Only PNG, JPG, GIF, SVG or WEBP files are allowed."
       }
     }
   },

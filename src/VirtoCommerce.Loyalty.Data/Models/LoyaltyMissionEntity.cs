@@ -28,6 +28,9 @@ public class LoyaltyMissionEntity : AuditableEntity, IDataEntity<LoyaltyMissionE
     public ObservableCollection<LoyaltyMissionLocalizedDescriptionEntity> LocalizedDescriptions { get; set; }
         = new NullCollection<LoyaltyMissionLocalizedDescriptionEntity>();
 
+    [StringLength(DbContextBase.Length2048)]
+    public string BannerUrl { get; set; }
+
     [StringLength(DbContextBase.IdLength)]
     public string StoreId { get; set; }
 
@@ -52,6 +55,7 @@ public class LoyaltyMissionEntity : AuditableEntity, IDataEntity<LoyaltyMissionE
 
         model.Status = Status;
         model.Name = Name;
+        model.BannerUrl = BannerUrl;
         model.StoreId = StoreId;
         model.StartDate = StartDate;
         model.EndDate = EndDate;
@@ -96,6 +100,7 @@ public class LoyaltyMissionEntity : AuditableEntity, IDataEntity<LoyaltyMissionE
 
         Status = model.Status;
         Name = model.Name;
+        BannerUrl = model.BannerUrl;
         StoreId = model.StoreId;
         StartDate = model.StartDate;
         EndDate = model.EndDate;
@@ -138,6 +143,7 @@ public class LoyaltyMissionEntity : AuditableEntity, IDataEntity<LoyaltyMissionE
     {
         target.Status = Status;
         target.Name = Name;
+        target.BannerUrl = BannerUrl;
         target.StoreId = StoreId;
         target.StartDate = StartDate;
         target.EndDate = EndDate;
