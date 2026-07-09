@@ -111,10 +111,7 @@ angular.module(moduleName, [])
 
             var loyaltyMissionBannerWidget = {
                 controller: 'VirtoCommerce.Loyalty.loyaltyMissionBannerWidgetController',
-                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-mission-banner-widget.html',
-                isVisible: function (blade) {
-                    return !blade.isNew;
-                }
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-mission-banner-widget.html'
             };
 
             widgetService.registerWidget(loyaltyMissionBannerWidget, 'loyaltyMissionDetail');
