@@ -30,6 +30,8 @@ public class GetLoyaltyHistoryQueryHandler : IQueryHandler<GetLoyaltyHistoryQuer
         var criteria = request.GetSearchCriteria<LoyaltyProgramOperationLogSearchCriteria>();
         criteria.UserId = request.UserId;
         criteria.OperationType = request.OperationType;
+        criteria.ObjectId = request.ObjectId;
+        criteria.ObjectType = request.ObjectType;
 
         return criteria;
     }

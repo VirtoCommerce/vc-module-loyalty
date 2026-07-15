@@ -13,6 +13,10 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyProgramOperationLogSear
 
     public string OperationType { get; set; }
 
+    public string ObjectId { get; set; }
+
+    public string ObjectType { get; set; }
+
     public override IEnumerable<QueryArgument> GetArguments()
     {
         foreach (var argument in base.GetArguments())
@@ -22,6 +26,8 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyProgramOperationLogSear
 
         yield return Argument<StringGraphType>(nameof(UserId));
         yield return Argument<StringGraphType>(nameof(OperationType));
+        yield return Argument<StringGraphType>(nameof(ObjectId));
+        yield return Argument<StringGraphType>(nameof(ObjectType));
     }
 
     public override void Map(IResolveFieldContext context)
@@ -30,5 +36,7 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyProgramOperationLogSear
 
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
         OperationType = context.GetArgument<string>(nameof(OperationType));
+        ObjectId = context.GetArgument<string>(nameof(ObjectId));
+        ObjectType = context.GetArgument<string>(nameof(ObjectType));
     }
 }
