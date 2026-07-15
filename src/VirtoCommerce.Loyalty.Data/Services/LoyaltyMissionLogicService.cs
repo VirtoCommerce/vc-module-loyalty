@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.CoreModule.Core.Conditions;
+using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core;
+using VirtoCommerce.Loyalty.Core.Extensions;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Models.Missions;
 using VirtoCommerce.Loyalty.Core.Services;
@@ -13,6 +15,7 @@ using VirtoCommerce.Platform.Core.DistributedLock;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.StoreModule.Core.Model;
+using VirtoCommerce.StoreModule.Core.Services;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
@@ -26,6 +29,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
     private readonly ILoyaltyMissionTransactionSearchService _transactionSearchService;
     private readonly ILoyaltyLogicService _loyaltyLogicService;
     private readonly IDistributedLockService _distributedLockService;
+    private readonly IStoreService _storeService;
+    private readonly ICurrencyService _currencyService;
 
     public LoyaltyMissionLogicService(
         ILoyaltyMissionSearchService missionSearchService,
@@ -35,7 +40,9 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         ILoyaltyMissionTransactionService transactionService,
         ILoyaltyMissionTransactionSearchService transactionSearchService,
         ILoyaltyLogicService loyaltyLogicService,
-        IDistributedLockService distributedLockService)
+        IDistributedLockService distributedLockService,
+        IStoreService storeService,
+        ICurrencyService currencyService)
     {
         _missionSearchService = missionSearchService;
         _goalItemSearchService = goalItemSearchService;
@@ -45,6 +52,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         _transactionSearchService = transactionSearchService;
         _loyaltyLogicService = loyaltyLogicService;
         _distributedLockService = distributedLockService;
+        _storeService = storeService;
+        _currencyService = currencyService;
     }
 
     public async Task ProcessOrderAsync(CustomerOrder order, Store store)
@@ -173,27 +182,42 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             }
         }
 
-        // 3. Pair every qualifying mission with its progress (real or transient 0%).
-        var now = DateTime.UtcNow;
+        // 3. Resolve the store currencies used to format the money values (once for all missions).
+        var store = await _storeService.GetNoCloneAsync(storeId);
+        var currencies = await _currencyService.GetAllCurrenciesAsync();
+        var mainCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(store?.DefaultCurrency));
+        var pointsCurrencyCode = store?.GetLoyaltyCurrencyCode();
+        var pointsCurrency = pointsCurrencyCode.IsNullOrEmpty()
+            ? null
+            : currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(pointsCurrencyCode));
+
+        // 4. Pair every qualifying mission with its progress (real or transient 0%).
         var result = new List<LoyaltyUserMission>();
 
         foreach (var mission in qualifyingMissions)
         {
-            var progress = progressByMissionId.GetValueOrDefault(mission.Id);
+            var goal = ExtractGoal(mission.DynamicExpression);
+            if (goal == null)
+            {
+                continue;
+            }
 
+            var progress = progressByMissionId.GetValueOrDefault(mission.Id);
             if (progress == null)
             {
-                var goal = ExtractGoal(mission.DynamicExpression);
-                if (goal == null)
-                {
-                    continue;
-                }
-
                 var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
                 progress = CreateTransientProgress(mission, goal, userId, goalItems);
             }
 
-            result.Add(new LoyaltyUserMission { Mission = mission, Progress = progress });
+            result.Add(new LoyaltyUserMission
+            {
+                Mission = mission,
+                Progress = progress,
+                MissionType = goal.MissionType,
+                RewardPoints = GetRewardAmount(mission.DynamicExpression),
+                MissionCurrency = mainCurrency,
+                PointsCurrency = pointsCurrency,
+            });
         }
 
         // 4. Apply the requested progress-status filter.
@@ -361,9 +385,14 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         }
     }
 
+    private static decimal GetRewardAmount(LoyaltyMissionConditionAndRewardTree tree)
+    {
+        return tree?.GetLoyaltyRewards()?.Sum(x => x.GetActualRewardAmount(0m)) ?? 0m;
+    }
+
     private async Task GrantRewardAsync(LoyaltyMission mission, LoyaltyMissionProgress progress, string userId)
     {
-        var amount = mission.DynamicExpression?.GetLoyaltyRewards()?.Sum(x => x.GetActualRewardAmount(0m)) ?? 0m;
+        var amount = GetRewardAmount(mission.DynamicExpression);
         if (amount <= 0)
         {
             return;

@@ -1,5 +1,6 @@
-using GraphQL;
+using System;
 using GraphQL.Types;
+using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Xapi.Core.Extensions;
 using VirtoCommerce.Xapi.Core.Schemas;
@@ -52,6 +53,34 @@ public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
         Field<DateTimeGraphType>("endDate")
             .Description("The mission end date.")
             .Resolve(context => context.Source.Mission?.EndDate);
+
+        Field<StringGraphType>("missionType")
+            .Description("The mission type: OrderValue, OrderCount or PerSku.")
+            .Resolve(context => context.Source.MissionType);
+
+        Field<MoneyType>("rewardPoints")
+            .Description("The loyalty points granted on completion.")
+            .Resolve(context => context.Source.PointsCurrency == null
+                ? null
+                : new Money(context.Source.RewardPoints, context.Source.PointsCurrency));
+
+        Field<CurrencyType>("missionCurrency")
+            .Description("The store main currency used to format the target/current money values.")
+            .Resolve(context => context.Source.MissionCurrency);
+
+        Field<IntGraphType>("daysRemaining")
+            .Description("Whole days left until the mission ends. Null when the mission has no end date.")
+            .Resolve(context =>
+            {
+                var endDate = context.Source.Mission?.EndDate;
+                if (endDate == null)
+                {
+                    return null;
+                }
+
+                var days = (int)Math.Ceiling((endDate.Value - DateTime.UtcNow).TotalDays);
+                return days < 0 ? 0 : days;
+            });
 
         // Progress fields
         Field<StringGraphType>("progressId")
