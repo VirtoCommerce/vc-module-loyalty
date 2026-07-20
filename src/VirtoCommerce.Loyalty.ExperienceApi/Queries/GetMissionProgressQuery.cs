@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GraphQL;
 using GraphQL.Types;
@@ -17,6 +18,21 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
 
     public string CultureName { get; set; }
 
+    /// <summary>
+    /// Optional lower bound for the mission CompletedDate filter.
+    /// </summary>
+    public DateTime? CompletedStartDate { get; set; }
+
+    /// <summary>
+    /// Optional upper bound for the mission CompletedDate filter.
+    /// </summary>
+    public DateTime? CompletedEndDate { get; set; }
+
+    /// <summary>
+    /// Optional filter by whether the user has started the mission (true = started, false = not started yet).
+    /// </summary>
+    public bool? IsStarted { get; set; }
+
     public override IEnumerable<QueryArgument> GetArguments()
     {
         foreach (var argument in base.GetArguments())
@@ -28,6 +44,9 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         yield return Argument<ListGraphType<StringGraphType>>(nameof(Statuses));
         yield return Argument<StringGraphType>(nameof(StoreId));
         yield return Argument<StringGraphType>(nameof(CultureName));
+        yield return Argument<DateTimeGraphType>(nameof(CompletedStartDate));
+        yield return Argument<DateTimeGraphType>(nameof(CompletedEndDate));
+        yield return Argument<BooleanGraphType>(nameof(IsStarted));
     }
 
     public override void Map(IResolveFieldContext context)
@@ -38,5 +57,8 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         Statuses = context.GetArgument<IList<string>>(nameof(Statuses));
         StoreId = context.GetArgument<string>(nameof(StoreId));
         CultureName = context.GetArgument<string>(nameof(CultureName));
+        CompletedStartDate = context.GetArgument<DateTime?>(nameof(CompletedStartDate));
+        CompletedEndDate = context.GetArgument<DateTime?>(nameof(CompletedEndDate));
+        IsStarted = context.GetArgument<bool?>(nameof(IsStarted));
     }
 }

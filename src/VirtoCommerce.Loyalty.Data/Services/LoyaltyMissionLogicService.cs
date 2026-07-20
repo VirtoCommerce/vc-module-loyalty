@@ -136,7 +136,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         }
     }
 
-    public async Task<IList<LoyaltyUserMission>> GetUserMissionsAsync(string userId, string storeId, IList<string> statuses)
+    public async Task<IList<LoyaltyUserMission>> GetUserMissionsAsync(string userId, string storeId, IList<string> statuses, DateTime? completedStartDate = null, DateTime? completedEndDate = null, bool? isStarted = null)
     {
         if (storeId.IsNullOrEmpty() || userId.IsNullOrEmpty())
         {
@@ -220,10 +220,27 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             });
         }
 
-        // 4. Apply the requested progress-status filter.
+        // 5. Apply the requested progress-status filter.
         if (!statuses.IsNullOrEmpty())
         {
             result = result.Where(x => statuses.Contains(x.Progress.Status)).ToList();
+        }
+
+        // 6. Apply the CompletedDate range filter (keeps only missions completed within the range).
+        if (completedStartDate != null)
+        {
+            result = result.Where(x => x.Progress.CompletedDate != null && x.Progress.CompletedDate >= completedStartDate).ToList();
+        }
+
+        if (completedEndDate != null)
+        {
+            result = result.Where(x => x.Progress.CompletedDate != null && x.Progress.CompletedDate <= completedEndDate).ToList();
+        }
+
+        // 7. Apply the started/not-started filter (started = a real progress record exists).
+        if (isStarted != null)
+        {
+            result = result.Where(x => !string.IsNullOrEmpty(x.Progress.Id) == isStarted.Value).ToList();
         }
 
         return result;

@@ -22,7 +22,7 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
         var criteria = request.GetSearchCriteria<LoyaltyMissionProgressSearchCriteria>();
 
         // Qualifying published missions paired with the user's progress (transient 0% when not started).
-        var userMissions = await _missionLogicService.GetUserMissionsAsync(request.UserId, request.StoreId, request.Statuses);
+        var userMissions = await _missionLogicService.GetUserMissionsAsync(request.UserId, request.StoreId, request.Statuses, request.CompletedStartDate, request.CompletedEndDate, request.IsStarted);
 
         var result = AbstractTypeFactory<LoyaltyUserMissionSearchResult>.TryCreateInstance();
         result.TotalCount = userMissions.Count;
