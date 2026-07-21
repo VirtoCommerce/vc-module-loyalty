@@ -213,7 +213,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             {
                 Mission = mission,
                 Progress = progress,
-                MissionType = goal.MissionType,
+                Store = store,
+                MissionType = ResolveMissionType(goal),
                 RewardPoints = GetRewardAmount(mission.DynamicExpression),
                 MissionCurrency = mainCurrency,
                 PointsCurrency = pointsCurrency,
@@ -344,6 +345,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             progress.Items = goalItems
                 .Select(x => new LoyaltyMissionProgressItem
                 {
+                    MissionId = mission.Id,
                     MissionProgressId = progress.Id,
                     ProductId = x.ProductId,
                     TargetQuantity = x.Quantity,
@@ -405,6 +407,14 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
     private static decimal GetRewardAmount(LoyaltyMissionConditionAndRewardTree tree)
     {
         return tree?.GetLoyaltyRewards()?.Sum(x => x.GetActualRewardAmount(0m)) ?? 0m;
+    }
+
+    // PerSku is reported as PerSkuAll / PerSkuAny depending on the goal completion mode.
+    private static string ResolveMissionType(IMissionGoal goal)
+    {
+        return goal is PerSkuGoal perSkuGoal
+            ? (perSkuGoal.All ? ModuleConstants.MissionTypes.PerSkuAll : ModuleConstants.MissionTypes.PerSkuAny)
+            : goal.MissionType;
     }
 
     private async Task GrantRewardAsync(LoyaltyMission mission, LoyaltyMissionProgress progress, string userId)
@@ -476,6 +486,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             progress.Items = goalItems
                 .Select(x => new LoyaltyMissionProgressItem
                 {
+                    MissionId = mission.Id,
                     ProductId = x.ProductId,
                     TargetQuantity = x.Quantity,
                     CurrentQuantity = 0,

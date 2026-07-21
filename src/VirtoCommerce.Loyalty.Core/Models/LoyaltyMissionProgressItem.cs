@@ -7,6 +7,8 @@ namespace VirtoCommerce.Loyalty.Core.Models;
 /// </summary>
 public class LoyaltyMissionProgressItem : ICloneable
 {
+    public string MissionId { get; set; }
+
     public string MissionProgressId { get; set; }
 
     public string ProductId { get; set; }

@@ -19,17 +19,17 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
     public string CultureName { get; set; }
 
     /// <summary>
-    /// Optional lower bound for the mission CompletedDate filter.
+    /// Optional lower bound for the mission CompletedDate filter
     /// </summary>
     public DateTime? CompletedStartDate { get; set; }
 
     /// <summary>
-    /// Optional upper bound for the mission CompletedDate filter.
+    /// Optional upper bound for the mission CompletedDate filter
     /// </summary>
     public DateTime? CompletedEndDate { get; set; }
 
     /// <summary>
-    /// Optional filter by whether the user has started the mission (true = started, false = not started yet).
+    /// Optional filter by whether the user has started the mission (true = started, false = not started yet)
     /// </summary>
     public bool? IsStarted { get; set; }
 
@@ -40,25 +40,25 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
             yield return argument;
         }
 
-        yield return Argument<StringGraphType>(nameof(UserId));
+        yield return Argument<NonNullGraphType<StringGraphType>>(nameof(StoreId));
         yield return Argument<ListGraphType<StringGraphType>>(nameof(Statuses));
-        yield return Argument<StringGraphType>(nameof(StoreId));
-        yield return Argument<StringGraphType>(nameof(CultureName));
         yield return Argument<DateTimeGraphType>(nameof(CompletedStartDate));
         yield return Argument<DateTimeGraphType>(nameof(CompletedEndDate));
+        yield return Argument<StringGraphType>(nameof(CultureName));
         yield return Argument<BooleanGraphType>(nameof(IsStarted));
+        yield return Argument<StringGraphType>(nameof(UserId));
     }
 
     public override void Map(IResolveFieldContext context)
     {
         base.Map(context);
 
-        UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
-        Statuses = context.GetArgument<IList<string>>(nameof(Statuses));
         StoreId = context.GetArgument<string>(nameof(StoreId));
-        CultureName = context.GetArgument<string>(nameof(CultureName));
+        Statuses = context.GetArgument<IList<string>>(nameof(Statuses));
         CompletedStartDate = context.GetArgument<DateTime?>(nameof(CompletedStartDate));
         CompletedEndDate = context.GetArgument<DateTime?>(nameof(CompletedEndDate));
+        CultureName = context.GetArgument<string>(nameof(CultureName));
         IsStarted = context.GetArgument<bool?>(nameof(IsStarted));
+        UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
     }
 }

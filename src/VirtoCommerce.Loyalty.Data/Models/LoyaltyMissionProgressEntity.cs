@@ -62,6 +62,7 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
             model.Items = Items
                 .Select(x => new LoyaltyMissionProgressItem
                 {
+                    MissionId = MissionId,
                     MissionProgressId = x.MissionProgressId,
                     ProductId = x.ProductId,
                     CurrentQuantity = x.CurrentQuantity,

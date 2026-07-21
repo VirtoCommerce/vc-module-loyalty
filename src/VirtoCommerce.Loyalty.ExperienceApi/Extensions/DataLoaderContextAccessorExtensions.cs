@@ -3,15 +3,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.DataLoader;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Security;
+using VirtoCommerce.Xapi.Core.Extensions;
+using VirtoCommerce.XCatalog.Core.Models;
+using VirtoCommerce.XCatalog.Core.Queries;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Extensions;
 
 public static class DataLoaderContextAccessorExtensions
 {
+
+    private static readonly DataLoaderResult<ExpProduct> _defaultProductResult = new((ExpProduct)null);
 
     public static IDataLoaderResult<LoyaltyOperationLogObject> LoadLoyaltyObject(
     this IDataLoaderContextAccessor dataLoader,
@@ -20,7 +28,7 @@ public static class DataLoaderContextAccessorExtensions
     string objectId,
     string objectType)
     {
-        var loader = dataLoader.GetDataLoader(customerOrderService, loaderKey);
+        var loader = dataLoader.GetLoyaltyOrderDataLoader(customerOrderService, loaderKey);
 
         return objectType switch
         {
@@ -33,7 +41,7 @@ public static class DataLoaderContextAccessorExtensions
         };
     }
 
-    public static IDataLoader<string, LoyaltyOperationLogObject> GetDataLoader(
+    public static IDataLoader<string, LoyaltyOperationLogObject> GetLoyaltyOrderDataLoader(
         this IDataLoaderContextAccessor dataLoader,
         ICustomerOrderService customerOrderService,
         string loaderKey)
@@ -54,6 +62,68 @@ public static class DataLoaderContextAccessorExtensions
             }
 
             return result;
+        });
+
+        return loader;
+    }
+
+    public static IDataLoaderResult<ExpProduct> LoadProduct(
+        this IDataLoaderContextAccessor dataLoader,
+        IResolveFieldContext<LoyaltyMissionProgressItem> context,
+        string loaderKey,
+        string productId)
+    {
+        if (string.IsNullOrEmpty(productId))
+        {
+            return _defaultProductResult;
+        }
+
+        var mediator = context.RequestServices.GetRequiredService<IMediator>();
+        var currencyService = context.RequestServices.GetRequiredService<ICurrencyService>();
+
+        var loader = dataLoader.GetProductDataLoader(context, mediator, currencyService, loaderKey);
+
+        return loader.LoadAsync(productId);
+    }
+
+    public static IDataLoader<string, ExpProduct> GetProductDataLoader(
+        this IDataLoaderContextAccessor dataLoader,
+        IResolveFieldContext<LoyaltyMissionProgressItem> context,
+        IMediator mediator,
+        ICurrencyService currencyService,
+        string loaderKey)
+    {
+        var loader = dataLoader.Context.GetOrAddBatchLoader<string, ExpProduct>(loaderKey, async ids =>
+        {
+            var mission = context.GetValue<LoyaltyUserMission>(context.Source.MissionId);
+            if (mission == null)
+            {
+                return new Dictionary<string, ExpProduct>();
+            }
+
+            var userId = context.GetArgumentOrValue<string>("userId");
+
+            var request = new LoadProductsQuery
+            {
+                ObjectIds = ids.ToArray(),
+                StoreId = mission.Store.Id,
+                CurrencyCode = mission.MissionCurrency.Code,
+                IncludeFields = context.SubFields.Values.GetAllNodesPaths(context).ToArray(),
+                UserId = userId,
+                OrganizationId = context.GetCurrentOrganizationId(),
+            };
+
+            var allCurrencies = await currencyService.GetAllCurrenciesAsync();
+            var cultureName = context.GetArgumentOrValue<string>("cultureName");
+            context.SetCurrencies(allCurrencies, cultureName);
+
+            context.UserContext.TryAdd("currencyCode", mission.MissionCurrency.Code);
+            context.UserContext.TryAdd("storeId", mission.Store.Id);
+            context.UserContext.TryAdd("cultureName", cultureName);
+
+            var response = await mediator.Send(request);
+
+            return response.Products.ToDictionary(x => x.Id);
         });
 
         return loader;

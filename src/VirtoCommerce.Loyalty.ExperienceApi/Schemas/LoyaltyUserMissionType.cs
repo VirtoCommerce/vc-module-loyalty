@@ -55,7 +55,7 @@ public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
             .Resolve(context => context.Source.Mission?.EndDate);
 
         Field<StringGraphType>("missionType")
-            .Description("The mission type: OrderValue, OrderCount or PerSku.")
+            .Description("The mission type: OrderValue, OrderCount, PerSkuAny or PerSkuAll.")
             .Resolve(context => context.Source.MissionType);
 
         Field<MoneyType>("rewardPoints")

@@ -40,6 +40,8 @@ public static class ModuleConstants
         public const string OrderValue = "OrderValue";
         public const string OrderCount = "OrderCount";
         public const string PerSku = "PerSku";
+        public const string PerSkuAll = "PerSkuAll";
+        public const string PerSkuAny = "PerSkuAny";
     }
 
     public static class MissionStatuses

@@ -32,4 +32,14 @@ public class GetMissionProgressQueryBuilder : SearchQueryBuilder<GetMissionProgr
         context.CopyArgumentsToUserContext();
         await base.BeforeMediatorSend(context, request);
     }
+
+    protected override Task AfterMediatorSend(IResolveFieldContext<object> context, GetMissionProgressQuery request, LoyaltyUserMissionSearchResult response)
+    {
+        foreach (var loyaltyUserMission in response.Results)
+        {
+            context.SetExpandedObjectGraph(loyaltyUserMission);
+        }
+
+        return base.AfterMediatorSend(context, request, response);
+    }
 }
