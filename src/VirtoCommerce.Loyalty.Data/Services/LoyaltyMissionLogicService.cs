@@ -277,51 +277,63 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
     private async Task<bool> ApplyMissionInternalAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
     {
-        // Idempotency: an order contributes to a mission once.
-        if (await TransactionExistsAsync(mission.Id, order.Id, userId))
-        {
-            return false;
-        }
-
         var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
 
         var eventDate = order.CreatedDate == default ? DateTime.UtcNow : order.CreatedDate;
         var progress = await GetOrCreateProgressAsync(mission, goal, userId, eventDate, goalItems);
 
-        // An already completed mission no longer accumulates: skip logging the transaction and updating the progress.
+        // An already completed mission is done: the reward was granted before completion was persisted.
         if (progress.Status.EqualsIgnoreCase(ModuleConstants.MissionProgressStatuses.Completed))
         {
             return false;
         }
 
-        var contribution = ApplyContribution(progress, goal, order);
-        UpdateMetrics(progress, goal, contribution, out var completed);
-
-        if (completed)
+        // Idempotency gate: apply the order's contribution only once. On a repeated order (e.g. job retry)
+        // the contribution is skipped, but the reward/completion below is still (re)evaluated - so a reward
+        // that failed after the progress was saved is retried instead of being lost.
+        if (!await TransactionExistsAsync(mission.Id, order.Id, userId))
         {
-            progress.Status = ModuleConstants.MissionProgressStatuses.Completed;
-            progress.CompletedDate = DateTime.UtcNow;
+            var contribution = ApplyContribution(progress, goal, order);
+            UpdateMissionProgressMetrics(progress, goal, contribution);
+
+            var transaction = AbstractTypeFactory<LoyaltyMissionTransaction>.TryCreateInstance();
+            transaction.Id = Guid.NewGuid().ToString("N");
+            transaction.MissionId = mission.Id;
+            transaction.MissionProgressId = progress.Id;
+            transaction.UserId = userId;
+            transaction.ObjectId = order.Id;
+            transaction.ObjectType = nameof(CustomerOrder);
+            transaction.ContributionValue = contribution;
+
+            // Log the transaction first as the idempotency gate, then persist the progress.
+            await _transactionService.SaveChangesAsync([transaction]);
+            await _progressService.SaveChangesAsync([progress]);
         }
 
-        // Log the transaction first as the idempotency gate, then persist the progress.
-        var transaction = AbstractTypeFactory<LoyaltyMissionTransaction>.TryCreateInstance();
-        transaction.Id = Guid.NewGuid().ToString("N");
-        transaction.MissionId = mission.Id;
-        transaction.MissionProgressId = progress.Id;
-        transaction.UserId = userId;
-        transaction.ObjectId = order.Id;
-        transaction.ObjectType = nameof(CustomerOrder);
-        transaction.ContributionValue = contribution;
-        await _transactionService.SaveChangesAsync([transaction]);
-
-        await _progressService.SaveChangesAsync([progress]);
-
-        if (completed)
+        // Grant the reward and mark the mission Completed only after the reward is granted, so a reward
+        // failure leaves the progress InProgress and is retried by a later order (or a repeat of this one).
+        if (IsCompleted(progress, goal))
         {
             await GrantRewardAsync(mission, progress, userId);
+
+            progress.Status = ModuleConstants.MissionProgressStatuses.Completed;
+            progress.CompletedDate = DateTime.UtcNow;
+            await _progressService.SaveChangesAsync([progress]);
         }
 
         return true;
+    }
+
+    private static bool IsCompleted(LoyaltyMissionProgress progress, IMissionGoal goal)
+    {
+        if (goal is PerSkuGoal perSkuGoal)
+        {
+            return perSkuGoal.All
+                ? progress.Items.Count > 0 && progress.Items.All(x => x.CurrentQuantity >= x.TargetQuantity)
+                : progress.Items.Any(x => x.CurrentQuantity >= x.TargetQuantity);
+        }
+
+        return progress.TargetValue > 0 && progress.CurrentValue >= progress.TargetValue;
     }
 
     private async Task<LoyaltyMissionProgress> GetOrCreateProgressAsync(
@@ -399,13 +411,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         }
     }
 
-    private static void UpdateMetrics(LoyaltyMissionProgress progress, IMissionGoal goal, decimal contribution, out bool completed)
+    private static void UpdateMissionProgressMetrics(LoyaltyMissionProgress progress, IMissionGoal goal, decimal contribution)
     {
         if (goal is PerSkuGoal perSku)
         {
             progress.CurrentValue = progress.Items.Sum(i => Math.Min(i.CurrentQuantity, i.TargetQuantity));
 
-            completed = perSku.All
+            var completed = perSku.All
                 ? progress.Items.Count > 0 && progress.Items.All(i => i.CurrentQuantity >= i.TargetQuantity)
                 : progress.Items.Any(i => i.CurrentQuantity >= i.TargetQuantity);
 
@@ -416,7 +428,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         else
         {
             progress.CurrentValue += contribution;
-            completed = progress.TargetValue > 0 && progress.CurrentValue >= progress.TargetValue;
             progress.Percentage = progress.TargetValue > 0 ? Math.Min(100m, progress.CurrentValue / progress.TargetValue * 100m) : 0m;
         }
     }
