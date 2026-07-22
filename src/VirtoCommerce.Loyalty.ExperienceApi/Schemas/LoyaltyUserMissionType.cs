@@ -2,6 +2,7 @@ using System;
 using GraphQL.Types;
 using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core.Models;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Xapi.Core.Extensions;
 using VirtoCommerce.Xapi.Core.Schemas;
 
@@ -64,10 +65,6 @@ public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
                 ? null
                 : new Money(context.Source.RewardPoints, context.Source.PointsCurrency));
 
-        Field<CurrencyType>("missionCurrency")
-            .Description("The store main currency used to format the target/current money values.")
-            .Resolve(context => context.Source.MissionCurrency);
-
         Field<IntGraphType>("daysRemaining")
             .Description("Whole days left until the mission ends. Null when the mission has no end date.")
             .Resolve(context =>
@@ -102,6 +99,18 @@ public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
         Field<DecimalGraphType>("targetValue")
             .Description("The mission target value.")
             .Resolve(context => context.Source.Progress?.TargetValue ?? 0m);
+
+        Field<MoneyType>("currentMoneyValue")
+            .Description("The accumulated value as money (currency from the mission currency). Null when mission type is not OrderValue or no currency is available.")
+            .Resolve(context => !context.Source.MissionType.EqualsIgnoreCase("OrderValue") || context.Source.MissionCurrency == null
+                ? null
+                : new Money(context.Source.Progress?.CurrentValue ?? 0m, context.Source.MissionCurrency));
+
+        Field<MoneyType>("targetMoneyValue")
+            .Description("The target value as money (currency from the mission currency). Null when mission type is not OrderValue or no currency is available.")
+            .Resolve(context => !context.Source.MissionType.EqualsIgnoreCase("OrderValue") || context.Source.MissionCurrency == null
+                ? null
+                : new Money(context.Source.Progress?.TargetValue ?? 0m, context.Source.MissionCurrency));
 
         Field<DecimalGraphType>("percentage")
             .Description("The completion percentage (0-100).")
