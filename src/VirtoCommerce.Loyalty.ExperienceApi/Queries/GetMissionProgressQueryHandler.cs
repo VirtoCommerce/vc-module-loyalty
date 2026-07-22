@@ -19,14 +19,25 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
 
     public virtual async Task<LoyaltyUserMissionSearchResult> Handle(GetMissionProgressQuery request, CancellationToken cancellationToken)
     {
-        var criteria = request.GetSearchCriteria<LoyaltyMissionProgressSearchCriteria>();
+        var pagingCriteria = request.GetSearchCriteria<LoyaltyMissionProgressSearchCriteria>();
+
+        // todo: extract into virtual method also create critetia via AbstractTypeFactory
+        var criteria = new LoyaltyUserMissionSearchCriteria
+        {
+            UserId = request.UserId,
+            StoreId = request.StoreId,
+            Statuses = request.Statuses,
+            CompletedStartDate = request.CompletedStartDate,
+            CompletedEndDate = request.CompletedEndDate,
+            IsStarted = request.IsStarted,
+        };
 
         // Qualifying published missions paired with the user's progress (transient 0% when not started).
-        var userMissions = await _missionLogicService.GetUserMissionsAsync(request.UserId, request.StoreId, request.Statuses, request.CompletedStartDate, request.CompletedEndDate, request.IsStarted);
+        var userMissions = await _missionLogicService.GetUserMissionsAsync(criteria);
 
         var result = AbstractTypeFactory<LoyaltyUserMissionSearchResult>.TryCreateInstance();
         result.TotalCount = userMissions.Count;
-        result.Results = userMissions.Skip(criteria.Skip).Take(criteria.Take).ToList();
+        result.Results = userMissions.Skip(pagingCriteria.Skip).Take(pagingCriteria.Take).ToList();
 
         return result;
     }

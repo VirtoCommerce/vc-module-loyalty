@@ -136,23 +136,31 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         }
     }
 
-    public async Task<IList<LoyaltyUserMission>> GetUserMissionsAsync(string userId, string storeId, IList<string> statuses, DateTime? completedStartDate = null, DateTime? completedEndDate = null, bool? isStarted = null)
+    public async Task<IList<LoyaltyUserMission>> GetUserMissionsAsync(LoyaltyUserMissionSearchCriteria criteria)
     {
+        var userId = criteria.UserId;
+        var storeId = criteria.StoreId;
+        var statuses = criteria.Statuses;
+        var completedStartDate = criteria.CompletedStartDate;
+        var completedEndDate = criteria.CompletedEndDate;
+        var isStarted = criteria.IsStarted;
+
         if (storeId.IsNullOrEmpty() || userId.IsNullOrEmpty())
         {
             return [];
         }
 
-        // 1. Published missions of the store the user qualifies for.
+        // 1. Loyalty context
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
         context.ContextObjectType = nameof(ApplicationUser);
         context.UserId = userId;
         context.StoreId = storeId;
         await _loyaltyLogicService.PopulateLoyaltyProgramEvaluationContextAsync(context);
 
+        // 2. Search for all published missions 
         var missionCriteria = AbstractTypeFactory<LoyaltyMissionSearchCriteria>.TryCreateInstance();
         missionCriteria.StoreIds = [storeId];
-        missionCriteria.OnlyActive = true;
+        missionCriteria.Status = ModuleConstants.MissionStatuses.Published;
         missionCriteria.Take = 50;
 
         var qualifyingMissions = new List<LoyaltyMission>();
@@ -167,7 +175,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return [];
         }
 
-        // 2. Progress records for the qualifying missions (all statuses; the status filter is applied on the result).
+        // 2. Search for progress records for the qualifying missions
         var progressByMissionId = new Dictionary<string, LoyaltyMissionProgress>(StringComparer.OrdinalIgnoreCase);
         var progressCriteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
         progressCriteria.UserId = userId;
@@ -182,7 +190,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             }
         }
 
-        // 3. Resolve the store currencies used to format the money values (once for all missions).
+        // 3. Resolve currencies - loyalty currency and main store currency as mission currency
         var store = await _storeService.GetNoCloneAsync(storeId);
         var currencies = await _currencyService.GetAllCurrenciesAsync();
         var mainCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(store?.DefaultCurrency));
@@ -191,7 +199,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             ? null
             : currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(pointsCurrencyCode));
 
-        // 4. Pair every qualifying mission with its progress (real or transient 0%).
+        // 4. Pair every qualifying mission with its progress (real or transient 0%)
+        var now = DateTime.UtcNow;
         var result = new List<LoyaltyUserMission>();
 
         foreach (var mission in qualifyingMissions)
@@ -205,6 +214,14 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             var progress = progressByMissionId.GetValueOrDefault(mission.Id);
             if (progress == null)
             {
+                // Offer a transient 0% progress only for missions that can still be started (within the window).
+                var inWindow = (mission.StartDate == null || mission.StartDate <= now)
+                    && (mission.EndDate == null || mission.EndDate >= now);
+                if (!inWindow)
+                {
+                    continue;
+                }
+
                 var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
                 progress = CreateTransientProgress(mission, goal, userId, goalItems);
             }
