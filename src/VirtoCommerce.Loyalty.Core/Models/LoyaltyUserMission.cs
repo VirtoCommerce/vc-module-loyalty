@@ -1,8 +1,10 @@
-using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.StoreModule.Core.Model;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
 
+/// <summary>
+/// Union of the mission definition and the user's progress on it
+/// </summary>
 public class LoyaltyUserMission
 {
     public LoyaltyMission Mission { get; set; }
@@ -12,22 +14,13 @@ public class LoyaltyUserMission
     public Store Store { get; set; }
 
     /// <summary>
-    /// Mission type derived from the goal node: OrderValue / OrderCount / PerSkuAny / PerSkuAll
+    /// Mission type: OrderValue / OrderCount / PerSkuAny / PerSkuAll
     /// </summary>
     public string MissionType { get; set; }
 
-    /// <summary>
-    /// Reward amount (loyalty points) granted on completion
-    /// </summary>
     public decimal RewardPoints { get; set; }
 
-    /// <summary>
-    /// Store main currency used to format the money-based target/current values
-    /// </summary>
-    public Currency MissionCurrency { get; set; }
-
-    /// <summary>
-    /// Loyalty points currency used to format.
-    /// </summary>
-    public Currency PointsCurrency { get; set; }
+    // Hold currenies as string codes because we need to format them based on the culture in GraphQl request
+    public string MissionCurrencyCode { get; set; }
+    public string PointsCurrencyCode { get; set; }
 }

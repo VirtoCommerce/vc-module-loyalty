@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using GraphQL;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
 using VirtoCommerce.Loyalty.ExperienceApi.Schemas;
@@ -15,9 +16,12 @@ public class GetMissionProgressQueryBuilder : SearchQueryBuilder<GetMissionProgr
 {
     protected override string Name => "loyaltyMissionProgress";
 
-    public GetMissionProgressQueryBuilder(IMediator mediator, IAuthorizationService authorizationService)
+    private readonly ICurrencyService _currencyService;
+
+    public GetMissionProgressQueryBuilder(IMediator mediator, IAuthorizationService authorizationService, ICurrencyService currencyService)
         : base(mediator, authorizationService)
     {
+        _currencyService = currencyService;
     }
 
     protected override async Task BeforeMediatorSend(IResolveFieldContext<object> context, GetMissionProgressQuery request)
@@ -33,13 +37,16 @@ public class GetMissionProgressQueryBuilder : SearchQueryBuilder<GetMissionProgr
         await base.BeforeMediatorSend(context, request);
     }
 
-    protected override Task AfterMediatorSend(IResolveFieldContext<object> context, GetMissionProgressQuery request, LoyaltyUserMissionSearchResult response)
+    protected override async Task AfterMediatorSend(IResolveFieldContext<object> context, GetMissionProgressQuery request, LoyaltyUserMissionSearchResult response)
     {
+        var currencies = await _currencyService.GetAllCurrenciesAsync();
+        context.SetCurrencies(currencies, request.CultureName);
+
         foreach (var loyaltyUserMission in response.Results)
         {
             context.SetExpandedObjectGraph(loyaltyUserMission);
         }
 
-        return base.AfterMediatorSend(context, request, response);
+        await base.AfterMediatorSend(context, request, response);
     }
 }

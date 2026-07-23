@@ -8,9 +8,6 @@ using VirtoCommerce.Xapi.Core.Schemas;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Schemas;
 
-/// <summary>
-/// A flat union of the mission definition and the current user's progress on it.
-/// </summary>
 public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
 {
     public LoyaltyUserMissionType()
@@ -61,9 +58,16 @@ public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
 
         Field<MoneyType>("rewardPoints")
             .Description("The loyalty points granted on completion.")
-            .Resolve(context => context.Source.PointsCurrency == null
-                ? null
-                : new Money(context.Source.RewardPoints, context.Source.PointsCurrency));
+            .Resolve(context =>
+            {
+                if (context.Source.PointsCurrencyCode.IsNullOrEmpty())
+                {
+                    return null;
+                }
+
+                var pointsCurrency = context.GetCurrencyByCode(context.Source.PointsCurrencyCode);
+                return new Money(context.Source.RewardPoints, pointsCurrency);
+            });
 
         Field<IntGraphType>("daysRemaining")
             .Description("Whole days left until the mission ends. Null when the mission has no end date.")
@@ -101,16 +105,30 @@ public class LoyaltyUserMissionType : ExtendableGraphType<LoyaltyUserMission>
             .Resolve(context => context.Source.Progress?.TargetValue ?? 0m);
 
         Field<MoneyType>("currentMoneyValue")
-            .Description("The accumulated value as money (currency from the mission currency). Null when mission type is not OrderValue or no currency is available.")
-            .Resolve(context => !context.Source.MissionType.EqualsIgnoreCase("OrderValue") || context.Source.MissionCurrency == null
-                ? null
-                : new Money(context.Source.Progress?.CurrentValue ?? 0m, context.Source.MissionCurrency));
+            .Description("The accumulated value as money in the goal currency. Null when the goal has no currency (non-OrderValue goals).")
+            .Resolve(context =>
+            {
+                if (context.Source.MissionCurrencyCode.IsNullOrEmpty())
+                {
+                    return null;
+                }
+
+                var missionCurrency = context.GetCurrencyByCode(context.Source.MissionCurrencyCode);
+                return new Money(context.Source.Progress?.CurrentValue ?? 0m, missionCurrency);
+            });
 
         Field<MoneyType>("targetMoneyValue")
-            .Description("The target value as money (currency from the mission currency). Null when mission type is not OrderValue or no currency is available.")
-            .Resolve(context => !context.Source.MissionType.EqualsIgnoreCase("OrderValue") || context.Source.MissionCurrency == null
-                ? null
-                : new Money(context.Source.Progress?.TargetValue ?? 0m, context.Source.MissionCurrency));
+            .Description("The target value as money in the goal currency. Null when the goal has no currency (non-OrderValue goals).")
+            .Resolve(context =>
+            {
+                if (context.Source.MissionCurrencyCode.IsNullOrEmpty())
+                {
+                    return null;
+                }
+
+                var missionCurrency = context.GetCurrencyByCode(context.Source.MissionCurrencyCode);
+                return new Money(context.Source.Progress?.TargetValue ?? 0m, missionCurrency);
+            });
 
         Field<DecimalGraphType>("percentage")
             .Description("The completion percentage (0-100).")

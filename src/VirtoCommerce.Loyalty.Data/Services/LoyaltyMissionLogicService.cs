@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.CoreModule.Core.Conditions;
-using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Extensions;
 using VirtoCommerce.Loyalty.Core.Models;
@@ -30,7 +29,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
     private readonly ILoyaltyLogicService _loyaltyLogicService;
     private readonly IDistributedLockService _distributedLockService;
     private readonly IStoreService _storeService;
-    private readonly ICurrencyService _currencyService;
 
     public LoyaltyMissionLogicService(
         ILoyaltyMissionSearchService missionSearchService,
@@ -41,8 +39,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         ILoyaltyMissionTransactionSearchService transactionSearchService,
         ILoyaltyLogicService loyaltyLogicService,
         IDistributedLockService distributedLockService,
-        IStoreService storeService,
-        ICurrencyService currencyService)
+        IStoreService storeService)
     {
         _missionSearchService = missionSearchService;
         _goalItemSearchService = goalItemSearchService;
@@ -53,7 +50,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         _loyaltyLogicService = loyaltyLogicService;
         _distributedLockService = distributedLockService;
         _storeService = storeService;
-        _currencyService = currencyService;
     }
 
     public async Task ProcessOrderAsync(CustomerOrder order, Store store)
@@ -190,14 +186,9 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             }
         }
 
-        // 3. Resolve currencies - loyalty currency and main store currency as mission currency
+        // 3. Resolve the loyalty points currency (mission currency is resolved per mission from the OrderValue goal).
         var store = await _storeService.GetNoCloneAsync(storeId);
-        var currencies = await _currencyService.GetAllCurrenciesAsync();
-        var mainCurrency = currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(store?.DefaultCurrency));
         var pointsCurrencyCode = store?.GetLoyaltyCurrencyCode();
-        var pointsCurrency = pointsCurrencyCode.IsNullOrEmpty()
-            ? null
-            : currencies.FirstOrDefault(x => x.Code.EqualsIgnoreCase(pointsCurrencyCode));
 
         // 4. Pair every qualifying mission with its progress (real or transient 0%)
         var now = DateTime.UtcNow;
@@ -226,6 +217,9 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
                 progress = CreateTransientProgress(mission, goal, userId, goalItems);
             }
 
+            // Mission currency comes from the OrderValue goal (no fallback): null when not set or not an OrderValue goal.
+            var missionCurrencyCode = goal is OrderValueGoal orderValueGoal ? orderValueGoal.CurrencyCode : null;
+
             result.Add(new LoyaltyUserMission
             {
                 Mission = mission,
@@ -233,8 +227,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
                 Store = store,
                 MissionType = ResolveMissionType(goal),
                 RewardPoints = GetRewardAmount(mission.DynamicExpression),
-                MissionCurrency = mainCurrency,
-                PointsCurrency = pointsCurrency,
+                MissionCurrencyCode = missionCurrencyCode,
+                PointsCurrencyCode = pointsCurrencyCode,
             });
         }
 
@@ -277,6 +271,14 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
     private async Task<bool> ApplyMissionInternalAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
     {
+        // Skip the order entirely (no transaction, no progress) when its currency does not match the OrderValue goal currency.
+        if (goal is OrderValueGoal orderValueGoal
+            && !orderValueGoal.CurrencyCode.IsNullOrEmpty()
+            && !order.Currency.EqualsIgnoreCase(orderValueGoal.CurrencyCode))
+        {
+            return false;
+        }
+
         var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
 
         var eventDate = order.CreatedDate == default ? DateTime.UtcNow : order.CreatedDate;
@@ -391,6 +393,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         switch (goal)
         {
             case OrderValueGoal:
+                // Currency mismatch is filtered out earlier in ApplyMissionInternalAsync.
                 return order.Total;
             case OrderCountGoal:
                 return 1m;

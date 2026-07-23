@@ -1,9 +1,10 @@
 angular.module('VirtoCommerce.Loyalty')
     .controller('VirtoCommerce.Loyalty.loyaltyMissionDetailsController',
         ['$scope', 'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'platformWebApp.metaFormsService',
-            'VirtoCommerce.Loyalty.loyaltyMissions', 'virtoCommerce.storeModule.stores', 'virtoCommerce.coreModule.common.dynamicExpressionService',
+            'VirtoCommerce.Loyalty.loyaltyMissions', 'virtoCommerce.storeModule.stores',
+            'virtoCommerce.coreModule.common.dynamicExpressionService', 'virtoCommerce.coreModule.currency.currencyUtils',
             'platformWebApp.dialogService',
-            function ($scope, bladeNavigationService, settings, metaFormsService, loyaltyMissions, stores, dynamicExpressionService, dialogService) {
+            function ($scope, bladeNavigationService, settings, metaFormsService, loyaltyMissions, stores, dynamicExpressionService, currencyUtils, dialogService) {
                 var blade = $scope.blade;
                 blade.headIcon = 'fa fa-flag-checkered';
                 blade.updatePermission = 'loyalty:update';
@@ -12,6 +13,7 @@ angular.module('VirtoCommerce.Loyalty')
                 blade.missionStatuses = ['Draft', 'Published', 'Archived'];
                 var languagesPromise = settings.getValues({ id: 'VirtoCommerce.Core.General.Languages' }).$promise;
                 blade.languages = [];
+                blade.currencyUtils = currencyUtils;
 
                 blade.refresh = function (parentRefresh) {
                     if (blade.isNew) {

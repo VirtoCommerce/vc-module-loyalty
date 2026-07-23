@@ -4,7 +4,7 @@ using VirtoCommerce.CoreModule.Core.Conditions;
 namespace VirtoCommerce.Loyalty.Core.Models.Missions;
 
 /// <summary>
-/// Mission goal: place the target number of orders per mission period.
+/// Mission goal: place the target number of orders per mission
 /// </summary>
 public class OrderCountGoal : ConditionTree, IMissionGoal
 {

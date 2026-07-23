@@ -21,18 +21,8 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
     {
         var pagingCriteria = request.GetSearchCriteria<LoyaltyMissionProgressSearchCriteria>();
 
-        // todo: extract into virtual method also create critetia via AbstractTypeFactory
-        var criteria = new LoyaltyUserMissionSearchCriteria
-        {
-            UserId = request.UserId,
-            StoreId = request.StoreId,
-            Statuses = request.Statuses,
-            CompletedStartDate = request.CompletedStartDate,
-            CompletedEndDate = request.CompletedEndDate,
-            IsStarted = request.IsStarted,
-        };
+        var criteria = GetLoyaltyUserMissionCriteria(request);
 
-        // Qualifying published missions paired with the user's progress (transient 0% when not started).
         var userMissions = await _missionLogicService.GetUserMissionsAsync(criteria);
 
         var result = AbstractTypeFactory<LoyaltyUserMissionSearchResult>.TryCreateInstance();
@@ -40,5 +30,19 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
         result.Results = userMissions.Skip(pagingCriteria.Skip).Take(pagingCriteria.Take).ToList();
 
         return result;
+    }
+
+    private static LoyaltyUserMissionSearchCriteria GetLoyaltyUserMissionCriteria(GetMissionProgressQuery request)
+    {
+        var criteria = AbstractTypeFactory<LoyaltyUserMissionSearchCriteria>.TryCreateInstance();
+
+        criteria.UserId = request.UserId;
+        criteria.StoreId = request.StoreId;
+        criteria.Statuses = request.Statuses;
+        criteria.CompletedStartDate = request.CompletedStartDate;
+        criteria.CompletedEndDate = request.CompletedEndDate;
+        criteria.IsStarted = request.IsStarted;
+
+        return criteria;
     }
 }

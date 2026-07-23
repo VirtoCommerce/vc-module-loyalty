@@ -4,15 +4,14 @@ using VirtoCommerce.CoreModule.Core.Conditions;
 namespace VirtoCommerce.Loyalty.Core.Models.Missions;
 
 /// <summary>
-/// Mission goal: purchase the target quantity of the listed SKUs per mission period.
-/// Per-SKU items are managed separately as LoyaltyMissionGoalItem records.
+/// Mission goal: purchase the target quantity of the listed SKUs per mission
 /// </summary>
 public class PerSkuGoal : ConditionTree, IMissionGoal
 {
     /// <summary>
     /// Completion mode:
-    /// true = AND (every listed SKU must reach its target quantity),
-    /// false = OR (reaching any single SKU target completes the mission).
+    /// true = All, all listed SKUs must reach its target quantity to complete the mission
+    /// false = Any, reaching any single SKU target completes the mission
     /// </summary>
     public bool All { get; set; } = true;
 
