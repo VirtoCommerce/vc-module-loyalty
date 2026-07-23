@@ -1,4 +1,3 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,19 +10,6 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_LoyaltyProgramOperationLog_LoyaltyProgram_LoyaltyProgramId",
-                table: "LoyaltyProgramOperationLog");
-
-            migrationBuilder.DropIndex(
-                name: "IX_LoyaltyProgramOperationLog_LoyaltyProgramId",
-                table: "LoyaltyProgramOperationLog");
-
-            migrationBuilder.RenameColumn(
-                name: "LoyaltyProgramId",
-                table: "LoyaltyProgramOperationLog",
-                newName: "SourceType");
-
             migrationBuilder.AddColumn<string>(
                 name: "SourceId",
                 table: "LoyaltyProgramOperationLog",
@@ -31,9 +17,15 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 maxLength: 128,
                 nullable: true);
 
-            // Backfill: the renamed SourceType column still holds the former LoyaltyProgramId values.
-            migrationBuilder.Sql("UPDATE [LoyaltyProgramOperationLog] SET [SourceId] = [SourceType] WHERE [SourceType] IS NOT NULL;");
-            migrationBuilder.Sql("UPDATE [LoyaltyProgramOperationLog] SET [SourceType] = 'LoyaltyProgram' WHERE [SourceId] IS NOT NULL;");
+            migrationBuilder.AddColumn<string>(
+                name: "SourceType",
+                table: "LoyaltyProgramOperationLog",
+                type: "nvarchar(128)",
+                maxLength: 128,
+                nullable: true);
+
+            // fill SourceId by former LoyaltyProgramId values
+            migrationBuilder.Sql("UPDATE [LoyaltyProgramOperationLog] SET [SourceId] = [LoyaltyProgramId], [SourceType] = 'LoyaltyProgram' WHERE [LoyaltyProgramId] IS NOT NULL;");
 
             migrationBuilder.CreateTable(
                 name: "LoyaltyMission",
@@ -256,11 +248,43 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                 name: "IX_LoyaltyMissionTransaction_MissionProgressId",
                 table: "LoyaltyMissionTransaction",
                 column: "MissionProgressId");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_LoyaltyProgramOperationLog_LoyaltyProgram_LoyaltyProgramId",
+                table: "LoyaltyProgramOperationLog");
+
+            migrationBuilder.DropIndex(
+                name: "IX_LoyaltyProgramOperationLog_LoyaltyProgramId",
+                table: "LoyaltyProgramOperationLog");
+
+            migrationBuilder.DropColumn(
+                name: "LoyaltyProgramId",
+                table: "LoyaltyProgramOperationLog");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "SourceType",
+                table: "LoyaltyProgramOperationLog",
+                type: "nvarchar(128)",
+                maxLength: 128,
+                nullable: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LoyaltyProgramOperationLog_LoyaltyProgramId",
+                table: "LoyaltyProgramOperationLog",
+                column: "LoyaltyProgramId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_LoyaltyProgramOperationLog_LoyaltyProgram_LoyaltyProgramId",
+                table: "LoyaltyProgramOperationLog",
+                column: "LoyaltyProgramId",
+                principalTable: "LoyaltyProgram",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
             migrationBuilder.DropTable(
                 name: "LoyaltyMissionGoalItem");
 
@@ -289,24 +313,6 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
             migrationBuilder.DropColumn(
                 name: "SourceId",
                 table: "LoyaltyProgramOperationLog");
-
-            migrationBuilder.RenameColumn(
-                name: "SourceType",
-                table: "LoyaltyProgramOperationLog",
-                newName: "LoyaltyProgramId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LoyaltyProgramOperationLog_LoyaltyProgramId",
-                table: "LoyaltyProgramOperationLog",
-                column: "LoyaltyProgramId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_LoyaltyProgramOperationLog_LoyaltyProgram_LoyaltyProgramId",
-                table: "LoyaltyProgramOperationLog",
-                column: "LoyaltyProgramId",
-                principalTable: "LoyaltyProgram",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }
