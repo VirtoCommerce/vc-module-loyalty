@@ -266,7 +266,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "SourceType",
+                name: "LoyaltyProgramId",
                 table: "LoyaltyProgramOperationLog",
                 type: "nvarchar(128)",
                 maxLength: 128,
