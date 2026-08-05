@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\VirtoCommerce.Loyalty.Core\VirtoCommerce.Loyalty.Core.csproj" />
     <ProjectReference Include="..\..\src\VirtoCommerce.Loyalty.Data\VirtoCommerce.Loyalty.Data.csproj" />
+    <ProjectReference Include="..\..\src\VirtoCommerce.Loyalty.ExperienceApi\VirtoCommerce.Loyalty.ExperienceApi.csproj" />
     <ProjectReference Include="..\..\src\VirtoCommerce.Loyalty.Web\VirtoCommerce.Loyalty.Web.csproj" />
   </ItemGroup>
 </Project>

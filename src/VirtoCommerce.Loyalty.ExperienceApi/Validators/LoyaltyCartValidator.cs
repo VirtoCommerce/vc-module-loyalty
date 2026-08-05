@@ -25,7 +25,8 @@ public class LoyaltyCartValidator : AbstractValidator<CartValidationContext>, IC
 
             var pointsTotals = cart.CartTotals.FirstOrDefault(x => x.CurrencyCode.EqualsIgnoreCase(loyaltyCurrencyCode));
             var hasPointProducts = pointsTotals != null && pointsTotals.Total > 0;
-            var hasCashProducts = cart.Items?.Any(x => !x.Currency.EqualsIgnoreCase(loyaltyCurrencyCode)) == true;
+            // SelectedLineItems (non-gift, selected) is the same set CartTotals is summed from, so this stays aligned with hasPointProducts.
+            var hasCashProducts = cartValidationContext.CartAggregate.SelectedLineItems.Any(x => !x.Currency.EqualsIgnoreCase(loyaltyCurrencyCode));
             var usesLoyaltyPayment = cart.Payments?.Any(x => x.PaymentGatewayCode.EqualsIgnoreCase(ModuleConstants.LoyaltyPaymentMethodGatewayCode)) == true;
 
             // 1. Products priced in loyalty points are only valid in Mixed Cart mode.
