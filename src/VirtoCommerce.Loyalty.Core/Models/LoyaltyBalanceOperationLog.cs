@@ -3,7 +3,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
 
-public class LoyaltyProgramOperationLog : AuditableEntity, ICloneable
+public class LoyaltyBalanceOperationLog : AuditableEntity, ICloneable
 {
     public string UserId { get; set; }
 

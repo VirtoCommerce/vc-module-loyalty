@@ -32,16 +32,16 @@ public class LoyaltyDbContext : DbContextBase
             .HasIndex(x => new { x.LanguageCode, x.ParentEntityId }).IsUnique()
             .HasDatabaseName("IX_LoyaltyProgramLocalizedName_LanguageCode_ParentEntityId");
 
-        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().ToTable("LoyaltyProgramOperationLog").HasKey(x => x.Id);
-        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
-        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().Property(x => x.Amount).HasColumnType("decimal").HasPrecision(18, 4);
-        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>().Property(x => x.Balance).HasColumnType("decimal").HasPrecision(18, 4);
-        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>()
+        modelBuilder.Entity<LoyaltyBalanceOperationLogEntity>().ToTable("LoyaltyBalanceOperationLog").HasKey(x => x.Id);
+        modelBuilder.Entity<LoyaltyBalanceOperationLogEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
+        modelBuilder.Entity<LoyaltyBalanceOperationLogEntity>().Property(x => x.Amount).HasColumnType("decimal").HasPrecision(18, 4);
+        modelBuilder.Entity<LoyaltyBalanceOperationLogEntity>().Property(x => x.Balance).HasColumnType("decimal").HasPrecision(18, 4);
+        modelBuilder.Entity<LoyaltyBalanceOperationLogEntity>()
              .HasIndex(x => new { x.ObjectId, x.ObjectType, x.OperationType }).IsUnique()
-             .HasDatabaseName("IX_LoyaltyProgramOperationLog_ObjectId_ObjectType_OperationType");
-        modelBuilder.Entity<LoyaltyProgramOperationLogEntity>()
+             .HasDatabaseName("IX_LoyaltyBalanceOperationLog_ObjectId_ObjectType_OperationType");
+        modelBuilder.Entity<LoyaltyBalanceOperationLogEntity>()
              .HasIndex(x => new { x.SourceType, x.SourceId })
-             .HasDatabaseName("IX_LoyaltyProgramOperationLog_SourceType_SourceId");
+             .HasDatabaseName("IX_LoyaltyBalanceOperationLog_SourceType_SourceId");
 
         modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().ToTable("LoyaltyProgramProductFactor").HasKey(x => x.Id);
         modelBuilder.Entity<LoyaltyProgramProductFactorEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();

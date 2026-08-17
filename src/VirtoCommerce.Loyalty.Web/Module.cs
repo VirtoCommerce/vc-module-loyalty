@@ -83,8 +83,8 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<ILoyaltyProgramService, LoyaltyProgramService>();
         serviceCollection.AddTransient<ILoyaltyProgramSearchService, LoyaltyProgramSearchService>();
 
-        serviceCollection.AddTransient<ILoyaltyProgramOperationLogService, LoyaltyProgramOperationLogService>();
-        serviceCollection.AddTransient<ILoyaltyProgramOperationLogSearchService, LoyaltyProgramOperationLogSearchService>();
+        serviceCollection.AddTransient<ILoyaltyBalanceOperationLogService, LoyaltyBalanceOperationLogService>();
+        serviceCollection.AddTransient<ILoyaltyBalanceOperationLogSearchService, LoyaltyBalanceOperationLogSearchService>();
 
         serviceCollection.AddTransient<ILoyaltyProgramProductFactorService, LoyaltyProgramProductFactorService>();
         serviceCollection.AddTransient<ILoyaltyProgramProductFactorSearchService, LoyaltyProgramProductFactorSearchService>();

@@ -2,14 +2,11 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.Loyalty.Core.Models;
 
-public class LoyaltyProgramOperationLogSearchCriteria : SearchCriteriaBase
+public class LoyaltyBalanceOperationLogSearchCriteria : SearchCriteriaBase
 {
     public string UserId { get; set; }
 
     public string ObjectId { get; set; }
-
-    // Is in base SearchCriteriaBase
-    //public string ObjectType { get; set; }
 
     public string SourceType { get; set; }
 

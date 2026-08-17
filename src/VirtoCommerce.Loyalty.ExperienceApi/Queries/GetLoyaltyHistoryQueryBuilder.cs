@@ -12,7 +12,7 @@ using VirtoCommerce.Xapi.Core.Security.Authorization;
 
 namespace VirtoCommerce.QuoteModule.ExperienceApi.Queries;
 
-public class GetLoyaltyHistoryQueryBuilder : SearchQueryBuilder<GetLoyaltyHistoryQuery, LoyaltyProgramOperationLogSearchResult, LoyaltyProgramOperationLog, LoyaltyOperationLogType>
+public class GetLoyaltyHistoryQueryBuilder : SearchQueryBuilder<GetLoyaltyHistoryQuery, LoyaltyBalanceOperationLogSearchResult, LoyaltyBalanceOperationLog, LoyaltyOperationLogType>
 {
     protected override string Name => "loyaltyPointsHistory";
 

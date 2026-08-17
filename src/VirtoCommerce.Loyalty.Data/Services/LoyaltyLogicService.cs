@@ -18,8 +18,8 @@ namespace VirtoCommerce.Loyalty.Data.Services;
 public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramService
 {
     private readonly ILoyaltyProgramSearchService _loyaltyProgramSearchService;
-    private readonly ILoyaltyProgramOperationLogService _loyaltyProgramOperationLogService;
-    private readonly ILoyaltyProgramOperationLogSearchService _loyaltyProgramOperationLogSearchService;
+    private readonly ILoyaltyBalanceOperationLogService _loyaltyBalanceOperationLogService;
+    private readonly ILoyaltyBalanceOperationLogSearchService _loyaltyBalanceOperationLogSearchService;
     private readonly IMemberResolver _memberResolver;
     private readonly ICustomerOrderService _customerOrderService;
     private readonly ICustomerOrderSearchService _customerOrderSearchService;
@@ -27,16 +27,16 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     public LoyaltyLogicService(
         ILoyaltyProgramSearchService loyaltyProgramSearchService,
-        ILoyaltyProgramOperationLogService loyaltyProgramOperationLogService,
-        ILoyaltyProgramOperationLogSearchService loyaltyProgramOperationLogSearchService,
+        ILoyaltyBalanceOperationLogService loyaltyBalanceOperationLogService,
+        ILoyaltyBalanceOperationLogSearchService loyaltyBalanceOperationLogSearchService,
         IMemberResolver memberResolver,
         ICustomerOrderService customerOrderService,
         ICustomerOrderSearchService customerOrderSearchService,
         IDistributedLockService distributedLockService)
     {
         _loyaltyProgramSearchService = loyaltyProgramSearchService;
-        _loyaltyProgramOperationLogService = loyaltyProgramOperationLogService;
-        _loyaltyProgramOperationLogSearchService = loyaltyProgramOperationLogSearchService;
+        _loyaltyBalanceOperationLogService = loyaltyBalanceOperationLogService;
+        _loyaltyBalanceOperationLogSearchService = loyaltyBalanceOperationLogSearchService;
         _memberResolver = memberResolver;
         _customerOrderService = customerOrderService;
         _customerOrderSearchService = customerOrderSearchService;
@@ -100,13 +100,13 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     public async Task<bool> IsObjectProcessedAsync(string objectType, string objectId, string operationType)
     {
-        var criteria = AbstractTypeFactory<LoyaltyProgramOperationLogSearchCriteria>.TryCreateInstance();
+        var criteria = AbstractTypeFactory<LoyaltyBalanceOperationLogSearchCriteria>.TryCreateInstance();
         criteria.ObjectType = objectType;
         criteria.ObjectId = objectId;
         criteria.OperationType = operationType;
         criteria.Take = 0;
 
-        var searchResult = await _loyaltyProgramOperationLogSearchService.SearchNoCloneAsync(criteria);
+        var searchResult = await _loyaltyBalanceOperationLogSearchService.SearchNoCloneAsync(criteria);
 
         return searchResult.TotalCount > 0;
     }
@@ -263,7 +263,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
             return false;
         }
 
-        var operationLog = AbstractTypeFactory<LoyaltyProgramOperationLog>.TryCreateInstance();
+        var operationLog = AbstractTypeFactory<LoyaltyBalanceOperationLog>.TryCreateInstance();
         operationLog.OperationType = loyaltyResult.OperationType;
         operationLog.ObjectType = loyaltyContext.ContextObjectType;
         operationLog.ObjectId = loyaltyContext.ContextObjectId;
@@ -279,7 +279,7 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
             _ => balance - loyaltyResult.Amount,
         };
 
-        await _loyaltyProgramOperationLogService.SaveChangesAsync([operationLog]);
+        await _loyaltyBalanceOperationLogService.SaveChangesAsync([operationLog]);
 
         return true;
     }
@@ -300,14 +300,14 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         return null;
     }
 
-    private async Task<LoyaltyProgramOperationLog> GetLastLoyaltyOperationLogByUser(string userId)
+    private async Task<LoyaltyBalanceOperationLog> GetLastLoyaltyOperationLogByUser(string userId)
     {
-        var criteria = AbstractTypeFactory<LoyaltyProgramOperationLogSearchCriteria>.TryCreateInstance();
+        var criteria = AbstractTypeFactory<LoyaltyBalanceOperationLogSearchCriteria>.TryCreateInstance();
         criteria.UserId = userId;
         criteria.Take = 1;
         criteria.Sort = "CreatedDate:desc"; // Assuming we want the most recent operation log for balance calculation
 
-        var searchResult = await _loyaltyProgramOperationLogSearchService.SearchNoCloneAsync(criteria);
+        var searchResult = await _loyaltyBalanceOperationLogSearchService.SearchNoCloneAsync(criteria);
 
         return searchResult.Results?.FirstOrDefault();
     }

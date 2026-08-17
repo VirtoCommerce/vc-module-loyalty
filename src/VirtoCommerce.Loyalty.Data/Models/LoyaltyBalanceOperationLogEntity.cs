@@ -6,7 +6,7 @@ using VirtoCommerce.Platform.Data.Infrastructure;
 
 namespace VirtoCommerce.Loyalty.Data.Models;
 
-public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<LoyaltyProgramOperationLogEntity, LoyaltyProgramOperationLog>
+public class LoyaltyBalanceOperationLogEntity : AuditableEntity, IDataEntity<LoyaltyBalanceOperationLogEntity, LoyaltyBalanceOperationLog>
 {
     [Required]
     [StringLength(DbContextBase.IdLength)]
@@ -43,7 +43,7 @@ public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<Loy
     [StringLength(DbContextBase.IdLength)]
     public string SourceId { get; set; }
 
-    public virtual LoyaltyProgramOperationLog ToModel(LoyaltyProgramOperationLog model)
+    public virtual LoyaltyBalanceOperationLog ToModel(LoyaltyBalanceOperationLog model)
     {
         model.Id = Id;
         model.CreatedBy = CreatedBy;
@@ -63,7 +63,7 @@ public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<Loy
         return model;
     }
 
-    public virtual LoyaltyProgramOperationLogEntity FromModel(LoyaltyProgramOperationLog model, PrimaryKeyResolvingMap pkMap)
+    public virtual LoyaltyBalanceOperationLogEntity FromModel(LoyaltyBalanceOperationLog model, PrimaryKeyResolvingMap pkMap)
     {
         pkMap.AddPair(model, this);
 
@@ -85,7 +85,7 @@ public class LoyaltyProgramOperationLogEntity : AuditableEntity, IDataEntity<Loy
         return this;
     }
 
-    public virtual void Patch(LoyaltyProgramOperationLogEntity target)
+    public virtual void Patch(LoyaltyBalanceOperationLogEntity target)
     {
         // intentionally left empty, as this entity is immutable
     }

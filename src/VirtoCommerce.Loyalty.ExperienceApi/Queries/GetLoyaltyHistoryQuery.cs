@@ -7,7 +7,7 @@ using VirtoCommerce.Xapi.Core.Extensions;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyProgramOperationLogSearchResult>
+public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSearchResult>
 {
     public string UserId { get; set; }
 

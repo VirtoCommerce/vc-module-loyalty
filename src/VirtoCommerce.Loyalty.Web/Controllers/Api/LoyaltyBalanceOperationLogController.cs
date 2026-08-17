@@ -10,14 +10,14 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 
 [Authorize]
 [Route("api/loyalty-program-operation-log")]
-public class LoyaltyProgramOperationLogController(
-    ILoyaltyProgramOperationLogSearchService searchService,
+public class LoyaltyBalanceOperationLogController(
+    ILoyaltyBalanceOperationLogSearchService searchService,
     ILoyaltyLogicService loyaltyLogicService)
     : Controller
 {
     [HttpPost("search")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyProgramOperationLogSearchResult>> Search([FromBody] LoyaltyProgramOperationLogSearchCriteria criteria)
+    public async Task<ActionResult<LoyaltyBalanceOperationLogSearchResult>> Search([FromBody] LoyaltyBalanceOperationLogSearchCriteria criteria)
     {
         var result = await searchService.SearchNoCloneAsync(criteria);
         return Ok(result);
@@ -25,7 +25,7 @@ public class LoyaltyProgramOperationLogController(
 
     [HttpGet("balance/{userId}")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyProgramOperationLog>> GetBalance([FromRoute] string userId)
+    public async Task<ActionResult<LoyaltyBalanceOperationLog>> GetBalance([FromRoute] string userId)
     {
         var balance = await loyaltyLogicService.GetUserBalanceAsync(userId);
 

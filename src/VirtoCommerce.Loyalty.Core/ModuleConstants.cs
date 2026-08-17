@@ -64,7 +64,7 @@ public static class ModuleConstants
     }
 
     /// <summary>
-    /// Values for <see cref="Models.LoyaltyProgramOperationLog.SourceType"/>.
+    /// Values for <see cref="Models.LoyaltyBalanceOperationLog.SourceType"/>.
     /// </summary>
     public static class LoyaltySourceTypes
     {

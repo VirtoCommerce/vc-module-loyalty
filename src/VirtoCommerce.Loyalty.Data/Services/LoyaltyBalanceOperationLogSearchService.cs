@@ -13,18 +13,18 @@ using VirtoCommerce.Platform.Data.GenericCrud;
 
 namespace VirtoCommerce.Loyalty.Data.Services;
 
-public class LoyaltyProgramOperationLogSearchService(
+public class LoyaltyBalanceOperationLogSearchService(
     Func<ILoyaltyRepository> repositoryFactory,
     IPlatformMemoryCache platformMemoryCache,
-    ILoyaltyProgramOperationLogService crudService,
+    ILoyaltyBalanceOperationLogService crudService,
     IOptions<CrudOptions> crudOptions)
-    : SearchService<LoyaltyProgramOperationLogSearchCriteria, LoyaltyProgramOperationLogSearchResult, LoyaltyProgramOperationLog, LoyaltyProgramOperationLogEntity>
+    : SearchService<LoyaltyBalanceOperationLogSearchCriteria, LoyaltyBalanceOperationLogSearchResult, LoyaltyBalanceOperationLog, LoyaltyBalanceOperationLogEntity>
         (repositoryFactory, platformMemoryCache, crudService, crudOptions),
-        ILoyaltyProgramOperationLogSearchService
+        ILoyaltyBalanceOperationLogSearchService
 {
-    protected override IQueryable<LoyaltyProgramOperationLogEntity> BuildQuery(IRepository repository, LoyaltyProgramOperationLogSearchCriteria criteria)
+    protected override IQueryable<LoyaltyBalanceOperationLogEntity> BuildQuery(IRepository repository, LoyaltyBalanceOperationLogSearchCriteria criteria)
     {
-        var query = ((ILoyaltyRepository)repository).LoyaltyProgramOperationLogs;
+        var query = ((ILoyaltyRepository)repository).LoyaltyBalanceOperationLogs;
 
         if (!criteria.UserId.IsNullOrEmpty())
         {
@@ -59,7 +59,7 @@ public class LoyaltyProgramOperationLogSearchService(
         return query;
     }
 
-    protected override IList<SortInfo> BuildSortExpression(LoyaltyProgramOperationLogSearchCriteria criteria)
+    protected override IList<SortInfo> BuildSortExpression(LoyaltyBalanceOperationLogSearchCriteria criteria)
     {
         var sortInfos = criteria.SortInfos;
 
@@ -67,8 +67,8 @@ public class LoyaltyProgramOperationLogSearchService(
         {
             sortInfos =
             [
-                new SortInfo { SortColumn = nameof(LoyaltyProgramOperationLogEntity.CreatedDate), SortDirection = SortDirection.Descending },
-                new SortInfo { SortColumn = nameof(LoyaltyProgramOperationLogEntity.Id) },
+                new SortInfo { SortColumn = nameof(LoyaltyBalanceOperationLogEntity.CreatedDate), SortDirection = SortDirection.Descending },
+                new SortInfo { SortColumn = nameof(LoyaltyBalanceOperationLogEntity.Id) },
             ];
         }
 
