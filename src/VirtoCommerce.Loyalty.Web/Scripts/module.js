@@ -322,6 +322,9 @@ angular.module(moduleName, [])
                 groupName: missionGoal,
                 id: 'OrderValueGoal',
                 displayName: 'Reach target order value',
+                getValidationError: function () {
+                    return this.currencyCode ? undefined : 'You must select a currency for the order value goal';
+                },
             });
 
             dynamicExpressionService.registerExpression({
