@@ -1,4 +1,5 @@
 using System;
+using FluentValidation;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using Hangfire;
@@ -22,6 +23,7 @@ using VirtoCommerce.Loyalty.Data.SqlServer;
 using VirtoCommerce.Loyalty.ExperienceApi;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
 using VirtoCommerce.Loyalty.ExperienceApi.TypeHooks;
+using VirtoCommerce.Loyalty.Data.Validators;
 using VirtoCommerce.Loyalty.ExperienceApi.Validators;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;
@@ -116,6 +118,7 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<ILoyaltySettingService, LoyaltySettingService>();
 
         serviceCollection.AddTransient<ICartValidator<CartValidationContext>, LoyaltyCartValidator>();
+        serviceCollection.AddTransient<IValidator<LoyaltyMission>, LoyaltyMissionValidator>();
     }
 
     public void PostInitialize(IApplicationBuilder appBuilder)

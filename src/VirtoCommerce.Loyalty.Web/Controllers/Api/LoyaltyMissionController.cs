@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,8 @@ namespace VirtoCommerce.Loyalty.Web.Controllers.Api;
 [Route("api/loyalty-missions")]
 public class LoyaltyMissionController(
     ILoyaltyMissionService crudService,
-    ILoyaltyMissionSearchService searchService)
+    ILoyaltyMissionSearchService searchService,
+    IValidator<LoyaltyMission> missionValidator)
     : Controller
 {
     [HttpPost("search")]
@@ -38,6 +40,12 @@ public class LoyaltyMissionController(
     [Authorize(Permissions.Update)]
     public async Task<ActionResult<LoyaltyMission>> Update([FromBody] LoyaltyMission model)
     {
+        var validationResult = await missionValidator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
         await crudService.SaveChangesAsync([model]);
         return Ok(model);
     }
