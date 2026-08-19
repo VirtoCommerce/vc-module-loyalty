@@ -379,6 +379,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("MissionProgressId")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -604,13 +605,14 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionEntity", "Mission")
                         .WithMany()
                         .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", "MissionProgress")
                         .WithMany("Transactions")
                         .HasForeignKey("MissionProgressId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Mission");
 

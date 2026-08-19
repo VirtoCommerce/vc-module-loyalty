@@ -98,14 +98,18 @@ public class LoyaltyDbContext : DbContextBase
 
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>().ToTable("LoyaltyMissionTransaction").HasKey(x => x.Id);
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();
+        // Mission->Transaction is intentionally non-cascading: Transaction is cascade-deleted transitively via
+        // Mission->Progress->Transaction below. A direct cascade here too would give SQL Server two competing
+        // cascade paths to the same table (rejected at migration time), and - even where that's not rejected -
+        // would race two independently-triggered cascades against the Restrict/NoAction FK on the other path.
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>().HasOne(x => x.Mission).WithMany()
-            .HasForeignKey(x => x.MissionId).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            .HasForeignKey(x => x.MissionId).OnDelete(DeleteBehavior.Restrict).IsRequired();
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>().Property(x => x.ContributionValue).HasColumnType("decimal").HasPrecision(18, 4);
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>()
             .HasIndex(x => new { x.MissionId, x.ObjectId, x.UserId }).IsUnique()
             .HasDatabaseName("IX_LoyaltyMissionTransaction_MissionId_ObjectId_UserId");
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>().HasOne(x => x.MissionProgress).WithMany(x => x.Transactions)
-            .HasForeignKey(x => x.MissionProgressId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(x => x.MissionProgressId).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
         switch (Database.ProviderName)
         {

@@ -13,6 +13,7 @@ public class LoyaltyMissionTransactionEntity : AuditableEntity, IDataEntity<Loya
     public string MissionId { get; set; }
     public virtual LoyaltyMissionEntity Mission { get; set; }
 
+    [Required]
     [StringLength(DbContextBase.IdLength)]
     public string MissionProgressId { get; set; }
     public virtual LoyaltyMissionProgressEntity MissionProgress { get; set; }
