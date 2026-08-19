@@ -406,8 +406,7 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MissionProgressId")
-                        .HasDatabaseName("IX_LoyaltyMissionTransaction_MissionProgressId");
+                    b.HasIndex("MissionProgressId");
 
                     b.HasIndex("MissionId", "ObjectId", "UserId")
                         .IsUnique()
@@ -608,7 +607,14 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", "MissionProgress")
+                        .WithMany("Transactions")
+                        .HasForeignKey("MissionProgressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Mission");
+
+                    b.Navigation("MissionProgress");
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramLocalizedNameEntity", b =>
@@ -643,6 +649,8 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyMissionProgressEntity", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyProgramEntity", b =>

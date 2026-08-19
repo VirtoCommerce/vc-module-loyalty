@@ -2,32 +2,35 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtoCommerce.Loyalty.Data.Repositories;
 
 #nullable disable
 
-namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
+namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
 {
     [DbContext(typeof(LoyaltyDbContext))]
-    partial class LoyaltyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260819190435_AddMissionTransactionProgressForeignKey")]
+    partial class AddMissionTransactionProgressForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("VirtoCommerce.Loyalty.Data.Models.LoyaltyBalanceOperationLogEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 4)
@@ -39,45 +42,45 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ObjectId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ObjectType")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("OperationType")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("SourceId")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("SourceType")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
@@ -96,55 +99,55 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("BannerUrl")
                         .HasMaxLength(2048)
-                        .HasColumnType("varchar(2048)");
+                        .HasColumnType("character varying(2048)");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("Periodicity")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("PredicateVisualTreeSerialized")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<bool>("Public")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("StoreId")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
@@ -156,34 +159,34 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("MissionId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -199,20 +202,20 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("LanguageCode")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("ParentEntityId")
                         .IsRequired()
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -230,20 +233,20 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("LanguageCode")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("ParentEntityId")
                         .IsRequired()
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -261,17 +264,17 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<DateTime?>("CompletedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("CurrentValue")
                         .HasPrecision(18, 4)
@@ -280,29 +283,29 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("MissionId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("Percentage")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal");
 
                     b.Property<DateTime?>("PeriodEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("PeriodStart")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<decimal>("TargetValue")
                         .HasPrecision(18, 4)
@@ -311,7 +314,7 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
@@ -327,23 +330,23 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<int>("CurrentQuantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("MissionProgressId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<int>("TargetQuantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -359,7 +362,7 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<decimal>("ContributionValue")
                         .HasPrecision(18, 4)
@@ -367,41 +370,41 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("MissionId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("MissionProgressId")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ObjectId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ObjectType")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
@@ -419,49 +422,49 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PredicateVisualTreeSerialized")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<int>("Priority")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ProgramType")
                         .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("character varying(32)");
 
                     b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("StoreId")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
@@ -473,20 +476,20 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("LanguageCode")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("ParentEntityId")
                         .IsRequired()
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -504,35 +507,35 @@ namespace VirtoCommerce.Loyalty.Data.MySql.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("Factor")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<string>("LoyaltyProgramId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 

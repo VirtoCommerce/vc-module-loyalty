@@ -40,11 +40,19 @@ public class LoyaltyMissionProgress : AuditableEntity, ICloneable
     /// </summary>
     public IList<LoyaltyMissionProgressItem> Items { get; set; } = [];
 
+    /// <summary>
+    /// Transient write buffer: transactions to persist alongside this progress in the same
+    /// SaveChangesAsync call (see LoyaltyMissionProgressEntity.FromModel/Patch). Cleared by the
+    /// caller once saved - it does not reflect the progress's full transaction history.
+    /// </summary>
+    public IList<LoyaltyMissionTransaction> NewTransactions { get; set; } = [];
+
     public object Clone()
     {
         var result = (LoyaltyMissionProgress)MemberwiseClone();
 
         result.Items = Items?.Select(x => x.Clone()).OfType<LoyaltyMissionProgressItem>().ToList();
+        result.NewTransactions = NewTransactions?.Select(x => x.Clone()).OfType<LoyaltyMissionTransaction>().ToList();
 
         return result;
     }

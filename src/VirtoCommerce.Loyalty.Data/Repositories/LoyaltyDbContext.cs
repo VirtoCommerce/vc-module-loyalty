@@ -104,9 +104,8 @@ public class LoyaltyDbContext : DbContextBase
         modelBuilder.Entity<LoyaltyMissionTransactionEntity>()
             .HasIndex(x => new { x.MissionId, x.ObjectId, x.UserId }).IsUnique()
             .HasDatabaseName("IX_LoyaltyMissionTransaction_MissionId_ObjectId_UserId");
-        modelBuilder.Entity<LoyaltyMissionTransactionEntity>()
-            .HasIndex(x => x.MissionProgressId)
-            .HasDatabaseName("IX_LoyaltyMissionTransaction_MissionProgressId");
+        modelBuilder.Entity<LoyaltyMissionTransactionEntity>().HasOne(x => x.MissionProgress).WithMany(x => x.Transactions)
+            .HasForeignKey(x => x.MissionProgressId).OnDelete(DeleteBehavior.Restrict);
 
         switch (Database.ProviderName)
         {

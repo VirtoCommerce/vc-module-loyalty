@@ -24,7 +24,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
     private readonly ILoyaltyMissionGoalItemSearchService _goalItemSearchService;
     private readonly ILoyaltyMissionProgressService _progressService;
     private readonly ILoyaltyMissionProgressSearchService _progressSearchService;
-    private readonly ILoyaltyMissionTransactionService _transactionService;
     private readonly ILoyaltyMissionTransactionSearchService _transactionSearchService;
     private readonly ILoyaltyLogicService _loyaltyLogicService;
     private readonly IDistributedLockService _distributedLockService;
@@ -35,7 +34,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         ILoyaltyMissionGoalItemSearchService goalItemSearchService,
         ILoyaltyMissionProgressService progressService,
         ILoyaltyMissionProgressSearchService progressSearchService,
-        ILoyaltyMissionTransactionService transactionService,
         ILoyaltyMissionTransactionSearchService transactionSearchService,
         ILoyaltyLogicService loyaltyLogicService,
         IDistributedLockService distributedLockService,
@@ -45,7 +43,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         _goalItemSearchService = goalItemSearchService;
         _progressService = progressService;
         _progressSearchService = progressSearchService;
-        _transactionService = transactionService;
         _transactionSearchService = transactionSearchService;
         _loyaltyLogicService = loyaltyLogicService;
         _distributedLockService = distributedLockService;
@@ -307,9 +304,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             transaction.ObjectType = nameof(CustomerOrder);
             transaction.ContributionValue = contribution;
 
-            // Log the transaction first as the idempotency gate, then persist the progress.
-            await _transactionService.SaveChangesAsync([transaction]);
+            // The transaction rides along in the same SaveChangesAsync call as the progress update (see
+            // LoyaltyMissionProgressEntity.FromModel/Patch and LoyaltyMissionProgressService.ClearCache),
+            // so both persist in one DB transaction: a retry after a failure re-evaluates from scratch
+            // instead of losing the contribution or double-applying it.
+            progress.NewTransactions.Add(transaction);
             await _progressService.SaveChangesAsync([progress]);
+            progress.NewTransactions.Clear();
         }
 
         // Grant the reward and mark the mission Completed only after the reward is granted, so a reward

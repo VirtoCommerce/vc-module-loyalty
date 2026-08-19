@@ -39,6 +39,10 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
     public ObservableCollection<LoyaltyMissionProgressItemEntity> Items { get; set; }
         = new NullCollection<LoyaltyMissionProgressItemEntity>();
 
+    // Not a full history (never loaded via Include): a write-only buffer for transactions added via
+    // FromModel/Patch in the same SaveChangesAsync call as the progress update. See LoyaltyMissionProgress.NewTransactions.
+    public ObservableCollection<LoyaltyMissionTransactionEntity> Transactions { get; set; } = [];
+
     public virtual LoyaltyMissionProgress ToModel(LoyaltyMissionProgress model)
     {
         model.Id = Id;
@@ -108,6 +112,12 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
                 }));
         }
 
+        if (!model.NewTransactions.IsNullOrEmpty())
+        {
+            Transactions = new ObservableCollection<LoyaltyMissionTransactionEntity>(model.NewTransactions
+                .Select(x => AbstractTypeFactory<LoyaltyMissionTransactionEntity>.TryCreateInstance().FromModel(x, pkMap)));
+        }
+
         return this;
     }
 
@@ -131,6 +141,15 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
                 t.CurrentQuantity = source.CurrentQuantity;
                 t.TargetQuantity = source.TargetQuantity;
             });
+        }
+
+        // Append-only: never synced against target.Transactions (which is never loaded), only added to.
+        if (!Transactions.IsNullOrEmpty())
+        {
+            foreach (var transaction in Transactions)
+            {
+                target.Transactions.Add(transaction);
+            }
         }
     }
 }
