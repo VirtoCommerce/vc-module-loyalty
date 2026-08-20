@@ -143,10 +143,17 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return [];
         }
 
-        // 1. Loyalty context
+        // 1. Missions must be enabled for the store (mirrors the gate in ProcessOrderAsync).
+        var store = await _storeService.GetNoCloneAsync(storeId);
+        if (store == null || !store.Settings.GetValue<bool>(ModuleConstants.Settings.General.MissionsEnable))
+        {
+            return [];
+        }
+
+        // 2. Loyalty context
         var context = await GetLoyaltyContextAsync(userId, storeId);
 
-        // 2. Search for all published missions that qualify for this user
+        // 3. Search for all published missions that qualify for this user
         var qualifyingMissions = await GetQualifyingMissionsAsync(storeId, context);
 
         if (qualifyingMissions.Count == 0)
@@ -154,7 +161,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return [];
         }
 
-        // 3. Search for progress records for the qualifying missions
+        // 4. Search for progress records for the qualifying missions
         var progressByMissionId = new Dictionary<string, LoyaltyMissionProgress>(StringComparer.OrdinalIgnoreCase);
         var progressCriteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
         progressCriteria.UserId = userId;
@@ -169,11 +176,10 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             }
         }
 
-        // 4. Resolve the loyalty points currency (mission currency is resolved per mission from the OrderValue goal).
-        var store = await _storeService.GetNoCloneAsync(storeId);
-        var pointsCurrencyCode = store?.GetLoyaltyCurrencyCode();
+        // 5. Resolve the loyalty points currency (mission currency is resolved per mission from the OrderValue goal).
+        var pointsCurrencyCode = store.GetLoyaltyCurrencyCode();
 
-        // 5. Pair every qualifying mission with its progress (real or transient 0%)
+        // 6. Pair every qualifying mission with its progress (real or transient 0%)
         var now = DateTime.UtcNow;
         var result = new List<LoyaltyUserMission>();
 
@@ -215,13 +221,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             });
         }
 
-        // 6. Apply the requested progress-status filter.
+        // 7. Apply the requested progress-status filter.
         if (!statuses.IsNullOrEmpty())
         {
             result = result.Where(x => statuses.Contains(x.Progress.Status)).ToList();
         }
 
-        // 7. Apply the CompletedDate range filter (keeps only missions completed within the range).
+        // 8. Apply the CompletedDate range filter (keeps only missions completed within the range).
         if (completedStartDate != null)
         {
             result = result.Where(x => x.Progress.CompletedDate != null && x.Progress.CompletedDate >= completedStartDate).ToList();
@@ -232,7 +238,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             result = result.Where(x => x.Progress.CompletedDate != null && x.Progress.CompletedDate <= completedEndDate).ToList();
         }
 
-        // 8. Apply the started/not-started filter (started = a real progress record exists).
+        // 9. Apply the started/not-started filter (started = a real progress record exists).
         if (isStarted != null)
         {
             result = result.Where(x => !string.IsNullOrEmpty(x.Progress.Id) == isStarted.Value).ToList();
@@ -425,13 +431,15 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         {
             progress.CurrentValue = progress.Items.Sum(i => Math.Min(i.CurrentQuantity, i.TargetQuantity));
 
-            var completed = perSku.All
-                ? progress.Items.Count > 0 && progress.Items.All(i => i.CurrentQuantity >= i.TargetQuantity)
-                : progress.Items.Any(i => i.CurrentQuantity >= i.TargetQuantity);
-
-            progress.Percentage = perSku.All
-                ? (progress.TargetValue > 0 ? Math.Min(100m, progress.CurrentValue / progress.TargetValue * 100m) : 0m)
-                : (completed ? 100m : 0m);
+            if (perSku.All)
+            {
+                progress.Percentage = progress.TargetValue > 0 ? Math.Min(100m, progress.CurrentValue / progress.TargetValue * 100m) : 0m;
+            }
+            else
+            {
+                var completed = progress.Items.Any(i => i.CurrentQuantity >= i.TargetQuantity);
+                progress.Percentage = completed ? 100m : 0m;
+            }
         }
         else
         {
