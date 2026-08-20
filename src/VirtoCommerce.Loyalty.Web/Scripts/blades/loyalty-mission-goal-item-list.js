@@ -84,7 +84,10 @@ angular.module('VirtoCommerce.Loyalty')
                     callback: function (remove) {
                         if (remove) {
                             blade.isLoading = true;
-                            var itemIds = _.pluck(_.filter(list, function (x) { return x.id; }), 'id');
+                            var itemIds = _.pluck(_.filter(list, function (x) {
+                                return x.id;
+                            }), 'id');
+
                             if (!itemIds.length) {
                                 // only unsaved rows selected — just drop them locally
                                 $scope.listEntries = _.difference($scope.listEntries, list);
@@ -172,11 +175,15 @@ angular.module('VirtoCommerce.Loyalty')
                     allowCheckingCategory: false,
                     checkItemFn: function (listItem, isSelected) {
                         if (isSelected) {
-                            if (_.all(selectedProducts, function (x) { return x.id !== listItem.id; })) {
+                            if (_.all(selectedProducts, function (x) {
+                                return x.id !== listItem.id;
+                            })) {
                                 selectedProducts.push(listItem);
                             }
                         } else {
-                            selectedProducts = _.reject(selectedProducts, function (x) { return x.id === listItem.id; });
+                            selectedProducts = _.reject(selectedProducts, function (x) {
+                                return x.id === listItem.id;
+                            });
                         }
                         newBlade.error = undefined;
                     }

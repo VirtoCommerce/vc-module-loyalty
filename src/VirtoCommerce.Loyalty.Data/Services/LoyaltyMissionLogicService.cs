@@ -143,17 +143,15 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return [];
         }
 
-        // 1. Missions must be enabled for the store (mirrors the gate in ProcessOrderAsync).
         var store = await _storeService.GetNoCloneAsync(storeId);
         if (store == null || !store.Settings.GetValue<bool>(ModuleConstants.Settings.General.MissionsEnable))
         {
             return [];
         }
 
-        // 2. Loyalty context
         var context = await GetLoyaltyContextAsync(userId, storeId);
 
-        // 3. Search for all published missions that qualify for this user
+        // Search for all published missions that qualify for this user
         var qualifyingMissions = await GetQualifyingMissionsAsync(storeId, context);
 
         if (qualifyingMissions.Count == 0)
@@ -161,25 +159,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return [];
         }
 
-        // 4. Search for progress records for the qualifying missions
-        var progressByMissionId = new Dictionary<string, LoyaltyMissionProgress>(StringComparer.OrdinalIgnoreCase);
-        var progressCriteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
-        progressCriteria.UserId = userId;
-        progressCriteria.MissionIds = qualifyingMissions.Select(x => x.Id).ToArray();
-        progressCriteria.Take = 100;
+        // Search for progress records for the qualifying missions
+        var progressByMissionId = await GetProgressByMissionIdAsync(userId, qualifyingMissions);
 
-        await foreach (var batch in _progressSearchService.SearchBatchesNoCloneAsync(progressCriteria))
-        {
-            foreach (var progress in batch.Results)
-            {
-                progressByMissionId.TryAdd(progress.MissionId, progress);
-            }
-        }
-
-        // 5. Resolve the loyalty points currency (mission currency is resolved per mission from the OrderValue goal).
+        // Resolve the loyalty points currency (mission currency is resolved per mission from the OrderValue goal).
         var pointsCurrencyCode = store.GetLoyaltyCurrencyCode();
 
-        // 6. Pair every qualifying mission with its progress (real or transient 0%)
+        // Pair every qualifying mission with its progress (real or transient 0%)
         var now = DateTime.UtcNow;
         var result = new List<LoyaltyUserMission>();
 
@@ -221,13 +207,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             });
         }
 
-        // 7. Apply the requested progress-status filter.
+        // Apply the requested progress-status filter.
         if (!statuses.IsNullOrEmpty())
         {
             result = result.Where(x => statuses.Contains(x.Progress.Status)).ToList();
         }
 
-        // 8. Apply the CompletedDate range filter (keeps only missions completed within the range).
+        // Apply the CompletedDate range filter (keeps only missions completed within the range).
         if (completedStartDate != null)
         {
             result = result.Where(x => x.Progress.CompletedDate != null && x.Progress.CompletedDate >= completedStartDate).ToList();
@@ -238,7 +224,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             result = result.Where(x => x.Progress.CompletedDate != null && x.Progress.CompletedDate <= completedEndDate).ToList();
         }
 
-        // 9. Apply the started/not-started filter (started = a real progress record exists).
+        // Apply the started/not-started filter (started = a real progress record exists).
         if (isStarted != null)
         {
             result = result.Where(x => !string.IsNullOrEmpty(x.Progress.Id) == isStarted.Value).ToList();
@@ -275,7 +261,26 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         return qualifyingMissions;
     }
 
-    private Task ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
+    private async Task<Dictionary<string, LoyaltyMissionProgress>> GetProgressByMissionIdAsync(string userId, IList<LoyaltyMission> qualifyingMissions)
+    {
+        var progressByMissionId = new Dictionary<string, LoyaltyMissionProgress>(StringComparer.OrdinalIgnoreCase);
+        var progressCriteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
+        progressCriteria.UserId = userId;
+        progressCriteria.MissionIds = qualifyingMissions.Select(x => x.Id).ToArray();
+        progressCriteria.Take = 100;
+
+        await foreach (var batch in _progressSearchService.SearchBatchesNoCloneAsync(progressCriteria))
+        {
+            foreach (var progress in batch.Results)
+            {
+                progressByMissionId.TryAdd(progress.MissionId, progress);
+            }
+        }
+
+        return progressByMissionId;
+    }
+
+    private Task<bool> ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
     {
         return _distributedLockService.ExecuteAsync($"loyalty-mission:{mission.Id}:{userId}",
             () => ApplyMissionInternalAsync(mission, goal, order, userId),
@@ -296,10 +301,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
         var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
 
-        var eventDate = order.CreatedDate == default ? DateTime.UtcNow : order.CreatedDate;
-        var progress = await GetOrCreateProgressAsync(mission, goal, userId, eventDate, goalItems);
+        var progress = await GetOrCreateProgressAsync(mission, goal, userId, goalItems);
 
-        // An already completed mission is done: the reward was granted before completion was persisted.
         if (progress.Status.EqualsIgnoreCase(ModuleConstants.MissionProgressStatuses.Completed))
         {
             return false;
@@ -353,7 +356,6 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         LoyaltyMission mission,
         IMissionGoal goal,
         string userId,
-        DateTime eventDate,
         IList<LoyaltyMissionGoalItem> goalItems)
     {
         var (periodStart, periodEnd) = ResolvePeriod(mission);

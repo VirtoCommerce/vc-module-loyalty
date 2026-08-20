@@ -231,8 +231,7 @@ angular.module(moduleName, [])
                 id: 'BlockLoyaltyCondition',
                 newChildLabel: 'Add condition',
                 getValidationError: function () {
-                    var errorMessage = (this.children && this.children.length) ? undefined : 'Your loyalty program must have at least one condition';
-                    return errorMessage;
+                    return (this.children && this.children.length) ? undefined : 'Your loyalty program must have at least one condition';
                 },
             });
 
@@ -240,8 +239,7 @@ angular.module(moduleName, [])
                 id: 'BlockLoyaltyMissionCondition',
                 newChildLabel: 'Add condition',
                 getValidationError: function () {
-                    var errorMessage = (this.children && this.children.length) ? undefined : 'Your loyalty mission must have at least one condition';
-                    return errorMessage;
+                    return (this.children && this.children.length) ? undefined : 'Your loyalty mission must have at least one condition';
                 },
             });
 
@@ -249,7 +247,10 @@ angular.module(moduleName, [])
                 id: 'BlockLoyaltyMissionGoals',
                 newChildLabel: 'Add goal',
                 getValidationError: function () {
-                    var goals = _.filter(this.children, function (child) { return !!child.missionType; });
+                    var goals = _.filter(this.children, function (child) {
+                        return !!child.missionType;
+                    });
+
                     if (goals.length === 0) {
                         return 'Your mission must have exactly one goal: order value, order count or SKU-based';
                     }

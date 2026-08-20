@@ -30,9 +30,10 @@ angular.module('VirtoCommerce.Loyalty')
 
             $scope.selectNode = function (node) {
                 $scope.selectedNodeId = node.id;
+                var newBlade = {};
 
                 if (node.sourceType === 'LoyaltyMission') {
-                    var newBlade = {
+                    newBlade = {
                         id: 'loyaltyMissionBlade',
                         currentEntity: {
                             id: node.sourceId
@@ -45,7 +46,7 @@ angular.module('VirtoCommerce.Loyalty')
                     bladeNavigationService.showBlade(newBlade, blade);
                 }
                 else if (node.sourceType === 'LoyaltyProgram') {
-                    var newBlade = {
+                    newBlade = {
                         id: 'loyaltyProgramBlade',
                         currentEntity: {
                             id: node.sourceId
@@ -60,10 +61,7 @@ angular.module('VirtoCommerce.Loyalty')
                 else if (node.objectType === 'CustomerOrder') {
                     var foundTemplate = knownOperations.getOperation(node.objectType);
                     if (foundTemplate) {
-                        var newBlade = angular.copy(foundTemplate.detailBlade);
-                        //if (blade.preloadedOrders || angular.isFunction(blade.refreshCallback)) {
-                        //    newBlade.id = 'preloadedOrderDetails';
-                        //}
+                        newBlade = angular.copy(foundTemplate.detailBlade);
                         newBlade.customerOrder = { id: node.objectId };
                         bladeNavigationService.showBlade(newBlade, blade);
                     }
