@@ -102,12 +102,13 @@ public static class DataLoaderContextAccessorExtensions
             }
 
             var userId = context.GetArgumentOrValue<string>("userId");
+            var currencyCode = mission.MissionCurrencyCode ?? context.GetValue<string>("currencyCode");
 
             var request = new LoadProductsQuery
             {
                 ObjectIds = ids.ToArray(),
                 StoreId = mission.Store.Id,
-                CurrencyCode = mission.MissionCurrencyCode,
+                CurrencyCode = currencyCode,
                 IncludeFields = context.SubFields.Values.GetAllNodesPaths(context).ToArray(),
                 UserId = userId,
                 OrganizationId = context.GetCurrentOrganizationId(),
@@ -117,7 +118,7 @@ public static class DataLoaderContextAccessorExtensions
             var cultureName = context.GetArgumentOrValue<string>("cultureName");
             context.SetCurrencies(allCurrencies, cultureName);
 
-            context.UserContext.TryAdd("currencyCode", mission.MissionCurrencyCode);
+            context.UserContext.TryAdd("currencyCode", currencyCode);
             context.UserContext.TryAdd("storeId", mission.Store.Id);
             context.UserContext.TryAdd("cultureName", cultureName);
 
