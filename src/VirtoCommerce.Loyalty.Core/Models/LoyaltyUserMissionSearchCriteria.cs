@@ -12,6 +12,8 @@ public class LoyaltyUserMissionSearchCriteria
 
     public string StoreId { get; set; }
 
+    public string CurrencyCode { get; set; }
+
     /// <summary>
     /// Filter by progress status (InProgress, Completed, Expired). Empty = all.
     /// </summary>

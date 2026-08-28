@@ -18,6 +18,8 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
 
     public string CultureName { get; set; }
 
+    public string CurrencyCode { get; set; }
+
     /// <summary>
     /// Optional lower bound for the mission CompletedDate filter
     /// </summary>
@@ -45,6 +47,7 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         yield return Argument<DateTimeGraphType>(nameof(CompletedStartDate));
         yield return Argument<DateTimeGraphType>(nameof(CompletedEndDate));
         yield return Argument<StringGraphType>(nameof(CultureName));
+        yield return Argument<StringGraphType>(nameof(CurrencyCode));
         yield return Argument<BooleanGraphType>(nameof(IsStarted));
         yield return Argument<StringGraphType>(nameof(UserId));
     }
@@ -58,6 +61,7 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         CompletedStartDate = context.GetArgument<DateTime?>(nameof(CompletedStartDate));
         CompletedEndDate = context.GetArgument<DateTime?>(nameof(CompletedEndDate));
         CultureName = context.GetArgument<string>(nameof(CultureName));
+        CurrencyCode = context.GetArgument<string>(nameof(CurrencyCode));
         IsStarted = context.GetArgument<bool?>(nameof(IsStarted));
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
     }

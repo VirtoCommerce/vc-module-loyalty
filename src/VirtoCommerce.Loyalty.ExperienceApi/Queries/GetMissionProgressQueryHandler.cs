@@ -38,6 +38,7 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
 
         criteria.UserId = request.UserId;
         criteria.StoreId = request.StoreId;
+        criteria.CurrencyCode = request.CurrencyCode;
         criteria.Statuses = request.Statuses;
         criteria.CompletedStartDate = request.CompletedStartDate;
         criteria.CompletedEndDate = request.CompletedEndDate;

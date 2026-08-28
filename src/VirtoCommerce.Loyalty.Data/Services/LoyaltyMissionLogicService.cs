@@ -137,6 +137,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         var completedStartDate = criteria.CompletedStartDate;
         var completedEndDate = criteria.CompletedEndDate;
         var isStarted = criteria.IsStarted;
+        var currencyCode = criteria.CurrencyCode;
 
         if (storeId.IsNullOrEmpty() || userId.IsNullOrEmpty())
         {
@@ -193,7 +194,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             }
 
             // Mission currency comes from the OrderValue goal (no fallback): null when not set or not an OrderValue goal.
-            var missionCurrencyCode = goal is OrderValueGoal orderValueGoal ? orderValueGoal.CurrencyCode : null;
+            var missionCurrencyCode = goal is OrderValueGoal orderValueGoal ? orderValueGoal.CurrencyCode : currencyCode;
 
             result.Add(new LoyaltyUserMission
             {
@@ -211,6 +212,12 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         if (!statuses.IsNullOrEmpty())
         {
             result = result.Where(x => statuses.Contains(x.Progress.Status)).ToList();
+        }
+
+        // filter out OrderValue missions by requested currencyCode
+        if (!currencyCode.IsNullOrEmpty())
+        {
+            result = result.Where(x => x.MissionCurrencyCode.EqualsIgnoreCase(currencyCode)).ToList();
         }
 
         // Apply the CompletedDate range filter (keeps only missions completed within the range).
