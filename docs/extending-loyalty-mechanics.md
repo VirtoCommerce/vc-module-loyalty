@@ -57,7 +57,7 @@ LoyaltyLogicService.EvaluateLoyaltyProgramsAsync:
 LogLoyaltyProgramOperationAsync:
    - Idempotency check (IsObjectProcessedAsync by ObjectType + ObjectId).
    - Running balance = previous balance ± amount.
-   - Persist LoyaltyProgramOperationLog (OperationType = "Earned").
+   - Persist LoyaltyBalanceOperationLog (OperationType = "Earned").
 ```
 
 **Cross-mechanic semantics**: priority is global across types. A high-priority `ProductPoints` program wins over a low-priority `Default` program. If the highest-priority program's conditions don't match, the loop falls through to the next.
@@ -219,7 +219,7 @@ If your mechanic should surface an "earn N" preview on the catalog or cart (as P
 ## Anti-patterns to avoid
 
 - ❌ Adding `switch (programType)` anywhere in `LoyaltyLogicService` or downstream services.
-- ❌ Calling `LoyaltyProgramOperationLogService.SaveChangesAsync` directly to write balance entries. Always go through `ILoyaltyLogicService.LogLoyaltyProgramOperationAsync` so idempotency and balance computation stay consistent.
+- ❌ Calling `LoyaltyBalanceOperationLogService.SaveChangesAsync` directly to write balance entries. Always go through `ILoyaltyLogicService.LogLoyaltyProgramOperationAsync` so idempotency and balance computation stay consistent.
 - ❌ Reloading the `CustomerOrder` from `ICustomerOrderService` inside your mechanic. Read `ctx.Order`.
 - ❌ Reusing another mechanic's `ProgramType` discriminator. The DI registration validates this at startup and throws `InvalidOperationException` if duplicates exist.
 - ❌ Mutating `ctx` in a way another mechanic would notice. Mechanics are isolated; treat the context as read-only past `PopulateLoyaltyProgramEvaluationContextAsync`.

@@ -7,16 +7,16 @@ using VirtoCommerce.Xapi.Core.Infrastructure;
 
 namespace VirtoCommerce.QuoteModule.ExperienceApi.Queries;
 
-public class GetLoyaltyHistoryQueryHandler : IQueryHandler<GetLoyaltyHistoryQuery, LoyaltyProgramOperationLogSearchResult>
+public class GetLoyaltyHistoryQueryHandler : IQueryHandler<GetLoyaltyHistoryQuery, LoyaltyBalanceOperationLogSearchResult>
 {
-    private readonly ILoyaltyProgramOperationLogSearchService _loyaltyLogSearchService;
+    private readonly ILoyaltyBalanceOperationLogSearchService _loyaltyLogSearchService;
 
-    public GetLoyaltyHistoryQueryHandler(ILoyaltyProgramOperationLogSearchService loyaltyLogSearchService)
+    public GetLoyaltyHistoryQueryHandler(ILoyaltyBalanceOperationLogSearchService loyaltyLogSearchService)
     {
         _loyaltyLogSearchService = loyaltyLogSearchService;
     }
 
-    public virtual async Task<LoyaltyProgramOperationLogSearchResult> Handle(GetLoyaltyHistoryQuery request, CancellationToken cancellationToken)
+    public virtual async Task<LoyaltyBalanceOperationLogSearchResult> Handle(GetLoyaltyHistoryQuery request, CancellationToken cancellationToken)
     {
         var criteria = GetSearchCriteria(request);
 
@@ -25,9 +25,9 @@ public class GetLoyaltyHistoryQueryHandler : IQueryHandler<GetLoyaltyHistoryQuer
         return searchResult;
     }
 
-    protected virtual LoyaltyProgramOperationLogSearchCriteria GetSearchCriteria(GetLoyaltyHistoryQuery request)
+    protected virtual LoyaltyBalanceOperationLogSearchCriteria GetSearchCriteria(GetLoyaltyHistoryQuery request)
     {
-        var criteria = request.GetSearchCriteria<LoyaltyProgramOperationLogSearchCriteria>();
+        var criteria = request.GetSearchCriteria<LoyaltyBalanceOperationLogSearchCriteria>();
         criteria.UserId = request.UserId;
         criteria.OperationType = request.OperationType;
 

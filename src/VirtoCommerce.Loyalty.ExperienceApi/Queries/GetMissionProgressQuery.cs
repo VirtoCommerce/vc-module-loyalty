@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using GraphQL;
+using GraphQL.Types;
+using VirtoCommerce.Loyalty.Core.Models;
+using VirtoCommerce.Xapi.Core.BaseQueries;
+using VirtoCommerce.Xapi.Core.Extensions;
+
+namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
+
+public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResult>
+{
+    public string UserId { get; set; }
+
+    public IList<string> Statuses { get; set; }
+
+    public string StoreId { get; set; }
+
+    public string CultureName { get; set; }
+
+    public string CurrencyCode { get; set; }
+
+    /// <summary>
+    /// Optional lower bound for the mission CompletedDate filter
+    /// </summary>
+    public DateTime? CompletedStartDate { get; set; }
+
+    /// <summary>
+    /// Optional upper bound for the mission CompletedDate filter
+    /// </summary>
+    public DateTime? CompletedEndDate { get; set; }
+
+    /// <summary>
+    /// Optional filter by whether the user has started the mission (true = started, false = not started yet)
+    /// </summary>
+    public bool? IsStarted { get; set; }
+
+    public override IEnumerable<QueryArgument> GetArguments()
+    {
+        foreach (var argument in base.GetArguments())
+        {
+            yield return argument;
+        }
+
+        yield return Argument<NonNullGraphType<StringGraphType>>(nameof(StoreId));
+        yield return Argument<ListGraphType<StringGraphType>>(nameof(Statuses));
+        yield return Argument<DateTimeGraphType>(nameof(CompletedStartDate));
+        yield return Argument<DateTimeGraphType>(nameof(CompletedEndDate));
+        yield return Argument<StringGraphType>(nameof(CultureName));
+        yield return Argument<StringGraphType>(nameof(CurrencyCode));
+        yield return Argument<BooleanGraphType>(nameof(IsStarted));
+        yield return Argument<StringGraphType>(nameof(UserId));
+    }
+
+    public override void Map(IResolveFieldContext context)
+    {
+        base.Map(context);
+
+        StoreId = context.GetArgument<string>(nameof(StoreId));
+        Statuses = context.GetArgument<IList<string>>(nameof(Statuses));
+        CompletedStartDate = context.GetArgument<DateTime?>(nameof(CompletedStartDate));
+        CompletedEndDate = context.GetArgument<DateTime?>(nameof(CompletedEndDate));
+        CultureName = context.GetArgument<string>(nameof(CultureName));
+        CurrencyCode = context.GetArgument<string>(nameof(CurrencyCode));
+        IsStarted = context.GetArgument<bool?>(nameof(IsStarted));
+        UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
+    }
+}

@@ -27,13 +27,17 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
 
             if (!result)
             {
+                var userId = GetCurrentUserId(context);
                 switch (context.Resource)
                 {
                     case CustomerOrder order:
-                        result = order.CustomerId == GetCurrentUserId(context);
+                        result = order.CustomerId == userId;
                         break;
                     case GetLoyaltyHistoryQuery query:
-                        result = query.UserId == GetCurrentUserId(context);
+                        result = query.UserId == userId;
+                        break;
+                    case GetMissionProgressQuery query:
+                        result = query.UserId == userId;
                         break;
                 }
             }

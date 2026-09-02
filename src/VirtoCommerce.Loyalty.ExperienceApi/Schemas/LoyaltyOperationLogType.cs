@@ -8,7 +8,7 @@ using VirtoCommerce.Xapi.Core.Helpers;
 using VirtoCommerce.Xapi.Core.Schemas;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Schemas;
-public class LoyaltyOperationLogType : ExtendableGraphType<LoyaltyProgramOperationLog>
+public class LoyaltyOperationLogType : ExtendableGraphType<LoyaltyBalanceOperationLog>
 {
     public LoyaltyOperationLogType(
             IDataLoaderContextAccessor dataLoader,
@@ -27,7 +27,7 @@ public class LoyaltyOperationLogType : ExtendableGraphType<LoyaltyProgramOperati
         {
             Name = "object",
             Type = GraphTypeExtensionHelper.GetActualType<LoyaltyOperationLogObjectType>(),
-            Resolver = new FuncFieldResolver<LoyaltyProgramOperationLog, IDataLoaderResult<LoyaltyOperationLogObject>>(context =>
+            Resolver = new FuncFieldResolver<LoyaltyBalanceOperationLog, IDataLoaderResult<LoyaltyOperationLogObject>>(context =>
             {
                 return dataLoader.LoadLoyaltyObject(customerOrderService,
                     loaderKey: "loyalty_object",

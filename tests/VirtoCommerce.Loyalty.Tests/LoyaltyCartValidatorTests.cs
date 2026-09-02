@@ -155,5 +155,8 @@ public class LoyaltyCartValidatorTests
 
         public Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult) =>
             throw new NotSupportedException();
+
+        public Task PopulateLoyaltyProgramEvaluationContextAsync(LoyaltyProgramEvaluationContext context) =>
+            throw new NotImplementedException();
     }
 }
