@@ -63,6 +63,12 @@ public static class ModuleConstants
         public const string None = "None";
     }
 
+    public static class LoyaltyBalanceCalculationModes
+    {
+        public const string Customer = "Customer";
+        public const string Organization = "Organization";
+    }
+
     /// <summary>
     /// Values for <see cref="Models.LoyaltyBalanceOperationLog.SourceType"/>.
     /// </summary>
@@ -132,6 +138,16 @@ public static class ModuleConstants
                 IsPublic = true,
             };
 
+            public static SettingDescriptor LoyaltyBalanceCalculationMode { get; } = new()
+            {
+                Name = "Loyalty.LoyaltyBalanceCalculationMode",
+                GroupName = "Loyalty|General",
+                ValueType = SettingValueType.ShortText,
+                IsPublic = false,
+                DefaultValue = LoyaltyBalanceCalculationModes.Customer,
+                AllowedValues = [LoyaltyBalanceCalculationModes.Customer, LoyaltyBalanceCalculationModes.Organization],
+            };
+
             public static IEnumerable<SettingDescriptor> AllGeneralSettings
             {
                 get
@@ -141,6 +157,7 @@ public static class ModuleConstants
                     yield return LoyaltyCurrency;
                     yield return DefaultProductMultiplyFactor;
                     yield return MissionsEnable;
+                    yield return LoyaltyBalanceCalculationMode;
                 }
             }
         }
@@ -154,6 +171,7 @@ public static class ModuleConstants
                 yield return General.LoyaltyCurrency;
                 yield return General.DefaultProductMultiplyFactor;
                 yield return General.MissionsEnable;
+                yield return General.LoyaltyBalanceCalculationMode;
             }
         }
 

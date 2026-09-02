@@ -61,6 +61,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return;
         }
 
+        var organizationBalanceCalculationMode = store.IsOrganizationBalanceCalculationMode();
+
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
         context.ContextObjectType = nameof(CustomerOrder);
         context.OrderId = order.Id;
@@ -92,7 +94,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
                     continue;
                 }
 
-                await ApplyMissionAsync(mission, goal, order, userId);
+                await ApplyMissionAsync(mission, goal, order, userId, organizationBalanceCalculationMode);
             }
         }
     }
@@ -287,16 +289,16 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         return progressByMissionId;
     }
 
-    private Task<bool> ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
+    private Task<bool> ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId, bool organizationBalanceCalculationMode)
     {
         return _distributedLockService.ExecuteAsync($"loyalty-mission:{mission.Id}:{userId}",
-            () => ApplyMissionInternalAsync(mission, goal, order, userId),
+            () => ApplyMissionInternalAsync(mission, goal, order, userId, organizationBalanceCalculationMode),
             lockTimeout: TimeSpan.FromSeconds(30),
             tryLockTimeout: TimeSpan.FromSeconds(30),
             retryInterval: TimeSpan.FromMilliseconds(200));
     }
 
-    private async Task<bool> ApplyMissionInternalAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
+    private async Task<bool> ApplyMissionInternalAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId, bool organizationBalanceCalculationMode)
     {
         // Skip the order entirely (no transaction, no progress) when its currency does not match the OrderValue goal currency.
         if (goal is OrderValueGoal orderValueGoal
@@ -337,7 +339,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
         if (IsCompleted(progress, goal))
         {
-            await GrantRewardAsync(mission, progress, userId);
+            await GrantRewardAsync(mission, progress, userId, order.OrganizationId, organizationBalanceCalculationMode);
 
             progress.Status = ModuleConstants.MissionProgressStatuses.Completed;
             progress.CompletedDate = DateTime.UtcNow;
@@ -470,7 +472,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             : goal.MissionType;
     }
 
-    private async Task GrantRewardAsync(LoyaltyMission mission, LoyaltyMissionProgress progress, string userId)
+    private async Task GrantRewardAsync(LoyaltyMission mission, LoyaltyMissionProgress progress, string userId, string organizationId, bool organizationBalanceCalculationMode)
     {
         var amount = GetRewardAmount(mission.DynamicExpression);
         if (amount <= 0)
@@ -482,6 +484,11 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         context.ContextObjectType = nameof(LoyaltyMissionProgress);
         context.MissionProgressId = progress.Id;
         context.UserId = userId;
+
+        if (organizationBalanceCalculationMode)
+        {
+            context.OrganizationId = organizationId;
+        }
 
         var result = AbstractTypeFactory<LoyaltyAmountResult>.TryCreateInstance();
         result.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType;

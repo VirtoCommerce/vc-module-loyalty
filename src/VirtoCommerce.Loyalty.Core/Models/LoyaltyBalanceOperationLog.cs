@@ -7,6 +7,8 @@ public class LoyaltyBalanceOperationLog : AuditableEntity, ICloneable
 {
     public string UserId { get; set; }
 
+    public string OrganizationId { get; set; }
+
     /// <summary>
     /// "LoyaltyProgram" or "LoyaltyMission"
     /// </summary>

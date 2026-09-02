@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "Fator multiplicador padrão do produto",
         "description": "Multiplicador padrão aplicado ao preço do produto ao calcular pontos de fidelidade se nenhum fator específico por produto estiver configurado"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Modo de cálculo de pontos",
+        "description": "Adicionar pontos ao nível de cliente ou organização"
       }
     }
   }

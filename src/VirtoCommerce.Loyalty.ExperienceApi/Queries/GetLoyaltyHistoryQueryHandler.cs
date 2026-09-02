@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
 using VirtoCommerce.Loyalty.ExperienceApi.Queries;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Xapi.Core.Infrastructure;
 
 namespace VirtoCommerce.QuoteModule.ExperienceApi.Queries;
@@ -28,7 +29,17 @@ public class GetLoyaltyHistoryQueryHandler : IQueryHandler<GetLoyaltyHistoryQuer
     protected virtual LoyaltyBalanceOperationLogSearchCriteria GetSearchCriteria(GetLoyaltyHistoryQuery request)
     {
         var criteria = request.GetSearchCriteria<LoyaltyBalanceOperationLogSearchCriteria>();
-        criteria.UserId = request.UserId;
+
+        // organization takes priority
+        if (!request.OrganizationId.IsNullOrEmpty())
+        {
+            criteria.OrganizationId = request.OrganizationId;
+        }
+        else if (!request.UserId.IsNullOrEmpty())
+        {
+            criteria.UserId = request.UserId;
+        }
+
         criteria.OperationType = request.OperationType;
 
         return criteria;

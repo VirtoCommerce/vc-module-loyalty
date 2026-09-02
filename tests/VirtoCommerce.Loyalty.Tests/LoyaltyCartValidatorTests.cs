@@ -141,6 +141,8 @@ public class LoyaltyCartValidatorTests
     {
         public Task<decimal> GetUserBalanceAsync(string userId) => Task.FromResult(balance);
 
+        public Task<decimal> GetOrganizationBalanceAsync(string organizationId) => Task.FromResult(balance);
+
         public Task<LoyaltyBalanceResult> GetLoyaltyBalanceAsync(LoyaltyBalanceRequest request) =>
             throw new NotSupportedException();
 

@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "默认商品乘数系数",
         "description": "在未配置商品专属系数时，用于计算会员积分的默认商品价格乘数"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "积分计算模式",
+        "description": "将积分添加到客户或组织级别"
       }
     }
   }

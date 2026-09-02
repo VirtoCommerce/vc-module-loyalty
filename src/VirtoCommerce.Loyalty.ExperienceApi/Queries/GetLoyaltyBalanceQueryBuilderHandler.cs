@@ -21,6 +21,8 @@ public class GetLoyaltyBalanceQueryBuilderHandler : IQueryHandler<GetLoyaltyBala
         {
             OrderId = request.OrderId,
             UserId = request.UserId,
+
+            OrganizationId = request.OrganizationId,
         });
 
         return result;

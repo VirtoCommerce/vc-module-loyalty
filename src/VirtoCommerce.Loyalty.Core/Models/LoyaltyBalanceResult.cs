@@ -15,5 +15,7 @@ public class LoyaltyBalanceRequest
 
     public string OrderId { get; set; }
 
+    public string OrganizationId { get; set; }
+
     public CustomerOrder CustomerOrder { get; set; }
 }

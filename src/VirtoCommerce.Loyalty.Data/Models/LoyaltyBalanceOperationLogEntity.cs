@@ -12,6 +12,9 @@ public class LoyaltyBalanceOperationLogEntity : AuditableEntity, IDataEntity<Loy
     [StringLength(DbContextBase.IdLength)]
     public string UserId { get; set; }
 
+    [StringLength(DbContextBase.IdLength)]
+    public string OrganizationId { get; set; }
+
     [Required]
     [StringLength(DbContextBase.IdLength)]
     public string ObjectId { get; set; }
@@ -52,6 +55,7 @@ public class LoyaltyBalanceOperationLogEntity : AuditableEntity, IDataEntity<Loy
         model.ModifiedDate = ModifiedDate;
 
         model.UserId = UserId;
+        model.OrganizationId = OrganizationId;
         model.SourceType = SourceType;
         model.SourceId = SourceId;
         model.ObjectId = ObjectId;
@@ -74,6 +78,7 @@ public class LoyaltyBalanceOperationLogEntity : AuditableEntity, IDataEntity<Loy
         ModifiedDate = model.ModifiedDate;
 
         UserId = model.UserId;
+        OrganizationId = model.OrganizationId;
         SourceType = model.SourceType;
         SourceId = model.SourceId;
         ObjectId = model.ObjectId;

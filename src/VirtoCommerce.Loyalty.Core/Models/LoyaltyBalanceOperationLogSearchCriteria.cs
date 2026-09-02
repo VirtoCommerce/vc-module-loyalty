@@ -6,6 +6,8 @@ public class LoyaltyBalanceOperationLogSearchCriteria : SearchCriteriaBase
 {
     public string UserId { get; set; }
 
+    public string OrganizationId { get; set; }
+
     public string ObjectId { get; set; }
 
     public string SourceType { get; set; }

@@ -85,6 +85,17 @@ angular.module(moduleName, [])
 
             widgetService.registerWidget(customerLoyaltyWidget, 'customerDetail1');
 
+            var organizationLoyaltyWidget = {
+                controller: 'VirtoCommerce.Loyalty.organizationLoyaltyWidgetController',
+                template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/organization-loyalty-widget.html',
+                size: [2, 1],
+                isVisible: function (blade) {
+                    return !blade.isNew;
+                }
+            };
+
+            widgetService.registerWidget(organizationLoyaltyWidget, 'organizationDetail2');
+
             var loyaltySettingWidget = {
                 controller: 'VirtoCommerce.Loyalty.loyaltySettingWidgetController',
                 template: 'Modules/$(VirtoCommerce.Loyalty)/Scripts/widgets/loyalty-setting-widget.html',

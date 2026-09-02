@@ -26,10 +26,8 @@ public class LoyaltyBalanceOperationLogSearchService(
     {
         var query = ((ILoyaltyRepository)repository).LoyaltyBalanceOperationLogs;
 
-        if (!criteria.UserId.IsNullOrEmpty())
-        {
-            query = query.Where(x => x.UserId == criteria.UserId);
-        }
+        // build "UserId or OrganizationId" predicate
+        query = BuildOwnerQuery(criteria, query);
 
         if (!criteria.ObjectId.IsNullOrEmpty())
         {
@@ -55,6 +53,30 @@ public class LoyaltyBalanceOperationLogSearchService(
         {
             query = query.Where(x => x.OperationType == criteria.OperationType);
         }
+
+        return query;
+    }
+
+    protected virtual IQueryable<LoyaltyBalanceOperationLogEntity> BuildOwnerQuery(LoyaltyBalanceOperationLogSearchCriteria criteria, IQueryable<LoyaltyBalanceOperationLogEntity> query)
+    {
+        if (criteria.UserId.IsNullOrEmpty() && criteria.OrganizationId.IsNullOrEmpty())
+        {
+            return query;
+        }
+
+        var predicate = PredicateBuilder.False<LoyaltyBalanceOperationLogEntity>();
+
+        if (!criteria.UserId.IsNullOrEmpty())
+        {
+            predicate = predicate.Or(x => x.UserId == criteria.UserId && x.OrganizationId == null);
+        }
+
+        if (!criteria.OrganizationId.IsNullOrEmpty())
+        {
+            predicate = predicate.Or(x => x.OrganizationId == criteria.OrganizationId);
+        }
+
+        query = query.Where(predicate);
 
         return query;
     }

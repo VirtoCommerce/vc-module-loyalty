@@ -28,6 +28,7 @@ public class LoyaltyProgramEvaluationContext : EvaluationContextBase, ICacheKey
     public string ProgramType { get; set; } = ModuleConstants.LoyaltyPrograms.DefaultProgramType;
 
     public string UserId { get; set; }
+    public string OrganizationId { get; set; }
     public string StoreId { get; set; }
     public string CurrencyCode { get; set; }
     public bool IsFirstOrder { get; set; }

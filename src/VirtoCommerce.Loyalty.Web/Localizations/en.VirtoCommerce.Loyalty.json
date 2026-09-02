@@ -258,6 +258,10 @@
           "title": "Loyalty missions",
           "description": "Enable/disable loyalty missions for the store"
         }
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Points calculation mode",
+        "description": "Add points to Customer or Organization level"
       }
     }
   }

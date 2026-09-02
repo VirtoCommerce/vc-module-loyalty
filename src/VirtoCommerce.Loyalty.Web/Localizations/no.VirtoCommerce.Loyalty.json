@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "Standard multiplikasjonsfaktor for produkt",
         "description": "Standard multiplikator som brukes på produktprisen ved beregning av lojalitetspoeng dersom ingen produkttilpasset faktor er konfigurert"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Poengberegningsmodus",
+        "description": "Legg til poeng på kunde- eller organisasjonsnivå"
       }
     }
   }

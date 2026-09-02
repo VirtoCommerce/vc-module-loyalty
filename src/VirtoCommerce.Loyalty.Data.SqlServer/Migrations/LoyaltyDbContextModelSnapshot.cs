@@ -66,6 +66,10 @@ namespace VirtoCommerce.Loyalty.Data.SqlServer.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("OrganizationId")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<string>("SourceId")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");

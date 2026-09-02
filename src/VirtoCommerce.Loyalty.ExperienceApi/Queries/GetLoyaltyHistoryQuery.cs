@@ -7,9 +7,11 @@ using VirtoCommerce.Xapi.Core.Extensions;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSearchResult>
+public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSearchResult>, ILoyaltyQuery
 {
     public string UserId { get; set; }
+
+    public string OrganizationId { get; set; }
 
     public string OperationType { get; set; }
 
@@ -21,6 +23,7 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSear
         }
 
         yield return Argument<StringGraphType>(nameof(UserId));
+        yield return Argument<StringGraphType>(nameof(OrganizationId));
         yield return Argument<StringGraphType>(nameof(OperationType));
     }
 
@@ -29,6 +32,7 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSear
         base.Map(context);
 
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
+        OrganizationId = context.GetArgument<string>(nameof(OrganizationId));
         OperationType = context.GetArgument<string>(nameof(OperationType));
     }
 }
