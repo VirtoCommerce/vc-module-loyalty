@@ -23,11 +23,23 @@ public class LoyaltyBalanceOperationLogController(
         return Ok(result);
     }
 
-    [HttpGet("balance/{userId}")]
+    [HttpGet("balance/user/{userId}")]
     [Authorize(Permissions.Read)]
-    public async Task<ActionResult<LoyaltyBalanceOperationLog>> GetBalance([FromRoute] string userId)
+    public async Task<ActionResult<LoyaltyBalanceOperationLog>> GetUserBalance([FromRoute] string userId)
     {
         var balance = await loyaltyLogicService.GetUserBalanceAsync(userId);
+
+        return Ok(new
+        {
+            Balance = balance
+        });
+    }
+
+    [HttpGet("balance/organization/{organizationId}")]
+    [Authorize(Permissions.Read)]
+    public async Task<ActionResult<LoyaltyBalanceOperationLog>> GetOrganizationBalance([FromRoute] string organizationId)
+    {
+        var balance = await loyaltyLogicService.GetOrganizationBalanceAsync(organizationId);
 
         return Ok(new
         {

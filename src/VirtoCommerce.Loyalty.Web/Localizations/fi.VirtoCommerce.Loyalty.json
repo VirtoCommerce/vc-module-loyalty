@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "Tuotteen oletuskertoja",
         "description": "Oletuskerroin, jota käytetään tuotteen hintaan kanta-asiakaspisteitä laskettaessa, jos tuotekohtaista kerrointa ei ole määritetty"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Pisteiden laskentatila",
+        "description": "Lisää pisteitä asiakas- tai organisaatiotasolle"
       }
     }
   }
