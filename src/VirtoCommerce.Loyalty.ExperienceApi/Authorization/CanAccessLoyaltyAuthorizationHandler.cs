@@ -40,20 +40,7 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
                         result = order.CustomerId == userId;
                         break;
                     case ILoyaltyQuery query:
-                        if (!query.OrganizationId.IsNullOrEmpty())
-                        {
-                            if (await _memberResolver.ResolveMemberByIdAsync(userId) is IHasOrganizations member)
-                            {
-                                result = member.Organizations?.Contains(query.OrganizationId) == true;
-                            }
-                        }
-                        else if (!query.UserId.IsNullOrEmpty())
-                        {
-                            result = query.UserId == userId;
-                        }
-                        break;
-                    case GetMissionProgressQuery query:
-                        result = query.UserId == userId;
+                        result = await CanAccessAsync(query, userId);
                         break;
                 }
             }
@@ -66,6 +53,24 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
             {
                 context.Fail();
             }
+        }
+
+        // Both scopes are checked, not only the first one that happens to be set: membership in the
+        // requested organization must not also hand over another member's personal data.
+        private async Task<bool> CanAccessAsync(ILoyaltyQuery query, string userId)
+        {
+            if (!query.UserId.IsNullOrEmpty() && query.UserId != userId)
+            {
+                return false;
+            }
+
+            if (!query.OrganizationId.IsNullOrEmpty())
+            {
+                return await _memberResolver.ResolveMemberByIdAsync(userId) is IHasOrganizations member
+                    && member.Organizations?.Contains(query.OrganizationId) == true;
+            }
+
+            return !query.UserId.IsNullOrEmpty();
         }
 
         private static string GetCurrentUserId(AuthorizationHandlerContext context)

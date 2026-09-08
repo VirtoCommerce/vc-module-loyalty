@@ -293,6 +293,15 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("OrganizationId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.Property<decimal>("Percentage")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal");
@@ -319,9 +328,9 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MissionId", "UserId", "PeriodStart")
+                    b.HasIndex("MissionId", "OwnerId", "PeriodStart")
                         .IsUnique()
-                        .HasDatabaseName("IX_LoyaltyMissionProgress_MissionId_UserId_PeriodStart");
+                        .HasDatabaseName("IX_LoyaltyMissionProgress_MissionId_OwnerId_PeriodStart");
 
                     b.ToTable("LoyaltyMissionProgress", (string)null);
                 });
@@ -400,6 +409,10 @@ namespace VirtoCommerce.Loyalty.Data.PostgreSql.Migrations
 
                     b.Property<string>("ObjectType")
                         .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("OrganizationId")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 

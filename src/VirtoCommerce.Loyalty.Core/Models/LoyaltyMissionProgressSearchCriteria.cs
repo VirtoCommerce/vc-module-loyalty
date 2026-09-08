@@ -11,6 +11,15 @@ public class LoyaltyMissionProgressSearchCriteria : SearchCriteriaBase
 
     public string UserId { get; set; }
 
+    public string OrganizationId { get; set; }
+
+    /// <summary>
+    /// Filters by the progress owner (organization in organization mode, user otherwise).
+    /// Prefer it over <see cref="UserId"/> when looking up the single progress a contribution
+    /// belongs to - <see cref="UserId"/> also matches organization-scoped rows.
+    /// </summary>
+    public string OwnerId { get; set; }
+
     public string Status { get; set; }
 
     private IList<string> _statuses;

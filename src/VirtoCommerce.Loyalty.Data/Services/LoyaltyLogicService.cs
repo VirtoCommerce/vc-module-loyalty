@@ -174,14 +174,16 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     private async Task<bool> EvaluateIsFirstOrder(LoyaltyProgramEvaluationContext context)
     {
-        var ordersCount = await _customerOrderSearchService.SearchNoCloneAsync(new CustomerOrderSearchCriteria
+        var orderSearchCriteria = new CustomerOrderSearchCriteria
         {
             CustomerId = context.UserId,
             StoreIds = [context.StoreId],
             WithPrototypes = false,
             Take = 0,
             Skip = 0,
-        });
+        };
+
+        var ordersCount = await _customerOrderSearchService.SearchNoCloneAsync(orderSearchCriteria);
 
         return ordersCount.TotalCount == 1;
     }
@@ -254,10 +256,16 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     public Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult)
     {
-        // Serialize the per-user balance read-modify-write across all operation sources
-        // (earn, mixed-cart redeem, payment-method redeem) so concurrent operations for the
-        // same user cannot read a stale balance and overwrite each other's running total.
-        return _distributedLockService.ExecuteAsync($"loyalty-balance:{loyaltyContext.UserId}",
+        // Serialize the balance read-modify-write across all operation sources
+        // (earn, mixed-cart redeem, payment-method redeem) so concurrent operations against
+        // the same balance cannot read a stale value and overwrite each other's running total.
+        // The balance is keyed by organization when the store is in organization mode (matching
+        // GetOrganizationBalanceAsync below), otherwise by user, so the lock must match.
+        var balanceOwnerKey = !loyaltyContext.OrganizationId.IsNullOrEmpty()
+            ? $"org:{loyaltyContext.OrganizationId}"
+            : $"user:{loyaltyContext.UserId}";
+
+        return _distributedLockService.ExecuteAsync($"loyalty-balance:{balanceOwnerKey}",
             () => LogLoyaltyProgramOperationInternalAsync(loyaltyContext, loyaltyResult),
             lockTimeout: TimeSpan.FromSeconds(30),
             tryLockTimeout: TimeSpan.FromSeconds(30),

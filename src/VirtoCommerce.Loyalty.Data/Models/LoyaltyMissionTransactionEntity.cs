@@ -22,6 +22,9 @@ public class LoyaltyMissionTransactionEntity : AuditableEntity, IDataEntity<Loya
     [StringLength(DbContextBase.IdLength)]
     public string UserId { get; set; }
 
+    [StringLength(DbContextBase.IdLength)]
+    public string OrganizationId {get;set;}
+
     [Required]
     [StringLength(DbContextBase.IdLength)]
     public string ObjectId { get; set; }
@@ -43,6 +46,7 @@ public class LoyaltyMissionTransactionEntity : AuditableEntity, IDataEntity<Loya
         model.MissionId = MissionId;
         model.MissionProgressId = MissionProgressId;
         model.UserId = UserId;
+        model.OrganizationId = OrganizationId;
         model.ObjectId = ObjectId;
         model.ObjectType = ObjectType;
         model.ContributionValue = ContributionValue;
@@ -63,6 +67,7 @@ public class LoyaltyMissionTransactionEntity : AuditableEntity, IDataEntity<Loya
         MissionId = model.MissionId;
         MissionProgressId = model.MissionProgressId;
         UserId = model.UserId;
+        OrganizationId = model.OrganizationId;
         ObjectId = model.ObjectId;
         ObjectType = model.ObjectType;
         ContributionValue = model.ContributionValue;

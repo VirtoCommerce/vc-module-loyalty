@@ -8,9 +8,15 @@ using VirtoCommerce.Xapi.Core.Extensions;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResult>
+public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResult>, ILoyaltyQuery
 {
     public string UserId { get; set; }
+
+    /// <summary>
+    /// The organization whose shared progress to read. Required - as for loyaltyBalance and
+    /// loyaltyHistory - to see the progress of a store that calculates loyalty per organization.
+    /// </summary>
+    public string OrganizationId { get; set; }
 
     public IList<string> Statuses { get; set; }
 
@@ -50,6 +56,7 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         yield return Argument<StringGraphType>(nameof(CurrencyCode));
         yield return Argument<BooleanGraphType>(nameof(IsStarted));
         yield return Argument<StringGraphType>(nameof(UserId));
+        yield return Argument<StringGraphType>(nameof(OrganizationId));
     }
 
     public override void Map(IResolveFieldContext context)
@@ -64,5 +71,6 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         CurrencyCode = context.GetArgument<string>(nameof(CurrencyCode));
         IsStarted = context.GetArgument<bool?>(nameof(IsStarted));
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
+        OrganizationId = context.GetArgument<string>(nameof(OrganizationId));
     }
 }
