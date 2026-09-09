@@ -332,6 +332,11 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     private async Task<LoyaltyBalanceOperationLog> GetLastLoyaltyOperationLogByUser(string userId)
     {
+        if (userId.IsNullOrEmpty())
+        {
+            return null;
+        }
+
         var criteria = AbstractTypeFactory<LoyaltyBalanceOperationLogSearchCriteria>.TryCreateInstance();
         criteria.UserId = userId;
         criteria.Take = 1;
@@ -344,6 +349,11 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     private async Task<LoyaltyBalanceOperationLog> GetLastLoyaltyOperationLogByOrganization(string organizationId)
     {
+        if (organizationId.IsNullOrEmpty())
+        {
+            return null;
+        }
+
         var criteria = AbstractTypeFactory<LoyaltyBalanceOperationLogSearchCriteria>.TryCreateInstance();
         criteria.OrganizationId = organizationId;
         criteria.Take = 1;
