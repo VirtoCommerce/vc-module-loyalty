@@ -9,6 +9,8 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
 public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSearchResult>, ILoyaltyQuery
 {
+    public string StoreId { get; set; }
+
     public string UserId { get; set; }
 
     public string OrganizationId { get; set; }
@@ -22,8 +24,8 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSear
             yield return argument;
         }
 
+        yield return Argument<NonNullGraphType<StringGraphType>>(nameof(StoreId));
         yield return Argument<StringGraphType>(nameof(UserId));
-        yield return Argument<StringGraphType>(nameof(OrganizationId));
         yield return Argument<StringGraphType>(nameof(OperationType));
     }
 
@@ -31,8 +33,9 @@ public class GetLoyaltyHistoryQuery : SearchQuery<LoyaltyBalanceOperationLogSear
     {
         base.Map(context);
 
+        StoreId = context.GetArgument<string>(nameof(StoreId));
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
-        OrganizationId = context.GetArgument<string>(nameof(OrganizationId));
         OperationType = context.GetArgument<string>(nameof(OperationType));
+        OrganizationId = context.GetCurrentOrganizationId();
     }
 }

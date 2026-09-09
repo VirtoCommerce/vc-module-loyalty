@@ -141,7 +141,7 @@ public static class ModuleConstants
             public static SettingDescriptor LoyaltyBalanceCalculationMode { get; } = new()
             {
                 Name = "Loyalty.LoyaltyBalanceCalculationMode",
-                GroupName = "Loyalty|General",
+                GroupName = "Loyalty|Missions",
                 ValueType = SettingValueType.ShortText,
                 IsPublic = false,
                 DefaultValue = LoyaltyBalanceCalculationModes.Customer,

@@ -22,8 +22,3 @@ public interface ILoyaltyLogicService
 
     Task PopulateLoyaltyProgramEvaluationContextAsync(LoyaltyProgramEvaluationContext context);
 }
-
-public interface IProductLoyaltyProgramService
-{
-    Task<LoyaltyProgram> GetTopLoyaltyProgramAsync(LoyaltyProgramEvaluationContext loyaltyContext);
-}
