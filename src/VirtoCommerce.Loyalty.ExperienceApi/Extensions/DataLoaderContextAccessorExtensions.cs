@@ -37,6 +37,10 @@ public static class DataLoaderContextAccessorExtensions
             {
                 Type = "Registration",
             })),
+            nameof(LoyaltyMissionProgress) => new DataLoaderResult<LoyaltyOperationLogObject>(Task.FromResult(new LoyaltyOperationLogObject
+            {
+                Type = "Mission",
+            })),
             _ => new DataLoaderResult<LoyaltyOperationLogObject>(Task.FromResult<LoyaltyOperationLogObject>(null))
         };
     }
