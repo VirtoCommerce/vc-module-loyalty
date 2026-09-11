@@ -41,6 +41,11 @@ public class LoyaltyMissionTransactionSearchService(
             query = query.Where(x => x.UserId == criteria.UserId);
         }
 
+        if (!criteria.OrganizationId.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.OrganizationId == criteria.OrganizationId);
+        }
+
         if (!criteria.ObjectId.IsNullOrEmpty())
         {
             query = query.Where(x => x.ObjectId == criteria.ObjectId);

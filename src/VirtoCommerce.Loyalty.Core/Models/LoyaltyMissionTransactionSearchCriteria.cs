@@ -10,5 +10,7 @@ public class LoyaltyMissionTransactionSearchCriteria : SearchCriteriaBase
 
     public string UserId { get; set; }
 
+    public string OrganizationId { get; set; }
+
     public string ObjectId { get; set; }
 }

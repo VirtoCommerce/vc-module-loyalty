@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "Standard-Produktmultiplikator",
         "description": "Standardmultiplikator, der auf den Produktpreis angewendet wird, wenn Treuepunkte berechnet werden und kein produktspezifischer Faktor konfiguriert ist"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Punkteberechnungsmodus",
+        "description": "Punkte der Kunden- oder Organisationsebene hinzufügen"
       }
     }
   }

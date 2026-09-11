@@ -6,14 +6,29 @@ using VirtoCommerce.Platform.Core.Common;
 namespace VirtoCommerce.Loyalty.Core.Models;
 
 /// <summary>
-/// Summary of a mission (Per-user AND Per-period). It scopes everything downstream:
-/// progress items, transactions, the reward record in the operation log.
+/// Summary of a mission per owner AND per period. It scopes everything downstream: progress items,
+/// transactions, the reward record in the operation log.
 /// </summary>
 public class LoyaltyMissionProgress : AuditableEntity, ICloneable
 {
     public string MissionId { get; set; }
 
+    /// <summary>
+    /// The user the progress was created for. In organization mode this is the member who
+    /// contributed first.
+    /// </summary>
     public string UserId { get; set; }
+
+    /// <summary>
+    /// Set only when the store calculates loyalty per organization: all members of the
+    /// organization then contribute to this single progress.
+    /// </summary>
+    public string OrganizationId { get; set; }
+
+    /// <summary>
+    /// Whoever the progress is scoped to: OrganizationId in organization mode, UserId otherwise. 
+    /// </summary>
+    public string OwnerId { get; set; }
 
     public decimal CurrentValue { get; set; }
 

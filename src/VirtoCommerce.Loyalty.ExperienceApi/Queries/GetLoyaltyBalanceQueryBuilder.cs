@@ -36,6 +36,8 @@ public class GetLoyaltyBalanceQueryBuilder : QueryBuilder<GetLoyaltyBalanceQuery
             throw AuthorizationError.AnonymousAccessDenied();
         }
 
+        await Authorize(context, request, new CanAccessLoyaltyAuthorizationRequirement());
+
         if (!request.OrderId.IsNullOrEmpty())
         {
             var order = await _customerOrderService.GetNoCloneAsync(request.OrderId, CustomerOrderResponseGroup.WithPrices.ToString());

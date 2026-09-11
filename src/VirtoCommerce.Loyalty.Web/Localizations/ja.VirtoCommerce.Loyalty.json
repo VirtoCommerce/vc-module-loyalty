@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "デフォルト商品乗数係数",
         "description": "商品ごとの係数が設定されていない場合、ロイヤルティポイント計算時に商品価格へ適用されるデフォルト乗数です"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "ポイント計算モード",
+        "description": "顧客レベルまたは組織レベルにポイントを追加"
       }
     }
   }

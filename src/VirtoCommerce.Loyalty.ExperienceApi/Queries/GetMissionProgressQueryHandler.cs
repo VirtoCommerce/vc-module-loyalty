@@ -37,6 +37,7 @@ public class GetMissionProgressQueryHandler : IQueryHandler<GetMissionProgressQu
         var criteria = AbstractTypeFactory<LoyaltyUserMissionSearchCriteria>.TryCreateInstance();
 
         criteria.UserId = request.UserId;
+        criteria.OrganizationId = request.OrganizationId;
         criteria.StoreId = request.StoreId;
         criteria.CurrencyCode = request.CurrencyCode;
         criteria.Statuses = request.Statuses;

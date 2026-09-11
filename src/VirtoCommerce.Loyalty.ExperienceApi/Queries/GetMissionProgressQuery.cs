@@ -8,9 +8,11 @@ using VirtoCommerce.Xapi.Core.Extensions;
 
 namespace VirtoCommerce.Loyalty.ExperienceApi.Queries;
 
-public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResult>
+public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResult>, ILoyaltyQuery
 {
     public string UserId { get; set; }
+
+    public string OrganizationId { get; set; }
 
     public IList<string> Statuses { get; set; }
 
@@ -64,5 +66,6 @@ public class GetMissionProgressQuery : SearchQuery<LoyaltyUserMissionSearchResul
         CurrencyCode = context.GetArgument<string>(nameof(CurrencyCode));
         IsStarted = context.GetArgument<bool?>(nameof(IsStarted));
         UserId = context.GetArgument<string>(nameof(UserId)) ?? context.GetCurrentUserId();
+        OrganizationId = context.GetCurrentOrganizationId();
     }
 }

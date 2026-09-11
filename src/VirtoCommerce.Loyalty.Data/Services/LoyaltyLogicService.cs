@@ -66,12 +66,19 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         return operationLog?.Balance ?? 0;
     }
 
+    public async Task<decimal> GetOrganizationBalanceAsync(string organizationId)
+    {
+        var operationLog = await GetLastLoyaltyOperationLogByOrganization(organizationId);
+        return operationLog?.Balance ?? 0;
+    }
+
     public async Task<LoyaltyBalanceResult> GetLoyaltyBalanceAsync(LoyaltyBalanceRequest request)
     {
         // if UserId is not provided get user from order, if order is not provided return 0
         var result = new LoyaltyBalanceResult();
         var order = request.CustomerOrder;
         var userId = request.UserId;
+        var organizationId = request.OrganizationId;
 
         if (order == null && !request.OrderId.IsNullOrEmpty())
         {
@@ -83,12 +90,15 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
             userId = order.CustomerId;
         }
 
-        if (userId.IsNullOrEmpty())
+        // organization takes priority
+        if (!organizationId.IsNullOrEmpty())
         {
-            return result;
+            result.CurrentBalance = result.ResultBalance = await GetOrganizationBalanceAsync(organizationId);
         }
-
-        result.CurrentBalance = result.ResultBalance = await GetUserBalanceAsync(userId);
+        else if (!userId.IsNullOrEmpty())
+        {
+            result.CurrentBalance = result.ResultBalance = await GetUserBalanceAsync(userId);
+        }
 
         if (order != null)
         {
@@ -164,14 +174,16 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     private async Task<bool> EvaluateIsFirstOrder(LoyaltyProgramEvaluationContext context)
     {
-        var ordersCount = await _customerOrderSearchService.SearchNoCloneAsync(new CustomerOrderSearchCriteria
+        var orderSearchCriteria = new CustomerOrderSearchCriteria
         {
             CustomerId = context.UserId,
             StoreIds = [context.StoreId],
             WithPrototypes = false,
             Take = 0,
             Skip = 0,
-        });
+        };
+
+        var ordersCount = await _customerOrderSearchService.SearchNoCloneAsync(orderSearchCriteria);
 
         return ordersCount.TotalCount == 1;
     }
@@ -244,10 +256,16 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     public Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult)
     {
-        // Serialize the per-user balance read-modify-write across all operation sources
-        // (earn, mixed-cart redeem, payment-method redeem) so concurrent operations for the
-        // same user cannot read a stale balance and overwrite each other's running total.
-        return _distributedLockService.ExecuteAsync($"loyalty-balance:{loyaltyContext.UserId}",
+        // Serialize the balance read-modify-write across all operation sources
+        // (earn, mixed-cart redeem, payment-method redeem) so concurrent operations against
+        // the same balance cannot read a stale value and overwrite each other's running total.
+        // The balance is keyed by organization when the store is in organization mode (matching
+        // GetOrganizationBalanceAsync below), otherwise by user, so the lock must match.
+        var balanceOwnerKey = !loyaltyContext.OrganizationId.IsNullOrEmpty()
+            ? $"org:{loyaltyContext.OrganizationId}"
+            : $"user:{loyaltyContext.UserId}";
+
+        return _distributedLockService.ExecuteAsync($"loyalty-balance:{balanceOwnerKey}",
             () => LogLoyaltyProgramOperationInternalAsync(loyaltyContext, loyaltyResult),
             lockTimeout: TimeSpan.FromSeconds(30),
             tryLockTimeout: TimeSpan.FromSeconds(30),
@@ -268,11 +286,23 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
         operationLog.ObjectType = loyaltyContext.ContextObjectType;
         operationLog.ObjectId = loyaltyContext.ContextObjectId;
         operationLog.UserId = loyaltyContext.UserId;
+        operationLog.OrganizationId = loyaltyContext.OrganizationId;
         operationLog.SourceType = loyaltyResult.SourceType;
         operationLog.SourceId = loyaltyResult.SourceId;
         operationLog.Amount = loyaltyResult.Amount;
 
-        var balance = await GetUserBalanceAsync(loyaltyContext.UserId);
+        var balance = 0.0m;
+
+        // organization takes priority
+        if (!loyaltyContext.OrganizationId.IsNullOrEmpty())
+        {
+            balance = await GetOrganizationBalanceAsync(loyaltyContext.OrganizationId);
+        }
+        else if (!loyaltyContext.UserId.IsNullOrEmpty())
+        {
+            balance = await GetUserBalanceAsync(loyaltyContext.UserId);
+        }
+
         operationLog.Balance = operationLog.OperationType switch
         {
             ModuleConstants.LoyaltyPrograms.EarnedOperationType => balance + loyaltyResult.Amount,
@@ -302,8 +332,30 @@ public class LoyaltyLogicService : ILoyaltyLogicService, IProductLoyaltyProgramS
 
     private async Task<LoyaltyBalanceOperationLog> GetLastLoyaltyOperationLogByUser(string userId)
     {
+        if (userId.IsNullOrEmpty())
+        {
+            return null;
+        }
+
         var criteria = AbstractTypeFactory<LoyaltyBalanceOperationLogSearchCriteria>.TryCreateInstance();
         criteria.UserId = userId;
+        criteria.Take = 1;
+        criteria.Sort = "CreatedDate:desc"; // Assuming we want the most recent operation log for balance calculation
+
+        var searchResult = await _loyaltyBalanceOperationLogSearchService.SearchNoCloneAsync(criteria);
+
+        return searchResult.Results?.FirstOrDefault();
+    }
+
+    private async Task<LoyaltyBalanceOperationLog> GetLastLoyaltyOperationLogByOrganization(string organizationId)
+    {
+        if (organizationId.IsNullOrEmpty())
+        {
+            return null;
+        }
+
+        var criteria = AbstractTypeFactory<LoyaltyBalanceOperationLogSearchCriteria>.TryCreateInstance();
+        criteria.OrganizationId = organizationId;
         criteria.Take = 1;
         criteria.Sort = "CreatedDate:desc"; // Assuming we want the most recent operation log for balance calculation
 

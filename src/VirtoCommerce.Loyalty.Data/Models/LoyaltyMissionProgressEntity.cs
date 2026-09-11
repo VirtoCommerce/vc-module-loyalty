@@ -20,6 +20,16 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
     [StringLength(DbContextBase.IdLength)]
     public string UserId { get; set; }
 
+    [StringLength(DbContextBase.IdLength)]
+    public string OrganizationId { get; set; }
+
+    // The owner the progress is scoped to: OrganizationId in organization mode, UserId otherwise.
+    // Kept as its own always-populated column so IX_LoyaltyMissionProgress_MissionId_OwnerId_PeriodStart
+    // enforces one progress per owner per period on every supported provider.
+    [Required]
+    [StringLength(DbContextBase.IdLength)]
+    public string OwnerId { get; set; }
+
     public decimal CurrentValue { get; set; }
 
     public decimal TargetValue { get; set; }
@@ -53,6 +63,8 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
 
         model.MissionId = MissionId;
         model.UserId = UserId;
+        model.OrganizationId = OrganizationId;
+        model.OwnerId = OwnerId;
         model.CurrentValue = CurrentValue;
         model.TargetValue = TargetValue;
         model.Percentage = Percentage;
@@ -90,6 +102,8 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
 
         MissionId = model.MissionId;
         UserId = model.UserId;
+        OrganizationId = model.OrganizationId;
+        OwnerId = model.OwnerId;
         CurrentValue = model.CurrentValue;
         TargetValue = model.TargetValue;
         Percentage = model.Percentage;
@@ -125,6 +139,8 @@ public class LoyaltyMissionProgressEntity : AuditableEntity, IDataEntity<Loyalty
     {
         target.MissionId = MissionId;
         target.UserId = UserId;
+        target.OrganizationId = OrganizationId;
+        target.OwnerId = OwnerId;
         target.CurrentValue = CurrentValue;
         target.TargetValue = TargetValue;
         target.Percentage = Percentage;

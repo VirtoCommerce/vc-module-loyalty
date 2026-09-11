@@ -1,8 +1,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using VirtoCommerce.CustomerModule.Core.Model;
+using VirtoCommerce.CustomerModule.Core.Services;
 using VirtoCommerce.Loyalty.ExperienceApi.Queries;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.Platform.Core;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Security.Authorization;
 
@@ -17,11 +20,14 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
 
     public class CanAccessLoyaltyAuthorizationHandler : PermissionAuthorizationHandlerBase<CanAccessLoyaltyAuthorizationRequirement>
     {
-        public CanAccessLoyaltyAuthorizationHandler()
+        private readonly IMemberResolver _memberResolver;
+
+        public CanAccessLoyaltyAuthorizationHandler(IMemberResolver memberResolver)
         {
+            _memberResolver = memberResolver;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanAccessLoyaltyAuthorizationRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, CanAccessLoyaltyAuthorizationRequirement requirement)
         {
             var result = context.User.IsInRole(PlatformConstants.Security.SystemRoles.Administrator);
 
@@ -33,11 +39,8 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
                     case CustomerOrder order:
                         result = order.CustomerId == userId;
                         break;
-                    case GetLoyaltyHistoryQuery query:
-                        result = query.UserId == userId;
-                        break;
-                    case GetMissionProgressQuery query:
-                        result = query.UserId == userId;
+                    case ILoyaltyQuery query:
+                        result = await CanAccessAsync(query, userId);
                         break;
                 }
             }
@@ -50,8 +53,24 @@ namespace VirtoCommerce.Loyalty.ExperienceApi.Authorization
             {
                 context.Fail();
             }
+        }
 
-            return Task.CompletedTask;
+        // Both scopes are checked, not only the first one that happens to be set: membership in the
+        // requested organization must not also hand over another member's personal data.
+        private async Task<bool> CanAccessAsync(ILoyaltyQuery query, string userId)
+        {
+            if (!query.UserId.IsNullOrEmpty() && query.UserId != userId)
+            {
+                return false;
+            }
+
+            if (!query.OrganizationId.IsNullOrEmpty())
+            {
+                return await _memberResolver.ResolveMemberByIdAsync(userId) is IHasOrganizations member
+                    && member.Organizations?.Contains(query.OrganizationId) == true;
+            }
+
+            return !query.UserId.IsNullOrEmpty();
         }
 
         private static string GetCurrentUserId(AuthorizationHandlerContext context)
