@@ -18,6 +18,8 @@ public class LoyaltyMissionTransaction : AuditableEntity, ICloneable
 
     public string UserId { get; set; }
 
+    public string OrganizationId {get;set;}
+
     public string ObjectId { get; set; }
 
     public string ObjectType { get; set; }

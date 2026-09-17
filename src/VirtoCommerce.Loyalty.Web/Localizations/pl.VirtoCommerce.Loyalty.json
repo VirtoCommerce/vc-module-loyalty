@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "Domyślny współczynnik mnożnika produktu",
         "description": "Domyślny mnożnik stosowany do ceny produktu podczas obliczania punktów lojalnościowych, jeśli nie skonfigurowano współczynnika dla konkretnego produktu"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Tryb naliczania punktów",
+        "description": "Dodawaj punkty na poziomie klienta lub organizacji"
       }
     }
   }

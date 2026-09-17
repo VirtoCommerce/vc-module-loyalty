@@ -10,6 +10,12 @@ public class LoyaltyUserMissionSearchCriteria
 {
     public string UserId { get; set; }
 
+    /// <summary>
+    /// The organization to read the progress of. Honored only when the store calculates loyalty
+    /// per organization - there the progress is shared by all members of the organization.
+    /// </summary>
+    public string OrganizationId { get; set; }
+
     public string StoreId { get; set; }
 
     public string CurrencyCode { get; set; }

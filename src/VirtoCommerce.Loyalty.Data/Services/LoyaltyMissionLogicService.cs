@@ -61,10 +61,15 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return;
         }
 
+        // Missions are scoped exactly like balances: to the order organization when the store
+        // calculates per organization, to the user otherwise (including an order without an organization).
+        var organizationId = store.IsOrganizationBalanceCalculationMode() ? order.OrganizationId : null;
+
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
         context.ContextObjectType = nameof(CustomerOrder);
         context.OrderId = order.Id;
         await _loyaltyLogicService.PopulateLoyaltyProgramEvaluationContextAsync(context);
+        context.OrganizationId = organizationId;
 
         var userId = context.UserId.IsNullOrEmpty() ? order.CustomerId : context.UserId;
         if (userId.IsNullOrEmpty())
@@ -92,7 +97,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
                     continue;
                 }
 
-                await ApplyMissionAsync(mission, goal, order, userId);
+                await ApplyMissionAsync(mission, goal, order, userId, organizationId);
             }
         }
     }
@@ -150,7 +155,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             return [];
         }
 
-        var context = await GetLoyaltyContextAsync(userId, storeId);
+        // Read the progress the contributions were actually written to: the organization's one in
+        // organization mode (shared by all its members), the user's own otherwise. The store mode -
+        // not the caller - decides, so a passed organizationId cannot redirect a user-scoped lookup.
+        var organizationId = store.IsOrganizationBalanceCalculationMode() ? criteria.OrganizationId : null;
+        var ownerId = ResolveOwnerId(userId, organizationId);
+
+        var context = await GetLoyaltyContextAsync(userId, organizationId, storeId);
 
         // Search for all published missions that qualify for this user
         var qualifyingMissions = await GetQualifyingMissionsAsync(storeId, context);
@@ -161,7 +172,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         }
 
         // Search for progress records for the qualifying missions
-        var progressByMissionId = await GetProgressByMissionIdAsync(userId, qualifyingMissions);
+        var progressByMissionId = await GetProgressByMissionIdAsync(ownerId, qualifyingMissions);
 
         // Resolve the loyalty points currency (mission currency is resolved per mission from the OrderValue goal).
         var pointsCurrencyCode = store.GetLoyaltyCurrencyCode();
@@ -190,7 +201,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
                 }
 
                 var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
-                progress = CreateTransientProgress(mission, goal, userId, goalItems);
+                progress = CreateTransientProgress(mission, goal, userId, organizationId, goalItems);
             }
 
             // Mission currency comes from the OrderValue goal (no fallback): null when not set or not an OrderValue goal.
@@ -240,13 +251,14 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         return result;
     }
 
-    private async Task<LoyaltyProgramEvaluationContext> GetLoyaltyContextAsync(string userId, string storeId)
+    private async Task<LoyaltyProgramEvaluationContext> GetLoyaltyContextAsync(string userId, string organizationId, string storeId)
     {
         var context = AbstractTypeFactory<LoyaltyProgramEvaluationContext>.TryCreateInstance();
         context.ContextObjectType = nameof(ApplicationUser);
         context.UserId = userId;
         context.StoreId = storeId;
         await _loyaltyLogicService.PopulateLoyaltyProgramEvaluationContextAsync(context);
+        context.OrganizationId = organizationId;
 
         return context;
     }
@@ -268,11 +280,11 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         return qualifyingMissions;
     }
 
-    private async Task<Dictionary<string, LoyaltyMissionProgress>> GetProgressByMissionIdAsync(string userId, IList<LoyaltyMission> qualifyingMissions)
+    private async Task<Dictionary<string, LoyaltyMissionProgress>> GetProgressByMissionIdAsync(string ownerId, IList<LoyaltyMission> qualifyingMissions)
     {
         var progressByMissionId = new Dictionary<string, LoyaltyMissionProgress>(StringComparer.OrdinalIgnoreCase);
         var progressCriteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
-        progressCriteria.UserId = userId;
+        progressCriteria.OwnerId = ownerId;
         progressCriteria.MissionIds = qualifyingMissions.Select(x => x.Id).ToArray();
         progressCriteria.Take = 100;
 
@@ -287,16 +299,21 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         return progressByMissionId;
     }
 
-    private Task<bool> ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
+    private Task<bool> ApplyMissionAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId, string organizationId)
     {
-        return _distributedLockService.ExecuteAsync($"loyalty-mission:{mission.Id}:{userId}",
-            () => ApplyMissionInternalAsync(mission, goal, order, userId),
+        // Serialize per progress owner, not per user: in organization mode two members of the same
+        // organization contribute to one shared progress, so a per-user lock would let them race it
+        // (lost CurrentValue updates, and the mission completing - and rewarding - more than once).
+        var ownerId = ResolveOwnerId(userId, organizationId);
+
+        return _distributedLockService.ExecuteAsync($"loyalty-mission:{mission.Id}:{ownerId}",
+            () => ApplyMissionInternalAsync(mission, goal, order, userId, organizationId),
             lockTimeout: TimeSpan.FromSeconds(30),
             tryLockTimeout: TimeSpan.FromSeconds(30),
             retryInterval: TimeSpan.FromMilliseconds(200));
     }
 
-    private async Task<bool> ApplyMissionInternalAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId)
+    private async Task<bool> ApplyMissionInternalAsync(LoyaltyMission mission, IMissionGoal goal, CustomerOrder order, string userId, string organizationId)
     {
         // Skip the order entirely (no transaction, no progress) when its currency does not match the OrderValue goal currency.
         if (goal is OrderValueGoal orderValueGoal
@@ -308,14 +325,14 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
         var goalItems = goal is PerSkuGoal ? await GetGoalItemsAsync(mission.Id) : [];
 
-        var progress = await GetOrCreateProgressAsync(mission, goal, userId, goalItems);
+        var progress = await GetOrCreateProgressAsync(mission, goal, userId, organizationId, goalItems);
 
         if (progress.Status.EqualsIgnoreCase(ModuleConstants.MissionProgressStatuses.Completed))
         {
             return false;
         }
 
-        if (!await TransactionExistsAsync(mission.Id, order.Id, userId))
+        if (!await TransactionExistsAsync(mission.Id, order.Id))
         {
             var contribution = ApplyContribution(progress, goal, order);
             UpdateMissionProgressMetrics(progress, goal, contribution);
@@ -328,6 +345,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             transaction.ObjectId = order.Id;
             transaction.ObjectType = nameof(CustomerOrder);
             transaction.ContributionValue = contribution;
+            transaction.OrganizationId = organizationId;
 
             // transaction/progress atomic save
             progress.NewTransactions.Add(transaction);
@@ -337,7 +355,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
 
         if (IsCompleted(progress, goal))
         {
-            await GrantRewardAsync(mission, progress, userId);
+            await GrantRewardAsync(mission, progress, userId, organizationId);
 
             progress.Status = ModuleConstants.MissionProgressStatuses.Completed;
             progress.CompletedDate = DateTime.UtcNow;
@@ -363,13 +381,17 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         LoyaltyMission mission,
         IMissionGoal goal,
         string userId,
+        string organizationId,
         IList<LoyaltyMissionGoalItem> goalItems)
     {
         var (periodStart, periodEnd) = ResolvePeriod(mission);
+        var ownerId = ResolveOwnerId(userId, organizationId);
 
+        // Searched by owner so every member of an organization lands on the same progress record
+        // (a UserId filter would give each member a private one and let them all complete the mission).
         var criteria = AbstractTypeFactory<LoyaltyMissionProgressSearchCriteria>.TryCreateInstance();
         criteria.MissionId = mission.Id;
-        criteria.UserId = userId;
+        criteria.OwnerId = ownerId;
         criteria.Take = 100;
 
         var existing = (await _progressSearchService.SearchAsync(criteria)).Results;
@@ -384,6 +406,8 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         progress.Id = Guid.NewGuid().ToString("N");
         progress.MissionId = mission.Id;
         progress.UserId = userId;
+        progress.OrganizationId = organizationId;
+        progress.OwnerId = ownerId;
         progress.Status = ModuleConstants.MissionProgressStatuses.InProgress;
         progress.PeriodStart = periodStart;
         progress.PeriodEnd = periodEnd;
@@ -470,7 +494,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
             : goal.MissionType;
     }
 
-    private async Task GrantRewardAsync(LoyaltyMission mission, LoyaltyMissionProgress progress, string userId)
+    private async Task GrantRewardAsync(LoyaltyMission mission, LoyaltyMissionProgress progress, string userId, string organizationId)
     {
         var amount = GetRewardAmount(mission.DynamicExpression);
         if (amount <= 0)
@@ -482,6 +506,7 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         context.ContextObjectType = nameof(LoyaltyMissionProgress);
         context.MissionProgressId = progress.Id;
         context.UserId = userId;
+        context.OrganizationId = organizationId;
 
         var result = AbstractTypeFactory<LoyaltyAmountResult>.TryCreateInstance();
         result.OperationType = ModuleConstants.LoyaltyPrograms.EarnedOperationType;
@@ -492,12 +517,16 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         await _loyaltyLogicService.LogLoyaltyProgramOperationAsync(context, result);
     }
 
-    private async Task<bool> TransactionExistsAsync(string missionId, string objectId, string userId)
+    // Deliberately not narrowed by user or organization: the contributing object is an order, whose
+    // id is globally unique, so it contributes to a mission exactly once no matter who it is attributed
+    // to. Narrowing would also make the gate miss a transaction written under the store's previous
+    // balance calculation mode and re-insert it, violating
+    // IX_LoyaltyMissionTransaction_MissionId_ObjectId_UserId.
+    private async Task<bool> TransactionExistsAsync(string missionId, string objectId)
     {
         var criteria = AbstractTypeFactory<LoyaltyMissionTransactionSearchCriteria>.TryCreateInstance();
         criteria.MissionId = missionId;
         criteria.ObjectId = objectId;
-        criteria.UserId = userId;
         criteria.Take = 0;
 
         var result = await _transactionSearchService.SearchNoCloneAsync(criteria);
@@ -520,13 +549,15 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
         return result;
     }
 
-    private static LoyaltyMissionProgress CreateTransientProgress(LoyaltyMission mission, IMissionGoal goal, string userId, IList<LoyaltyMissionGoalItem> goalItems)
+    private static LoyaltyMissionProgress CreateTransientProgress(LoyaltyMission mission, IMissionGoal goal, string userId, string organizationId, IList<LoyaltyMissionGoalItem> goalItems)
     {
         var (periodStart, periodEnd) = ResolvePeriod(mission);
 
         var progress = AbstractTypeFactory<LoyaltyMissionProgress>.TryCreateInstance();
         progress.MissionId = mission.Id;
         progress.UserId = userId;
+        progress.OrganizationId = organizationId;
+        progress.OwnerId = ResolveOwnerId(userId, organizationId);
         progress.Status = ModuleConstants.MissionProgressStatuses.InProgress;
         progress.PeriodStart = periodStart;
         progress.PeriodEnd = periodEnd;
@@ -564,6 +595,13 @@ public class LoyaltyMissionLogicService : ILoyaltyMissionLogicService
     private static IMissionGoal ExtractGoal(LoyaltyMissionConditionAndRewardTree tree)
     {
         return tree?.Traverse<IConditionTree>(x => x.Children ?? []).OfType<IMissionGoal>().FirstOrDefault();
+    }
+
+    // The owner a progress record (and its lock) is scoped to: the organization when the store
+    // calculates per organization and the order actually has one, the user otherwise.
+    private static string ResolveOwnerId(string userId, string organizationId)
+    {
+        return organizationId.IsNullOrEmpty() ? userId : organizationId;
     }
 
     private static (DateTime? Start, DateTime? End) ResolvePeriod(LoyaltyMission mission)

@@ -43,6 +43,16 @@ public class LoyaltyMissionProgressSearchService(
             query = query.Where(x => x.UserId == criteria.UserId);
         }
 
+        if (!criteria.OrganizationId.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.OrganizationId == criteria.OrganizationId);
+        }
+
+        if (!criteria.OwnerId.IsNullOrEmpty())
+        {
+            query = query.Where(x => x.OwnerId == criteria.OwnerId);
+        }
+
         if (!criteria.Statuses.IsNullOrEmpty())
         {
             query = query.Where(x => criteria.Statuses.Contains(x.Status));

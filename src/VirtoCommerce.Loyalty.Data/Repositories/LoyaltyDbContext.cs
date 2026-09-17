@@ -85,8 +85,8 @@ public class LoyaltyDbContext : DbContextBase
         modelBuilder.Entity<LoyaltyMissionProgressEntity>().Property(x => x.TargetValue).HasColumnType("decimal").HasPrecision(18, 4);
         modelBuilder.Entity<LoyaltyMissionProgressEntity>().Property(x => x.Percentage).HasColumnType("decimal").HasPrecision(18, 4);
         modelBuilder.Entity<LoyaltyMissionProgressEntity>()
-            .HasIndex(x => new { x.MissionId, x.UserId, x.PeriodStart }).IsUnique()
-            .HasDatabaseName("IX_LoyaltyMissionProgress_MissionId_UserId_PeriodStart");
+            .HasIndex(x => new { x.MissionId, x.OwnerId, x.PeriodStart }).IsUnique()
+            .HasDatabaseName("IX_LoyaltyMissionProgress_MissionId_OwnerId_PeriodStart");
 
         modelBuilder.Entity<LoyaltyMissionProgressItemEntity>().ToTable("LoyaltyMissionProgressItem").HasKey(x => x.Id);
         modelBuilder.Entity<LoyaltyMissionProgressItemEntity>().Property(x => x.Id).HasMaxLength(IdLength).ValueGeneratedOnAdd();

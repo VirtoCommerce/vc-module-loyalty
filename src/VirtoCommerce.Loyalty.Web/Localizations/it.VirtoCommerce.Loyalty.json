@@ -170,6 +170,10 @@
       "DefaultProductMultiplyFactor": {
         "title": "Fattore moltiplicatore prodotto predefinito",
         "description": "Moltiplicatore predefinito applicato al prezzo del prodotto durante il calcolo dei punti fedeltà se non è configurato un fattore specifico per prodotto"
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "Modalità di calcolo dei punti",
+        "description": "Aggiungi punti a livello di cliente o organizzazione"
       }
     }
   }

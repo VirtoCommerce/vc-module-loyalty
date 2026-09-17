@@ -53,7 +53,11 @@ public class LoyaltyCartValidator : AbstractValidator<CartValidationContext>, IC
             // 4. Ensure the balance covers the points spent on loyalty-priced products.
             if (hasPointProducts)
             {
-                var balance = await loyaltyService.GetUserBalanceAsync(cart.CustomerId);
+                var organizationId = store.IsOrganizationBalanceCalculationMode() ? cart.OrganizationId : null;
+                var balance = !organizationId.IsNullOrEmpty()
+                    ? await loyaltyService.GetOrganizationBalanceAsync(organizationId)
+                    : await loyaltyService.GetUserBalanceAsync(cart.CustomerId);
+
                 if (balance < pointsTotals.Total)
                 {
                     context.AddFailure(new CartValidationError(cart,

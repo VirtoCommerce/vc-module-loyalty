@@ -18,4 +18,10 @@ public static class StoreExtensions
     {
         return store.Settings.GetValue<string>(Settings.General.LoyaltyMode);
     }
+
+    public static bool IsOrganizationBalanceCalculationMode(this Store store)
+    {
+        var balanceCalculationMode = store.Settings.GetValue<string>(Settings.General.LoyaltyBalanceCalculationMode);
+        return balanceCalculationMode.EqualsIgnoreCase(LoyaltyBalanceCalculationModes.Organization);
+    }
 }

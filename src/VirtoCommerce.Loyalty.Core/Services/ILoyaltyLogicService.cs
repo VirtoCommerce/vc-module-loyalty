@@ -8,6 +8,8 @@ public interface ILoyaltyLogicService
 {
     Task<decimal> GetUserBalanceAsync(string userId);
 
+    Task<decimal> GetOrganizationBalanceAsync(string organizationId);
+
     Task<LoyaltyBalanceResult> GetLoyaltyBalanceAsync(LoyaltyBalanceRequest request);
 
     Task<bool> IsObjectProcessedAsync(string objectType, string objectId, string operationType);
@@ -19,9 +21,4 @@ public interface ILoyaltyLogicService
     Task<bool> LogLoyaltyProgramOperationAsync(LoyaltyProgramEvaluationContext loyaltyContext, LoyaltyAmountResult loyaltyResult);
 
     Task PopulateLoyaltyProgramEvaluationContextAsync(LoyaltyProgramEvaluationContext context);
-}
-
-public interface IProductLoyaltyProgramService
-{
-    Task<LoyaltyProgram> GetTopLoyaltyProgramAsync(LoyaltyProgramEvaluationContext loyaltyContext);
 }
