@@ -33,9 +33,14 @@ public class LoyaltyMissionValidator : AbstractValidator<LoyaltyMission>
             }
 
             var rewardBlock = nodes.OfType<BlockLoyaltyReward>().FirstOrDefault();
-            if (rewardBlock?.GetLoyaltyRewards().IsNullOrEmpty() != false)
+            var rewards = rewardBlock?.GetLoyaltyRewards();
+            if (rewards.IsNullOrEmpty())
             {
                 context.AddFailure(nameof(LoyaltyMission.DynamicExpression), "Mission must have at least one reward");
+            }
+            else if (rewards.Any(x => x.Amount < 0))
+            {
+                context.AddFailure(nameof(LoyaltyMission.DynamicExpression), "Mission reward amount cannot be negative");
             }
 
             if (goals.Length == 1 && goals[0] is OrderValueGoal { CurrencyCode: null or "" })
