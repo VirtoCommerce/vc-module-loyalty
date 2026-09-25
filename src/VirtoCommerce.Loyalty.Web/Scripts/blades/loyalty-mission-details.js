@@ -92,27 +92,33 @@ angular.module('VirtoCommerce.Loyalty')
 
                     blade.isLoading = true;
 
-                    if (blade.currentEntity.dynamicExpression) {
-                        _.each(blade.currentEntity.dynamicExpression.children, stripOffUiInformation);
+                    // Strip the UI information from a copy, so a rejected save leaves the expression tree rendered
+                    var entityToSave = angular.copy(blade.currentEntity);
+                    if (entityToSave.dynamicExpression) {
+                        _.each(entityToSave.dynamicExpression.children, stripOffUiInformation);
                     }
 
                     if (blade.isNew) {
-                        loyaltyMissions.save({}, blade.currentEntity, function (data) {
+                        loyaltyMissions.save({}, entityToSave, function (data) {
                             blade.isNew = false;
                             blade.currentEntity = data;
                             blade.currentEntityId = data.id;
                             initializeToolbar();
                             blade.refresh(true);
-                        });
+                        }, onSaveError);
                     } else {
-                        loyaltyMissions.update({}, blade.currentEntity, function () {
+                        loyaltyMissions.update({}, entityToSave, function () {
                             blade.refresh(true);
-                        }, function (error) {
-                            blade.isLoading = false;
-                            bladeNavigationService.setError('Error ' + error.status, blade);
-                        });
+                        }, onSaveError);
                     }
                 };
+
+                function onSaveError(error) {
+                    // A validation failure comes back as a list of { propertyName, errorMessage }
+                    var messages = _.compact(_.pluck(angular.isArray(error.data) ? error.data : [], 'errorMessage'));
+                    blade.isLoading = false;
+                    bladeNavigationService.setError(messages.length ? messages.join('; ') : 'Error ' + error.status, blade);
+                }
 
                 blade.searchStores = function (criteria) {
                     return stores.search(criteria);
