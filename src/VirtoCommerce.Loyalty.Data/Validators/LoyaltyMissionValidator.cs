@@ -47,6 +47,11 @@ public class LoyaltyMissionValidator : AbstractValidator<LoyaltyMission>
             {
                 context.AddFailure(nameof(LoyaltyMission.DynamicExpression), "Currency code is required for the order value goal");
             }
+
+            if (goals.Any(x => x is OrderCountGoal { Count: < 0 } or OrderValueGoal { Value: < 0 }))
+            {
+                context.AddFailure(nameof(LoyaltyMission.DynamicExpression), "Mission goal value cannot be negative");
+            }
         });
     }
 }
