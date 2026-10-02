@@ -24,7 +24,7 @@
   </owners>
 
   <projectUrl>https://github.com/VirtoCommerce/vc-module-loyalty</projectUrl>
-  <iconUrl>Modules/$(VirtoCommerce.Loyalty)/Content/logo.png</iconUrl>
+  <iconUrl>Modules/$(VirtoCommerce.Loyalty)/Content/logo.svg</iconUrl>
   <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
   <assemblyFile>VirtoCommerce.Loyalty.Web.dll</assemblyFile>

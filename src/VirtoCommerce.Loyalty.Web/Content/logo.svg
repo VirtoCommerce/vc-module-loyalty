@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Loyalty">
+  <title>Loyalty</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#F88A8D"/>
+      <stop offset="100%" stop-color="#E5484D"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFDD6E"/>
+      <stop offset="100%" stop-color="#F4A81C"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#7A1417" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(64,64)" filter="url(#lift)">
+    <!-- medal disc -->
+    <circle cx="0" cy="0" r="42" fill="url(#gold)"/>
+    <circle cx="0" cy="0" r="34" fill="none" stroke="#ffffff" stroke-opacity="0.40" stroke-width="2.5"/>
+    <!-- big centered star -->
+    <path d="M0,-28 L6.8,-9.3 L26.6,-8.7 L10.9,3.6 L16.5,22.7 L0,11.5 L-16.5,22.7 L-10.9,3.6 L-26.6,-8.7 L-6.8,-9.3 Z"
+          transform="translate(0,2)" fill="#ffffff"/>
+  </g>
+</svg>
