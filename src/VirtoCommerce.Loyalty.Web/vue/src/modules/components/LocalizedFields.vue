@@ -69,7 +69,10 @@ const fieldsOf = () => props.item as Record<string, unknown>;
 const value = (field: string) => (fieldsOf()[field] as Localized)?.values?.[language.value] ?? "";
 
 function set(field: string, v: unknown) {
-  const target = (fieldsOf()[field] ??= { values: {} }) as { values?: Record<string, string> };
-  (target.values ??= {})[language.value] = String(v ?? "");
+  const fields = fieldsOf();
+  fields[field] ??= { values: {} };
+  const target = fields[field] as { values?: Record<string, string> };
+  target.values ??= {};
+  target.values[language.value] = String(v ?? "");
 }
 </script>

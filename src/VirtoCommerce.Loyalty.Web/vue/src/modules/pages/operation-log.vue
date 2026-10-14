@@ -98,15 +98,15 @@ onMounted(load);
 watch([sortExpression, () => pagination.skip], () => load());
 
 // the operation's source: the mission or program that awarded the points, otherwise the order
+function sourceOf(log: LoyaltyBalanceOperationLog) {
+  if (log.sourceType === "LoyaltyMission") return { name: "LoyaltyMissionDetails", param: log.sourceId };
+  if (log.sourceType === "LoyaltyProgram") return { name: "LoyaltyProgramDetails", param: log.sourceId };
+  if (log.objectType === "CustomerOrder") return { name: "OrdersDetails", param: log.objectId };
+  return undefined;
+}
+
 function open(log: LoyaltyBalanceOperationLog) {
-  const target =
-    log.sourceType === "LoyaltyMission"
-      ? { name: "LoyaltyMissionDetails", param: log.sourceId }
-      : log.sourceType === "LoyaltyProgram"
-        ? { name: "LoyaltyProgramDetails", param: log.sourceId }
-        : log.objectType === "CustomerOrder"
-          ? { name: "OrdersDetails", param: log.objectId }
-          : undefined;
+  const target = sourceOf(log);
   if (!target?.param) return;
   activeItemId.value = log.id;
   openBlade({ ...target, onClose: () => (activeItemId.value = undefined) });

@@ -116,7 +116,11 @@ const { sortField, sortOrder, sortExpression } = useDataTableSort({ stateKey: ST
 const { searchValue } = useTableSearch({ stateKey: STATE });
 const pagination = useDataTablePagination({ stateKey: STATE, pageSize: PAGE_SIZE, totalCount });
 
-const missionStatusVariant = (status?: string) => (status === "Published" ? "success" : status === "Archived" ? "danger" : "info");
+function missionStatusVariant(status?: string) {
+  if (status === "Published") return "success";
+  if (status === "Archived") return "danger";
+  return "info";
+}
 
 const openDetails = (id?: string) => openBlade({ name: "LoyaltyMissionDetails", param: id, onClose: track() });
 

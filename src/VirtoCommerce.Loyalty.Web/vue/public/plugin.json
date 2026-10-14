@@ -1,6 +1,4 @@
 {
-  // Loyalty admin UI for the Admin Shell host (Module Federation remote), plus its widgets on the contact,
-  // organization, store and product blades. The AngularJS menu items had no seed entry, so nothing is replaced.
   "remote": { "name": "loyalty_admin", "exposed": "./Module" },
   "contributions": {
     "menu": [

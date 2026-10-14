@@ -57,7 +57,11 @@ const PAGE = 20;
 // caches a parameterless loader for the session
 function once<T>(load: () => Promise<T>): () => Promise<T> {
   let p: Promise<T> | undefined;
-  return () => (p ??= load().catch((e) => ((p = undefined), Promise.reject(e))));
+  return () =>
+    (p ??= load().catch((e) => {
+      p = undefined;
+      return Promise.reject(e);
+    }));
 }
 
 // VcSelect option source: (keyword, skip, ids) => page

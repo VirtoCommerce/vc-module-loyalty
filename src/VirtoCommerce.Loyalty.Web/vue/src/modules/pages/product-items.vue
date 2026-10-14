@@ -113,8 +113,13 @@ const goals = opts.kind === "goals";
 const byProduct = !!opts.productId;
 const valueField = goals ? "quantity" : "factor";
 const parentKey = goals ? "missionId" : "loyaltyProgramId";
-const stateKey = goals ? "LOYALTY_GOAL_ITEMS" : byProduct ? "LOYALTY_PRODUCT_PROGRAMS" : "LOYALTY_PRODUCT_FACTORS";
-const title = computed(() => t(goals ? "LOYALTY.ITEMS.GOALS_TITLE" : byProduct ? "LOYALTY.ITEMS.PROGRAMS_TITLE" : "LOYALTY.ITEMS.FACTORS_TITLE"));
+// the blade lists a mission's goals, a product's programs or a program's factors
+function perList<T>(goalsValue: T, programsValue: T, factorsValue: T) {
+  if (goals) return goalsValue;
+  return byProduct ? programsValue : factorsValue;
+}
+const stateKey = perList("LOYALTY_GOAL_ITEMS", "LOYALTY_PRODUCT_PROGRAMS", "LOYALTY_PRODUCT_FACTORS");
+const title = computed(() => t(perList("LOYALTY.ITEMS.GOALS_TITLE", "LOYALTY.ITEMS.PROGRAMS_TITLE", "LOYALTY.ITEMS.FACTORS_TITLE")));
 const readonly = computed(() => !hasAccess("loyalty:update"));
 
 const search = (criteria: { productIds?: string[]; skip?: number; take?: number }) =>
@@ -142,7 +147,8 @@ const error = computed(() => {
     const v = r[valueField];
     return v === undefined || v === null || Number.isNaN(v) || (goals ? !Number.isInteger(v) || v < 1 : v < 0);
   });
-  return bad ? t(goals ? "LOYALTY.ITEMS.INVALID_QUANTITY" : "LOYALTY.ITEMS.INVALID_FACTOR", { name: bad.productName ?? bad.programName }) : "";
+  if (!bad) return "";
+  return t(goals ? "LOYALTY.ITEMS.INVALID_QUANTITY" : "LOYALTY.ITEMS.INVALID_FACTOR", { name: bad.productName ?? bad.programName });
 });
 
 const { loading: listLoading, action: load } = useAsync(async () => {

@@ -22,7 +22,10 @@ const { openBlade } = useBlade();
 const count = ref<number | string>();
 
 async function load() {
-  if (!productId.value) return (count.value = undefined);
+  if (!productId.value) {
+    count.value = undefined;
+    return;
+  }
   try {
     count.value = (await factorsApi.search({ productIds: [productId.value], take: 0 })).totalCount ?? 0;
   } catch {
