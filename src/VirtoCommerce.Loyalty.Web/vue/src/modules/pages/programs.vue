@@ -1,6 +1,6 @@
 <template>
   <VcBlade
-    :title="$t('LOYALTY.PROGRAMS.TITLE')"
+    :title="$t('LOYALTY.MENU.PROGRAMS')"
     :toolbar-items="bladeToolbar"
     :loading="loading"
     width="50%"
