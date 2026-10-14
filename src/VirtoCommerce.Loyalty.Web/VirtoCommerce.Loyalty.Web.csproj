@@ -15,7 +15,20 @@
     <Content Remove="dist\**" />
     <EmbeddedResource Remove="dist\**" />
     <None Remove="dist\**" />
+    <!-- Admin Shell plugin: Vue sources in vue/, built into plugins/admin-shell/ -->
+    <Compile Remove="vue\**" />
+    <Content Remove="vue\**" />
+    <EmbeddedResource Remove="vue\**" />
+    <None Remove="vue\**" />
+    <Content Remove="plugins\**" />
+    <None Remove="plugins\**" />
   </ItemGroup>
+  <ItemGroup>
+    <AdminShellPlugin Include="plugins\**" />
+  </ItemGroup>
+  <Target Name="CopyAdminShellPluginOnPublish" AfterTargets="Publish">
+    <Copy SourceFiles="@(AdminShellPlugin)" DestinationFiles="$(PublishDir)\..\%(Identity)" />
+  </Target>
   <ItemGroup>
     <ProjectReference Include="..\VirtoCommerce.Loyalty.Core\VirtoCommerce.Loyalty.Core.csproj" />
     <ProjectReference Include="..\VirtoCommerce.Loyalty.Data\VirtoCommerce.Loyalty.Data.csproj" />

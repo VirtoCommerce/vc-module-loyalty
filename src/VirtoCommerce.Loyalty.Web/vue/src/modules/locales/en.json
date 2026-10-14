@@ -1,0 +1,160 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Loyalty",
+      "MISSIONS": "Loyalty missions"
+    },
+    "ACTIONS": {
+      "ADD": "Add",
+      "APPLY": "Apply",
+      "CREATE": "Create",
+      "DELETE": "Delete",
+      "REFRESH": "Refresh",
+      "RESET": "Reset",
+      "SAVE": "Save"
+    },
+    "VALIDATION": {
+      "REQUIRED": "This field is required"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STORE": "Store",
+      "STORE_PLACEHOLDER": "Select store",
+      "STATUS": "Status",
+      "START_DATE": "Start date",
+      "END_DATE": "End date",
+      "LOCALIZATION": "Localization",
+      "LANGUAGE": "Language",
+      "LOCALIZED_NAME": "Localized name",
+      "LOCALIZED_DESCRIPTION": "Localized description"
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Order loyalty",
+      "DEFAULT_DESCR": "Reward customers based on order conditions and totals",
+      "PRODUCT_POINTS": "Product Points Loyalty",
+      "PRODUCT_POINTS_DESCR": "Reward customers with points for purchasing specific products"
+    },
+    "PROGRAMS": {
+      "TITLE": "Loyalty programs",
+      "EMPTY": "No loyalty programs",
+      "DELETE_CONFIRM": "Are you sure you want to delete the selected loyalty program? | Are you sure you want to delete {count} loyalty programs?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Add loyalty program",
+      "TYPE": "Program type"
+    },
+    "PROGRAM": {
+      "TITLE": "Loyalty program details",
+      "NEW_TITLE": "New loyalty program",
+      "NAME_PLACEHOLDER": "Enter program name",
+      "PRIORITY": "Priority",
+      "CONDITIONS": "Loyalty program",
+      "SAVE_FIRST": "Save the program first to start managing product factors",
+      "CLOSE_CONFIRM": "Loyalty program was modified. Close without saving?"
+    },
+    "FILTER": {
+      "SELECT": "Select filter",
+      "EDIT": "Edit filter",
+      "NEW": "New filter",
+      "TITLE": "Filter loyalty programs",
+      "NAME": "Name",
+      "UNNAMED": "Unnamed filter",
+      "ONLY_ACTIVE": "Active only",
+      "STORES": "Stores",
+      "ALL_STORES": "All stores",
+      "APPLY": "Apply filter"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Product factors",
+      "PROGRAMS_TITLE": "Loyalty programs",
+      "GOALS_TITLE": "Goal SKUs",
+      "EMPTY": "No products",
+      "PRODUCT": "Product name",
+      "PROGRAM": "Program name",
+      "SKU": "SKU",
+      "FACTOR": "Factor",
+      "QUANTITY": "Quantity",
+      "NEW": "New",
+      "INVALID_FACTOR": "The factor of {name} can't be negative",
+      "INVALID_QUANTITY": "The quantity of {name} must be a whole number of at least 1",
+      "DELETE_FACTORS_CONFIRM": "Are you sure you want to delete the selected product factors?",
+      "DELETE_GOALS_CONFIRM": "Are you sure you want to delete the selected goal SKUs?",
+      "CLOSE_CONFIRM": "The list was modified. Close without saving?"
+    },
+    "PICKER": {
+      "TITLE": "Select products",
+      "EMPTY": "No products found",
+      "IMAGE": "Image",
+      "ADD_SELECTED": "Add selected"
+    },
+    "LOG": {
+      "TITLE": "Loyalty operation log",
+      "EMPTY": "No loyalty operations",
+      "OPERATION": "Operation",
+      "EARNED": "Earned",
+      "REDEEMED": "Redeemed",
+      "AMOUNT": "Amount",
+      "BALANCE": "Balance",
+      "CREATED": "Created"
+    },
+    "MISSIONS": {
+      "TITLE": "Loyalty missions",
+      "EMPTY": "No loyalty missions",
+      "DELETE_CONFIRM": "Are you sure you want to delete the selected loyalty mission? | Are you sure you want to delete {count} loyalty missions?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Draft",
+      "PUBLISHED": "Published",
+      "ARCHIVED": "Archived"
+    },
+    "MISSION": {
+      "TITLE": "Loyalty mission details",
+      "NEW_TITLE": "New loyalty mission",
+      "NAME_PLACEHOLDER": "Enter mission name",
+      "CONDITIONS": "Mission",
+      "IMMUTABLE": "Only draft missions can be edited. Published or archived missions are read-only and cannot be changed.",
+      "PUBLISH": "Publish",
+      "PUBLISH_CONFIRM": "After publishing the mission it cannot be changed. Do you want to publish the mission?",
+      "ARCHIVE": "Archive",
+      "ARCHIVE_CONFIRM": "An archived mission can no longer be used and cannot be changed. Do you want to archive the mission?",
+      "CLOSE_CONFIRM": "Loyalty mission was modified. Close without saving?"
+    },
+    "BANNER": {
+      "TITLE": "Mission banner",
+      "HINT": "PNG, JPG, GIF, SVG or WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "Loyalty settings",
+      "ENABLED": "Enable Loyalty",
+      "MODE": "Loyalty Mode",
+      "MODE_PLACEHOLDER": "Select loyalty mode",
+      "CURRENCY": "Loyalty Currency",
+      "CURRENCY_PLACEHOLDER": "Select loyalty currency",
+      "CLOSE_CONFIRM": "Loyalty settings were modified. Close without saving?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Loyalty balance",
+      "SETTINGS": "Loyalty settings",
+      "PRODUCT_FACTORS": "Product factors",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Add",
+      "REMOVE": "Remove",
+      "SELECT_SKUS": "select",
+      "SKUS_AFTER_SAVE": "You can add SKUs after saving the mission",
+      "SELECT": {
+        "CURRENCIES": "select currency",
+        "LANGUAGES": "select language",
+        "MEMBERGROUPS": "select groups",
+        "ORDERSTATUSES": "select statuses",
+        "LOYALTYMODES": "select mode"
+      }
+    }
+  }
+}
