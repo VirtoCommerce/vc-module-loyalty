@@ -1,8 +1,8 @@
 {
   "LOYALTY": {
     "MENU": {
-      "PROGRAMS": "Loyalty",
-      "MISSIONS": "Loyalty missions"
+      "PROGRAMS": "Loyalty Programs",
+      "MISSIONS": "Loyalty Missions"
     },
     "ACTIONS": {
       "ADD": "Add",
@@ -40,7 +40,7 @@
       "PRODUCT_POINTS_DESCR": "Reward customers with points for purchasing specific products"
     },
     "PROGRAMS": {
-      "TITLE": "Loyalty programs",
+      "TITLE": "Loyalty Programs",
       "EMPTY": "No loyalty programs",
       "DELETE_CONFIRM": "Are you sure you want to delete the selected loyalty program? | Are you sure you want to delete {count} loyalty programs?"
     },
@@ -103,7 +103,7 @@
       "CREATED": "Created"
     },
     "MISSIONS": {
-      "TITLE": "Loyalty missions",
+      "TITLE": "Loyalty Missions",
       "EMPTY": "No loyalty missions",
       "DELETE_CONFIRM": "Are you sure you want to delete the selected loyalty mission? | Are you sure you want to delete {count} loyalty missions?"
     },
