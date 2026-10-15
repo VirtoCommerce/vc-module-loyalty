@@ -1,0 +1,25 @@
+{
+  "remote": { "name": "loyalty_admin", "exposed": "./Module" },
+  "contributions": {
+    "menu": [
+      {
+        "id": "loyalty",
+        "sectionId": "marketing",
+        "title": "Loyalty Programs",
+        "icon": "lucide-star",
+        "route": "/loyalty",
+        "permission": "loyalty:access",
+        "priority": 40
+      },
+      {
+        "id": "loyalty.missions",
+        "sectionId": "marketing",
+        "title": "Loyalty Missions",
+        "icon": "lucide-trophy",
+        "route": "/loyalty-missions",
+        "permission": "loyalty:access",
+        "priority": 41
+      }
+    ]
+  }
+}

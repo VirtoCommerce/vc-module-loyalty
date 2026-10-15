@@ -1,0 +1,21 @@
+// shared by the Loyalty blades; host tokens only, so the dark theme applies
+
+/* the design's blade body padding (as Orders' details) */
+.ly-form {
+  padding: 20px 22px 36px;
+
+  /* a switch next to an input: its label lines up with the input's label */
+  &__switch {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.ly-conditions .vc-card__body {
+  padding: 0;
+}
+
+.ly-lang {
+  width: 140px;
+}
