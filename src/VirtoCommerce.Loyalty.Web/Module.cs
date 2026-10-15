@@ -2,7 +2,6 @@ using System;
 using FluentValidation;
 using GraphQL;
 using GraphQL.MicrosoftDI;
-using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using VirtoCommerce.Loyalty.Core;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Models.Missions;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.BackgroundJobs;
 using VirtoCommerce.Loyalty.Data.Handlers;
 using VirtoCommerce.Loyalty.Data.MySql;
 using VirtoCommerce.Loyalty.Data.PostgreSql;
@@ -29,6 +29,7 @@ using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.PaymentModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Security.Events;
@@ -111,6 +112,17 @@ public class Module : IModule, IHasConfiguration
         serviceCollection.AddTransient<LoyaltyProgramHandler>();
         serviceCollection.AddTransient<LoyaltyMissionHandler>();
 
+        // None of these is triggerable by name: each awards or redeems loyalty points for a caller-supplied payload.
+        serviceCollection.AddBackgroundJob<ProcessLoyaltyOrdersJobHandler, ProcessLoyaltyOrdersJobPayload>(triggerable: false);
+        serviceCollection.AddBackgroundJob<ProcessLoyaltyApplicationUsersJobHandler, ProcessLoyaltyApplicationUsersJobPayload>(triggerable: false);
+        serviceCollection.AddBackgroundJob<ProcessLoyaltyMissionsJobHandler, ProcessLoyaltyMissionsJobPayload>(triggerable: false);
+
+        // Schedule expiration of incomplete mission progress for ended missions. The id and the daily cron
+        // (Hangfire's Cron.Daily(), UTC) are kept from the Hangfire registration, so the existing schedule is replaced.
+        serviceCollection.AddRecurringJob<ExpireLoyaltyMissionsJobHandler, ExpireLoyaltyMissionsJobPayload>(schedule => schedule
+            .WithId("Loyalty.ExpireMissions")
+            .WithCron("0 0 * * *"));
+
         serviceCollection.AddTransient<LoyaltyPaymentMethod>();
 
         serviceCollection.AddSingleton<IAuthorizationHandler, CanAccessLoyaltyAuthorizationHandler>();
@@ -161,12 +173,6 @@ public class Module : IModule, IHasConfiguration
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<UserChangedEvent, LoyaltyProgramHandler>();
         appBuilder.RegisterEventHandler<OrderChangedEvent, LoyaltyMissionHandler>();
-
-        // Schedule expiration of incomplete mission progress for ended missions.
-        RecurringJob.AddOrUpdate<ILoyaltyMissionLogicService>(
-            "Loyalty.ExpireMissions",
-            x => x.ExpireMissionsAsync(),
-            Cron.Daily());
 
         // Register payment method
         var paymentMethodsRegistrar = appBuilder.ApplicationServices.GetRequiredService<IPaymentMethodsRegistrar>();
