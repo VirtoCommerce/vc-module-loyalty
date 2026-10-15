@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using VirtoCommerce.CustomerModule.Core.Model;
 using VirtoCommerce.CustomerModule.Core.Services;
 using VirtoCommerce.Loyalty.Core.Extensions;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.BackgroundJobs;
 using VirtoCommerce.Loyalty.Data.Provider;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Security.Events;
 using VirtoCommerce.Platform.Core.Settings;
@@ -62,12 +63,12 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
 
         if (orderIds.Length > 0)
         {
-            var context = new LoyaltyOrdersContext
-            {
-                OrderIds = orderIds,
-            };
+            var payload = AbstractTypeFactory<ProcessLoyaltyOrdersJobPayload>.TryCreateInstance();
+            payload.OrderIds = orderIds;
 
-            BackgroundJob.Enqueue(() => ProcessOrdersAsync(context));
+            // The static facade, not an injected IBackgroundJob: RegisterEventHandler resolves this handler once from
+            // the root provider and holds it for the process lifetime, so it must not capture a Scoped dependency.
+            return BackgroundJob.Enqueue<ProcessLoyaltyOrdersJobHandler>(payload);
         }
 
         return Task.CompletedTask;
@@ -83,18 +84,21 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
 
         if (userIds.Length > 0)
         {
-            var context = new LoyaltyApplicationUserContext
-            {
-                ApplicationUserIds = userIds,
-            };
+            var payload = AbstractTypeFactory<ProcessLoyaltyApplicationUsersJobPayload>.TryCreateInstance();
+            payload.ApplicationUserIds = userIds;
 
-            BackgroundJob.Enqueue(() => ProcessApplicationUsersAsync(context));
+            // The static facade, not an injected IBackgroundJob: see Handle(OrderChangedEvent).
+            return BackgroundJob.Enqueue<ProcessLoyaltyApplicationUsersJobHandler>(payload);
         }
 
         return Task.CompletedTask;
     }
 
-    [DisableConcurrentExecution(10)]
+    /// <summary>
+    /// Awards and redeems loyalty points for newly placed orders. Runs from <see cref="ProcessLoyaltyOrdersJobHandler"/>,
+    /// which takes the distributed lock that replaced Hangfire's [DisableConcurrentExecution]. Its signature is unchanged
+    /// on purpose: jobs queued by an earlier version reference this method by name.
+    /// </summary>
     public async Task ProcessOrdersAsync(LoyaltyOrdersContext context)
     {
         var orders = await _customerOrderService.GetNoCloneAsync(context.OrderIds);
@@ -115,7 +119,12 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         }
     }
 
-    [DisableConcurrentExecution(10)]
+    /// <summary>
+    /// Awards registration loyalty points to newly created users. Runs from
+    /// <see cref="ProcessLoyaltyApplicationUsersJobHandler"/>, which takes the distributed lock that replaced Hangfire's
+    /// [DisableConcurrentExecution]. Its signature is unchanged on purpose: jobs queued by an earlier version reference
+    /// this method by name.
+    /// </summary>
     public async Task ProcessApplicationUsersAsync(LoyaltyApplicationUserContext context)
     {
         using var userManager = _userManagerFactory();

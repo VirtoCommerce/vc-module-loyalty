@@ -1,11 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.BackgroundJobs;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.StoreModule.Core.Services;
 
 namespace VirtoCommerce.Loyalty.Data.Handlers;
@@ -29,13 +30,22 @@ public class LoyaltyMissionHandler(
 
         if (orderIds.Length > 0)
         {
-            BackgroundJob.Enqueue(() => ProcessMissionsAsync(orderIds));
+            var payload = AbstractTypeFactory<ProcessLoyaltyMissionsJobPayload>.TryCreateInstance();
+            payload.OrderIds = orderIds;
+
+            // The static facade, not an injected IBackgroundJob: RegisterEventHandler resolves this handler once from
+            // the root provider and holds it for the process lifetime, so it must not capture a Scoped dependency.
+            return BackgroundJob.Enqueue<ProcessLoyaltyMissionsJobHandler>(payload);
         }
 
         return Task.CompletedTask;
     }
 
-    [DisableConcurrentExecution(10)]
+    /// <summary>
+    /// Processes loyalty missions for newly placed orders. Runs from <see cref="ProcessLoyaltyMissionsJobHandler"/>, which
+    /// takes the distributed lock that replaced Hangfire's [DisableConcurrentExecution]. Its signature is unchanged on
+    /// purpose: jobs queued by an earlier version reference this method by name.
+    /// </summary>
     public async Task ProcessMissionsAsync(string[] orderIds)
     {
         var orders = await customerOrderService.GetNoCloneAsync(orderIds);
