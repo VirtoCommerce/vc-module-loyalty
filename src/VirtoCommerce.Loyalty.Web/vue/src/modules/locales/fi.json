@@ -1,0 +1,158 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Kanta-asiakasohjelmat",
+      "MISSIONS": "Kanta-asiakastehtävät"
+    },
+    "ACTIONS": {
+      "ADD": "Lisää",
+      "APPLY": "Käytä",
+      "CREATE": "Luo",
+      "DELETE": "Poista",
+      "REFRESH": "Päivitä",
+      "RESET": "Palauta",
+      "SAVE": "Tallenna"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Tämä kenttä on pakollinen"
+    },
+    "FIELDS": {
+      "NAME": "Nimi",
+      "TYPE": "Tyyppi",
+      "STORE": "Kauppa",
+      "STORE_PLACEHOLDER": "Valitse kauppa",
+      "STATUS": "Tila",
+      "START_DATE": "Alkamispäivä",
+      "END_DATE": "Päättymispäivä",
+      "LOCALIZATION": "Lokalisointi",
+      "LANGUAGE": "Kieli",
+      "LOCALIZED_NAME": "Lokalisoitu nimi",
+      "LOCALIZED_DESCRIPTION": "Lokalisoitu kuvaus"
+    },
+    "STATUS": {
+      "ACTIVE": "Aktiivinen",
+      "INACTIVE": "Ei aktiivinen"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Tilaususkollisuus",
+      "DEFAULT_DESCR": "Palkitse asiakkaita tilauksen ehtojen ja summien perusteella",
+      "PRODUCT_POINTS": "Tuotepisteuskollisuus",
+      "PRODUCT_POINTS_DESCR": "Palkitse asiakkaita pisteillä tiettyjen tuotteiden ostamisesta"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Ei kanta-asiakasohjelmia",
+      "DELETE_CONFIRM": "Haluatko varmasti poistaa valitun kanta-asiakasohjelman? | Haluatko varmasti poistaa {count} kanta-asiakasohjelmaa?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Lisää kanta-asiakasohjelma",
+      "TYPE": "Ohjelmatyyppi"
+    },
+    "PROGRAM": {
+      "TITLE": "Kanta-asiakasohjelman tiedot",
+      "NEW_TITLE": "Uusi kanta-asiakasohjelma",
+      "NAME_PLACEHOLDER": "Syötä ohjelman nimi",
+      "PRIORITY": "Prioriteetti",
+      "CONDITIONS": "Kanta-asiakasohjelma",
+      "SAVE_FIRST": "Tallenna ohjelma ensin, jotta voit hallita tuotekertoimia",
+      "CLOSE_CONFIRM": "Kanta-asiakasohjelmaa on muutettu. Suljetaanko tallentamatta?"
+    },
+    "FILTER": {
+      "SELECT": "Valitse suodatin",
+      "EDIT": "Muokkaa suodatinta",
+      "NEW": "Uusi suodatin",
+      "TITLE": "Suodata kanta-asiakasohjelmia",
+      "NAME": "Nimi",
+      "UNNAMED": "Nimetön suodatin",
+      "ONLY_ACTIVE": "Vain aktiiviset",
+      "STORES": "Kaupat",
+      "ALL_STORES": "Kaikki kaupat",
+      "APPLY": "Käytä suodatinta"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Tuotekertoimet",
+      "PROGRAMS_TITLE": "Kanta-asiakasohjelmat",
+      "GOALS_TITLE": "Tavoite-SKU:t",
+      "EMPTY": "Ei tuotteita",
+      "PRODUCT": "Tuotteen nimi",
+      "PROGRAM": "Ohjelman nimi",
+      "SKU": "SKU",
+      "FACTOR": "Kerroin",
+      "QUANTITY": "Määrä",
+      "NEW": "Uusi",
+      "INVALID_FACTOR": "Tuotteen {name} kerroin ei voi olla negatiivinen",
+      "INVALID_QUANTITY": "Tuotteen {name} määrän on oltava kokonaisluku, vähintään 1",
+      "DELETE_FACTORS_CONFIRM": "Haluatko varmasti poistaa valitut tuotekertoimet?",
+      "DELETE_GOALS_CONFIRM": "Haluatko varmasti poistaa valitut tavoite-SKU:t?",
+      "CLOSE_CONFIRM": "Luetteloa on muutettu. Suljetaanko tallentamatta?"
+    },
+    "PICKER": {
+      "TITLE": "Valitse tuotteet",
+      "EMPTY": "Tuotteita ei löytynyt",
+      "IMAGE": "Kuva",
+      "ADD_SELECTED": "Lisää valitut"
+    },
+    "LOG": {
+      "TITLE": "Kanta-asiakastoimintaloki",
+      "EMPTY": "Ei kanta-asiakastoimintoja",
+      "OPERATION": "Toiminto",
+      "EARNED": "Ansaittu",
+      "REDEEMED": "Lunastettu",
+      "AMOUNT": "Määrä",
+      "BALANCE": "Saldo",
+      "CREATED": "Luotu"
+    },
+    "MISSIONS": {
+      "EMPTY": "Ei kanta-asiakastehtäviä",
+      "DELETE_CONFIRM": "Haluatko varmasti poistaa valitun kanta-asiakastehtävän? | Haluatko varmasti poistaa {count} kanta-asiakastehtävää?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Luonnos",
+      "PUBLISHED": "Julkaistu",
+      "ARCHIVED": "Arkistoitu"
+    },
+    "MISSION": {
+      "TITLE": "Kanta-asiakastehtävän tiedot",
+      "NEW_TITLE": "Uusi kanta-asiakastehtävä",
+      "NAME_PLACEHOLDER": "Syötä tehtävän nimi",
+      "CONDITIONS": "Tehtävä",
+      "IMMUTABLE": "Vain luonnostilassa olevia tehtäviä voi muokata. Julkaistut tai arkistoidut tehtävät ovat vain luku -tilassa, eikä niitä voi muuttaa.",
+      "PUBLISH": "Julkaise",
+      "PUBLISH_CONFIRM": "Julkaisun jälkeen tehtävää ei voi muuttaa. Haluatko julkaista tehtävän?",
+      "ARCHIVE": "Arkistoi",
+      "ARCHIVE_CONFIRM": "Arkistoitua tehtävää ei voi enää käyttää eikä muuttaa. Haluatko arkistoida tehtävän?",
+      "CLOSE_CONFIRM": "Kanta-asiakastehtävää on muutettu. Suljetaanko tallentamatta?"
+    },
+    "BANNER": {
+      "TITLE": "Tehtävän banneri",
+      "HINT": "PNG, JPG, GIF, SVG tai WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "Kanta-asiakasasetukset",
+      "ENABLED": "Ota kanta-asiakkuus käyttöön",
+      "MODE": "Kanta-asiakastila",
+      "MODE_PLACEHOLDER": "Valitse kanta-asiakastila",
+      "CURRENCY": "Kanta-asiakasvaluutta",
+      "CURRENCY_PLACEHOLDER": "Valitse kanta-asiakasvaluutta",
+      "CLOSE_CONFIRM": "Kanta-asiakasasetuksia on muutettu. Suljetaanko tallentamatta?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Kanta-asiakassaldo",
+      "SETTINGS": "Kanta-asiakasasetukset",
+      "PRODUCT_FACTORS": "Tuotekertoimet",
+      "BANNER": "Banneri"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Lisää",
+      "REMOVE": "Poista",
+      "SELECT_SKUS": "valitse",
+      "SKUS_AFTER_SAVE": "Voit lisätä SKU:t, kun tehtävä on tallennettu",
+      "SELECT": {
+        "CURRENCIES": "valitse valuutta",
+        "LANGUAGES": "valitse kieli",
+        "MEMBERGROUPS": "valitse ryhmät",
+        "ORDERSTATUSES": "valitse tilat",
+        "LOYALTYMODES": "valitse tila"
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Programas de fidelidad",
+      "MISSIONS": "Misiones de fidelidad"
+    },
+    "ACTIONS": {
+      "ADD": "Agregar",
+      "APPLY": "Aplicar",
+      "CREATE": "Crear",
+      "DELETE": "Eliminar",
+      "REFRESH": "Actualizar",
+      "RESET": "Restablecer",
+      "SAVE": "Guardar"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Este campo es obligatorio"
+    },
+    "FIELDS": {
+      "NAME": "Nombre",
+      "TYPE": "Tipo",
+      "STORE": "Tienda",
+      "STORE_PLACEHOLDER": "Seleccionar tienda",
+      "STATUS": "Estado",
+      "START_DATE": "Fecha de inicio",
+      "END_DATE": "Fecha de finalización",
+      "LOCALIZATION": "Localización",
+      "LANGUAGE": "Idioma",
+      "LOCALIZED_NAME": "Nombre localizado",
+      "LOCALIZED_DESCRIPTION": "Descripción localizada"
+    },
+    "STATUS": {
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Fidelización por pedidos",
+      "DEFAULT_DESCR": "Recompense a los clientes según las condiciones y los totales del pedido",
+      "PRODUCT_POINTS": "Fidelización por puntos de productos",
+      "PRODUCT_POINTS_DESCR": "Recompense a los clientes con puntos por comprar productos específicos"
+    },
+    "PROGRAMS": {
+      "EMPTY": "No hay programas de fidelidad",
+      "DELETE_CONFIRM": "¿Está seguro de que desea eliminar el programa de fidelidad seleccionado? | ¿Está seguro de que desea eliminar {count} programas de fidelidad?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Agregar programa de fidelidad",
+      "TYPE": "Tipo de programa"
+    },
+    "PROGRAM": {
+      "TITLE": "Detalles del programa de fidelidad",
+      "NEW_TITLE": "Nuevo programa de fidelidad",
+      "NAME_PLACEHOLDER": "Introducir nombre del programa",
+      "PRIORITY": "Prioridad",
+      "CONDITIONS": "Programa de fidelidad",
+      "SAVE_FIRST": "Guarde primero el programa para administrar los factores de producto",
+      "CLOSE_CONFIRM": "El programa de fidelidad se ha modificado. ¿Cerrar sin guardar?"
+    },
+    "FILTER": {
+      "SELECT": "Seleccionar filtro",
+      "EDIT": "Editar filtro",
+      "NEW": "Nuevo filtro",
+      "TITLE": "Filtrar programas de fidelidad",
+      "NAME": "Nombre",
+      "UNNAMED": "Filtro sin nombre",
+      "ONLY_ACTIVE": "Solo activos",
+      "STORES": "Tiendas",
+      "ALL_STORES": "Todas las tiendas",
+      "APPLY": "Aplicar filtro"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Factores de producto",
+      "PROGRAMS_TITLE": "Programas de fidelidad",
+      "GOALS_TITLE": "SKU objetivo",
+      "EMPTY": "No hay productos",
+      "PRODUCT": "Nombre del producto",
+      "PROGRAM": "Nombre del programa",
+      "SKU": "SKU",
+      "FACTOR": "Factor",
+      "QUANTITY": "Cantidad",
+      "NEW": "Nuevo",
+      "INVALID_FACTOR": "El factor de {name} no puede ser negativo",
+      "INVALID_QUANTITY": "La cantidad de {name} debe ser un número entero de al menos 1",
+      "DELETE_FACTORS_CONFIRM": "¿Está seguro de que desea eliminar los factores de producto seleccionados?",
+      "DELETE_GOALS_CONFIRM": "¿Está seguro de que desea eliminar los SKU objetivo seleccionados?",
+      "CLOSE_CONFIRM": "La lista se ha modificado. ¿Cerrar sin guardar?"
+    },
+    "PICKER": {
+      "TITLE": "Seleccionar productos",
+      "EMPTY": "No se encontraron productos",
+      "IMAGE": "Imagen",
+      "ADD_SELECTED": "Agregar seleccionados"
+    },
+    "LOG": {
+      "TITLE": "Registro de operaciones de fidelidad",
+      "EMPTY": "No hay operaciones de fidelidad",
+      "OPERATION": "Operación",
+      "EARNED": "Ganado",
+      "REDEEMED": "Canjeado",
+      "AMOUNT": "Importe",
+      "BALANCE": "Saldo",
+      "CREATED": "Creado"
+    },
+    "MISSIONS": {
+      "EMPTY": "No hay misiones de fidelidad",
+      "DELETE_CONFIRM": "¿Está seguro de que desea eliminar la misión de fidelidad seleccionada? | ¿Está seguro de que desea eliminar {count} misiones de fidelidad?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Borrador",
+      "PUBLISHED": "Publicada",
+      "ARCHIVED": "Archivada"
+    },
+    "MISSION": {
+      "TITLE": "Detalles de la misión de fidelidad",
+      "NEW_TITLE": "Nueva misión de fidelidad",
+      "NAME_PLACEHOLDER": "Introducir nombre de la misión",
+      "CONDITIONS": "Misión",
+      "IMMUTABLE": "Solo se pueden editar las misiones en borrador. Las misiones publicadas o archivadas son de solo lectura y no se pueden modificar.",
+      "PUBLISH": "Publicar",
+      "PUBLISH_CONFIRM": "Después de publicar la misión, no se podrá modificar. ¿Desea publicar la misión?",
+      "ARCHIVE": "Archivar",
+      "ARCHIVE_CONFIRM": "Una misión archivada ya no se puede usar ni modificar. ¿Desea archivar la misión?",
+      "CLOSE_CONFIRM": "La misión de fidelidad se ha modificado. ¿Cerrar sin guardar?"
+    },
+    "BANNER": {
+      "TITLE": "Banner de la misión",
+      "HINT": "PNG, JPG, GIF, SVG o WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "Configuración de fidelidad",
+      "ENABLED": "Activar fidelidad",
+      "MODE": "Modo de fidelidad",
+      "MODE_PLACEHOLDER": "Seleccionar modo de fidelidad",
+      "CURRENCY": "Moneda de fidelidad",
+      "CURRENCY_PLACEHOLDER": "Seleccionar moneda de fidelidad",
+      "CLOSE_CONFIRM": "La configuración de fidelidad se ha modificado. ¿Cerrar sin guardar?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Saldo de fidelidad",
+      "SETTINGS": "Configuración de fidelidad",
+      "PRODUCT_FACTORS": "Factores de producto",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Agregar",
+      "REMOVE": "Quitar",
+      "SELECT_SKUS": "seleccionar",
+      "SKUS_AFTER_SAVE": "Puede agregar SKU después de guardar la misión",
+      "SELECT": {
+        "CURRENCIES": "seleccionar moneda",
+        "LANGUAGES": "seleccionar idioma",
+        "MEMBERGROUPS": "seleccionar grupos",
+        "ORDERSTATUSES": "seleccionar estados",
+        "LOYALTYMODES": "seleccionar modo"
+      }
+    }
+  }
+}

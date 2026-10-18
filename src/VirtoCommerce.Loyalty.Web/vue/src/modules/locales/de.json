@@ -1,0 +1,158 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Treueprogramme",
+      "MISSIONS": "Treuemissionen"
+    },
+    "ACTIONS": {
+      "ADD": "Hinzufügen",
+      "APPLY": "Anwenden",
+      "CREATE": "Erstellen",
+      "DELETE": "Löschen",
+      "REFRESH": "Aktualisieren",
+      "RESET": "Zurücksetzen",
+      "SAVE": "Speichern"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Dieses Feld ist erforderlich"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "TYPE": "Typ",
+      "STORE": "Shop",
+      "STORE_PLACEHOLDER": "Shop auswählen",
+      "STATUS": "Status",
+      "START_DATE": "Startdatum",
+      "END_DATE": "Enddatum",
+      "LOCALIZATION": "Lokalisierung",
+      "LANGUAGE": "Sprache",
+      "LOCALIZED_NAME": "Lokalisierter Name",
+      "LOCALIZED_DESCRIPTION": "Lokalisierte Beschreibung"
+    },
+    "STATUS": {
+      "ACTIVE": "Aktiv",
+      "INACTIVE": "Inaktiv"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Bestelltreue",
+      "DEFAULT_DESCR": "Kunden anhand von Bestellbedingungen und -summen belohnen",
+      "PRODUCT_POINTS": "Produktpunkte-Treue",
+      "PRODUCT_POINTS_DESCR": "Kunden mit Punkten für den Kauf bestimmter Produkte belohnen"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Keine Treueprogramme",
+      "DELETE_CONFIRM": "Möchten Sie das ausgewählte Treueprogramm wirklich löschen? | Möchten Sie {count} Treueprogramme wirklich löschen?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Treueprogramm hinzufügen",
+      "TYPE": "Programmtyp"
+    },
+    "PROGRAM": {
+      "TITLE": "Details zum Treueprogramm",
+      "NEW_TITLE": "Neues Treueprogramm",
+      "NAME_PLACEHOLDER": "Programmnamen eingeben",
+      "PRIORITY": "Priorität",
+      "CONDITIONS": "Treueprogramm",
+      "SAVE_FIRST": "Speichern Sie zuerst das Programm, um Produktfaktoren zu verwalten",
+      "CLOSE_CONFIRM": "Das Treueprogramm wurde geändert. Ohne Speichern schließen?"
+    },
+    "FILTER": {
+      "SELECT": "Filter auswählen",
+      "EDIT": "Filter bearbeiten",
+      "NEW": "Neuer Filter",
+      "TITLE": "Treueprogramme filtern",
+      "NAME": "Name",
+      "UNNAMED": "Unbenannter Filter",
+      "ONLY_ACTIVE": "Nur aktive",
+      "STORES": "Shops",
+      "ALL_STORES": "Alle Shops",
+      "APPLY": "Filter anwenden"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Produktfaktoren",
+      "PROGRAMS_TITLE": "Treueprogramme",
+      "GOALS_TITLE": "Ziel-SKUs",
+      "EMPTY": "Keine Produkte",
+      "PRODUCT": "Produktname",
+      "PROGRAM": "Programmname",
+      "SKU": "SKU",
+      "FACTOR": "Faktor",
+      "QUANTITY": "Menge",
+      "NEW": "Neu",
+      "INVALID_FACTOR": "Der Faktor von {name} darf nicht negativ sein",
+      "INVALID_QUANTITY": "Die Menge von {name} muss eine ganze Zahl von mindestens 1 sein",
+      "DELETE_FACTORS_CONFIRM": "Möchten Sie die ausgewählten Produktfaktoren wirklich löschen?",
+      "DELETE_GOALS_CONFIRM": "Möchten Sie die ausgewählten Ziel-SKUs wirklich löschen?",
+      "CLOSE_CONFIRM": "Die Liste wurde geändert. Ohne Speichern schließen?"
+    },
+    "PICKER": {
+      "TITLE": "Produkte auswählen",
+      "EMPTY": "Keine Produkte gefunden",
+      "IMAGE": "Bild",
+      "ADD_SELECTED": "Ausgewählte hinzufügen"
+    },
+    "LOG": {
+      "TITLE": "Treue-Operationsprotokoll",
+      "EMPTY": "Keine Treuevorgänge",
+      "OPERATION": "Vorgang",
+      "EARNED": "Erhalten",
+      "REDEEMED": "Eingelöst",
+      "AMOUNT": "Betrag",
+      "BALANCE": "Saldo",
+      "CREATED": "Erstellt"
+    },
+    "MISSIONS": {
+      "EMPTY": "Keine Treuemissionen",
+      "DELETE_CONFIRM": "Möchten Sie die ausgewählte Treuemission wirklich löschen? | Möchten Sie {count} Treuemissionen wirklich löschen?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Entwurf",
+      "PUBLISHED": "Veröffentlicht",
+      "ARCHIVED": "Archiviert"
+    },
+    "MISSION": {
+      "TITLE": "Details zur Treuemission",
+      "NEW_TITLE": "Neue Treuemission",
+      "NAME_PLACEHOLDER": "Missionsnamen eingeben",
+      "CONDITIONS": "Mission",
+      "IMMUTABLE": "Nur Missionen im Entwurfsstatus können bearbeitet werden. Veröffentlichte oder archivierte Missionen sind schreibgeschützt und können nicht geändert werden.",
+      "PUBLISH": "Veröffentlichen",
+      "PUBLISH_CONFIRM": "Nach der Veröffentlichung kann die Mission nicht mehr geändert werden. Möchten Sie die Mission veröffentlichen?",
+      "ARCHIVE": "Archivieren",
+      "ARCHIVE_CONFIRM": "Eine archivierte Mission kann nicht mehr verwendet und nicht geändert werden. Möchten Sie die Mission archivieren?",
+      "CLOSE_CONFIRM": "Die Treuemission wurde geändert. Ohne Speichern schließen?"
+    },
+    "BANNER": {
+      "TITLE": "Missionsbanner",
+      "HINT": "PNG, JPG, GIF, SVG oder WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "Treueeinstellungen",
+      "ENABLED": "Treue aktivieren",
+      "MODE": "Treuemodus",
+      "MODE_PLACEHOLDER": "Treuemodus auswählen",
+      "CURRENCY": "Treuewährung",
+      "CURRENCY_PLACEHOLDER": "Treuewährung auswählen",
+      "CLOSE_CONFIRM": "Die Treueeinstellungen wurden geändert. Ohne Speichern schließen?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Treuesaldo",
+      "SETTINGS": "Treueeinstellungen",
+      "PRODUCT_FACTORS": "Produktfaktoren",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Hinzufügen",
+      "REMOVE": "Entfernen",
+      "SELECT_SKUS": "auswählen",
+      "SKUS_AFTER_SAVE": "Sie können SKUs nach dem Speichern der Mission hinzufügen",
+      "SELECT": {
+        "CURRENCIES": "Währung auswählen",
+        "LANGUAGES": "Sprache auswählen",
+        "MEMBERGROUPS": "Gruppen auswählen",
+        "ORDERSTATUSES": "Status auswählen",
+        "LOYALTYMODES": "Modus auswählen"
+      }
+    }
+  }
+}

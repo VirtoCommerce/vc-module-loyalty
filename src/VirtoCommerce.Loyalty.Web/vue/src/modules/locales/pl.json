@@ -1,0 +1,158 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Programy lojalnościowe",
+      "MISSIONS": "Misje lojalnościowe"
+    },
+    "ACTIONS": {
+      "ADD": "Dodaj",
+      "APPLY": "Zastosuj",
+      "CREATE": "Utwórz",
+      "DELETE": "Usuń",
+      "REFRESH": "Odśwież",
+      "RESET": "Resetuj",
+      "SAVE": "Zapisz"
+    },
+    "VALIDATION": {
+      "REQUIRED": "To pole jest wymagane"
+    },
+    "FIELDS": {
+      "NAME": "Nazwa",
+      "TYPE": "Typ",
+      "STORE": "Sklep",
+      "STORE_PLACEHOLDER": "Wybierz sklep",
+      "STATUS": "Status",
+      "START_DATE": "Data rozpoczęcia",
+      "END_DATE": "Data zakończenia",
+      "LOCALIZATION": "Lokalizacja",
+      "LANGUAGE": "Język",
+      "LOCALIZED_NAME": "Nazwa zlokalizowana",
+      "LOCALIZED_DESCRIPTION": "Opis zlokalizowany"
+    },
+    "STATUS": {
+      "ACTIVE": "Aktywny",
+      "INACTIVE": "Nieaktywny"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Lojalność zamówień",
+      "DEFAULT_DESCR": "Nagradzaj klientów na podstawie warunków i sum zamówień",
+      "PRODUCT_POINTS": "Lojalność punktowa produktów",
+      "PRODUCT_POINTS_DESCR": "Nagradzaj klientów punktami za zakup określonych produktów"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Brak programów lojalnościowych",
+      "DELETE_CONFIRM": "Czy na pewno chcesz usunąć wybrany program lojalnościowy? | Czy na pewno chcesz usunąć programy lojalnościowe ({count})?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Dodaj program lojalnościowy",
+      "TYPE": "Typ programu"
+    },
+    "PROGRAM": {
+      "TITLE": "Szczegóły programu lojalnościowego",
+      "NEW_TITLE": "Nowy program lojalnościowy",
+      "NAME_PLACEHOLDER": "Wpisz nazwę programu",
+      "PRIORITY": "Priorytet",
+      "CONDITIONS": "Program lojalnościowy",
+      "SAVE_FIRST": "Najpierw zapisz program, aby zarządzać współczynnikami produktów",
+      "CLOSE_CONFIRM": "Program lojalnościowy został zmieniony. Zamknąć bez zapisywania?"
+    },
+    "FILTER": {
+      "SELECT": "Wybierz filtr",
+      "EDIT": "Edytuj filtr",
+      "NEW": "Nowy filtr",
+      "TITLE": "Filtruj programy lojalnościowe",
+      "NAME": "Nazwa",
+      "UNNAMED": "Filtr bez nazwy",
+      "ONLY_ACTIVE": "Tylko aktywne",
+      "STORES": "Sklepy",
+      "ALL_STORES": "Wszystkie sklepy",
+      "APPLY": "Zastosuj filtr"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Współczynniki produktów",
+      "PROGRAMS_TITLE": "Programy lojalnościowe",
+      "GOALS_TITLE": "Docelowe SKU",
+      "EMPTY": "Brak produktów",
+      "PRODUCT": "Nazwa produktu",
+      "PROGRAM": "Nazwa programu",
+      "SKU": "SKU",
+      "FACTOR": "Współczynnik",
+      "QUANTITY": "Ilość",
+      "NEW": "Nowy",
+      "INVALID_FACTOR": "Współczynnik produktu {name} nie może być ujemny",
+      "INVALID_QUANTITY": "Ilość produktu {name} musi być liczbą całkowitą nie mniejszą niż 1",
+      "DELETE_FACTORS_CONFIRM": "Czy na pewno chcesz usunąć wybrane współczynniki produktów?",
+      "DELETE_GOALS_CONFIRM": "Czy na pewno chcesz usunąć wybrane docelowe SKU?",
+      "CLOSE_CONFIRM": "Lista została zmieniona. Zamknąć bez zapisywania?"
+    },
+    "PICKER": {
+      "TITLE": "Wybierz produkty",
+      "EMPTY": "Nie znaleziono produktów",
+      "IMAGE": "Obraz",
+      "ADD_SELECTED": "Dodaj wybrane"
+    },
+    "LOG": {
+      "TITLE": "Dziennik operacji lojalnościowych",
+      "EMPTY": "Brak operacji lojalnościowych",
+      "OPERATION": "Operacja",
+      "EARNED": "Zebrane",
+      "REDEEMED": "Wykorzystane",
+      "AMOUNT": "Kwota",
+      "BALANCE": "Saldo",
+      "CREATED": "Utworzono"
+    },
+    "MISSIONS": {
+      "EMPTY": "Brak misji lojalnościowych",
+      "DELETE_CONFIRM": "Czy na pewno chcesz usunąć wybraną misję lojalnościową? | Czy na pewno chcesz usunąć misje lojalnościowe ({count})?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Wersja robocza",
+      "PUBLISHED": "Opublikowana",
+      "ARCHIVED": "Zarchiwizowana"
+    },
+    "MISSION": {
+      "TITLE": "Szczegóły misji lojalnościowej",
+      "NEW_TITLE": "Nowa misja lojalnościowa",
+      "NAME_PLACEHOLDER": "Wpisz nazwę misji",
+      "CONDITIONS": "Misja",
+      "IMMUTABLE": "Edytować można tylko misje w wersji roboczej. Misje opublikowane lub zarchiwizowane są tylko do odczytu i nie można ich zmienić.",
+      "PUBLISH": "Opublikuj",
+      "PUBLISH_CONFIRM": "Po opublikowaniu misji nie będzie można jej zmienić. Czy chcesz opublikować misję?",
+      "ARCHIVE": "Archiwizuj",
+      "ARCHIVE_CONFIRM": "Zarchiwizowanej misji nie można już używać ani zmieniać. Czy chcesz zarchiwizować misję?",
+      "CLOSE_CONFIRM": "Misja lojalnościowa została zmieniona. Zamknąć bez zapisywania?"
+    },
+    "BANNER": {
+      "TITLE": "Baner misji",
+      "HINT": "PNG, JPG, GIF, SVG lub WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "Ustawienia lojalności",
+      "ENABLED": "Włącz lojalność",
+      "MODE": "Tryb lojalności",
+      "MODE_PLACEHOLDER": "Wybierz tryb lojalności",
+      "CURRENCY": "Waluta lojalności",
+      "CURRENCY_PLACEHOLDER": "Wybierz walutę lojalności",
+      "CLOSE_CONFIRM": "Ustawienia lojalności zostały zmienione. Zamknąć bez zapisywania?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Saldo lojalnościowe",
+      "SETTINGS": "Ustawienia lojalności",
+      "PRODUCT_FACTORS": "Współczynniki produktów",
+      "BANNER": "Baner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Dodaj",
+      "REMOVE": "Usuń",
+      "SELECT_SKUS": "wybierz",
+      "SKUS_AFTER_SAVE": "SKU można dodać po zapisaniu misji",
+      "SELECT": {
+        "CURRENCIES": "wybierz walutę",
+        "LANGUAGES": "wybierz język",
+        "MEMBERGROUPS": "wybierz grupy",
+        "ORDERSTATUSES": "wybierz statusy",
+        "LOYALTYMODES": "wybierz tryb"
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "ロイヤルティプログラム",
+      "MISSIONS": "ロイヤルティミッション"
+    },
+    "ACTIONS": {
+      "ADD": "追加",
+      "APPLY": "適用",
+      "CREATE": "作成",
+      "DELETE": "削除",
+      "REFRESH": "更新",
+      "RESET": "リセット",
+      "SAVE": "保存"
+    },
+    "VALIDATION": {
+      "REQUIRED": "この項目は必須です"
+    },
+    "FIELDS": {
+      "NAME": "名前",
+      "TYPE": "タイプ",
+      "STORE": "ストア",
+      "STORE_PLACEHOLDER": "ストアを選択",
+      "STATUS": "ステータス",
+      "START_DATE": "開始日",
+      "END_DATE": "終了日",
+      "LOCALIZATION": "ローカライズ",
+      "LANGUAGE": "言語",
+      "LOCALIZED_NAME": "ローカライズされた名前",
+      "LOCALIZED_DESCRIPTION": "ローカライズされた説明"
+    },
+    "STATUS": {
+      "ACTIVE": "有効",
+      "INACTIVE": "無効"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "注文ロイヤルティ",
+      "DEFAULT_DESCR": "注文の条件と合計金額に基づいて顧客に報酬を付与します",
+      "PRODUCT_POINTS": "商品ポイントロイヤルティ",
+      "PRODUCT_POINTS_DESCR": "特定の商品を購入した顧客にポイントを付与します"
+    },
+    "PROGRAMS": {
+      "EMPTY": "ロイヤルティプログラムがありません",
+      "DELETE_CONFIRM": "選択したロイヤルティプログラムを削除してもよろしいですか？ | {count} 件のロイヤルティプログラムを削除してもよろしいですか？"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "ロイヤルティプログラムを追加",
+      "TYPE": "プログラムタイプ"
+    },
+    "PROGRAM": {
+      "TITLE": "ロイヤルティプログラムの詳細",
+      "NEW_TITLE": "新しいロイヤルティプログラム",
+      "NAME_PLACEHOLDER": "プログラム名を入力",
+      "PRIORITY": "優先度",
+      "CONDITIONS": "ロイヤルティプログラム",
+      "SAVE_FIRST": "商品係数を管理するには、まずプログラムを保存してください",
+      "CLOSE_CONFIRM": "ロイヤルティプログラムが変更されました。保存せずに閉じますか？"
+    },
+    "FILTER": {
+      "SELECT": "フィルターを選択",
+      "EDIT": "フィルターを編集",
+      "NEW": "新しいフィルター",
+      "TITLE": "ロイヤルティプログラムをフィルター",
+      "NAME": "名前",
+      "UNNAMED": "名前のないフィルター",
+      "ONLY_ACTIVE": "有効なもののみ",
+      "STORES": "ストア",
+      "ALL_STORES": "すべてのストア",
+      "APPLY": "フィルターを適用"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "商品係数",
+      "PROGRAMS_TITLE": "ロイヤルティプログラム",
+      "GOALS_TITLE": "目標SKU",
+      "EMPTY": "商品がありません",
+      "PRODUCT": "商品名",
+      "PROGRAM": "プログラム名",
+      "SKU": "SKU",
+      "FACTOR": "係数",
+      "QUANTITY": "数量",
+      "NEW": "新規",
+      "INVALID_FACTOR": "{name} の係数を負の値にすることはできません",
+      "INVALID_QUANTITY": "{name} の数量は 1 以上の整数である必要があります",
+      "DELETE_FACTORS_CONFIRM": "選択した商品係数を削除してもよろしいですか？",
+      "DELETE_GOALS_CONFIRM": "選択した目標SKUを削除してもよろしいですか？",
+      "CLOSE_CONFIRM": "リストが変更されました。保存せずに閉じますか？"
+    },
+    "PICKER": {
+      "TITLE": "商品を選択",
+      "EMPTY": "商品が見つかりません",
+      "IMAGE": "画像",
+      "ADD_SELECTED": "選択項目を追加"
+    },
+    "LOG": {
+      "TITLE": "ロイヤルティ操作ログ",
+      "EMPTY": "ロイヤルティ操作がありません",
+      "OPERATION": "操作",
+      "EARNED": "獲得",
+      "REDEEMED": "利用",
+      "AMOUNT": "数量",
+      "BALANCE": "残高",
+      "CREATED": "作成日時"
+    },
+    "MISSIONS": {
+      "EMPTY": "ロイヤルティミッションがありません",
+      "DELETE_CONFIRM": "選択したロイヤルティミッションを削除してもよろしいですか？ | {count} 件のロイヤルティミッションを削除してもよろしいですか？"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "下書き",
+      "PUBLISHED": "公開済み",
+      "ARCHIVED": "アーカイブ済み"
+    },
+    "MISSION": {
+      "TITLE": "ロイヤルティミッションの詳細",
+      "NEW_TITLE": "新しいロイヤルティミッション",
+      "NAME_PLACEHOLDER": "ミッション名を入力",
+      "CONDITIONS": "ミッション",
+      "IMMUTABLE": "編集できるのは下書きのミッションのみです。公開済みまたはアーカイブ済みのミッションは読み取り専用で、変更できません。",
+      "PUBLISH": "公開",
+      "PUBLISH_CONFIRM": "ミッションを公開すると変更できなくなります。ミッションを公開しますか？",
+      "ARCHIVE": "アーカイブ",
+      "ARCHIVE_CONFIRM": "アーカイブしたミッションは使用も変更もできなくなります。ミッションをアーカイブしますか？",
+      "CLOSE_CONFIRM": "ロイヤルティミッションが変更されました。保存せずに閉じますか？"
+    },
+    "BANNER": {
+      "TITLE": "ミッションバナー",
+      "HINT": "PNG、JPG、GIF、SVG、WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "ロイヤルティ設定",
+      "ENABLED": "ロイヤルティを有効化",
+      "MODE": "ロイヤルティモード",
+      "MODE_PLACEHOLDER": "ロイヤルティモードを選択",
+      "CURRENCY": "ロイヤルティ通貨",
+      "CURRENCY_PLACEHOLDER": "ロイヤルティ通貨を選択",
+      "CLOSE_CONFIRM": "ロイヤルティ設定が変更されました。保存せずに閉じますか？"
+    },
+    "WIDGETS": {
+      "BALANCE": "ロイヤルティ残高",
+      "SETTINGS": "ロイヤルティ設定",
+      "PRODUCT_FACTORS": "商品係数",
+      "BANNER": "バナー"
+    },
+    "EXPRESSIONS": {
+      "ADD": "追加",
+      "REMOVE": "削除",
+      "SELECT_SKUS": "選択",
+      "SKUS_AFTER_SAVE": "ミッションを保存した後で SKU を追加できます",
+      "SELECT": {
+        "CURRENCIES": "通貨を選択",
+        "LANGUAGES": "言語を選択",
+        "MEMBERGROUPS": "グループを選択",
+        "ORDERSTATUSES": "ステータスを選択",
+        "LOYALTYMODES": "モードを選択"
+      }
+    }
+  }
+}

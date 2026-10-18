@@ -1,0 +1,158 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Lojalitetsprogram",
+      "MISSIONS": "Lojalitetsuppdrag"
+    },
+    "ACTIONS": {
+      "ADD": "Lägg till",
+      "APPLY": "Tillämpa",
+      "CREATE": "Skapa",
+      "DELETE": "Ta bort",
+      "REFRESH": "Uppdatera",
+      "RESET": "Återställ",
+      "SAVE": "Spara"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Detta fält är obligatoriskt"
+    },
+    "FIELDS": {
+      "NAME": "Namn",
+      "TYPE": "Typ",
+      "STORE": "Butik",
+      "STORE_PLACEHOLDER": "Välj butik",
+      "STATUS": "Status",
+      "START_DATE": "Startdatum",
+      "END_DATE": "Slutdatum",
+      "LOCALIZATION": "Lokalisering",
+      "LANGUAGE": "Språk",
+      "LOCALIZED_NAME": "Lokaliserat namn",
+      "LOCALIZED_DESCRIPTION": "Lokaliserad beskrivning"
+    },
+    "STATUS": {
+      "ACTIVE": "Aktiv",
+      "INACTIVE": "Inaktiv"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Orderlojalitet",
+      "DEFAULT_DESCR": "Belöna kunder baserat på ordervillkor och totalbelopp",
+      "PRODUCT_POINTS": "Produktpoänglojalitet",
+      "PRODUCT_POINTS_DESCR": "Belöna kunder med poäng för köp av vissa produkter"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Inga lojalitetsprogram",
+      "DELETE_CONFIRM": "Är du säker på att du vill ta bort det valda lojalitetsprogrammet? | Är du säker på att du vill ta bort {count} lojalitetsprogram?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Lägg till lojalitetsprogram",
+      "TYPE": "Programtyp"
+    },
+    "PROGRAM": {
+      "TITLE": "Detaljer för lojalitetsprogram",
+      "NEW_TITLE": "Nytt lojalitetsprogram",
+      "NAME_PLACEHOLDER": "Ange programnamn",
+      "PRIORITY": "Prioritet",
+      "CONDITIONS": "Lojalitetsprogram",
+      "SAVE_FIRST": "Spara programmet först för att hantera produktfaktorer",
+      "CLOSE_CONFIRM": "Lojalitetsprogrammet har ändrats. Stäng utan att spara?"
+    },
+    "FILTER": {
+      "SELECT": "Välj filter",
+      "EDIT": "Redigera filter",
+      "NEW": "Nytt filter",
+      "TITLE": "Filtrera lojalitetsprogram",
+      "NAME": "Namn",
+      "UNNAMED": "Namnlöst filter",
+      "ONLY_ACTIVE": "Endast aktiva",
+      "STORES": "Butiker",
+      "ALL_STORES": "Alla butiker",
+      "APPLY": "Tillämpa filter"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Produktfaktorer",
+      "PROGRAMS_TITLE": "Lojalitetsprogram",
+      "GOALS_TITLE": "Mål-SKU:er",
+      "EMPTY": "Inga produkter",
+      "PRODUCT": "Produktnamn",
+      "PROGRAM": "Programnamn",
+      "SKU": "SKU",
+      "FACTOR": "Faktor",
+      "QUANTITY": "Antal",
+      "NEW": "Ny",
+      "INVALID_FACTOR": "Faktorn för {name} kan inte vara negativ",
+      "INVALID_QUANTITY": "Antalet för {name} måste vara ett heltal på minst 1",
+      "DELETE_FACTORS_CONFIRM": "Är du säker på att du vill ta bort de valda produktfaktorerna?",
+      "DELETE_GOALS_CONFIRM": "Är du säker på att du vill ta bort de valda mål-SKU:erna?",
+      "CLOSE_CONFIRM": "Listan har ändrats. Stäng utan att spara?"
+    },
+    "PICKER": {
+      "TITLE": "Välj produkter",
+      "EMPTY": "Inga produkter hittades",
+      "IMAGE": "Bild",
+      "ADD_SELECTED": "Lägg till valda"
+    },
+    "LOG": {
+      "TITLE": "Logg för lojalitetstransaktioner",
+      "EMPTY": "Inga lojalitetstransaktioner",
+      "OPERATION": "Transaktion",
+      "EARNED": "Intjänad",
+      "REDEEMED": "Inlöst",
+      "AMOUNT": "Belopp",
+      "BALANCE": "Saldo",
+      "CREATED": "Skapad"
+    },
+    "MISSIONS": {
+      "EMPTY": "Inga lojalitetsuppdrag",
+      "DELETE_CONFIRM": "Är du säker på att du vill ta bort det valda lojalitetsuppdraget? | Är du säker på att du vill ta bort {count} lojalitetsuppdrag?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Utkast",
+      "PUBLISHED": "Publicerad",
+      "ARCHIVED": "Arkiverad"
+    },
+    "MISSION": {
+      "TITLE": "Detaljer för lojalitetsuppdrag",
+      "NEW_TITLE": "Nytt lojalitetsuppdrag",
+      "NAME_PLACEHOLDER": "Ange uppdragsnamn",
+      "CONDITIONS": "Uppdrag",
+      "IMMUTABLE": "Endast uppdrag i utkastläge kan redigeras. Publicerade eller arkiverade uppdrag är skrivskyddade och kan inte ändras.",
+      "PUBLISH": "Publicera",
+      "PUBLISH_CONFIRM": "När uppdraget har publicerats kan det inte ändras. Vill du publicera uppdraget?",
+      "ARCHIVE": "Arkivera",
+      "ARCHIVE_CONFIRM": "Ett arkiverat uppdrag kan inte längre användas eller ändras. Vill du arkivera uppdraget?",
+      "CLOSE_CONFIRM": "Lojalitetsuppdraget har ändrats. Stäng utan att spara?"
+    },
+    "BANNER": {
+      "TITLE": "Uppdragsbanner",
+      "HINT": "PNG, JPG, GIF, SVG eller WEBP"
+    },
+    "SETTINGS": {
+      "TITLE": "Lojalitetsinställningar",
+      "ENABLED": "Aktivera lojalitet",
+      "MODE": "Lojalitetsläge",
+      "MODE_PLACEHOLDER": "Välj lojalitetsläge",
+      "CURRENCY": "Lojalitetsvaluta",
+      "CURRENCY_PLACEHOLDER": "Välj lojalitetsvaluta",
+      "CLOSE_CONFIRM": "Lojalitetsinställningarna har ändrats. Stäng utan att spara?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Lojalitetssaldo",
+      "SETTINGS": "Lojalitetsinställningar",
+      "PRODUCT_FACTORS": "Produktfaktorer",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Lägg till",
+      "REMOVE": "Ta bort",
+      "SELECT_SKUS": "välj",
+      "SKUS_AFTER_SAVE": "Du kan lägga till SKU:er när uppdraget har sparats",
+      "SELECT": {
+        "CURRENCIES": "välj valuta",
+        "LANGUAGES": "välj språk",
+        "MEMBERGROUPS": "välj grupper",
+        "ORDERSTATUSES": "välj statusar",
+        "LOYALTYMODES": "välj läge"
+      }
+    }
+  }
+}
