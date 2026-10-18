@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "任务横幅",
-      "HINT": "PNG、JPG、GIF、SVG 或 WEBP"
+      "HINT": "PNG、JPG、GIF、SVG 或 WEBP",
+      "UPLOAD_FAILED": "上传 {name} 失败：{status}"
     },
     "SETTINGS": {
       "TITLE": "忠诚度设置",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "选择分组",
         "ORDERSTATUSES": "选择状态",
         "LOYALTYMODES": "选择模式"
+      },
+      "ALL": "全部",
+      "ANY": "任一",
+      "YES": "是",
+      "NO": "否",
+      "AND": "至",
+      "ADD_CONDITION": "添加条件",
+      "ADD_REWARD": "添加奖励",
+      "ADD_GOAL": "添加目标",
+      "COMPARE": {
+        "EXACTLY": "等于",
+        "AT_LEAST": "至少",
+        "EXACTLY_OR_LESS": "不超过",
+        "BETWEEN": "介于"
+      },
+      "GROUPS": {
+        "ORDER": "订单条件",
+        "SPECIAL": "特殊条件",
+        "SHOPPER": "购物者资料",
+        "GOAL": "任务目标"
+      },
+      "CONDITIONS": {
+        "IF": "如果满足以下",
+        "OF_CRITERIA": "条件：",
+        "ORDER_STATUS": "订单状态为...",
+        "ORDER_STATUS_IS": "订单状态为",
+        "ORDER_TOTAL": "订单总额...",
+        "ORDER_TOTAL_IS": "订单总额",
+        "FIRST_ORDER": "是首个订单",
+        "RECURRING_ORDER": "是定期订单",
+        "REGISTRATION": "注册",
+        "ANY_USER_GROUP": "任意用户组",
+        "USER_GROUP_CONTAINS": "用户组包含 ...",
+        "USER_GROUP_CONTAINS_TEXT": "用户组包含",
+        "USER_GROUP_PLACEHOLDER": "输入分组",
+        "USER_GROUP_IS": "用户组为 ...",
+        "USER_GROUP_IS_TEXT": "用户组为"
+      },
+      "REWARDS": {
+        "TITLE": "获得以下忠诚度奖励：",
+        "GET": "获得",
+        "FIXED_AMOUNT": "每个订单获得固定积分",
+        "FIXED_POINTS": "固定积分",
+        "RELATIVE_AMOUNT": "按订单金额的 % 获得积分",
+        "RELATIVE_POINTS": "% 订单金额的积分"
+      },
+      "GOALS": {
+        "TITLE": "任务目标（选择一个）：",
+        "ORDER_VALUE": "达到目标订单金额",
+        "ORDER_VALUE_TEXT": "订单总额达到",
+        "PER_PERIOD": "（每个任务周期）",
+        "ORDER_COUNT": "达到目标订单数",
+        "REACH": "达到",
+        "ORDERS_PER_PERIOD": "个订单（每个任务周期）",
+        "PER_SKU": "购买目标数量的 SKU",
+        "PURCHASE": "购买",
+        "OF_TARGET_SKUS": "目标 SKU"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "忠诚度计划必须至少包含一个条件",
+        "MISSION_CONDITION": "忠诚度任务必须至少包含一个条件",
+        "PROGRAM_REWARD": "忠诚度计划必须至少包含一个奖励",
+        "GOAL_REQUIRED": "任务必须恰好有一个目标：订单金额、订单数量或基于 SKU",
+        "GOAL_SINGLE": "任务只能有一个目标",
+        "GOAL_CURRENCY": "必须为订单金额目标选择货币"
       }
     }
   }

@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "ミッションバナー",
-      "HINT": "PNG、JPG、GIF、SVG、WEBP"
+      "HINT": "PNG、JPG、GIF、SVG、WEBP",
+      "UPLOAD_FAILED": "{name} のアップロードに失敗しました: {status}"
     },
     "SETTINGS": {
       "TITLE": "ロイヤルティ設定",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "グループを選択",
         "ORDERSTATUSES": "ステータスを選択",
         "LOYALTYMODES": "モードを選択"
+      },
+      "ALL": "すべて",
+      "ANY": "いずれか",
+      "YES": "はい",
+      "NO": "いいえ",
+      "AND": "～",
+      "ADD_CONDITION": "条件を追加",
+      "ADD_REWARD": "報酬を追加",
+      "ADD_GOAL": "目標を追加",
+      "COMPARE": {
+        "EXACTLY": "ちょうど",
+        "AT_LEAST": "最低",
+        "EXACTLY_OR_LESS": "最大",
+        "BETWEEN": "範囲"
+      },
+      "GROUPS": {
+        "ORDER": "注文条件",
+        "SPECIAL": "特別条件",
+        "SHOPPER": "購入者プロファイル",
+        "GOAL": "ミッション目標"
+      },
+      "CONDITIONS": {
+        "IF": "次の条件の",
+        "OF_CRITERIA": "を満たす場合:",
+        "ORDER_STATUS": "注文ステータスが...",
+        "ORDER_STATUS_IS": "注文ステータス:",
+        "ORDER_TOTAL": "注文合計が...",
+        "ORDER_TOTAL_IS": "注文合計:",
+        "FIRST_ORDER": "初回注文である",
+        "RECURRING_ORDER": "定期注文である",
+        "REGISTRATION": "会員登録",
+        "ANY_USER_GROUP": "任意のユーザーグループ",
+        "USER_GROUP_CONTAINS": "ユーザーグループに ... が含まれる",
+        "USER_GROUP_CONTAINS_TEXT": "ユーザーグループに次を含む:",
+        "USER_GROUP_PLACEHOLDER": "グループを入力",
+        "USER_GROUP_IS": "ユーザーグループが ... である",
+        "USER_GROUP_IS_TEXT": "ユーザーグループ:"
+      },
+      "REWARDS": {
+        "TITLE": "次のロイヤルティ報酬を獲得:",
+        "GET": "獲得:",
+        "FIXED_AMOUNT": "注文ごとに固定ポイントを獲得",
+        "FIXED_POINTS": "固定ポイント",
+        "RELATIVE_AMOUNT": "注文金額の % をポイントとして獲得",
+        "RELATIVE_POINTS": "%（注文金額に対するポイント）"
+      },
+      "GOALS": {
+        "TITLE": "ミッション目標（1つ選択）:",
+        "ORDER_VALUE": "目標注文金額を達成",
+        "ORDER_VALUE_TEXT": "ミッション期間ごとの注文合計:",
+        "PER_PERIOD": "を達成",
+        "ORDER_COUNT": "目標注文数を達成",
+        "REACH": "ミッション期間ごとの注文数:",
+        "ORDERS_PER_PERIOD": "件を達成",
+        "PER_SKU": "目標数量の SKU を購入",
+        "PURCHASE": "目標 SKU の",
+        "OF_TARGET_SKUS": "を購入"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "ロイヤルティプログラムには少なくとも 1 つの条件が必要です",
+        "MISSION_CONDITION": "ロイヤルティミッションには少なくとも 1 つの条件が必要です",
+        "PROGRAM_REWARD": "ロイヤルティプログラムには少なくとも 1 つの報酬が必要です",
+        "GOAL_REQUIRED": "ミッションには目標が 1 つだけ必要です: 注文金額、注文数、または SKU ベース",
+        "GOAL_SINGLE": "ミッションに設定できる目標は 1 つだけです",
+        "GOAL_CURRENCY": "注文金額の目標には通貨を選択する必要があります"
       }
     }
   }

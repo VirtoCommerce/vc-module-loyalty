@@ -2,6 +2,7 @@
 // node's own properties (the API objects are edited in place and saved back untouched otherwise).
 // Ported from Scripts/dynamicConditions/templates.html and the registrations in Scripts/module.js
 // (adapted from the Marketing module's expression editor).
+// Every text here (labels, groups, sentence parts, option labels, messages) is an i18n key, translated where it's shown.
 import type { ComputedRef, InjectionKey } from "vue";
 import type { LookupSource } from "../api";
 
@@ -35,85 +36,99 @@ export interface Def {
 }
 
 const opts = (...pairs: [string, string][]): ChoiceOption[] => pairs.map(([value, label]) => ({ value, label }));
-const allAny: Part = { kind: "choice", path: "all", bool: true, options: opts(["true", "all"], ["false", "any"]) };
+const allAny: Part = { kind: "choice", path: "all", bool: true, options: opts(["true", "LOYALTY.EXPRESSIONS.ALL"], ["false", "LOYALTY.EXPRESSIONS.ANY"]) };
 const num = (path: string): Part => ({ kind: "number", path });
 const int = (path: string): Part => ({ kind: "number", path, int: true });
 const needsChild = (message: string) => (node: TreeNode) => (node.children?.length ? undefined : message);
 
-export const compareOptions = opts(["Exactly", "exactly"], ["AtLeast", "at least"], ["IsLessThanOrEqual", "exactly or less than"], ["Between", "between"]);
+export const compareOptions = opts(
+  ["Exactly", "LOYALTY.EXPRESSIONS.COMPARE.EXACTLY"],
+  ["AtLeast", "LOYALTY.EXPRESSIONS.COMPARE.AT_LEAST"],
+  ["IsLessThanOrEqual", "LOYALTY.EXPRESSIONS.COMPARE.EXACTLY_OR_LESS"],
+  ["Between", "LOYALTY.EXPRESSIONS.COMPARE.BETWEEN"],
+);
 
-const ORDER = "Order conditions";
-const SPECIAL = "Special conditions";
-const SHOPPER = "Shopper profile";
-const GOAL = "Mission goal";
+const ORDER = "LOYALTY.EXPRESSIONS.GROUPS.ORDER";
+const SPECIAL = "LOYALTY.EXPRESSIONS.GROUPS.SPECIAL";
+const SHOPPER = "LOYALTY.EXPRESSIONS.GROUPS.SHOPPER";
+const GOAL = "LOYALTY.EXPRESSIONS.GROUPS.GOAL";
+const C = "LOYALTY.EXPRESSIONS.CONDITIONS";
+const R = "LOYALTY.EXPRESSIONS.REWARDS";
+const G = "LOYALTY.EXPRESSIONS.GOALS";
+const E = "LOYALTY.EXPRESSIONS.ERRORS";
 
 export const defs: Record<string, Def> = {
   // ---- conditions
   BlockLoyaltyCondition: {
-    parts: ["If", allAny, "of the following criteria:"],
-    addLabel: "Add condition",
-    validate: needsChild("Your loyalty program must have at least one condition"),
+    parts: [`${C}.IF`, allAny, `${C}.OF_CRITERIA`],
+    addLabel: "LOYALTY.EXPRESSIONS.ADD_CONDITION",
+    validate: needsChild(`${E}.PROGRAM_CONDITION`),
   },
   BlockLoyaltyMissionCondition: {
-    parts: ["If", allAny, "of the following criteria:"],
-    addLabel: "Add condition",
-    validate: needsChild("Your loyalty mission must have at least one condition"),
+    parts: [`${C}.IF`, allAny, `${C}.OF_CRITERIA`],
+    addLabel: "LOYALTY.EXPRESSIONS.ADD_CONDITION",
+    validate: needsChild(`${E}.MISSION_CONDITION`),
   },
   OrderStatusCondition: {
-    label: "Order status is...",
+    label: `${C}.ORDER_STATUS`,
     group: ORDER,
-    parts: ["Order status is", { kind: "lookup", path: "orderStatuses", source: "orderStatuses", multiple: true }],
+    parts: [`${C}.ORDER_STATUS_IS`, { kind: "lookup", path: "orderStatuses", source: "orderStatuses", multiple: true }],
   },
-  OrderTotalCondition: { label: "Order total is...", group: ORDER, parts: ["Order total is", { kind: "range", path: "totalValue", second: "totalValueSecond" }] },
-  IsFirstOrderCondition: { label: "Is first order", group: ORDER, parts: ["Is first order"] },
-  IsRecurringOrderCondition: { label: "Is recurring order", group: ORDER, parts: ["Is recurring order"] },
-  IsRegistrationCondition: { label: "Registration", group: SPECIAL, parts: ["Registration"] },
-  AnyUserGroupCondition: { label: "Any User Group", group: SHOPPER, parts: ["Any User Group"] },
+  OrderTotalCondition: {
+    label: `${C}.ORDER_TOTAL`,
+    group: ORDER,
+    parts: [`${C}.ORDER_TOTAL_IS`, { kind: "range", path: "totalValue", second: "totalValueSecond" }],
+  },
+  IsFirstOrderCondition: { label: `${C}.FIRST_ORDER`, group: ORDER, parts: [`${C}.FIRST_ORDER`] },
+  IsRecurringOrderCondition: { label: `${C}.RECURRING_ORDER`, group: ORDER, parts: [`${C}.RECURRING_ORDER`] },
+  IsRegistrationCondition: { label: `${C}.REGISTRATION`, group: SPECIAL, parts: [`${C}.REGISTRATION`] },
+  AnyUserGroupCondition: { label: `${C}.ANY_USER_GROUP`, group: SHOPPER, parts: [`${C}.ANY_USER_GROUP`] },
   // shared shopper conditions of the Core module
   UserGroupsContainsCondition: {
-    label: "User group contains ...",
+    label: `${C}.USER_GROUP_CONTAINS`,
     group: SHOPPER,
-    parts: ["User group contains", { kind: "text", path: "group", placeholder: "Enter group" }],
+    parts: [`${C}.USER_GROUP_CONTAINS_TEXT`, { kind: "text", path: "group", placeholder: `${C}.USER_GROUP_PLACEHOLDER` }],
   },
   UserGroupIsCondition: {
-    label: "User group is ...",
+    label: `${C}.USER_GROUP_IS`,
     group: SHOPPER,
-    parts: ["User group is", { kind: "lookup", path: "groups", source: "memberGroups", multiple: true }],
+    parts: [`${C}.USER_GROUP_IS_TEXT`, { kind: "lookup", path: "groups", source: "memberGroups", multiple: true }],
   },
 
   // ---- rewards
   BlockLoyaltyReward: {
-    parts: ["Get the following loyalty rewards:"],
-    addLabel: "Add reward",
-    validate: needsChild("Your loyalty program must have at least one reward"),
+    parts: [`${R}.TITLE`],
+    addLabel: "LOYALTY.EXPRESSIONS.ADD_REWARD",
+    validate: needsChild(`${E}.PROGRAM_REWARD`),
   },
-  FixedAmountReward: { label: "Earn fixed amount of points per order", parts: ["Get", num("amount"), "fixed points"] },
-  RelativeAmountReward: { label: "Earn % of order value as points", parts: ["Get", num("amount"), "% of order value as points"] },
+  FixedAmountReward: { label: `${R}.FIXED_AMOUNT`, parts: [`${R}.GET`, num("amount"), `${R}.FIXED_POINTS`] },
+  RelativeAmountReward: { label: `${R}.RELATIVE_AMOUNT`, parts: [`${R}.GET`, num("amount"), `${R}.RELATIVE_POINTS`] },
 
   // ---- mission goals
   BlockLoyaltyMissionGoals: {
-    parts: ["Mission goal (choose one):"],
-    addLabel: "Add goal",
+    parts: [`${G}.TITLE`],
+    addLabel: "LOYALTY.EXPRESSIONS.ADD_GOAL",
     validate(node) {
       const goals = (node.children ?? []).filter((x) => !!x.missionType).length;
-      if (!goals) return "Your mission must have exactly one goal: order value, order count or SKU-based";
-      return goals > 1 ? "Your mission must have only one goal" : undefined;
+      if (!goals) return `${E}.GOAL_REQUIRED`;
+      return goals > 1 ? `${E}.GOAL_SINGLE` : undefined;
     },
   },
   OrderValueGoal: {
-    label: "Reach target order value",
+    label: `${G}.ORDER_VALUE`,
     group: GOAL,
-    parts: ["Reach order total of", num("value"), { kind: "lookup", path: "currencyCode", source: "currencies" }, "per mission period"],
-    validate: (node) => (node.currencyCode ? undefined : "You must select a currency for the order value goal"),
+    parts: [`${G}.ORDER_VALUE_TEXT`, num("value"), { kind: "lookup", path: "currencyCode", source: "currencies" }, `${G}.PER_PERIOD`],
+    validate: (node) => (node.currencyCode ? undefined : `${E}.GOAL_CURRENCY`),
   },
-  OrderCountGoal: { label: "Reach target number of orders", group: GOAL, parts: ["Reach", int("count"), "orders per mission period"] },
-  PerSkuGoal: { label: "Purchase target quantity of SKUs", group: GOAL, parts: ["Purchase", allAny, "of the target SKUs", { kind: "goalItems" }] },
+  OrderCountGoal: { label: `${G}.ORDER_COUNT`, group: GOAL, parts: [`${G}.REACH`, int("count"), `${G}.ORDERS_PER_PERIOD`] },
+  PerSkuGoal: { label: `${G}.PER_SKU`, group: GOAL, parts: [`${G}.PURCHASE`, allAny, `${G}.OF_TARGET_SKUS`, { kind: "goalItems" }] },
 };
 
 const SKIP = new Set(["id", "availableChildren", "children"]);
 const humanize = (id: string) => id.replace(/([a-z])([A-Z])/g, "$1 $2");
 
 // Any node the table doesn't know (e.g. registered by another module): its id plus an editor per primitive property
+// (the id and property names aren't keys: $t shows them as they are)
 export function defOf(node: TreeNode): Def {
   const id = String(node.id ?? "");
   const known = defs[id];
@@ -122,13 +137,13 @@ export function defOf(node: TreeNode): Def {
   for (const [key, value] of Object.entries(node)) {
     if (SKIP.has(key)) continue;
     if (typeof value === "number") parts.push(key, { kind: "number", path: key });
-    else if (typeof value === "boolean") parts.push(key, { kind: "choice", path: key, bool: true, options: opts(["true", "yes"], ["false", "no"]) });
+    else if (typeof value === "boolean") parts.push(key, { kind: "choice", path: key, bool: true, options: opts(["true", "LOYALTY.EXPRESSIONS.YES"], ["false", "LOYALTY.EXPRESSIONS.NO"]) });
     else if (typeof value === "string" || value === null) parts.push({ kind: "text", path: key, placeholder: key });
   }
   return { label: humanize(id), parts };
 }
 
-// every validation message of the tree, as the AngularJS mission blade checked before saving
+// every validation message (key) of the tree, as the AngularJS mission blade checked before saving
 export function treeErrors(node: TreeNode | undefined | null): string[] {
   if (!node) return [];
   const own = node.id ? defs[node.id]?.validate?.(node) : undefined;

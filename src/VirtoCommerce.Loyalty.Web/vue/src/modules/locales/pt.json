@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "Banner da missão",
-      "HINT": "PNG, JPG, GIF, SVG ou WEBP"
+      "HINT": "PNG, JPG, GIF, SVG ou WEBP",
+      "UPLOAD_FAILED": "Falha ao enviar {name}: {status}"
     },
     "SETTINGS": {
       "TITLE": "Configurações de fidelidade",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "selecionar grupos",
         "ORDERSTATUSES": "selecionar status",
         "LOYALTYMODES": "selecionar modo"
+      },
+      "ALL": "cada um",
+      "ANY": "pelo menos um",
+      "YES": "sim",
+      "NO": "não",
+      "AND": "e",
+      "ADD_CONDITION": "Adicionar condição",
+      "ADD_REWARD": "Adicionar recompensa",
+      "ADD_GOAL": "Adicionar meta",
+      "COMPARE": {
+        "EXACTLY": "exatamente",
+        "AT_LEAST": "pelo menos",
+        "EXACTLY_OR_LESS": "menor ou igual a",
+        "BETWEEN": "entre"
+      },
+      "GROUPS": {
+        "ORDER": "Condições do pedido",
+        "SPECIAL": "Condições especiais",
+        "SHOPPER": "Perfil do comprador",
+        "GOAL": "Meta da missão"
+      },
+      "CONDITIONS": {
+        "IF": "Se",
+        "OF_CRITERIA": "dos seguintes critérios for atendido:",
+        "ORDER_STATUS": "O status do pedido é...",
+        "ORDER_STATUS_IS": "O status do pedido é",
+        "ORDER_TOTAL": "O total do pedido é...",
+        "ORDER_TOTAL_IS": "O total do pedido é",
+        "FIRST_ORDER": "É o primeiro pedido",
+        "RECURRING_ORDER": "É um pedido recorrente",
+        "REGISTRATION": "Cadastro",
+        "ANY_USER_GROUP": "Qualquer grupo de usuários",
+        "USER_GROUP_CONTAINS": "O grupo de usuários contém ...",
+        "USER_GROUP_CONTAINS_TEXT": "O grupo de usuários contém",
+        "USER_GROUP_PLACEHOLDER": "Inserir grupo",
+        "USER_GROUP_IS": "O grupo de usuários é ...",
+        "USER_GROUP_IS_TEXT": "O grupo de usuários é"
+      },
+      "REWARDS": {
+        "TITLE": "Obter as seguintes recompensas de fidelidade:",
+        "GET": "Obter",
+        "FIXED_AMOUNT": "Ganhar uma quantidade fixa de pontos por pedido",
+        "FIXED_POINTS": "pontos fixos",
+        "RELATIVE_AMOUNT": "Ganhar % do valor do pedido em pontos",
+        "RELATIVE_POINTS": "% do valor do pedido em pontos"
+      },
+      "GOALS": {
+        "TITLE": "Meta da missão (escolha uma):",
+        "ORDER_VALUE": "Atingir o valor de pedido desejado",
+        "ORDER_VALUE_TEXT": "Atingir um total de pedidos de",
+        "PER_PERIOD": "por período da missão",
+        "ORDER_COUNT": "Atingir o número de pedidos desejado",
+        "REACH": "Atingir",
+        "ORDERS_PER_PERIOD": "pedidos por período da missão",
+        "PER_SKU": "Comprar a quantidade desejada de SKUs",
+        "PURCHASE": "Comprar",
+        "OF_TARGET_SKUS": "dos SKUs de meta"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Seu programa de fidelidade deve ter pelo menos uma condição",
+        "MISSION_CONDITION": "Sua missão de fidelidade deve ter pelo menos uma condição",
+        "PROGRAM_REWARD": "Seu programa de fidelidade deve ter pelo menos uma recompensa",
+        "GOAL_REQUIRED": "Sua missão deve ter exatamente uma meta: valor do pedido, número de pedidos ou baseada em SKU",
+        "GOAL_SINGLE": "Sua missão deve ter apenas uma meta",
+        "GOAL_CURRENCY": "Você deve selecionar uma moeda para a meta de valor do pedido"
       }
     }
   }

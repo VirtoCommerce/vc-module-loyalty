@@ -13,7 +13,7 @@
           <span
             v-if="typeof part === 'string'"
             class="ly-expr__text"
-            >{{ part }}</span
+            >{{ $t(part) }}</span
           >
           <ExpressionField
             v-else
@@ -53,7 +53,7 @@
       v-if="error"
       class="ly-expr__error"
       error
-      >{{ error }}</VcHint
+      >{{ $t(error) }}</VcHint
     >
 
     <VcDropdown
@@ -73,7 +73,7 @@
           size="sm"
           icon="lucide-plus"
           @click="toggle"
-          >{{ def.addLabel || $t("LOYALTY.EXPRESSIONS.ADD") }}</VcButton
+          >{{ $t(def.addLabel || "LOYALTY.EXPRESSIONS.ADD") }}</VcButton
         >
       </template>
     </VcDropdown>
@@ -82,6 +82,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { VcButton, VcDropdown, VcHint } from "@vc-shell/framework/ui";
 import ExpressionField from "./ExpressionField.vue";
 import { defOf, type TreeNode } from "./defs";
@@ -94,6 +95,7 @@ interface AddItem {
 defineOptions({ name: "ExpressionNode" });
 const props = defineProps<{ node: TreeNode; depth?: number; removable?: boolean; disabled?: boolean }>();
 defineEmits<{ remove: [] }>();
+const { t } = useI18n({ useScope: "global" });
 
 const depth = computed(() => props.depth ?? 0);
 const def = computed(() => defOf(props.node));
@@ -105,7 +107,8 @@ const addable = computed<AddItem[]>(() =>
   (props.node.availableChildren ?? [])
     .map((prototype) => {
       const d = defOf(prototype);
-      return { label: d.group ? `${d.group}: ${d.label}` : (d.label ?? String(prototype.id)), prototype };
+      const label = d.label ? t(d.label) : String(prototype.id);
+      return { label: d.group ? `${t(d.group)}: ${label}` : label, prototype };
     })
     .sort((a, b) => a.label.localeCompare(b.label)),
 );

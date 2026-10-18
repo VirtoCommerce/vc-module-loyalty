@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "Mission banner",
-      "HINT": "PNG, JPG, GIF, SVG or WEBP"
+      "HINT": "PNG, JPG, GIF, SVG or WEBP",
+      "UPLOAD_FAILED": "Uploading {name} failed: {status}"
     },
     "SETTINGS": {
       "TITLE": "Loyalty settings",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "select groups",
         "ORDERSTATUSES": "select statuses",
         "LOYALTYMODES": "select mode"
+      },
+      "ALL": "all",
+      "ANY": "any",
+      "YES": "yes",
+      "NO": "no",
+      "AND": "and",
+      "ADD_CONDITION": "Add condition",
+      "ADD_REWARD": "Add reward",
+      "ADD_GOAL": "Add goal",
+      "COMPARE": {
+        "EXACTLY": "exactly",
+        "AT_LEAST": "at least",
+        "EXACTLY_OR_LESS": "exactly or less than",
+        "BETWEEN": "between"
+      },
+      "GROUPS": {
+        "ORDER": "Order conditions",
+        "SPECIAL": "Special conditions",
+        "SHOPPER": "Shopper profile",
+        "GOAL": "Mission goal"
+      },
+      "CONDITIONS": {
+        "IF": "If",
+        "OF_CRITERIA": "of the following criteria:",
+        "ORDER_STATUS": "Order status is...",
+        "ORDER_STATUS_IS": "Order status is",
+        "ORDER_TOTAL": "Order total is...",
+        "ORDER_TOTAL_IS": "Order total is",
+        "FIRST_ORDER": "Is first order",
+        "RECURRING_ORDER": "Is recurring order",
+        "REGISTRATION": "Registration",
+        "ANY_USER_GROUP": "Any User Group",
+        "USER_GROUP_CONTAINS": "User group contains ...",
+        "USER_GROUP_CONTAINS_TEXT": "User group contains",
+        "USER_GROUP_PLACEHOLDER": "Enter group",
+        "USER_GROUP_IS": "User group is ...",
+        "USER_GROUP_IS_TEXT": "User group is"
+      },
+      "REWARDS": {
+        "TITLE": "Get the following loyalty rewards:",
+        "GET": "Get",
+        "FIXED_AMOUNT": "Earn fixed amount of points per order",
+        "FIXED_POINTS": "fixed points",
+        "RELATIVE_AMOUNT": "Earn % of order value as points",
+        "RELATIVE_POINTS": "% of order value as points"
+      },
+      "GOALS": {
+        "TITLE": "Mission goal (choose one):",
+        "ORDER_VALUE": "Reach target order value",
+        "ORDER_VALUE_TEXT": "Reach order total of",
+        "PER_PERIOD": "per mission period",
+        "ORDER_COUNT": "Reach target number of orders",
+        "REACH": "Reach",
+        "ORDERS_PER_PERIOD": "orders per mission period",
+        "PER_SKU": "Purchase target quantity of SKUs",
+        "PURCHASE": "Purchase",
+        "OF_TARGET_SKUS": "of the target SKUs"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Your loyalty program must have at least one condition",
+        "MISSION_CONDITION": "Your loyalty mission must have at least one condition",
+        "PROGRAM_REWARD": "Your loyalty program must have at least one reward",
+        "GOAL_REQUIRED": "Your mission must have exactly one goal: order value, order count or SKU-based",
+        "GOAL_SINGLE": "Your mission must have only one goal",
+        "GOAL_CURRENCY": "You must select a currency for the order value goal"
       }
     }
   }

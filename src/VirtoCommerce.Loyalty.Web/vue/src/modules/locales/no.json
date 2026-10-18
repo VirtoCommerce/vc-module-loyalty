@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "Oppdragsbanner",
-      "HINT": "PNG, JPG, GIF, SVG eller WEBP"
+      "HINT": "PNG, JPG, GIF, SVG eller WEBP",
+      "UPLOAD_FAILED": "Opplasting av {name} mislyktes: {status}"
     },
     "SETTINGS": {
       "TITLE": "Lojalitetsinnstillinger",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "velg grupper",
         "ORDERSTATUSES": "velg statuser",
         "LOYALTYMODES": "velg modus"
+      },
+      "ALL": "alle",
+      "ANY": "minst ett av",
+      "YES": "ja",
+      "NO": "nei",
+      "AND": "og",
+      "ADD_CONDITION": "Legg til betingelse",
+      "ADD_REWARD": "Legg til belønning",
+      "ADD_GOAL": "Legg til mål",
+      "COMPARE": {
+        "EXACTLY": "nøyaktig",
+        "AT_LEAST": "minst",
+        "EXACTLY_OR_LESS": "mindre enn eller lik",
+        "BETWEEN": "mellom"
+      },
+      "GROUPS": {
+        "ORDER": "Ordrebetingelser",
+        "SPECIAL": "Spesielle betingelser",
+        "SHOPPER": "Kundeprofil",
+        "GOAL": "Oppdragsmål"
+      },
+      "CONDITIONS": {
+        "IF": "Hvis",
+        "OF_CRITERIA": "de følgende kriteriene gjelder:",
+        "ORDER_STATUS": "Ordrestatus er...",
+        "ORDER_STATUS_IS": "Ordrestatus er",
+        "ORDER_TOTAL": "Ordresummen er...",
+        "ORDER_TOTAL_IS": "Ordresummen er",
+        "FIRST_ORDER": "Er første ordre",
+        "RECURRING_ORDER": "Er gjentakende ordre",
+        "REGISTRATION": "Registrering",
+        "ANY_USER_GROUP": "Hvilken som helst brukergruppe",
+        "USER_GROUP_CONTAINS": "Brukergruppen inneholder ...",
+        "USER_GROUP_CONTAINS_TEXT": "Brukergruppen inneholder",
+        "USER_GROUP_PLACEHOLDER": "Skriv inn gruppe",
+        "USER_GROUP_IS": "Brukergruppen er ...",
+        "USER_GROUP_IS_TEXT": "Brukergruppen er"
+      },
+      "REWARDS": {
+        "TITLE": "Få følgende lojalitetsbelønninger:",
+        "GET": "Få",
+        "FIXED_AMOUNT": "Tjen et fast antall poeng per ordre",
+        "FIXED_POINTS": "faste poeng",
+        "RELATIVE_AMOUNT": "Tjen % av ordreverdien som poeng",
+        "RELATIVE_POINTS": "% av ordreverdien som poeng"
+      },
+      "GOALS": {
+        "TITLE": "Oppdragsmål (velg ett):",
+        "ORDER_VALUE": "Nå målverdi for ordrer",
+        "ORDER_VALUE_TEXT": "Nå en ordresum på",
+        "PER_PERIOD": "per oppdragsperiode",
+        "ORDER_COUNT": "Nå målantall ordrer",
+        "REACH": "Nå",
+        "ORDERS_PER_PERIOD": "ordrer per oppdragsperiode",
+        "PER_SKU": "Kjøp målantall av SKU-er",
+        "PURCHASE": "Kjøp",
+        "OF_TARGET_SKUS": "mål-SKU-ene"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Lojalitetsprogrammet må ha minst én betingelse",
+        "MISSION_CONDITION": "Lojalitetsoppdraget må ha minst én betingelse",
+        "PROGRAM_REWARD": "Lojalitetsprogrammet må ha minst én belønning",
+        "GOAL_REQUIRED": "Oppdraget må ha nøyaktig ett mål: ordreverdi, antall ordrer eller SKU-basert",
+        "GOAL_SINGLE": "Oppdraget kan bare ha ett mål",
+        "GOAL_CURRENCY": "Du må velge en valuta for målet for ordreverdi"
       }
     }
   }

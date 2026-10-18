@@ -16,8 +16,8 @@
     v-else-if="f.kind === 'text'"
     class="ly-field ly-field--text"
     size="small"
-    :aria-label="f.placeholder || f.path"
-    :placeholder="f.placeholder"
+    :aria-label="f.placeholder ? $t(f.placeholder) : f.path"
+    :placeholder="f.placeholder ? $t(f.placeholder) : undefined"
     :model-value="(node[f.path] as string) ?? ''"
     :disabled="disabled"
     @update:model-value="(v) => (node[f.path] = v)"
@@ -28,7 +28,7 @@
     v-else-if="f.kind === 'choice'"
     class="ly-field ly-field--choice"
     size="small"
-    :options="f.options"
+    :options="choices"
     option-value="value"
     option-label="label"
     :clearable="false"
@@ -43,7 +43,7 @@
     <VcSelect
       class="ly-field ly-field--choice"
       size="small"
-      :options="compareOptions"
+      :options="compares"
       option-value="value"
       option-label="label"
       :clearable="false"
@@ -62,7 +62,7 @@
       @update:model-value="(v) => (node[f.path] = toNumber(v))"
     />
     <template v-if="node.compareCondition === 'Between'">
-      <span>and</span>
+      <span>{{ $t("LOYALTY.EXPRESSIONS.AND") }}</span>
       <VcInput
         class="ly-field ly-field--num"
         size="small"
@@ -112,6 +112,7 @@
 
 <script setup lang="ts">
 import { computed, inject } from "vue";
+import { useI18n } from "vue-i18n";
 import { VcButton, VcHint, VcInput, VcSelect } from "@vc-shell/framework/ui";
 import { compareOptions, GoalItemsKey, type ChoiceOption, type Part, type TreeNode } from "./defs";
 import { lookups, type LookupSource, type Option } from "../api";
@@ -120,6 +121,7 @@ type FieldPart = Exclude<Part, string>;
 
 const props = defineProps<{ node: TreeNode; part: FieldPart; disabled?: boolean }>();
 const goalItems = inject(GoalItemsKey, undefined);
+const { t } = useI18n({ useScope: "global" });
 
 // the template reads the part through one loose shape (each v-if branch only touches its own kind's keys)
 type Loose = {
@@ -134,6 +136,11 @@ type Loose = {
   options?: ChoiceOption[];
 };
 const f = computed(() => props.part as unknown as Loose);
+
+// option labels are i18n keys
+const translate = (options: ChoiceOption[]) => options.map((x) => ({ ...x, label: t(x.label) }));
+const choices = computed(() => translate(f.value.options ?? []));
+const compares = computed(() => translate(compareOptions));
 
 // the API stores non-nullable numbers: an emptied field is 0, as the AngularJS inputs required a value
 const toNumber = (v: unknown) => (v === null || v === undefined || v === "" ? 0 : Number(v));

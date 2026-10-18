@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "Banner della missione",
-      "HINT": "PNG, JPG, GIF, SVG o WEBP"
+      "HINT": "PNG, JPG, GIF, SVG o WEBP",
+      "UPLOAD_FAILED": "Caricamento di {name} non riuscito: {status}"
     },
     "SETTINGS": {
       "TITLE": "Impostazioni fedeltà",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "seleziona gruppi",
         "ORDERSTATUSES": "seleziona stati",
         "LOYALTYMODES": "seleziona modalità"
+      },
+      "ALL": "ciascuno",
+      "ANY": "almeno uno",
+      "YES": "sì",
+      "NO": "no",
+      "AND": "e",
+      "ADD_CONDITION": "Aggiungi condizione",
+      "ADD_REWARD": "Aggiungi premio",
+      "ADD_GOAL": "Aggiungi obiettivo",
+      "COMPARE": {
+        "EXACTLY": "esattamente",
+        "AT_LEAST": "almeno",
+        "EXACTLY_OR_LESS": "minore o uguale a",
+        "BETWEEN": "tra"
+      },
+      "GROUPS": {
+        "ORDER": "Condizioni dell'ordine",
+        "SPECIAL": "Condizioni speciali",
+        "SHOPPER": "Profilo acquirente",
+        "GOAL": "Obiettivo della missione"
+      },
+      "CONDITIONS": {
+        "IF": "Se",
+        "OF_CRITERIA": "dei seguenti criteri è soddisfatto:",
+        "ORDER_STATUS": "Lo stato dell'ordine è...",
+        "ORDER_STATUS_IS": "Lo stato dell'ordine è",
+        "ORDER_TOTAL": "Il totale dell'ordine è...",
+        "ORDER_TOTAL_IS": "Il totale dell'ordine è",
+        "FIRST_ORDER": "È il primo ordine",
+        "RECURRING_ORDER": "È un ordine ricorrente",
+        "REGISTRATION": "Registrazione",
+        "ANY_USER_GROUP": "Qualsiasi gruppo utenti",
+        "USER_GROUP_CONTAINS": "Il gruppo utenti contiene ...",
+        "USER_GROUP_CONTAINS_TEXT": "Il gruppo utenti contiene",
+        "USER_GROUP_PLACEHOLDER": "Inserisci gruppo",
+        "USER_GROUP_IS": "Il gruppo utenti è ...",
+        "USER_GROUP_IS_TEXT": "Il gruppo utenti è"
+      },
+      "REWARDS": {
+        "TITLE": "Ottieni i seguenti premi fedeltà:",
+        "GET": "Ottieni",
+        "FIXED_AMOUNT": "Guadagna un numero fisso di punti per ordine",
+        "FIXED_POINTS": "punti fissi",
+        "RELATIVE_AMOUNT": "Guadagna una % del valore dell'ordine in punti",
+        "RELATIVE_POINTS": "% del valore dell'ordine in punti"
+      },
+      "GOALS": {
+        "TITLE": "Obiettivo della missione (scegline uno):",
+        "ORDER_VALUE": "Raggiungi il valore d'ordine obiettivo",
+        "ORDER_VALUE_TEXT": "Raggiungi un totale ordini di",
+        "PER_PERIOD": "per periodo della missione",
+        "ORDER_COUNT": "Raggiungi il numero di ordini obiettivo",
+        "REACH": "Raggiungi",
+        "ORDERS_PER_PERIOD": "ordini per periodo della missione",
+        "PER_SKU": "Acquista la quantità obiettivo di SKU",
+        "PURCHASE": "Acquista",
+        "OF_TARGET_SKUS": "degli SKU obiettivo"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Il programma fedeltà deve avere almeno una condizione",
+        "MISSION_CONDITION": "La missione fedeltà deve avere almeno una condizione",
+        "PROGRAM_REWARD": "Il programma fedeltà deve avere almeno un premio",
+        "GOAL_REQUIRED": "La missione deve avere esattamente un obiettivo: valore dell'ordine, numero di ordini o basato su SKU",
+        "GOAL_SINGLE": "La missione deve avere un solo obiettivo",
+        "GOAL_CURRENCY": "Seleziona una valuta per l'obiettivo sul valore dell'ordine"
       }
     }
   }

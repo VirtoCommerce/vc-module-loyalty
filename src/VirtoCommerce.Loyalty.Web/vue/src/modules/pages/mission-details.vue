@@ -173,7 +173,7 @@ async function save() {
 async function changeStatus(status: "Published" | "Archived", message: string) {
   if (!(await showConfirmation(t(message)))) return;
   if (errors.value.length) {
-    serverError.value = errors.value[0];
+    serverError.value = t(errors.value[0]);
     return;
   }
   const previous = item.value.status;

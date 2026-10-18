@@ -46,7 +46,7 @@ async function upload(files: FileList) {
     const body = new FormData();
     body.append("file", file, `banner_${options.value?.missionId ?? "new"}_${Date.now()}.${file.name.split(".").pop()}`);
     const res = await fetch("/api/assets?folderUrl=loyalty-missions", { method: "POST", body, headers: { Accept: "application/json" } });
-    if (!res.ok) throw new Error(`${file.name} failed: ${res.status}`);
+    if (!res.ok) throw new Error(t("LOYALTY.BANNER.UPLOAD_FAILED", { name: file.name, status: res.status }));
     const [uploaded] = (await res.json()) as { url: string }[];
     banner.value.url = uploaded.url;
   } catch (e) {

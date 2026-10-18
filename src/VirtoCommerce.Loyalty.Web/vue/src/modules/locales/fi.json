@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "Tehtävän banneri",
-      "HINT": "PNG, JPG, GIF, SVG tai WEBP"
+      "HINT": "PNG, JPG, GIF, SVG tai WEBP",
+      "UPLOAD_FAILED": "Tiedoston {name} lataus epäonnistui: {status}"
     },
     "SETTINGS": {
       "TITLE": "Kanta-asiakasasetukset",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "valitse ryhmät",
         "ORDERSTATUSES": "valitse tilat",
         "LOYALTYMODES": "valitse tila"
+      },
+      "ALL": "jokainen",
+      "ANY": "jokin",
+      "YES": "kyllä",
+      "NO": "ei",
+      "AND": "ja",
+      "ADD_CONDITION": "Lisää ehto",
+      "ADD_REWARD": "Lisää palkinto",
+      "ADD_GOAL": "Lisää tavoite",
+      "COMPARE": {
+        "EXACTLY": "täsmälleen",
+        "AT_LEAST": "vähintään",
+        "EXACTLY_OR_LESS": "enintään",
+        "BETWEEN": "välillä"
+      },
+      "GROUPS": {
+        "ORDER": "Tilausehdot",
+        "SPECIAL": "Erityisehdot",
+        "SHOPPER": "Ostajaprofiili",
+        "GOAL": "Tehtävän tavoite"
+      },
+      "CONDITIONS": {
+        "IF": "Jos",
+        "OF_CRITERIA": "seuraavista ehdoista täyttyy:",
+        "ORDER_STATUS": "Tilauksen tila on...",
+        "ORDER_STATUS_IS": "Tilauksen tila on",
+        "ORDER_TOTAL": "Tilauksen summa on...",
+        "ORDER_TOTAL_IS": "Tilauksen summa on",
+        "FIRST_ORDER": "On ensimmäinen tilaus",
+        "RECURRING_ORDER": "On toistuva tilaus",
+        "REGISTRATION": "Rekisteröityminen",
+        "ANY_USER_GROUP": "Mikä tahansa käyttäjäryhmä",
+        "USER_GROUP_CONTAINS": "Käyttäjäryhmä sisältää ...",
+        "USER_GROUP_CONTAINS_TEXT": "Käyttäjäryhmä sisältää",
+        "USER_GROUP_PLACEHOLDER": "Syötä ryhmä",
+        "USER_GROUP_IS": "Käyttäjäryhmä on ...",
+        "USER_GROUP_IS_TEXT": "Käyttäjäryhmä on"
+      },
+      "REWARDS": {
+        "TITLE": "Saa seuraavat kanta-asiakaspalkinnot:",
+        "GET": "Saa",
+        "FIXED_AMOUNT": "Ansaitse kiinteä määrä pisteitä tilausta kohden",
+        "FIXED_POINTS": "kiinteää pistettä",
+        "RELATIVE_AMOUNT": "Ansaitse % tilauksen arvosta pisteinä",
+        "RELATIVE_POINTS": "% tilauksen arvosta pisteinä"
+      },
+      "GOALS": {
+        "TITLE": "Tehtävän tavoite (valitse yksi):",
+        "ORDER_VALUE": "Saavuta tilausten tavoitearvo",
+        "ORDER_VALUE_TEXT": "Saavuta tilausten summa",
+        "PER_PERIOD": "tehtäväjakson aikana",
+        "ORDER_COUNT": "Saavuta tilausten tavoitemäärä",
+        "REACH": "Tee",
+        "ORDERS_PER_PERIOD": "tilausta tehtäväjakson aikana",
+        "PER_SKU": "Osta tavoitemäärä SKU:ita",
+        "PURCHASE": "Osta",
+        "OF_TARGET_SKUS": "tavoite-SKU:ista"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Kanta-asiakasohjelmassa on oltava vähintään yksi ehto",
+        "MISSION_CONDITION": "Kanta-asiakastehtävässä on oltava vähintään yksi ehto",
+        "PROGRAM_REWARD": "Kanta-asiakasohjelmassa on oltava vähintään yksi palkinto",
+        "GOAL_REQUIRED": "Tehtävällä on oltava täsmälleen yksi tavoite: tilausarvo, tilausmäärä tai SKU-pohjainen",
+        "GOAL_SINGLE": "Tehtävällä saa olla vain yksi tavoite",
+        "GOAL_CURRENCY": "Valitse valuutta tilausarvon tavoitteelle"
       }
     }
   }

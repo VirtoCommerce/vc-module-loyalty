@@ -124,7 +124,8 @@
     },
     "BANNER": {
       "TITLE": "Baner misji",
-      "HINT": "PNG, JPG, GIF, SVG lub WEBP"
+      "HINT": "PNG, JPG, GIF, SVG lub WEBP",
+      "UPLOAD_FAILED": "Przesyłanie pliku {name} nie powiodło się: {status}"
     },
     "SETTINGS": {
       "TITLE": "Ustawienia lojalności",
@@ -152,6 +153,71 @@
         "MEMBERGROUPS": "wybierz grupy",
         "ORDERSTATUSES": "wybierz statusy",
         "LOYALTYMODES": "wybierz tryb"
+      },
+      "ALL": "każde",
+      "ANY": "co najmniej jedno",
+      "YES": "tak",
+      "NO": "nie",
+      "AND": "do",
+      "ADD_CONDITION": "Dodaj warunek",
+      "ADD_REWARD": "Dodaj nagrodę",
+      "ADD_GOAL": "Dodaj cel",
+      "COMPARE": {
+        "EXACTLY": "dokładnie",
+        "AT_LEAST": "co najmniej",
+        "EXACTLY_OR_LESS": "najwyżej",
+        "BETWEEN": "od"
+      },
+      "GROUPS": {
+        "ORDER": "Warunki zamówienia",
+        "SPECIAL": "Warunki specjalne",
+        "SHOPPER": "Profil kupującego",
+        "GOAL": "Cel misji"
+      },
+      "CONDITIONS": {
+        "IF": "Jeśli",
+        "OF_CRITERIA": "z poniższych kryteriów jest spełnione:",
+        "ORDER_STATUS": "Status zamówienia to...",
+        "ORDER_STATUS_IS": "Status zamówienia to",
+        "ORDER_TOTAL": "Suma zamówienia wynosi...",
+        "ORDER_TOTAL_IS": "Suma zamówienia wynosi",
+        "FIRST_ORDER": "Jest pierwszym zamówieniem",
+        "RECURRING_ORDER": "Jest zamówieniem cyklicznym",
+        "REGISTRATION": "Rejestracja",
+        "ANY_USER_GROUP": "Dowolna grupa użytkowników",
+        "USER_GROUP_CONTAINS": "Grupa użytkowników zawiera ...",
+        "USER_GROUP_CONTAINS_TEXT": "Grupa użytkowników zawiera",
+        "USER_GROUP_PLACEHOLDER": "Wpisz grupę",
+        "USER_GROUP_IS": "Grupa użytkowników to ...",
+        "USER_GROUP_IS_TEXT": "Grupa użytkowników to"
+      },
+      "REWARDS": {
+        "TITLE": "Otrzymaj następujące nagrody lojalnościowe:",
+        "GET": "Otrzymaj",
+        "FIXED_AMOUNT": "Zdobądź stałą liczbę punktów za zamówienie",
+        "FIXED_POINTS": "stałych punktów",
+        "RELATIVE_AMOUNT": "Zdobądź % wartości zamówienia w punktach",
+        "RELATIVE_POINTS": "% wartości zamówienia w punktach"
+      },
+      "GOALS": {
+        "TITLE": "Cel misji (wybierz jeden):",
+        "ORDER_VALUE": "Osiągnij docelową wartość zamówień",
+        "ORDER_VALUE_TEXT": "Osiągnij sumę zamówień",
+        "PER_PERIOD": "w okresie misji",
+        "ORDER_COUNT": "Osiągnij docelową liczbę zamówień",
+        "REACH": "Złóż",
+        "ORDERS_PER_PERIOD": "zamówień w okresie misji",
+        "PER_SKU": "Kup docelową liczbę SKU",
+        "PURCHASE": "Kup",
+        "OF_TARGET_SKUS": "z docelowych SKU"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Program lojalnościowy musi mieć co najmniej jeden warunek",
+        "MISSION_CONDITION": "Misja lojalnościowa musi mieć co najmniej jeden warunek",
+        "PROGRAM_REWARD": "Program lojalnościowy musi mieć co najmniej jedną nagrodę",
+        "GOAL_REQUIRED": "Misja musi mieć dokładnie jeden cel: wartość zamówień, liczbę zamówień lub oparty na SKU",
+        "GOAL_SINGLE": "Misja może mieć tylko jeden cel",
+        "GOAL_CURRENCY": "Musisz wybrać walutę dla celu wartości zamówień"
       }
     }
   }
