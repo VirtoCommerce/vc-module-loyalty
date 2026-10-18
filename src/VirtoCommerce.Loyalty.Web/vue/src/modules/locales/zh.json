@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "忠诚度计划",
+      "MISSIONS": "忠诚度任务"
+    },
+    "ACTIONS": {
+      "ADD": "添加",
+      "APPLY": "应用",
+      "CREATE": "创建",
+      "DELETE": "删除",
+      "REFRESH": "刷新",
+      "RESET": "重置",
+      "SAVE": "保存"
+    },
+    "VALIDATION": {
+      "REQUIRED": "此字段为必填项"
+    },
+    "FIELDS": {
+      "NAME": "名称",
+      "TYPE": "类型",
+      "STORE": "商店",
+      "STORE_PLACEHOLDER": "选择商店",
+      "STATUS": "状态",
+      "START_DATE": "开始日期",
+      "END_DATE": "结束日期",
+      "LOCALIZATION": "本地化",
+      "LANGUAGE": "语言",
+      "LOCALIZED_NAME": "本地化名称",
+      "LOCALIZED_DESCRIPTION": "本地化描述"
+    },
+    "STATUS": {
+      "ACTIVE": "有效",
+      "INACTIVE": "无效"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "订单奖励计划",
+      "DEFAULT_DESCR": "根据订单条件和总额奖励客户",
+      "PRODUCT_POINTS": "商品积分奖励计划",
+      "PRODUCT_POINTS_DESCR": "为购买特定商品的客户奖励积分"
+    },
+    "PROGRAMS": {
+      "EMPTY": "没有忠诚度计划",
+      "DELETE_CONFIRM": "确定要删除所选的忠诚度计划吗？ | 确定要删除 {count} 个忠诚度计划吗？"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "添加忠诚度计划",
+      "TYPE": "计划类型"
+    },
+    "PROGRAM": {
+      "TITLE": "忠诚度计划详情",
+      "NEW_TITLE": "新建忠诚度计划",
+      "NAME_PLACEHOLDER": "输入计划名称",
+      "PRIORITY": "优先级",
+      "CONDITIONS": "忠诚度计划",
+      "SAVE_FIRST": "请先保存计划，然后再管理商品系数",
+      "CLOSE_CONFIRM": "忠诚度计划已修改。是否不保存就关闭？"
+    },
+    "FILTER": {
+      "SELECT": "选择筛选器",
+      "EDIT": "编辑筛选器",
+      "NEW": "新建筛选器",
+      "TITLE": "筛选忠诚度计划",
+      "NAME": "名称",
+      "UNNAMED": "未命名筛选器",
+      "ONLY_ACTIVE": "仅有效",
+      "STORES": "商店",
+      "ALL_STORES": "所有商店",
+      "APPLY": "应用筛选器"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "商品系数",
+      "PROGRAMS_TITLE": "忠诚度计划",
+      "GOALS_TITLE": "目标 SKU",
+      "EMPTY": "没有商品",
+      "PRODUCT": "商品名称",
+      "PROGRAM": "计划名称",
+      "SKU": "SKU",
+      "FACTOR": "系数",
+      "QUANTITY": "数量",
+      "NEW": "新建",
+      "INVALID_FACTOR": "{name} 的系数不能为负数",
+      "INVALID_QUANTITY": "{name} 的数量必须是不小于 1 的整数",
+      "DELETE_FACTORS_CONFIRM": "确定要删除所选的商品系数吗？",
+      "DELETE_GOALS_CONFIRM": "确定要删除所选的目标 SKU 吗？",
+      "CLOSE_CONFIRM": "列表已修改。是否不保存就关闭？"
+    },
+    "PICKER": {
+      "TITLE": "选择商品",
+      "EMPTY": "未找到商品",
+      "IMAGE": "图片",
+      "ADD_SELECTED": "添加所选项"
+    },
+    "LOG": {
+      "TITLE": "忠诚度操作日志",
+      "EMPTY": "没有忠诚度操作",
+      "OPERATION": "操作类型",
+      "EARNED": "获取",
+      "REDEEMED": "兑换",
+      "AMOUNT": "数额",
+      "BALANCE": "余额",
+      "CREATED": "创建时间"
+    },
+    "MISSIONS": {
+      "EMPTY": "没有忠诚度任务",
+      "DELETE_CONFIRM": "确定要删除所选的忠诚度任务吗？ | 确定要删除 {count} 个忠诚度任务吗？"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "草稿",
+      "PUBLISHED": "已发布",
+      "ARCHIVED": "已归档"
+    },
+    "MISSION": {
+      "TITLE": "忠诚度任务详情",
+      "NEW_TITLE": "新建忠诚度任务",
+      "NAME_PLACEHOLDER": "输入任务名称",
+      "CONDITIONS": "任务",
+      "IMMUTABLE": "只能编辑草稿状态的任务。已发布或已归档的任务为只读，无法更改。",
+      "PUBLISH": "发布",
+      "PUBLISH_CONFIRM": "任务发布后将无法更改。是否发布该任务？",
+      "ARCHIVE": "归档",
+      "ARCHIVE_CONFIRM": "已归档的任务将无法再使用或更改。是否归档该任务？",
+      "CLOSE_CONFIRM": "忠诚度任务已修改。是否不保存就关闭？"
+    },
+    "BANNER": {
+      "TITLE": "任务横幅",
+      "HINT": "PNG、JPG、GIF、SVG 或 WEBP",
+      "UPLOAD_FAILED": "上传 {name} 失败：{status}"
+    },
+    "SETTINGS": {
+      "TITLE": "忠诚度设置",
+      "ENABLED": "启用忠诚度",
+      "MODE": "忠诚度模式",
+      "MODE_PLACEHOLDER": "选择忠诚度模式",
+      "CURRENCY": "忠诚度货币",
+      "CURRENCY_PLACEHOLDER": "选择忠诚度货币",
+      "CLOSE_CONFIRM": "忠诚度设置已修改。是否不保存就关闭？"
+    },
+    "WIDGETS": {
+      "BALANCE": "忠诚度余额",
+      "SETTINGS": "忠诚度设置",
+      "PRODUCT_FACTORS": "商品系数",
+      "BANNER": "横幅"
+    },
+    "EXPRESSIONS": {
+      "ADD": "添加",
+      "REMOVE": "移除",
+      "SELECT_SKUS": "选择",
+      "SKUS_AFTER_SAVE": "保存任务后即可添加 SKU",
+      "SELECT": {
+        "CURRENCIES": "选择货币",
+        "LANGUAGES": "选择语言",
+        "MEMBERGROUPS": "选择分组",
+        "ORDERSTATUSES": "选择状态",
+        "LOYALTYMODES": "选择模式"
+      },
+      "ALL": "全部",
+      "ANY": "任一",
+      "YES": "是",
+      "NO": "否",
+      "AND": "至",
+      "ADD_CONDITION": "添加条件",
+      "ADD_REWARD": "添加奖励",
+      "ADD_GOAL": "添加目标",
+      "COMPARE": {
+        "EXACTLY": "等于",
+        "AT_LEAST": "至少",
+        "EXACTLY_OR_LESS": "不超过",
+        "BETWEEN": "介于"
+      },
+      "GROUPS": {
+        "ORDER": "订单条件",
+        "SPECIAL": "特殊条件",
+        "SHOPPER": "购物者资料",
+        "GOAL": "任务目标"
+      },
+      "CONDITIONS": {
+        "IF": "如果满足以下",
+        "OF_CRITERIA": "条件：",
+        "ORDER_STATUS": "订单状态为...",
+        "ORDER_STATUS_IS": "订单状态为",
+        "ORDER_TOTAL": "订单总额...",
+        "ORDER_TOTAL_IS": "订单总额",
+        "FIRST_ORDER": "是首个订单",
+        "RECURRING_ORDER": "是定期订单",
+        "REGISTRATION": "注册",
+        "ANY_USER_GROUP": "任意用户组",
+        "USER_GROUP_CONTAINS": "用户组包含 ...",
+        "USER_GROUP_CONTAINS_TEXT": "用户组包含",
+        "USER_GROUP_PLACEHOLDER": "输入分组",
+        "USER_GROUP_IS": "用户组为 ...",
+        "USER_GROUP_IS_TEXT": "用户组为"
+      },
+      "REWARDS": {
+        "TITLE": "获得以下忠诚度奖励：",
+        "GET": "获得",
+        "FIXED_AMOUNT": "每个订单获得固定积分",
+        "FIXED_POINTS": "固定积分",
+        "RELATIVE_AMOUNT": "按订单金额的 % 获得积分",
+        "RELATIVE_POINTS": "% 订单金额的积分"
+      },
+      "GOALS": {
+        "TITLE": "任务目标（选择一个）：",
+        "ORDER_VALUE": "达到目标订单金额",
+        "ORDER_VALUE_TEXT": "订单总额达到",
+        "PER_PERIOD": "（每个任务周期）",
+        "ORDER_COUNT": "达到目标订单数",
+        "REACH": "达到",
+        "ORDERS_PER_PERIOD": "个订单（每个任务周期）",
+        "PER_SKU": "购买目标数量的 SKU",
+        "PURCHASE": "购买",
+        "OF_TARGET_SKUS": "目标 SKU"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "忠诚度计划必须至少包含一个条件",
+        "MISSION_CONDITION": "忠诚度任务必须至少包含一个条件",
+        "PROGRAM_REWARD": "忠诚度计划必须至少包含一个奖励",
+        "GOAL_REQUIRED": "任务必须恰好有一个目标：订单金额、订单数量或基于 SKU",
+        "GOAL_SINGLE": "任务只能有一个目标",
+        "GOAL_CURRENCY": "必须为订单金额目标选择货币"
+      }
+    }
+  }
+}

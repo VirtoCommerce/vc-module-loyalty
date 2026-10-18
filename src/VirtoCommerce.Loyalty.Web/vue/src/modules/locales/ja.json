@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "ロイヤルティプログラム",
+      "MISSIONS": "ロイヤルティミッション"
+    },
+    "ACTIONS": {
+      "ADD": "追加",
+      "APPLY": "適用",
+      "CREATE": "作成",
+      "DELETE": "削除",
+      "REFRESH": "更新",
+      "RESET": "リセット",
+      "SAVE": "保存"
+    },
+    "VALIDATION": {
+      "REQUIRED": "この項目は必須です"
+    },
+    "FIELDS": {
+      "NAME": "名前",
+      "TYPE": "タイプ",
+      "STORE": "ストア",
+      "STORE_PLACEHOLDER": "ストアを選択",
+      "STATUS": "ステータス",
+      "START_DATE": "開始日",
+      "END_DATE": "終了日",
+      "LOCALIZATION": "ローカライズ",
+      "LANGUAGE": "言語",
+      "LOCALIZED_NAME": "ローカライズされた名前",
+      "LOCALIZED_DESCRIPTION": "ローカライズされた説明"
+    },
+    "STATUS": {
+      "ACTIVE": "有効",
+      "INACTIVE": "無効"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "注文ロイヤルティ",
+      "DEFAULT_DESCR": "注文の条件と合計金額に基づいて顧客に報酬を付与します",
+      "PRODUCT_POINTS": "商品ポイントロイヤルティ",
+      "PRODUCT_POINTS_DESCR": "特定の商品を購入した顧客にポイントを付与します"
+    },
+    "PROGRAMS": {
+      "EMPTY": "ロイヤルティプログラムがありません",
+      "DELETE_CONFIRM": "選択したロイヤルティプログラムを削除してもよろしいですか？ | {count} 件のロイヤルティプログラムを削除してもよろしいですか？"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "ロイヤルティプログラムを追加",
+      "TYPE": "プログラムタイプ"
+    },
+    "PROGRAM": {
+      "TITLE": "ロイヤルティプログラムの詳細",
+      "NEW_TITLE": "新しいロイヤルティプログラム",
+      "NAME_PLACEHOLDER": "プログラム名を入力",
+      "PRIORITY": "優先度",
+      "CONDITIONS": "ロイヤルティプログラム",
+      "SAVE_FIRST": "商品係数を管理するには、まずプログラムを保存してください",
+      "CLOSE_CONFIRM": "ロイヤルティプログラムが変更されました。保存せずに閉じますか？"
+    },
+    "FILTER": {
+      "SELECT": "フィルターを選択",
+      "EDIT": "フィルターを編集",
+      "NEW": "新しいフィルター",
+      "TITLE": "ロイヤルティプログラムをフィルター",
+      "NAME": "名前",
+      "UNNAMED": "名前のないフィルター",
+      "ONLY_ACTIVE": "有効なもののみ",
+      "STORES": "ストア",
+      "ALL_STORES": "すべてのストア",
+      "APPLY": "フィルターを適用"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "商品係数",
+      "PROGRAMS_TITLE": "ロイヤルティプログラム",
+      "GOALS_TITLE": "目標SKU",
+      "EMPTY": "商品がありません",
+      "PRODUCT": "商品名",
+      "PROGRAM": "プログラム名",
+      "SKU": "SKU",
+      "FACTOR": "係数",
+      "QUANTITY": "数量",
+      "NEW": "新規",
+      "INVALID_FACTOR": "{name} の係数を負の値にすることはできません",
+      "INVALID_QUANTITY": "{name} の数量は 1 以上の整数である必要があります",
+      "DELETE_FACTORS_CONFIRM": "選択した商品係数を削除してもよろしいですか？",
+      "DELETE_GOALS_CONFIRM": "選択した目標SKUを削除してもよろしいですか？",
+      "CLOSE_CONFIRM": "リストが変更されました。保存せずに閉じますか？"
+    },
+    "PICKER": {
+      "TITLE": "商品を選択",
+      "EMPTY": "商品が見つかりません",
+      "IMAGE": "画像",
+      "ADD_SELECTED": "選択項目を追加"
+    },
+    "LOG": {
+      "TITLE": "ロイヤルティ操作ログ",
+      "EMPTY": "ロイヤルティ操作がありません",
+      "OPERATION": "操作",
+      "EARNED": "獲得",
+      "REDEEMED": "利用",
+      "AMOUNT": "数量",
+      "BALANCE": "残高",
+      "CREATED": "作成日時"
+    },
+    "MISSIONS": {
+      "EMPTY": "ロイヤルティミッションがありません",
+      "DELETE_CONFIRM": "選択したロイヤルティミッションを削除してもよろしいですか？ | {count} 件のロイヤルティミッションを削除してもよろしいですか？"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "下書き",
+      "PUBLISHED": "公開済み",
+      "ARCHIVED": "アーカイブ済み"
+    },
+    "MISSION": {
+      "TITLE": "ロイヤルティミッションの詳細",
+      "NEW_TITLE": "新しいロイヤルティミッション",
+      "NAME_PLACEHOLDER": "ミッション名を入力",
+      "CONDITIONS": "ミッション",
+      "IMMUTABLE": "編集できるのは下書きのミッションのみです。公開済みまたはアーカイブ済みのミッションは読み取り専用で、変更できません。",
+      "PUBLISH": "公開",
+      "PUBLISH_CONFIRM": "ミッションを公開すると変更できなくなります。ミッションを公開しますか？",
+      "ARCHIVE": "アーカイブ",
+      "ARCHIVE_CONFIRM": "アーカイブしたミッションは使用も変更もできなくなります。ミッションをアーカイブしますか？",
+      "CLOSE_CONFIRM": "ロイヤルティミッションが変更されました。保存せずに閉じますか？"
+    },
+    "BANNER": {
+      "TITLE": "ミッションバナー",
+      "HINT": "PNG、JPG、GIF、SVG、WEBP",
+      "UPLOAD_FAILED": "{name} のアップロードに失敗しました: {status}"
+    },
+    "SETTINGS": {
+      "TITLE": "ロイヤルティ設定",
+      "ENABLED": "ロイヤルティを有効化",
+      "MODE": "ロイヤルティモード",
+      "MODE_PLACEHOLDER": "ロイヤルティモードを選択",
+      "CURRENCY": "ロイヤルティ通貨",
+      "CURRENCY_PLACEHOLDER": "ロイヤルティ通貨を選択",
+      "CLOSE_CONFIRM": "ロイヤルティ設定が変更されました。保存せずに閉じますか？"
+    },
+    "WIDGETS": {
+      "BALANCE": "ロイヤルティ残高",
+      "SETTINGS": "ロイヤルティ設定",
+      "PRODUCT_FACTORS": "商品係数",
+      "BANNER": "バナー"
+    },
+    "EXPRESSIONS": {
+      "ADD": "追加",
+      "REMOVE": "削除",
+      "SELECT_SKUS": "選択",
+      "SKUS_AFTER_SAVE": "ミッションを保存した後で SKU を追加できます",
+      "SELECT": {
+        "CURRENCIES": "通貨を選択",
+        "LANGUAGES": "言語を選択",
+        "MEMBERGROUPS": "グループを選択",
+        "ORDERSTATUSES": "ステータスを選択",
+        "LOYALTYMODES": "モードを選択"
+      },
+      "ALL": "すべて",
+      "ANY": "いずれか",
+      "YES": "はい",
+      "NO": "いいえ",
+      "AND": "～",
+      "ADD_CONDITION": "条件を追加",
+      "ADD_REWARD": "報酬を追加",
+      "ADD_GOAL": "目標を追加",
+      "COMPARE": {
+        "EXACTLY": "ちょうど",
+        "AT_LEAST": "最低",
+        "EXACTLY_OR_LESS": "最大",
+        "BETWEEN": "範囲"
+      },
+      "GROUPS": {
+        "ORDER": "注文条件",
+        "SPECIAL": "特別条件",
+        "SHOPPER": "購入者プロファイル",
+        "GOAL": "ミッション目標"
+      },
+      "CONDITIONS": {
+        "IF": "次の条件の",
+        "OF_CRITERIA": "を満たす場合:",
+        "ORDER_STATUS": "注文ステータスが...",
+        "ORDER_STATUS_IS": "注文ステータス:",
+        "ORDER_TOTAL": "注文合計が...",
+        "ORDER_TOTAL_IS": "注文合計:",
+        "FIRST_ORDER": "初回注文である",
+        "RECURRING_ORDER": "定期注文である",
+        "REGISTRATION": "会員登録",
+        "ANY_USER_GROUP": "任意のユーザーグループ",
+        "USER_GROUP_CONTAINS": "ユーザーグループに ... が含まれる",
+        "USER_GROUP_CONTAINS_TEXT": "ユーザーグループに次を含む:",
+        "USER_GROUP_PLACEHOLDER": "グループを入力",
+        "USER_GROUP_IS": "ユーザーグループが ... である",
+        "USER_GROUP_IS_TEXT": "ユーザーグループ:"
+      },
+      "REWARDS": {
+        "TITLE": "次のロイヤルティ報酬を獲得:",
+        "GET": "獲得:",
+        "FIXED_AMOUNT": "注文ごとに固定ポイントを獲得",
+        "FIXED_POINTS": "固定ポイント",
+        "RELATIVE_AMOUNT": "注文金額の % をポイントとして獲得",
+        "RELATIVE_POINTS": "%（注文金額に対するポイント）"
+      },
+      "GOALS": {
+        "TITLE": "ミッション目標（1つ選択）:",
+        "ORDER_VALUE": "目標注文金額を達成",
+        "ORDER_VALUE_TEXT": "ミッション期間ごとの注文合計:",
+        "PER_PERIOD": "を達成",
+        "ORDER_COUNT": "目標注文数を達成",
+        "REACH": "ミッション期間ごとの注文数:",
+        "ORDERS_PER_PERIOD": "件を達成",
+        "PER_SKU": "目標数量の SKU を購入",
+        "PURCHASE": "目標 SKU の",
+        "OF_TARGET_SKUS": "を購入"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "ロイヤルティプログラムには少なくとも 1 つの条件が必要です",
+        "MISSION_CONDITION": "ロイヤルティミッションには少なくとも 1 つの条件が必要です",
+        "PROGRAM_REWARD": "ロイヤルティプログラムには少なくとも 1 つの報酬が必要です",
+        "GOAL_REQUIRED": "ミッションには目標が 1 つだけ必要です: 注文金額、注文数、または SKU ベース",
+        "GOAL_SINGLE": "ミッションに設定できる目標は 1 つだけです",
+        "GOAL_CURRENCY": "注文金額の目標には通貨を選択する必要があります"
+      }
+    }
+  }
+}

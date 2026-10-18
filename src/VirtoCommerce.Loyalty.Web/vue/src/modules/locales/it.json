@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Programmi fedeltà",
+      "MISSIONS": "Missioni fedeltà"
+    },
+    "ACTIONS": {
+      "ADD": "Aggiungi",
+      "APPLY": "Applica",
+      "CREATE": "Crea",
+      "DELETE": "Elimina",
+      "REFRESH": "Aggiorna",
+      "RESET": "Reimposta",
+      "SAVE": "Salva"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Questo campo è obbligatorio"
+    },
+    "FIELDS": {
+      "NAME": "Nome",
+      "TYPE": "Tipo",
+      "STORE": "Negozio",
+      "STORE_PLACEHOLDER": "Seleziona negozio",
+      "STATUS": "Stato",
+      "START_DATE": "Data di inizio",
+      "END_DATE": "Data di fine",
+      "LOCALIZATION": "Localizzazione",
+      "LANGUAGE": "Lingua",
+      "LOCALIZED_NAME": "Nome localizzato",
+      "LOCALIZED_DESCRIPTION": "Descrizione localizzata"
+    },
+    "STATUS": {
+      "ACTIVE": "Attivo",
+      "INACTIVE": "Inattivo"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Fedeltà ordine",
+      "DEFAULT_DESCR": "Premia i clienti in base alle condizioni e ai totali dell'ordine",
+      "PRODUCT_POINTS": "Fedeltà punti prodotto",
+      "PRODUCT_POINTS_DESCR": "Premia i clienti con punti per l'acquisto di prodotti specifici"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Nessun programma fedeltà",
+      "DELETE_CONFIRM": "Eliminare il programma fedeltà selezionato? | Eliminare {count} programmi fedeltà?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Aggiungi programma fedeltà",
+      "TYPE": "Tipo di programma"
+    },
+    "PROGRAM": {
+      "TITLE": "Dettagli programma fedeltà",
+      "NEW_TITLE": "Nuovo programma fedeltà",
+      "NAME_PLACEHOLDER": "Inserisci nome del programma",
+      "PRIORITY": "Priorità",
+      "CONDITIONS": "Programma fedeltà",
+      "SAVE_FIRST": "Salva prima il programma per gestire i fattori prodotto",
+      "CLOSE_CONFIRM": "Il programma fedeltà è stato modificato. Chiudere senza salvare?"
+    },
+    "FILTER": {
+      "SELECT": "Seleziona filtro",
+      "EDIT": "Modifica filtro",
+      "NEW": "Nuovo filtro",
+      "TITLE": "Filtra programmi fedeltà",
+      "NAME": "Nome",
+      "UNNAMED": "Filtro senza nome",
+      "ONLY_ACTIVE": "Solo attivi",
+      "STORES": "Negozi",
+      "ALL_STORES": "Tutti i negozi",
+      "APPLY": "Applica filtro"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Fattori prodotto",
+      "PROGRAMS_TITLE": "Programmi fedeltà",
+      "GOALS_TITLE": "SKU obiettivo",
+      "EMPTY": "Nessun prodotto",
+      "PRODUCT": "Nome prodotto",
+      "PROGRAM": "Nome programma",
+      "SKU": "SKU",
+      "FACTOR": "Fattore",
+      "QUANTITY": "Quantità",
+      "NEW": "Nuovo",
+      "INVALID_FACTOR": "Il fattore di {name} non può essere negativo",
+      "INVALID_QUANTITY": "La quantità di {name} deve essere un numero intero pari almeno a 1",
+      "DELETE_FACTORS_CONFIRM": "Eliminare i fattori prodotto selezionati?",
+      "DELETE_GOALS_CONFIRM": "Eliminare gli SKU obiettivo selezionati?",
+      "CLOSE_CONFIRM": "L'elenco è stato modificato. Chiudere senza salvare?"
+    },
+    "PICKER": {
+      "TITLE": "Seleziona prodotti",
+      "EMPTY": "Nessun prodotto trovato",
+      "IMAGE": "Immagine",
+      "ADD_SELECTED": "Aggiungi selezionati"
+    },
+    "LOG": {
+      "TITLE": "Registro operazioni fedeltà",
+      "EMPTY": "Nessuna operazione fedeltà",
+      "OPERATION": "Operazione",
+      "EARNED": "Accumulato",
+      "REDEEMED": "Riscattato",
+      "AMOUNT": "Importo",
+      "BALANCE": "Saldo",
+      "CREATED": "Creato"
+    },
+    "MISSIONS": {
+      "EMPTY": "Nessuna missione fedeltà",
+      "DELETE_CONFIRM": "Eliminare la missione fedeltà selezionata? | Eliminare {count} missioni fedeltà?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Bozza",
+      "PUBLISHED": "Pubblicata",
+      "ARCHIVED": "Archiviata"
+    },
+    "MISSION": {
+      "TITLE": "Dettagli missione fedeltà",
+      "NEW_TITLE": "Nuova missione fedeltà",
+      "NAME_PLACEHOLDER": "Inserisci nome della missione",
+      "CONDITIONS": "Missione",
+      "IMMUTABLE": "Solo le missioni in bozza possono essere modificate. Le missioni pubblicate o archiviate sono di sola lettura e non possono essere modificate.",
+      "PUBLISH": "Pubblica",
+      "PUBLISH_CONFIRM": "Dopo la pubblicazione la missione non potrà più essere modificata. Pubblicare la missione?",
+      "ARCHIVE": "Archivia",
+      "ARCHIVE_CONFIRM": "Una missione archiviata non può più essere utilizzata né modificata. Archiviare la missione?",
+      "CLOSE_CONFIRM": "La missione fedeltà è stata modificata. Chiudere senza salvare?"
+    },
+    "BANNER": {
+      "TITLE": "Banner della missione",
+      "HINT": "PNG, JPG, GIF, SVG o WEBP",
+      "UPLOAD_FAILED": "Caricamento di {name} non riuscito: {status}"
+    },
+    "SETTINGS": {
+      "TITLE": "Impostazioni fedeltà",
+      "ENABLED": "Abilita fedeltà",
+      "MODE": "Modalità fedeltà",
+      "MODE_PLACEHOLDER": "Seleziona modalità fedeltà",
+      "CURRENCY": "Valuta fedeltà",
+      "CURRENCY_PLACEHOLDER": "Seleziona valuta fedeltà",
+      "CLOSE_CONFIRM": "Le impostazioni fedeltà sono state modificate. Chiudere senza salvare?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Saldo fedeltà",
+      "SETTINGS": "Impostazioni fedeltà",
+      "PRODUCT_FACTORS": "Fattori prodotto",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Aggiungi",
+      "REMOVE": "Rimuovi",
+      "SELECT_SKUS": "seleziona",
+      "SKUS_AFTER_SAVE": "È possibile aggiungere SKU dopo aver salvato la missione",
+      "SELECT": {
+        "CURRENCIES": "seleziona valuta",
+        "LANGUAGES": "seleziona lingua",
+        "MEMBERGROUPS": "seleziona gruppi",
+        "ORDERSTATUSES": "seleziona stati",
+        "LOYALTYMODES": "seleziona modalità"
+      },
+      "ALL": "ciascuno",
+      "ANY": "almeno uno",
+      "YES": "sì",
+      "NO": "no",
+      "AND": "e",
+      "ADD_CONDITION": "Aggiungi condizione",
+      "ADD_REWARD": "Aggiungi premio",
+      "ADD_GOAL": "Aggiungi obiettivo",
+      "COMPARE": {
+        "EXACTLY": "esattamente",
+        "AT_LEAST": "almeno",
+        "EXACTLY_OR_LESS": "minore o uguale a",
+        "BETWEEN": "tra"
+      },
+      "GROUPS": {
+        "ORDER": "Condizioni dell'ordine",
+        "SPECIAL": "Condizioni speciali",
+        "SHOPPER": "Profilo acquirente",
+        "GOAL": "Obiettivo della missione"
+      },
+      "CONDITIONS": {
+        "IF": "Se",
+        "OF_CRITERIA": "dei seguenti criteri è soddisfatto:",
+        "ORDER_STATUS": "Lo stato dell'ordine è...",
+        "ORDER_STATUS_IS": "Lo stato dell'ordine è",
+        "ORDER_TOTAL": "Il totale dell'ordine è...",
+        "ORDER_TOTAL_IS": "Il totale dell'ordine è",
+        "FIRST_ORDER": "È il primo ordine",
+        "RECURRING_ORDER": "È un ordine ricorrente",
+        "REGISTRATION": "Registrazione",
+        "ANY_USER_GROUP": "Qualsiasi gruppo utenti",
+        "USER_GROUP_CONTAINS": "Il gruppo utenti contiene ...",
+        "USER_GROUP_CONTAINS_TEXT": "Il gruppo utenti contiene",
+        "USER_GROUP_PLACEHOLDER": "Inserisci gruppo",
+        "USER_GROUP_IS": "Il gruppo utenti è ...",
+        "USER_GROUP_IS_TEXT": "Il gruppo utenti è"
+      },
+      "REWARDS": {
+        "TITLE": "Ottieni i seguenti premi fedeltà:",
+        "GET": "Ottieni",
+        "FIXED_AMOUNT": "Guadagna un numero fisso di punti per ordine",
+        "FIXED_POINTS": "punti fissi",
+        "RELATIVE_AMOUNT": "Guadagna una % del valore dell'ordine in punti",
+        "RELATIVE_POINTS": "% del valore dell'ordine in punti"
+      },
+      "GOALS": {
+        "TITLE": "Obiettivo della missione (scegline uno):",
+        "ORDER_VALUE": "Raggiungi il valore d'ordine obiettivo",
+        "ORDER_VALUE_TEXT": "Raggiungi un totale ordini di",
+        "PER_PERIOD": "per periodo della missione",
+        "ORDER_COUNT": "Raggiungi il numero di ordini obiettivo",
+        "REACH": "Raggiungi",
+        "ORDERS_PER_PERIOD": "ordini per periodo della missione",
+        "PER_SKU": "Acquista la quantità obiettivo di SKU",
+        "PURCHASE": "Acquista",
+        "OF_TARGET_SKUS": "degli SKU obiettivo"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Il programma fedeltà deve avere almeno una condizione",
+        "MISSION_CONDITION": "La missione fedeltà deve avere almeno una condizione",
+        "PROGRAM_REWARD": "Il programma fedeltà deve avere almeno un premio",
+        "GOAL_REQUIRED": "La missione deve avere esattamente un obiettivo: valore dell'ordine, numero di ordini o basato su SKU",
+        "GOAL_SINGLE": "La missione deve avere un solo obiettivo",
+        "GOAL_CURRENCY": "Seleziona una valuta per l'obiettivo sul valore dell'ordine"
+      }
+    }
+  }
+}

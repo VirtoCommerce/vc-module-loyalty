@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Lojalitetsprogrammer",
+      "MISSIONS": "Lojalitetsoppdrag"
+    },
+    "ACTIONS": {
+      "ADD": "Legg til",
+      "APPLY": "Bruk",
+      "CREATE": "Opprett",
+      "DELETE": "Slett",
+      "REFRESH": "Oppdater",
+      "RESET": "Tilbakestill",
+      "SAVE": "Lagre"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Dette feltet er obligatorisk"
+    },
+    "FIELDS": {
+      "NAME": "Navn",
+      "TYPE": "Type",
+      "STORE": "Butikk",
+      "STORE_PLACEHOLDER": "Velg butikk",
+      "STATUS": "Status",
+      "START_DATE": "Startdato",
+      "END_DATE": "Sluttdato",
+      "LOCALIZATION": "Lokalisering",
+      "LANGUAGE": "Språk",
+      "LOCALIZED_NAME": "Lokalisert navn",
+      "LOCALIZED_DESCRIPTION": "Lokalisert beskrivelse"
+    },
+    "STATUS": {
+      "ACTIVE": "Aktiv",
+      "INACTIVE": "Inaktiv"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Bestillingslojalitet",
+      "DEFAULT_DESCR": "Belønn kunder basert på ordrebetingelser og totalbeløp",
+      "PRODUCT_POINTS": "Produktpoenglojalitet",
+      "PRODUCT_POINTS_DESCR": "Belønn kunder med poeng for kjøp av bestemte produkter"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Ingen lojalitetsprogrammer",
+      "DELETE_CONFIRM": "Er du sikker på at du vil slette det valgte lojalitetsprogrammet? | Er du sikker på at du vil slette {count} lojalitetsprogrammer?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Legg til lojalitetsprogram",
+      "TYPE": "Programtype"
+    },
+    "PROGRAM": {
+      "TITLE": "Detaljer for lojalitetsprogram",
+      "NEW_TITLE": "Nytt lojalitetsprogram",
+      "NAME_PLACEHOLDER": "Skriv inn programnavn",
+      "PRIORITY": "Prioritet",
+      "CONDITIONS": "Lojalitetsprogram",
+      "SAVE_FIRST": "Lagre programmet først for å administrere produktfaktorer",
+      "CLOSE_CONFIRM": "Lojalitetsprogrammet er endret. Lukke uten å lagre?"
+    },
+    "FILTER": {
+      "SELECT": "Velg filter",
+      "EDIT": "Rediger filter",
+      "NEW": "Nytt filter",
+      "TITLE": "Filtrer lojalitetsprogrammer",
+      "NAME": "Navn",
+      "UNNAMED": "Filter uten navn",
+      "ONLY_ACTIVE": "Bare aktive",
+      "STORES": "Butikker",
+      "ALL_STORES": "Alle butikker",
+      "APPLY": "Bruk filter"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Produktfaktorer",
+      "PROGRAMS_TITLE": "Lojalitetsprogrammer",
+      "GOALS_TITLE": "Mål-SKU-er",
+      "EMPTY": "Ingen produkter",
+      "PRODUCT": "Produktnavn",
+      "PROGRAM": "Programnavn",
+      "SKU": "SKU",
+      "FACTOR": "Faktor",
+      "QUANTITY": "Antall",
+      "NEW": "Ny",
+      "INVALID_FACTOR": "Faktoren for {name} kan ikke være negativ",
+      "INVALID_QUANTITY": "Antallet for {name} må være et heltall på minst 1",
+      "DELETE_FACTORS_CONFIRM": "Er du sikker på at du vil slette de valgte produktfaktorene?",
+      "DELETE_GOALS_CONFIRM": "Er du sikker på at du vil slette de valgte mål-SKU-ene?",
+      "CLOSE_CONFIRM": "Listen er endret. Lukke uten å lagre?"
+    },
+    "PICKER": {
+      "TITLE": "Velg produkter",
+      "EMPTY": "Fant ingen produkter",
+      "IMAGE": "Bilde",
+      "ADD_SELECTED": "Legg til valgte"
+    },
+    "LOG": {
+      "TITLE": "Logg for lojalitetstransaksjoner",
+      "EMPTY": "Ingen lojalitetstransaksjoner",
+      "OPERATION": "Transaksjon",
+      "EARNED": "Opptjent",
+      "REDEEMED": "Innløst",
+      "AMOUNT": "Beløp",
+      "BALANCE": "Saldo",
+      "CREATED": "Opprettet"
+    },
+    "MISSIONS": {
+      "EMPTY": "Ingen lojalitetsoppdrag",
+      "DELETE_CONFIRM": "Er du sikker på at du vil slette det valgte lojalitetsoppdraget? | Er du sikker på at du vil slette {count} lojalitetsoppdrag?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Utkast",
+      "PUBLISHED": "Publisert",
+      "ARCHIVED": "Arkivert"
+    },
+    "MISSION": {
+      "TITLE": "Detaljer for lojalitetsoppdrag",
+      "NEW_TITLE": "Nytt lojalitetsoppdrag",
+      "NAME_PLACEHOLDER": "Skriv inn oppdragsnavn",
+      "CONDITIONS": "Oppdrag",
+      "IMMUTABLE": "Bare utkast til oppdrag kan redigeres. Publiserte eller arkiverte oppdrag er skrivebeskyttet og kan ikke endres.",
+      "PUBLISH": "Publiser",
+      "PUBLISH_CONFIRM": "Etter publisering kan oppdraget ikke endres. Vil du publisere oppdraget?",
+      "ARCHIVE": "Arkiver",
+      "ARCHIVE_CONFIRM": "Et arkivert oppdrag kan ikke lenger brukes eller endres. Vil du arkivere oppdraget?",
+      "CLOSE_CONFIRM": "Lojalitetsoppdraget er endret. Lukke uten å lagre?"
+    },
+    "BANNER": {
+      "TITLE": "Oppdragsbanner",
+      "HINT": "PNG, JPG, GIF, SVG eller WEBP",
+      "UPLOAD_FAILED": "Opplasting av {name} mislyktes: {status}"
+    },
+    "SETTINGS": {
+      "TITLE": "Lojalitetsinnstillinger",
+      "ENABLED": "Aktiver lojalitet",
+      "MODE": "Lojalitetsmodus",
+      "MODE_PLACEHOLDER": "Velg lojalitetsmodus",
+      "CURRENCY": "Lojalitetsvaluta",
+      "CURRENCY_PLACEHOLDER": "Velg lojalitetsvaluta",
+      "CLOSE_CONFIRM": "Lojalitetsinnstillingene er endret. Lukke uten å lagre?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Lojalitetssaldo",
+      "SETTINGS": "Lojalitetsinnstillinger",
+      "PRODUCT_FACTORS": "Produktfaktorer",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Legg til",
+      "REMOVE": "Fjern",
+      "SELECT_SKUS": "velg",
+      "SKUS_AFTER_SAVE": "Du kan legge til SKU-er etter at oppdraget er lagret",
+      "SELECT": {
+        "CURRENCIES": "velg valuta",
+        "LANGUAGES": "velg språk",
+        "MEMBERGROUPS": "velg grupper",
+        "ORDERSTATUSES": "velg statuser",
+        "LOYALTYMODES": "velg modus"
+      },
+      "ALL": "alle",
+      "ANY": "minst ett av",
+      "YES": "ja",
+      "NO": "nei",
+      "AND": "og",
+      "ADD_CONDITION": "Legg til betingelse",
+      "ADD_REWARD": "Legg til belønning",
+      "ADD_GOAL": "Legg til mål",
+      "COMPARE": {
+        "EXACTLY": "nøyaktig",
+        "AT_LEAST": "minst",
+        "EXACTLY_OR_LESS": "mindre enn eller lik",
+        "BETWEEN": "mellom"
+      },
+      "GROUPS": {
+        "ORDER": "Ordrebetingelser",
+        "SPECIAL": "Spesielle betingelser",
+        "SHOPPER": "Kundeprofil",
+        "GOAL": "Oppdragsmål"
+      },
+      "CONDITIONS": {
+        "IF": "Hvis",
+        "OF_CRITERIA": "de følgende kriteriene gjelder:",
+        "ORDER_STATUS": "Ordrestatus er...",
+        "ORDER_STATUS_IS": "Ordrestatus er",
+        "ORDER_TOTAL": "Ordresummen er...",
+        "ORDER_TOTAL_IS": "Ordresummen er",
+        "FIRST_ORDER": "Er første ordre",
+        "RECURRING_ORDER": "Er gjentakende ordre",
+        "REGISTRATION": "Registrering",
+        "ANY_USER_GROUP": "Hvilken som helst brukergruppe",
+        "USER_GROUP_CONTAINS": "Brukergruppen inneholder ...",
+        "USER_GROUP_CONTAINS_TEXT": "Brukergruppen inneholder",
+        "USER_GROUP_PLACEHOLDER": "Skriv inn gruppe",
+        "USER_GROUP_IS": "Brukergruppen er ...",
+        "USER_GROUP_IS_TEXT": "Brukergruppen er"
+      },
+      "REWARDS": {
+        "TITLE": "Få følgende lojalitetsbelønninger:",
+        "GET": "Få",
+        "FIXED_AMOUNT": "Tjen et fast antall poeng per ordre",
+        "FIXED_POINTS": "faste poeng",
+        "RELATIVE_AMOUNT": "Tjen % av ordreverdien som poeng",
+        "RELATIVE_POINTS": "% av ordreverdien som poeng"
+      },
+      "GOALS": {
+        "TITLE": "Oppdragsmål (velg ett):",
+        "ORDER_VALUE": "Nå målverdi for ordrer",
+        "ORDER_VALUE_TEXT": "Nå en ordresum på",
+        "PER_PERIOD": "per oppdragsperiode",
+        "ORDER_COUNT": "Nå målantall ordrer",
+        "REACH": "Nå",
+        "ORDERS_PER_PERIOD": "ordrer per oppdragsperiode",
+        "PER_SKU": "Kjøp målantall av SKU-er",
+        "PURCHASE": "Kjøp",
+        "OF_TARGET_SKUS": "mål-SKU-ene"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Lojalitetsprogrammet må ha minst én betingelse",
+        "MISSION_CONDITION": "Lojalitetsoppdraget må ha minst én betingelse",
+        "PROGRAM_REWARD": "Lojalitetsprogrammet må ha minst én belønning",
+        "GOAL_REQUIRED": "Oppdraget må ha nøyaktig ett mål: ordreverdi, antall ordrer eller SKU-basert",
+        "GOAL_SINGLE": "Oppdraget kan bare ha ett mål",
+        "GOAL_CURRENCY": "Du må velge en valuta for målet for ordreverdi"
+      }
+    }
+  }
+}
