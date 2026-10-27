@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "برامج الولاء",
+      "MISSIONS": "مهام الولاء"
+    },
+    "ACTIONS": {
+      "ADD": "إضافة",
+      "APPLY": "تطبيق",
+      "CREATE": "إنشاء",
+      "DELETE": "حذف",
+      "REFRESH": "تحديث",
+      "RESET": "إعادة تعيين",
+      "SAVE": "حفظ"
+    },
+    "VALIDATION": {
+      "REQUIRED": "هذا الحقل مطلوب"
+    },
+    "FIELDS": {
+      "NAME": "الاسم",
+      "TYPE": "النوع",
+      "STORE": "المتجر",
+      "STORE_PLACEHOLDER": "اختر المتجر",
+      "STATUS": "الحالة",
+      "START_DATE": "تاريخ البدء",
+      "END_DATE": "تاريخ الانتهاء",
+      "LOCALIZATION": "الترجمة",
+      "LANGUAGE": "اللغة",
+      "LOCALIZED_NAME": "الاسم المترجم",
+      "LOCALIZED_DESCRIPTION": "الوصف المترجم"
+    },
+    "STATUS": {
+      "ACTIVE": "نشط",
+      "INACTIVE": "غير نشط"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "الولاء على الطلبات",
+      "DEFAULT_DESCR": "مكافأة العملاء بناءً على شروط الطلب وإجمالياته",
+      "PRODUCT_POINTS": "الولاء بنقاط المنتجات",
+      "PRODUCT_POINTS_DESCR": "مكافأة العملاء بنقاط عند شراء منتجات محددة"
+    },
+    "PROGRAMS": {
+      "EMPTY": "لا توجد برامج ولاء",
+      "DELETE_CONFIRM": "هل تريد بالتأكيد حذف برنامج الولاء المحدد؟ | هل تريد بالتأكيد حذف برامج الولاء المحددة ({count})؟"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "إضافة برنامج ولاء",
+      "TYPE": "نوع البرنامج"
+    },
+    "PROGRAM": {
+      "TITLE": "تفاصيل برنامج الولاء",
+      "NEW_TITLE": "برنامج ولاء جديد",
+      "NAME_PLACEHOLDER": "أدخل اسم البرنامج",
+      "PRIORITY": "الأولوية",
+      "CONDITIONS": "برنامج الولاء",
+      "SAVE_FIRST": "احفظ البرنامج أولًا لتتمكن من إدارة معاملات المنتجات",
+      "CLOSE_CONFIRM": "تم تعديل برنامج الولاء. هل تريد الإغلاق دون حفظ؟"
+    },
+    "FILTER": {
+      "SELECT": "اختر عامل تصفية",
+      "EDIT": "تحرير عامل التصفية",
+      "NEW": "عامل تصفية جديد",
+      "TITLE": "تصفية برامج الولاء",
+      "NAME": "الاسم",
+      "UNNAMED": "عامل تصفية بلا اسم",
+      "ONLY_ACTIVE": "النشطة فقط",
+      "STORES": "المتاجر",
+      "ALL_STORES": "كل المتاجر",
+      "APPLY": "تطبيق عامل التصفية"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "معاملات المنتجات",
+      "PROGRAMS_TITLE": "برامج الولاء",
+      "GOALS_TITLE": "رموز SKU المستهدفة",
+      "EMPTY": "لا توجد منتجات",
+      "PRODUCT": "اسم المنتج",
+      "PROGRAM": "اسم البرنامج",
+      "SKU": "SKU",
+      "FACTOR": "المعامل",
+      "QUANTITY": "الكمية",
+      "NEW": "جديد",
+      "INVALID_FACTOR": "لا يمكن أن يكون معامل {name} سالبًا",
+      "INVALID_QUANTITY": "يجب أن تكون كمية {name} عددًا صحيحًا لا يقل عن 1",
+      "DELETE_FACTORS_CONFIRM": "هل تريد بالتأكيد حذف معاملات المنتجات المحددة؟",
+      "DELETE_GOALS_CONFIRM": "هل تريد بالتأكيد حذف رموز SKU المستهدفة المحددة؟",
+      "CLOSE_CONFIRM": "تم تعديل القائمة. هل تريد الإغلاق دون حفظ؟"
+    },
+    "PICKER": {
+      "TITLE": "اختيار المنتجات",
+      "EMPTY": "لم يتم العثور على منتجات",
+      "IMAGE": "الصورة",
+      "ADD_SELECTED": "إضافة المحدد"
+    },
+    "LOG": {
+      "TITLE": "سجل عمليات الولاء",
+      "EMPTY": "لا توجد عمليات ولاء",
+      "OPERATION": "العملية",
+      "EARNED": "مكتسبة",
+      "REDEEMED": "مستبدلة",
+      "AMOUNT": "المقدار",
+      "BALANCE": "الرصيد",
+      "CREATED": "تاريخ الإنشاء"
+    },
+    "MISSIONS": {
+      "EMPTY": "لا توجد مهام ولاء",
+      "DELETE_CONFIRM": "هل تريد بالتأكيد حذف مهمة الولاء المحددة؟ | هل تريد بالتأكيد حذف مهام الولاء المحددة ({count})؟"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "مسودة",
+      "PUBLISHED": "منشورة",
+      "ARCHIVED": "مؤرشفة"
+    },
+    "MISSION": {
+      "TITLE": "تفاصيل مهمة الولاء",
+      "NEW_TITLE": "مهمة ولاء جديدة",
+      "NAME_PLACEHOLDER": "أدخل اسم المهمة",
+      "CONDITIONS": "المهمة",
+      "IMMUTABLE": "يمكن تحرير المهام في حالة المسودة فقط. المهام المنشورة أو المؤرشفة للقراءة فقط ولا يمكن تغييرها.",
+      "PUBLISH": "نشر",
+      "PUBLISH_CONFIRM": "لا يمكن تغيير المهمة بعد نشرها. هل تريد نشر المهمة؟",
+      "ARCHIVE": "أرشفة",
+      "ARCHIVE_CONFIRM": "لا يمكن استخدام المهمة المؤرشفة أو تغييرها بعد ذلك. هل تريد أرشفة المهمة؟",
+      "CLOSE_CONFIRM": "تم تعديل مهمة الولاء. هل تريد الإغلاق دون حفظ؟"
+    },
+    "BANNER": {
+      "TITLE": "لافتة المهمة",
+      "HINT": "PNG أو JPG أو GIF أو SVG أو WEBP",
+      "UPLOAD_FAILED": "فشل رفع {name}: {status}"
+    },
+    "SETTINGS": {
+      "TITLE": "إعدادات الولاء",
+      "ENABLED": "تفعيل الولاء",
+      "MODE": "وضع الولاء",
+      "MODE_PLACEHOLDER": "اختر وضع الولاء",
+      "CURRENCY": "عملة الولاء",
+      "CURRENCY_PLACEHOLDER": "اختر عملة الولاء",
+      "CLOSE_CONFIRM": "تم تعديل إعدادات الولاء. هل تريد الإغلاق دون حفظ؟"
+    },
+    "WIDGETS": {
+      "BALANCE": "رصيد الولاء",
+      "SETTINGS": "إعدادات الولاء",
+      "PRODUCT_FACTORS": "معاملات المنتجات",
+      "BANNER": "اللافتة"
+    },
+    "EXPRESSIONS": {
+      "ADD": "إضافة",
+      "REMOVE": "إزالة",
+      "SELECT_SKUS": "اختيار",
+      "SKUS_AFTER_SAVE": "يمكنك إضافة رموز SKU بعد حفظ المهمة",
+      "SELECT": {
+        "CURRENCIES": "اختر العملة",
+        "LANGUAGES": "اختر اللغة",
+        "MEMBERGROUPS": "اختر المجموعات",
+        "ORDERSTATUSES": "اختر الحالات",
+        "LOYALTYMODES": "اختر الوضع"
+      },
+      "ALL": "كل",
+      "ANY": "أي من",
+      "YES": "نعم",
+      "NO": "لا",
+      "AND": "و",
+      "ADD_CONDITION": "إضافة شرط",
+      "ADD_REWARD": "إضافة مكافأة",
+      "ADD_GOAL": "إضافة هدف",
+      "COMPARE": {
+        "EXACTLY": "يساوي تمامًا",
+        "AT_LEAST": "لا يقل عن",
+        "EXACTLY_OR_LESS": "يساوي أو يقل عن",
+        "BETWEEN": "بين"
+      },
+      "GROUPS": {
+        "ORDER": "شروط الطلب",
+        "SPECIAL": "شروط خاصة",
+        "SHOPPER": "ملف المتسوق",
+        "GOAL": "هدف المهمة"
+      },
+      "CONDITIONS": {
+        "IF": "إذا تحققت",
+        "OF_CRITERIA": "المعايير التالية:",
+        "ORDER_STATUS": "حالة الطلب هي...",
+        "ORDER_STATUS_IS": "حالة الطلب هي",
+        "ORDER_TOTAL": "إجمالي الطلب...",
+        "ORDER_TOTAL_IS": "إجمالي الطلب",
+        "FIRST_ORDER": "الطلب الأول",
+        "RECURRING_ORDER": "طلب متكرر",
+        "REGISTRATION": "التسجيل",
+        "ANY_USER_GROUP": "أي مجموعة مستخدمين",
+        "USER_GROUP_CONTAINS": "مجموعة المستخدم تحتوي على ...",
+        "USER_GROUP_CONTAINS_TEXT": "مجموعة المستخدم تحتوي على",
+        "USER_GROUP_PLACEHOLDER": "أدخل المجموعة",
+        "USER_GROUP_IS": "مجموعة المستخدم هي ...",
+        "USER_GROUP_IS_TEXT": "مجموعة المستخدم هي"
+      },
+      "REWARDS": {
+        "TITLE": "الحصول على مكافآت الولاء التالية:",
+        "GET": "الحصول على",
+        "FIXED_AMOUNT": "كسب عدد ثابت من النقاط لكل طلب",
+        "FIXED_POINTS": "من النقاط الثابتة",
+        "RELATIVE_AMOUNT": "كسب % من قيمة الطلب كنقاط",
+        "RELATIVE_POINTS": "% من قيمة الطلب كنقاط"
+      },
+      "GOALS": {
+        "TITLE": "هدف المهمة (اختر هدفًا واحدًا):",
+        "ORDER_VALUE": "بلوغ القيمة المستهدفة للطلبات",
+        "ORDER_VALUE_TEXT": "بلوغ إجمالي طلبات بقيمة",
+        "PER_PERIOD": "خلال فترة المهمة",
+        "ORDER_COUNT": "بلوغ العدد المستهدف من الطلبات",
+        "REACH": "بلوغ",
+        "ORDERS_PER_PERIOD": "من الطلبات خلال فترة المهمة",
+        "PER_SKU": "شراء الكمية المستهدفة من رموز SKU",
+        "PURCHASE": "شراء",
+        "OF_TARGET_SKUS": "رموز SKU المستهدفة"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "يجب أن يحتوي برنامج الولاء على شرط واحد على الأقل",
+        "MISSION_CONDITION": "يجب أن تحتوي مهمة الولاء على شرط واحد على الأقل",
+        "PROGRAM_REWARD": "يجب أن يحتوي برنامج الولاء على مكافأة واحدة على الأقل",
+        "GOAL_REQUIRED": "يجب أن يكون للمهمة هدف واحد بالضبط: قيمة الطلبات أو عدد الطلبات أو هدف قائم على رموز SKU",
+        "GOAL_SINGLE": "يجب أن يكون للمهمة هدف واحد فقط",
+        "GOAL_CURRENCY": "اختر عملة لهدف قيمة الطلبات"
+      }
+    }
+  }
+}

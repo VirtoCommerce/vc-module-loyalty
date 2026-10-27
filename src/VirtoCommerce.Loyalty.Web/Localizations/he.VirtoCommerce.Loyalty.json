@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "loyalty:access": "פתיחת תפריט הנאמנות",
+    "loyalty:create": "יצירת נתונים הקשורים לנאמנות",
+    "loyalty:read": "צפייה בנתונים הקשורים לנאמנות",
+    "loyalty:update": "עדכון נתונים הקשורים לנאמנות",
+    "loyalty:delete": "מחיקת נתונים הקשורים לנאמנות"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "נאמנות",
+        "description": "הפעלה/השבתה של תוכנית הנאמנות"
+      },
+      "Mode": {
+        "title": "מצב נאמנות",
+        "description": "מצב הנאמנות הפעיל"
+      },
+      "Currency": {
+        "title": "מטבע נאמנות",
+        "description": "מטבע הנאמנות הפעיל"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "מקדם הכפלה ברירת מחדל למוצר",
+        "description": "המכפיל המוחל כברירת מחדל על מחיר המוצר בעת חישוב נקודות הנאמנות, אם לא הוגדר מקדם ברמת המוצר"
+      },
+      "Missions": {
+        "Enable": {
+          "title": "משימות נאמנות",
+          "description": "הפעלה/השבתה של משימות נאמנות עבור החנות"
+        }
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "מצב חישוב נקודות",
+        "description": "צבירת נקודות ברמת הלקוח או ברמת הארגון"
+      }
+    }
+  }
+}

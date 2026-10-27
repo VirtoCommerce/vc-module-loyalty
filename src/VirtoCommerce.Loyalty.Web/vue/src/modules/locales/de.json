@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "Treueprogramme",
+      "MISSIONS": "Treuemissionen"
+    },
+    "ACTIONS": {
+      "ADD": "Hinzufügen",
+      "APPLY": "Anwenden",
+      "CREATE": "Erstellen",
+      "DELETE": "Löschen",
+      "REFRESH": "Aktualisieren",
+      "RESET": "Zurücksetzen",
+      "SAVE": "Speichern"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Dieses Feld ist erforderlich"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "TYPE": "Typ",
+      "STORE": "Shop",
+      "STORE_PLACEHOLDER": "Shop auswählen",
+      "STATUS": "Status",
+      "START_DATE": "Startdatum",
+      "END_DATE": "Enddatum",
+      "LOCALIZATION": "Lokalisierung",
+      "LANGUAGE": "Sprache",
+      "LOCALIZED_NAME": "Lokalisierter Name",
+      "LOCALIZED_DESCRIPTION": "Lokalisierte Beschreibung"
+    },
+    "STATUS": {
+      "ACTIVE": "Aktiv",
+      "INACTIVE": "Inaktiv"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "Bestelltreue",
+      "DEFAULT_DESCR": "Kunden anhand von Bestellbedingungen und -summen belohnen",
+      "PRODUCT_POINTS": "Produktpunkte-Treue",
+      "PRODUCT_POINTS_DESCR": "Kunden mit Punkten für den Kauf bestimmter Produkte belohnen"
+    },
+    "PROGRAMS": {
+      "EMPTY": "Keine Treueprogramme",
+      "DELETE_CONFIRM": "Möchten Sie das ausgewählte Treueprogramm wirklich löschen? | Möchten Sie {count} Treueprogramme wirklich löschen?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "Treueprogramm hinzufügen",
+      "TYPE": "Programmtyp"
+    },
+    "PROGRAM": {
+      "TITLE": "Details zum Treueprogramm",
+      "NEW_TITLE": "Neues Treueprogramm",
+      "NAME_PLACEHOLDER": "Programmnamen eingeben",
+      "PRIORITY": "Priorität",
+      "CONDITIONS": "Treueprogramm",
+      "SAVE_FIRST": "Speichern Sie zuerst das Programm, um Produktfaktoren zu verwalten",
+      "CLOSE_CONFIRM": "Das Treueprogramm wurde geändert. Ohne Speichern schließen?"
+    },
+    "FILTER": {
+      "SELECT": "Filter auswählen",
+      "EDIT": "Filter bearbeiten",
+      "NEW": "Neuer Filter",
+      "TITLE": "Treueprogramme filtern",
+      "NAME": "Name",
+      "UNNAMED": "Unbenannter Filter",
+      "ONLY_ACTIVE": "Nur aktive",
+      "STORES": "Shops",
+      "ALL_STORES": "Alle Shops",
+      "APPLY": "Filter anwenden"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "Produktfaktoren",
+      "PROGRAMS_TITLE": "Treueprogramme",
+      "GOALS_TITLE": "Ziel-SKUs",
+      "EMPTY": "Keine Produkte",
+      "PRODUCT": "Produktname",
+      "PROGRAM": "Programmname",
+      "SKU": "SKU",
+      "FACTOR": "Faktor",
+      "QUANTITY": "Menge",
+      "NEW": "Neu",
+      "INVALID_FACTOR": "Der Faktor von {name} darf nicht negativ sein",
+      "INVALID_QUANTITY": "Die Menge von {name} muss eine ganze Zahl von mindestens 1 sein",
+      "DELETE_FACTORS_CONFIRM": "Möchten Sie die ausgewählten Produktfaktoren wirklich löschen?",
+      "DELETE_GOALS_CONFIRM": "Möchten Sie die ausgewählten Ziel-SKUs wirklich löschen?",
+      "CLOSE_CONFIRM": "Die Liste wurde geändert. Ohne Speichern schließen?"
+    },
+    "PICKER": {
+      "TITLE": "Produkte auswählen",
+      "EMPTY": "Keine Produkte gefunden",
+      "IMAGE": "Bild",
+      "ADD_SELECTED": "Ausgewählte hinzufügen"
+    },
+    "LOG": {
+      "TITLE": "Treue-Operationsprotokoll",
+      "EMPTY": "Keine Treuevorgänge",
+      "OPERATION": "Vorgang",
+      "EARNED": "Erhalten",
+      "REDEEMED": "Eingelöst",
+      "AMOUNT": "Betrag",
+      "BALANCE": "Saldo",
+      "CREATED": "Erstellt"
+    },
+    "MISSIONS": {
+      "EMPTY": "Keine Treuemissionen",
+      "DELETE_CONFIRM": "Möchten Sie die ausgewählte Treuemission wirklich löschen? | Möchten Sie {count} Treuemissionen wirklich löschen?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "Entwurf",
+      "PUBLISHED": "Veröffentlicht",
+      "ARCHIVED": "Archiviert"
+    },
+    "MISSION": {
+      "TITLE": "Details zur Treuemission",
+      "NEW_TITLE": "Neue Treuemission",
+      "NAME_PLACEHOLDER": "Missionsnamen eingeben",
+      "CONDITIONS": "Mission",
+      "IMMUTABLE": "Nur Missionen im Entwurfsstatus können bearbeitet werden. Veröffentlichte oder archivierte Missionen sind schreibgeschützt und können nicht geändert werden.",
+      "PUBLISH": "Veröffentlichen",
+      "PUBLISH_CONFIRM": "Nach der Veröffentlichung kann die Mission nicht mehr geändert werden. Möchten Sie die Mission veröffentlichen?",
+      "ARCHIVE": "Archivieren",
+      "ARCHIVE_CONFIRM": "Eine archivierte Mission kann nicht mehr verwendet und nicht geändert werden. Möchten Sie die Mission archivieren?",
+      "CLOSE_CONFIRM": "Die Treuemission wurde geändert. Ohne Speichern schließen?"
+    },
+    "BANNER": {
+      "TITLE": "Missionsbanner",
+      "HINT": "PNG, JPG, GIF, SVG oder WEBP",
+      "UPLOAD_FAILED": "Hochladen von {name} fehlgeschlagen: {status}"
+    },
+    "SETTINGS": {
+      "TITLE": "Treueeinstellungen",
+      "ENABLED": "Treue aktivieren",
+      "MODE": "Treuemodus",
+      "MODE_PLACEHOLDER": "Treuemodus auswählen",
+      "CURRENCY": "Treuewährung",
+      "CURRENCY_PLACEHOLDER": "Treuewährung auswählen",
+      "CLOSE_CONFIRM": "Die Treueeinstellungen wurden geändert. Ohne Speichern schließen?"
+    },
+    "WIDGETS": {
+      "BALANCE": "Treuesaldo",
+      "SETTINGS": "Treueeinstellungen",
+      "PRODUCT_FACTORS": "Produktfaktoren",
+      "BANNER": "Banner"
+    },
+    "EXPRESSIONS": {
+      "ADD": "Hinzufügen",
+      "REMOVE": "Entfernen",
+      "SELECT_SKUS": "auswählen",
+      "SKUS_AFTER_SAVE": "Sie können SKUs nach dem Speichern der Mission hinzufügen",
+      "SELECT": {
+        "CURRENCIES": "Währung auswählen",
+        "LANGUAGES": "Sprache auswählen",
+        "MEMBERGROUPS": "Gruppen auswählen",
+        "ORDERSTATUSES": "Status auswählen",
+        "LOYALTYMODES": "Modus auswählen"
+      },
+      "ALL": "alle",
+      "ANY": "beliebige",
+      "YES": "ja",
+      "NO": "nein",
+      "AND": "und",
+      "ADD_CONDITION": "Bedingung hinzufügen",
+      "ADD_REWARD": "Prämie hinzufügen",
+      "ADD_GOAL": "Ziel hinzufügen",
+      "COMPARE": {
+        "EXACTLY": "genau",
+        "AT_LEAST": "mindestens",
+        "EXACTLY_OR_LESS": "kleiner oder gleich",
+        "BETWEEN": "zwischen"
+      },
+      "GROUPS": {
+        "ORDER": "Bestellbedingungen",
+        "SPECIAL": "Sonderbedingungen",
+        "SHOPPER": "Käuferprofil",
+        "GOAL": "Missionsziel"
+      },
+      "CONDITIONS": {
+        "IF": "Wenn",
+        "OF_CRITERIA": "der folgenden Kriterien zutreffen:",
+        "ORDER_STATUS": "Bestellstatus ist...",
+        "ORDER_STATUS_IS": "Bestellstatus ist",
+        "ORDER_TOTAL": "Bestellsumme ist...",
+        "ORDER_TOTAL_IS": "Bestellsumme ist",
+        "FIRST_ORDER": "Ist erste Bestellung",
+        "RECURRING_ORDER": "Ist wiederkehrende Bestellung",
+        "REGISTRATION": "Registrierung",
+        "ANY_USER_GROUP": "Beliebige Benutzergruppe",
+        "USER_GROUP_CONTAINS": "Benutzergruppe enthält ...",
+        "USER_GROUP_CONTAINS_TEXT": "Benutzergruppe enthält",
+        "USER_GROUP_PLACEHOLDER": "Gruppe eingeben",
+        "USER_GROUP_IS": "Benutzergruppe ist ...",
+        "USER_GROUP_IS_TEXT": "Benutzergruppe ist"
+      },
+      "REWARDS": {
+        "TITLE": "Sie erhalten folgende Treueprämien:",
+        "GET": "Sie erhalten",
+        "FIXED_AMOUNT": "Feste Punktzahl pro Bestellung sammeln",
+        "FIXED_POINTS": "feste Punkte",
+        "RELATIVE_AMOUNT": "% des Bestellwerts als Punkte sammeln",
+        "RELATIVE_POINTS": "% des Bestellwerts als Punkte"
+      },
+      "GOALS": {
+        "TITLE": "Missionsziel (eines auswählen):",
+        "ORDER_VALUE": "Zielbestellwert erreichen",
+        "ORDER_VALUE_TEXT": "Erreichen einer Bestellsumme von",
+        "PER_PERIOD": "pro Missionszeitraum",
+        "ORDER_COUNT": "Zielanzahl an Bestellungen erreichen",
+        "REACH": "Erreichen von",
+        "ORDERS_PER_PERIOD": "Bestellungen pro Missionszeitraum",
+        "PER_SKU": "Zielmenge an SKUs kaufen",
+        "PURCHASE": "Kaufen Sie",
+        "OF_TARGET_SKUS": "der Ziel-SKUs"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "Ihr Treueprogramm muss mindestens eine Bedingung enthalten",
+        "MISSION_CONDITION": "Ihre Treuemission muss mindestens eine Bedingung enthalten",
+        "PROGRAM_REWARD": "Ihr Treueprogramm muss mindestens eine Prämie enthalten",
+        "GOAL_REQUIRED": "Ihre Mission muss genau ein Ziel haben: Bestellwert, Bestellanzahl oder SKU-basiert",
+        "GOAL_SINGLE": "Ihre Mission darf nur ein Ziel haben",
+        "GOAL_CURRENCY": "Sie müssen eine Währung für das Bestellwertziel auswählen"
+      }
+    }
+  }
+}

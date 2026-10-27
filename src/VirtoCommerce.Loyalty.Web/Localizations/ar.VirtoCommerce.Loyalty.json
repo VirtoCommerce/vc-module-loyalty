@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "loyalty:access": "فتح قائمة الولاء",
+    "loyalty:create": "إنشاء البيانات المتعلقة بالولاء",
+    "loyalty:read": "عرض البيانات المتعلقة بالولاء",
+    "loyalty:update": "تحديث البيانات المتعلقة بالولاء",
+    "loyalty:delete": "حذف البيانات المتعلقة بالولاء"
+  },
+  "settings": {
+    "Loyalty": {
+      "Enable": {
+        "title": "الولاء",
+        "description": "تفعيل برنامج الولاء أو تعطيله"
+      },
+      "Mode": {
+        "title": "وضع الولاء",
+        "description": "وضع الولاء النشط"
+      },
+      "Currency": {
+        "title": "عملة الولاء",
+        "description": "عملة الولاء النشطة"
+      },
+      "DefaultProductMultiplyFactor": {
+        "title": "معامل المنتج الافتراضي",
+        "description": "المعامل الافتراضي المطبَّق على سعر المنتج عند حساب نقاط الولاء إذا لم يُهيَّأ معامل خاص بالمنتج"
+      },
+      "Missions": {
+        "Enable": {
+          "title": "مهام الولاء",
+          "description": "تفعيل مهام الولاء للمتجر أو تعطيلها"
+        }
+      },
+      "LoyaltyBalanceCalculationMode": {
+        "title": "وضع حساب النقاط",
+        "description": "إضافة النقاط على مستوى العميل أو المؤسسة"
+      }
+    }
+  }
+}

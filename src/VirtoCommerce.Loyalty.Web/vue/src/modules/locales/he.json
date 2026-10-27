@@ -1,0 +1,224 @@
+{
+  "LOYALTY": {
+    "MENU": {
+      "PROGRAMS": "תוכניות נאמנות",
+      "MISSIONS": "משימות נאמנות"
+    },
+    "ACTIONS": {
+      "ADD": "הוספה",
+      "APPLY": "החלה",
+      "CREATE": "יצירה",
+      "DELETE": "מחיקה",
+      "REFRESH": "רענון",
+      "RESET": "איפוס",
+      "SAVE": "שמירה"
+    },
+    "VALIDATION": {
+      "REQUIRED": "זהו שדה חובה"
+    },
+    "FIELDS": {
+      "NAME": "שם",
+      "TYPE": "סוג",
+      "STORE": "חנות",
+      "STORE_PLACEHOLDER": "יש לבחור חנות",
+      "STATUS": "סטטוס",
+      "START_DATE": "תאריך התחלה",
+      "END_DATE": "תאריך סיום",
+      "LOCALIZATION": "לוקליזציה",
+      "LANGUAGE": "שפה",
+      "LOCALIZED_NAME": "שם מתורגם",
+      "LOCALIZED_DESCRIPTION": "תיאור מתורגם"
+    },
+    "STATUS": {
+      "ACTIVE": "פעיל",
+      "INACTIVE": "לא פעיל"
+    },
+    "PROGRAM_TYPES": {
+      "DEFAULT": "נאמנות על הזמנות",
+      "DEFAULT_DESCR": "הענקת הטבות ללקוחות לפי תנאי ההזמנה וסכומיה",
+      "PRODUCT_POINTS": "נאמנות בנקודות על מוצרים",
+      "PRODUCT_POINTS_DESCR": "הענקת נקודות ללקוחות על רכישת מוצרים מסוימים"
+    },
+    "PROGRAMS": {
+      "EMPTY": "אין תוכניות נאמנות",
+      "DELETE_CONFIRM": "האם למחוק את תוכנית הנאמנות שנבחרה? | האם למחוק את תוכניות הנאמנות שנבחרו ({count})?"
+    },
+    "PROGRAM_ADD": {
+      "TITLE": "הוספת תוכנית נאמנות",
+      "TYPE": "סוג התוכנית"
+    },
+    "PROGRAM": {
+      "TITLE": "פרטי תוכנית הנאמנות",
+      "NEW_TITLE": "תוכנית נאמנות חדשה",
+      "NAME_PLACEHOLDER": "יש להזין שם תוכנית",
+      "PRIORITY": "עדיפות",
+      "CONDITIONS": "תוכנית נאמנות",
+      "SAVE_FIRST": "יש לשמור את התוכנית לפני ניהול מקדמי המוצרים",
+      "CLOSE_CONFIRM": "תוכנית הנאמנות שונתה. לסגור בלי לשמור?"
+    },
+    "FILTER": {
+      "SELECT": "בחירת מסנן",
+      "EDIT": "עריכת מסנן",
+      "NEW": "מסנן חדש",
+      "TITLE": "סינון תוכניות נאמנות",
+      "NAME": "שם",
+      "UNNAMED": "מסנן ללא שם",
+      "ONLY_ACTIVE": "רק פעילות",
+      "STORES": "חנויות",
+      "ALL_STORES": "כל החנויות",
+      "APPLY": "החלת מסנן"
+    },
+    "ITEMS": {
+      "FACTORS_TITLE": "מקדמי מוצרים",
+      "PROGRAMS_TITLE": "תוכניות נאמנות",
+      "GOALS_TITLE": "קודי SKU של היעד",
+      "EMPTY": "אין מוצרים",
+      "PRODUCT": "שם המוצר",
+      "PROGRAM": "שם התוכנית",
+      "SKU": "SKU",
+      "FACTOR": "מקדם",
+      "QUANTITY": "כמות",
+      "NEW": "חדש",
+      "INVALID_FACTOR": "המקדם של {name} לא יכול להיות שלילי",
+      "INVALID_QUANTITY": "הכמות של {name} חייבת להיות מספר שלם, 1 לפחות",
+      "DELETE_FACTORS_CONFIRM": "האם למחוק את מקדמי המוצרים שנבחרו?",
+      "DELETE_GOALS_CONFIRM": "האם למחוק את קודי ה-SKU של היעד שנבחרו?",
+      "CLOSE_CONFIRM": "הרשימה שונתה. לסגור בלי לשמור?"
+    },
+    "PICKER": {
+      "TITLE": "בחירת מוצרים",
+      "EMPTY": "לא נמצאו מוצרים",
+      "IMAGE": "תמונה",
+      "ADD_SELECTED": "הוספת הנבחרים"
+    },
+    "LOG": {
+      "TITLE": "יומן פעולות נאמנות",
+      "EMPTY": "אין פעולות נאמנות",
+      "OPERATION": "פעולה",
+      "EARNED": "צבירה",
+      "REDEEMED": "מימוש",
+      "AMOUNT": "סכום",
+      "BALANCE": "יתרה",
+      "CREATED": "נוצר"
+    },
+    "MISSIONS": {
+      "EMPTY": "אין משימות נאמנות",
+      "DELETE_CONFIRM": "האם למחוק את משימת הנאמנות שנבחרה? | האם למחוק את משימות הנאמנות שנבחרו ({count})?"
+    },
+    "MISSION_STATUS": {
+      "DRAFT": "טיוטה",
+      "PUBLISHED": "פורסמה",
+      "ARCHIVED": "בארכיון"
+    },
+    "MISSION": {
+      "TITLE": "פרטי משימת הנאמנות",
+      "NEW_TITLE": "משימת נאמנות חדשה",
+      "NAME_PLACEHOLDER": "יש להזין שם משימה",
+      "CONDITIONS": "משימה",
+      "IMMUTABLE": "ניתן לערוך רק משימות בטיוטה. משימות שפורסמו או הועברו לארכיון הן לקריאה בלבד ואי אפשר לשנות אותן.",
+      "PUBLISH": "פרסום",
+      "PUBLISH_CONFIRM": "לאחר פרסום המשימה אי אפשר לשנות אותה. האם לפרסם את המשימה?",
+      "ARCHIVE": "העברה לארכיון",
+      "ARCHIVE_CONFIRM": "אי אפשר להשתמש במשימה שהועברה לארכיון או לשנות אותה. האם להעביר את המשימה לארכיון?",
+      "CLOSE_CONFIRM": "משימת הנאמנות שונתה. לסגור בלי לשמור?"
+    },
+    "BANNER": {
+      "TITLE": "באנר המשימה",
+      "HINT": "PNG, JPG, GIF, SVG או WEBP",
+      "UPLOAD_FAILED": "העלאת {name} נכשלה: {status}"
+    },
+    "SETTINGS": {
+      "TITLE": "הגדרות נאמנות",
+      "ENABLED": "הפעלת נאמנות",
+      "MODE": "מצב נאמנות",
+      "MODE_PLACEHOLDER": "יש לבחור מצב נאמנות",
+      "CURRENCY": "מטבע נאמנות",
+      "CURRENCY_PLACEHOLDER": "יש לבחור מטבע נאמנות",
+      "CLOSE_CONFIRM": "הגדרות הנאמנות שונו. לסגור בלי לשמור?"
+    },
+    "WIDGETS": {
+      "BALANCE": "יתרת נאמנות",
+      "SETTINGS": "הגדרות נאמנות",
+      "PRODUCT_FACTORS": "מקדמי מוצרים",
+      "BANNER": "באנר"
+    },
+    "EXPRESSIONS": {
+      "ADD": "הוספה",
+      "REMOVE": "הסרה",
+      "SELECT_SKUS": "בחירה",
+      "SKUS_AFTER_SAVE": "ניתן להוסיף קודי SKU לאחר שמירת המשימה",
+      "SELECT": {
+        "CURRENCIES": "יש לבחור מטבע",
+        "LANGUAGES": "יש לבחור שפה",
+        "MEMBERGROUPS": "יש לבחור קבוצות",
+        "ORDERSTATUSES": "יש לבחור סטטוסים",
+        "LOYALTYMODES": "יש לבחור מצב"
+      },
+      "ALL": "כל אחד",
+      "ANY": "לפחות אחד",
+      "YES": "כן",
+      "NO": "לא",
+      "AND": "לבין",
+      "ADD_CONDITION": "הוספת תנאי",
+      "ADD_REWARD": "הוספת הטבה",
+      "ADD_GOAL": "הוספת יעד",
+      "COMPARE": {
+        "EXACTLY": "בדיוק",
+        "AT_LEAST": "לפחות",
+        "EXACTLY_OR_LESS": "לכל היותר",
+        "BETWEEN": "בין"
+      },
+      "GROUPS": {
+        "ORDER": "תנאי הזמנה",
+        "SPECIAL": "תנאים מיוחדים",
+        "SHOPPER": "פרופיל הקונה",
+        "GOAL": "יעד המשימה"
+      },
+      "CONDITIONS": {
+        "IF": "אם",
+        "OF_CRITERIA": "מהתנאים הבאים מתקיים:",
+        "ORDER_STATUS": "סטטוס ההזמנה הוא...",
+        "ORDER_STATUS_IS": "סטטוס ההזמנה הוא",
+        "ORDER_TOTAL": "סכום ההזמנה...",
+        "ORDER_TOTAL_IS": "סכום ההזמנה",
+        "FIRST_ORDER": "הזמנה ראשונה",
+        "RECURRING_ORDER": "הזמנה חוזרת",
+        "REGISTRATION": "הרשמה",
+        "ANY_USER_GROUP": "כל קבוצת משתמשים",
+        "USER_GROUP_CONTAINS": "קבוצת המשתמשים מכילה ...",
+        "USER_GROUP_CONTAINS_TEXT": "קבוצת המשתמשים מכילה",
+        "USER_GROUP_PLACEHOLDER": "יש להזין קבוצה",
+        "USER_GROUP_IS": "קבוצת המשתמשים היא ...",
+        "USER_GROUP_IS_TEXT": "קבוצת המשתמשים היא"
+      },
+      "REWARDS": {
+        "TITLE": "קבלת הטבות הנאמנות הבאות:",
+        "GET": "קבלת",
+        "FIXED_AMOUNT": "צבירת מספר קבוע של נקודות לכל הזמנה",
+        "FIXED_POINTS": "נקודות קבועות",
+        "RELATIVE_AMOUNT": "צבירת % מערך ההזמנה כנקודות",
+        "RELATIVE_POINTS": "% מערך ההזמנה כנקודות"
+      },
+      "GOALS": {
+        "TITLE": "יעד המשימה (יש לבחור אחד):",
+        "ORDER_VALUE": "הגעה לערך הזמנות יעד",
+        "ORDER_VALUE_TEXT": "הגעה לסכום הזמנות של",
+        "PER_PERIOD": "בתקופת המשימה",
+        "ORDER_COUNT": "הגעה למספר הזמנות יעד",
+        "REACH": "ביצוע",
+        "ORDERS_PER_PERIOD": "הזמנות בתקופת המשימה",
+        "PER_SKU": "רכישת כמות יעד של קודי SKU",
+        "PURCHASE": "רכישה של",
+        "OF_TARGET_SKUS": "מקודי ה-SKU של היעד"
+      },
+      "ERRORS": {
+        "PROGRAM_CONDITION": "תוכנית הנאמנות חייבת לכלול תנאי אחד לפחות",
+        "MISSION_CONDITION": "משימת הנאמנות חייבת לכלול תנאי אחד לפחות",
+        "PROGRAM_REWARD": "תוכנית הנאמנות חייבת לכלול הטבה אחת לפחות",
+        "GOAL_REQUIRED": "למשימה חייב להיות יעד אחד בדיוק: ערך הזמנות, מספר הזמנות או יעד מבוסס SKU",
+        "GOAL_SINGLE": "למשימה יכול להיות יעד אחד בלבד",
+        "GOAL_CURRENCY": "יש לבחור מטבע ליעד ערך ההזמנות"
+      }
+    }
+  }
+}
