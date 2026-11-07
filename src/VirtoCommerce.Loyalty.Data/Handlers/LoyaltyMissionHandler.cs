@@ -1,11 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.BackgroundJobs;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.StoreModule.Core.Services;
 
 namespace VirtoCommerce.Loyalty.Data.Handlers;
@@ -29,13 +30,13 @@ public class LoyaltyMissionHandler(
 
         if (orderIds.Length > 0)
         {
-            BackgroundJob.Enqueue(() => ProcessMissionsAsync(orderIds));
+            // The static facade, not an injected IBackgroundJob: this handler is resolved once by RegisterEventHandler.
+            return BackgroundJob.Enqueue<ProcessLoyaltyMissionsJob>(new ProcessLoyaltyMissionsJobPayload { OrderIds = orderIds });
         }
 
         return Task.CompletedTask;
     }
 
-    [DisableConcurrentExecution(10)]
     public async Task ProcessMissionsAsync(string[] orderIds)
     {
         var orders = await customerOrderService.GetNoCloneAsync(orderIds);

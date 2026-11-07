@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using GraphQL;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
@@ -16,8 +15,8 @@ public class GetLoyaltyHistoryQueryBuilder : SearchQueryBuilder<GetLoyaltyHistor
 {
     protected override string Name => "loyaltyPointsHistory";
 
-    public GetLoyaltyHistoryQueryBuilder(IMediator mediator, IAuthorizationService authorizationService)
-        : base(mediator, authorizationService)
+    public GetLoyaltyHistoryQueryBuilder(IAuthorizationService authorizationService)
+        : base(authorizationService)
     {
     }
 

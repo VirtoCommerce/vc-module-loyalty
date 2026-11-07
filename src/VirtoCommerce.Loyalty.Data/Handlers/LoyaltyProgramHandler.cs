@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using VirtoCommerce.CustomerModule.Core.Model;
 using VirtoCommerce.CustomerModule.Core.Services;
 using VirtoCommerce.Loyalty.Core.Extensions;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.Core.Services;
+using VirtoCommerce.Loyalty.Data.BackgroundJobs;
 using VirtoCommerce.Loyalty.Data.Provider;
 using VirtoCommerce.OrdersModule.Core.Events;
 using VirtoCommerce.OrdersModule.Core.Model;
 using VirtoCommerce.OrdersModule.Core.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Security.Events;
 using VirtoCommerce.Platform.Core.Settings;
@@ -67,7 +68,8 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
                 OrderIds = orderIds,
             };
 
-            BackgroundJob.Enqueue(() => ProcessOrdersAsync(context));
+            // The static facade, not an injected IBackgroundJob: this handler is resolved once by RegisterEventHandler.
+            return BackgroundJob.Enqueue<ProcessLoyaltyOrdersJob>(new ProcessLoyaltyOrdersJobPayload { Context = context });
         }
 
         return Task.CompletedTask;
@@ -88,13 +90,13 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
                 ApplicationUserIds = userIds,
             };
 
-            BackgroundJob.Enqueue(() => ProcessApplicationUsersAsync(context));
+            // The static facade, not an injected IBackgroundJob: this handler is resolved once by RegisterEventHandler.
+            return BackgroundJob.Enqueue<ProcessLoyaltyUsersJob>(new ProcessLoyaltyUsersJobPayload { Context = context });
         }
 
         return Task.CompletedTask;
     }
 
-    [DisableConcurrentExecution(10)]
     public async Task ProcessOrdersAsync(LoyaltyOrdersContext context)
     {
         var orders = await _customerOrderService.GetNoCloneAsync(context.OrderIds);
@@ -115,7 +117,6 @@ public class LoyaltyProgramHandler : IEventHandler<OrderChangedEvent>, IEventHan
         }
     }
 
-    [DisableConcurrentExecution(10)]
     public async Task ProcessApplicationUsersAsync(LoyaltyApplicationUserContext context)
     {
         using var userManager = _userManagerFactory();

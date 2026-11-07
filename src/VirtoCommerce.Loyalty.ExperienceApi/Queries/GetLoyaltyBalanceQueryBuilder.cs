@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using GraphQL;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using VirtoCommerce.Loyalty.Core.Models;
 using VirtoCommerce.Loyalty.ExperienceApi.Authorization;
@@ -19,10 +18,9 @@ public class GetLoyaltyBalanceQueryBuilder : QueryBuilder<GetLoyaltyBalanceQuery
     private readonly ICustomerOrderService _customerOrderService;
 
     public GetLoyaltyBalanceQueryBuilder(
-        IMediator mediator,
         IAuthorizationService authorizationService,
         ICustomerOrderService customerOrderService)
-        : base(mediator, authorizationService)
+        : base(authorizationService)
     {
         _customerOrderService = customerOrderService;
     }

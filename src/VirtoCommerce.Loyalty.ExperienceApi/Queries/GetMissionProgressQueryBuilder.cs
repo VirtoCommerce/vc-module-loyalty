@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using GraphQL;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using VirtoCommerce.CoreModule.Core.Currency;
 using VirtoCommerce.Loyalty.Core.Models;
@@ -18,8 +17,8 @@ public class GetMissionProgressQueryBuilder : SearchQueryBuilder<GetMissionProgr
 
     private readonly ICurrencyService _currencyService;
 
-    public GetMissionProgressQueryBuilder(IMediator mediator, IAuthorizationService authorizationService, ICurrencyService currencyService)
-        : base(mediator, authorizationService)
+    public GetMissionProgressQueryBuilder(IAuthorizationService authorizationService, ICurrencyService currencyService)
+        : base(authorizationService)
     {
         _currencyService = currencyService;
     }
