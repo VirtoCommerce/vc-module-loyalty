@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "Loyalty program was modified. Close without saving?"
     },
     "FILTER": {
-      "SELECT": "Select filter",
-      "EDIT": "Edit filter",
-      "NEW": "New filter",
-      "TITLE": "Filter loyalty programs",
-      "NAME": "Name",
-      "UNNAMED": "Unnamed filter",
       "ONLY_ACTIVE": "Active only",
-      "STORES": "Stores",
-      "ALL_STORES": "All stores",
-      "APPLY": "Apply filter"
+      "STORES": "Stores"
     },
     "ITEMS": {
       "FACTORS_TITLE": "Product factors",

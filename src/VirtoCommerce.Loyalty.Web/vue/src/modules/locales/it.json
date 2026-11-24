@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "Il programma fedeltà è stato modificato. Chiudere senza salvare?"
     },
     "FILTER": {
-      "SELECT": "Seleziona filtro",
-      "EDIT": "Modifica filtro",
-      "NEW": "Nuovo filtro",
-      "TITLE": "Filtra programmi fedeltà",
-      "NAME": "Nome",
-      "UNNAMED": "Filtro senza nome",
       "ONLY_ACTIVE": "Solo attivi",
-      "STORES": "Negozi",
-      "ALL_STORES": "Tutti i negozi",
-      "APPLY": "Applica filtro"
+      "STORES": "Negozi"
     },
     "ITEMS": {
       "FACTORS_TITLE": "Fattori prodotto",

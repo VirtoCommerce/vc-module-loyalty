@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "Lojalitetsprogrammet er endret. Lukke uten å lagre?"
     },
     "FILTER": {
-      "SELECT": "Velg filter",
-      "EDIT": "Rediger filter",
-      "NEW": "Nytt filter",
-      "TITLE": "Filtrer lojalitetsprogrammer",
-      "NAME": "Navn",
-      "UNNAMED": "Filter uten navn",
       "ONLY_ACTIVE": "Bare aktive",
-      "STORES": "Butikker",
-      "ALL_STORES": "Alle butikker",
-      "APPLY": "Bruk filter"
+      "STORES": "Butikker"
     },
     "ITEMS": {
       "FACTORS_TITLE": "Produktfaktorer",

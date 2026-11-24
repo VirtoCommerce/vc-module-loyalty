@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "Kanta-asiakasohjelmaa on muutettu. Suljetaanko tallentamatta?"
     },
     "FILTER": {
-      "SELECT": "Valitse suodatin",
-      "EDIT": "Muokkaa suodatinta",
-      "NEW": "Uusi suodatin",
-      "TITLE": "Suodata kanta-asiakasohjelmia",
-      "NAME": "Nimi",
-      "UNNAMED": "Nimetön suodatin",
       "ONLY_ACTIVE": "Vain aktiiviset",
-      "STORES": "Kaupat",
-      "ALL_STORES": "Kaikki kaupat",
-      "APPLY": "Käytä suodatinta"
+      "STORES": "Kaupat"
     },
     "ITEMS": {
       "FACTORS_TITLE": "Tuotekertoimet",
