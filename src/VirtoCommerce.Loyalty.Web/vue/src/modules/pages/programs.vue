@@ -15,6 +15,8 @@
       :total-count="totalCount"
       :pagination="pagination"
       :searchable="true"
+      search-bar
+      :global-filters="globalFilters"
       state-key="LOYALTY_PROGRAMS"
       :active-item-id="activeChildParam"
       :show-all-columns="!childOpen"
@@ -23,28 +25,8 @@
       :empty-state="{ icon: 'lucide-star', title: $t('LOYALTY.PROGRAMS.EMPTY') }"
       @row-click="(e: { data: LoyaltyProgram }) => openDetails(e.data.id)"
       @pagination-click="pagination.goToPage"
+      @filter="onFilter"
     >
-      <!-- saved filters (the AngularJS filter dropdown): the user's named filters and "new filter" -->
-      <template #search-header-actions>
-        <div class="ly-saved-filter">
-          <VcSelect
-            :model-value="currentId"
-            :options="savedFilterOptions"
-            :placeholder="$t('LOYALTY.FILTER.SELECT')"
-            :aria-label="$t('LOYALTY.FILTER.SELECT')"
-            size="small"
-            @update:model-value="onSavedFilterPicked"
-          />
-          <VcButton
-            v-if="currentFilter"
-            icon="lucide-pencil"
-            variant="ghost"
-            size="sm"
-            :aria-label="$t('LOYALTY.FILTER.EDIT')"
-            @click="openFilter(currentFilter.id)"
-          />
-        </div>
-      </template>
       <VcColumn
         id="name"
         :title="$t('LOYALTY.FIELDS.NAME')"
@@ -99,12 +81,12 @@ import {
   useTableSearch,
   type IBladeToolbar,
 } from "@vc-shell/framework";
-import { VcBlade, VcButton, VcColumn, VcDataTable, VcSelect, VcStatus } from "@vc-shell/framework/ui";
+import { VcBlade, VcColumn, VcDataTable, VcStatus } from "@vc-shell/framework/ui";
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import type { LoyaltyProgram } from "../../api_client/virtocommerce.loyalty";
 import { programsApi, useChildOpen } from "../api";
-import { useSavedFilters } from "../savedFilters";
+import { useListFilters } from "../filters";
 
 defineBlade({
   url: "/loyalty",
@@ -138,40 +120,20 @@ const pagination = useDataTablePagination({ stateKey: STATE, pageSize: PAGE_SIZE
 
 const typeName = (type?: string) => t(type === "ProductPoints" ? "LOYALTY.PROGRAM_TYPES.PRODUCT_POINTS" : "LOYALTY.PROGRAM_TYPES.DEFAULT");
 
-// saved filters
-const { filters: savedFilters, currentId, find } = useSavedFilters();
-const NEW_FILTER = "__new";
-const currentFilter = computed(() => find(currentId.value));
-const savedFilterOptions = computed(() => [
-  ...savedFilters.value.map((f) => ({ id: f.id, title: f.name })),
-  { id: NEW_FILTER, title: t("LOYALTY.FILTER.NEW") },
-]);
+// the search bar (store, running now) replaces the AngularJS saved filters
+const { filters, globalFilters, onFilter } = useListFilters(t);
 
-function onSavedFilterPicked(id: unknown) {
-  if (id === NEW_FILTER) return openFilter();
-  currentId.value = (id as string) || undefined;
-  reloadFirstPage();
-}
-
-const openFilter = (filterId?: string) => openBlade({ name: "LoyaltyProgramFilter", options: { filterId }, onClose: track() });
 const openDetails = (id?: string) => openBlade({ name: "LoyaltyProgramDetails", param: id, onClose: track() });
-
-function reloadFirstPage() {
-  if (pagination.skip) pagination.setPage(1);
-  else load();
-}
 
 const search = useLatestRequest();
 const { loading: listLoading, action: load } = useAsync(async () => {
-  const filter = currentFilter.value;
   const result = await search.latest(
     programsApi.search({
       keyword: searchValue.value || undefined,
+      ...filters.value,
       sort: sortExpression.value,
       skip: pagination.skip,
       take: PAGE_SIZE,
-      onlyActive: filter?.onlyActive || undefined,
-      storeIds: filter?.storeIds?.length ? filter.storeIds : undefined,
     }),
   );
   if (!result) return;
@@ -182,9 +144,9 @@ const { loading: listLoading, action: load } = useAsync(async () => {
 const { loading: deleteLoading, action: remove } = useAsync<string[]>((ids) => programsApi.delete(ids));
 const loading = useLoading(listLoading, deleteLoading);
 
-load();
-watch(searchValue, () => pagination.setPage(1));
-watch([sortExpression, searchValue, () => pagination.skip], debounce(load, 300));
+watch([searchValue, filters], () => pagination.setPage(1));
+// the search bar applies saved filters when it mounts: the debounce makes that and the first load one request
+watch([sortExpression, searchValue, filters, () => pagination.skip], debounce(load, 300), { immediate: true });
 
 async function confirmDelete(list: LoyaltyProgram[]) {
   if (!(await showConfirmation(t("LOYALTY.PROGRAMS.DELETE_CONFIRM", { count: list.length })))) return;
@@ -229,17 +191,5 @@ const bladeToolbar = ref<IBladeToolbar[]>([
 // the type picker opens the new program here, in its place
 const openNew = (programType: string) => openBlade({ name: "LoyaltyProgramDetails", options: { programType }, onClose: track() });
 
-exposeToChildren({ reload: () => load(), reloadFirstPage, openNew });
+exposeToChildren({ reload: () => load(), openNew });
 </script>
-
-<style lang="scss">
-.ly-saved-filter {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  .vc-select {
-    width: 200px;
-  }
-}
-</style>

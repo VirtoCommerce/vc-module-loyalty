@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "ロイヤルティプログラムが変更されました。保存せずに閉じますか？"
     },
     "FILTER": {
-      "SELECT": "フィルターを選択",
-      "EDIT": "フィルターを編集",
-      "NEW": "新しいフィルター",
-      "TITLE": "ロイヤルティプログラムをフィルター",
-      "NAME": "名前",
-      "UNNAMED": "名前のないフィルター",
       "ONLY_ACTIVE": "有効なもののみ",
-      "STORES": "ストア",
-      "ALL_STORES": "すべてのストア",
-      "APPLY": "フィルターを適用"
+      "STORES": "ストア"
     },
     "ITEMS": {
       "FACTORS_TITLE": "商品係数",

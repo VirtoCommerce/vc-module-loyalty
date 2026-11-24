@@ -1,6 +1,5 @@
 export { default as LoyaltyPrograms } from "./programs.vue";
 export { default as LoyaltyProgramAdd } from "./program-add.vue";
-export { default as LoyaltyProgramFilter } from "./program-filter.vue";
 export { default as LoyaltyProgramDetails } from "./program-details.vue";
 export { default as LoyaltyProductItems } from "./product-items.vue";
 export { default as LoyaltyProductPicker } from "./product-picker.vue";

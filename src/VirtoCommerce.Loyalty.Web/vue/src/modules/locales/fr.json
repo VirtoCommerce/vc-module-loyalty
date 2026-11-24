@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "Le programme de fidélité a été modifié. Fermer sans enregistrer ?"
     },
     "FILTER": {
-      "SELECT": "Sélectionner un filtre",
-      "EDIT": "Modifier le filtre",
-      "NEW": "Nouveau filtre",
-      "TITLE": "Filtrer les programmes de fidélité",
-      "NAME": "Nom",
-      "UNNAMED": "Filtre sans nom",
       "ONLY_ACTIVE": "Actifs uniquement",
-      "STORES": "Boutiques",
-      "ALL_STORES": "Toutes les boutiques",
-      "APPLY": "Appliquer le filtre"
+      "STORES": "Boutiques"
     },
     "ITEMS": {
       "FACTORS_TITLE": "Facteurs de produit",

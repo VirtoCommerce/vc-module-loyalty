@@ -15,6 +15,8 @@
       :total-count="totalCount"
       :pagination="pagination"
       :searchable="true"
+      search-bar
+      :global-filters="globalFilters"
       state-key="LOYALTY_MISSIONS"
       :active-item-id="activeChildParam"
       :show-all-columns="!childOpen"
@@ -23,6 +25,7 @@
       :empty-state="{ icon: 'lucide-trophy', title: $t('LOYALTY.MISSIONS.EMPTY') }"
       @row-click="(e: { data: LoyaltyMission }) => openDetails(e.data.id)"
       @pagination-click="pagination.goToPage"
+      @filter="onFilter"
     >
       <VcColumn
         id="name"
@@ -85,6 +88,7 @@ import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import type { LoyaltyMission } from "../../api_client/virtocommerce.loyalty";
 import { missionStatusKey, missionsApi, useChildOpen } from "../api";
+import { useListFilters } from "../filters";
 
 defineBlade({
   url: "/loyalty-missions",
@@ -122,12 +126,27 @@ function missionStatusVariant(status?: string) {
   return "info";
 }
 
+// besides the store and "running now", the drafts to review and publish (the API takes one status)
+const { filters, globalFilters, onFilter } = useListFilters(t, () => [
+  {
+    id: "status",
+    label: t("LOYALTY.FIELDS.STATUS"),
+    filter: { options: ["Draft", "Published", "Archived"].map((s) => ({ value: s, label: t(missionStatusKey(s)) })) },
+  },
+]);
+
 const openDetails = (id?: string) => openBlade({ name: "LoyaltyMissionDetails", param: id, onClose: track() });
 
 const search = useLatestRequest();
 const { loading: listLoading, action: load } = useAsync(async () => {
   const result = await search.latest(
-    missionsApi.search({ keyword: searchValue.value || undefined, sort: sortExpression.value, skip: pagination.skip, take: PAGE_SIZE }),
+    missionsApi.search({
+      keyword: searchValue.value || undefined,
+      ...filters.value,
+      sort: sortExpression.value,
+      skip: pagination.skip,
+      take: PAGE_SIZE,
+    }),
   );
   if (!result) return;
   items.value = result.results ?? [];
@@ -137,9 +156,9 @@ const { loading: listLoading, action: load } = useAsync(async () => {
 const { loading: deleteLoading, action: remove } = useAsync<string[]>((ids) => missionsApi.delete(ids));
 const loading = useLoading(listLoading, deleteLoading);
 
-load();
-watch(searchValue, () => pagination.setPage(1));
-watch([sortExpression, searchValue, () => pagination.skip], debounce(load, 300));
+watch([searchValue, filters], () => pagination.setPage(1));
+// the search bar applies saved filters when it mounts: the debounce makes that and the first load one request
+watch([sortExpression, searchValue, filters, () => pagination.skip], debounce(load, 300), { immediate: true });
 
 async function confirmDelete(list: LoyaltyMission[]) {
   if (!(await showConfirmation(t("LOYALTY.MISSIONS.DELETE_CONFIRM", { count: list.length })))) return;

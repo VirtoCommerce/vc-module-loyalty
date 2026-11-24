@@ -57,16 +57,8 @@
       "CLOSE_CONFIRM": "Das Treueprogramm wurde geändert. Ohne Speichern schließen?"
     },
     "FILTER": {
-      "SELECT": "Filter auswählen",
-      "EDIT": "Filter bearbeiten",
-      "NEW": "Neuer Filter",
-      "TITLE": "Treueprogramme filtern",
-      "NAME": "Name",
-      "UNNAMED": "Unbenannter Filter",
       "ONLY_ACTIVE": "Nur aktive",
-      "STORES": "Shops",
-      "ALL_STORES": "Alle Shops",
-      "APPLY": "Filter anwenden"
+      "STORES": "Shops"
     },
     "ITEMS": {
       "FACTORS_TITLE": "Produktfaktoren",

@@ -65,12 +65,12 @@ function once<T>(load: () => Promise<T>): () => Promise<T> {
 }
 
 // VcSelect option source: (keyword, skip, ids) => page
-export async function searchStores(keyword?: string, skip = 0, ids?: string[]): Promise<Page> {
+export async function searchStores(keyword?: string, skip = 0, ids?: string[], take = ids?.length || PAGE): Promise<Page> {
   const r = await http<{ results?: Option[]; totalCount?: number }>("/api/stores/search", {
     keyword: keyword || undefined,
     objectIds: ids?.length ? ids : undefined,
     skip,
-    take: ids?.length ? ids.length : PAGE,
+    take,
     responseGroup: "None",
   });
   return { results: (r.results ?? []).map((s) => ({ id: s.id, name: s.name || s.id })), totalCount: r.totalCount ?? 0 };
